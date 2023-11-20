@@ -3,13 +3,13 @@ plugins {
 }
 
 allprojects {
-    group = 'com.ziyao'
-    version = '0.0.1-SNAPSHOT'
+    group = 'com.ziyao.spring'
+    version = '1.0.0'
 
-    java {
-        sourceCompatibility = '1.8'
-    }
-
+//    java {
+//        sourceCompatibility = '17'
+//    }
+    sourceCompatibility = '1.8'
     repositories {
         mavenCentral()
     }

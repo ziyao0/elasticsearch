@@ -1,3 +1,4 @@
 rootProject.name = 'elasticsearch'
 include 'spring-data-commons'
+include 'spring-elasticsearch'
 
