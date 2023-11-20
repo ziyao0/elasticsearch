@@ -5,5 +5,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(':spring-data-commons'))
     implementation(project(':spring-elasticsearch'))
+    implementation('org.springframework.boot:spring-boot-autoconfigure')
 }
