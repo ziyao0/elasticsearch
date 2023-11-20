@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-    group = 'com.ziyao.spring'
+    group = 'com.ziyao.elasticsearch'
     version = '1.0.0'
 
 //    java {
