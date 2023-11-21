@@ -149,7 +149,8 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 	@Nullable
 	@Override
 	public Object getProperty(PersistentProperty<?> property) {
-		return delegateFunction.apply(bean).getProperty(property);
+        PersistentPropertyAccessor<T> apply = delegateFunction.apply(bean);
+        return apply.getProperty(property);
 	}
 
     /*
