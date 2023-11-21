@@ -1,18 +1,15 @@
 package com.ziyao.springframework.boot.test.demo;
 
-import com.google.common.collect.Lists;
-import lombok.Data;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.ziyao.data.elasticsearch.core.EntityOperations;
+import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
+import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
+import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author ziyao zhang
@@ -45,5 +42,19 @@ public class AuditLogService {
 //        for (AuditLog auditLog : auditLogs1) {
 //            System.out.println(auditLog);
 //        }
+    }
+    public static void main(String[] args) {
+        MappingElasticsearchConverter mappingElasticsearchConverter = new MappingElasticsearchConverter(
+                new SimpleElasticsearchMappingContext());
+        mappingElasticsearchConverter.afterPropertiesSet();
+        MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext = mappingElasticsearchConverter.getMappingContext();
+        EntityOperations entityOperations1 = new EntityOperations(mappingContext);
+        AuditLog auditLog = new AuditLog();
+        auditLog.setId("aksal");
+        auditLog.setLevel(2L);
+        auditLog.setLog("zzzzzzzzz");
+        EntityOperations.Entity<AuditLog> auditLogEntity = entityOperations1.forEntity(auditLog);
+        Object id = auditLogEntity.getId();
+        System.out.println(id);
     }
 }

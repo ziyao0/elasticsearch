@@ -1,10 +1,5 @@
 package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
-import com.ziyao.springframework.data.repository.config.AnnotationRepositoryConfigurationSource;
-import com.ziyao.springframework.data.repository.config.BootstrapMode;
-import com.ziyao.springframework.data.repository.config.RepositoryConfigurationDelegate;
-import com.ziyao.springframework.data.repository.config.RepositoryConfigurationExtension;
-import com.ziyao.springframework.data.util.Streamable;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -18,6 +13,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.StandardAnnotationMetadata;
+import org.springframework.data.repository.config.AnnotationRepositoryConfigurationSource;
+import org.springframework.data.repository.config.BootstrapMode;
+import org.springframework.data.repository.config.RepositoryConfigurationDelegate;
+import org.springframework.data.repository.config.RepositoryConfigurationExtension;
+import org.springframework.data.util.Streamable;
 
 import java.lang.annotation.Annotation;
 

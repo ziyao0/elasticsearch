@@ -1,13 +1,13 @@
 package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
-import com.ziyao.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import com.ziyao.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
 import org.elasticsearch.client.Client;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
+import org.ziyao.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
 
 /**
  * @author ziyao

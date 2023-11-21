@@ -1,9 +1,9 @@
 package com.ziyao.springframework.boot.test.demo;
 
-import com.ziyao.springframework.data.annotation.Id;
-import com.ziyao.springframework.data.elasticsearch.annotations.Document;
-import com.ziyao.springframework.data.elasticsearch.annotations.Field;
-import com.ziyao.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.annotation.Id;
+import org.ziyao.data.elasticsearch.annotations.Document;
+import org.ziyao.data.elasticsearch.annotations.Field;
+import org.ziyao.data.elasticsearch.annotations.FieldType;
 
 /**
  * @author ziyao zhang

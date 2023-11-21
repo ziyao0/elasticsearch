@@ -1,12 +1,5 @@
 package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
-import com.ziyao.springframework.data.elasticsearch.annotations.Document;
-import com.ziyao.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import com.ziyao.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import com.ziyao.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
-import com.ziyao.springframework.data.elasticsearch.core.convert.ElasticsearchCustomConversions;
-import com.ziyao.springframework.data.elasticsearch.core.convert.MappingElasticsearchConverter;
-import com.ziyao.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,6 +7,13 @@ import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.ziyao.data.elasticsearch.annotations.Document;
+import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
+import org.ziyao.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
+import org.ziyao.data.elasticsearch.core.convert.ElasticsearchCustomConversions;
+import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
+import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
 
 import java.util.Collections;
 
