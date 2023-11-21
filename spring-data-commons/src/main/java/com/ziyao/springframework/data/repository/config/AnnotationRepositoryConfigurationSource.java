@@ -329,7 +329,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
     private Streamable<TypeFilter> parseFilters(String attributeName) {
 
-        AnnotationAttributes[] filters = attributes.getAnnotationArray(attributeName);
+        org.springframework.core.annotation.AnnotationAttributes[] filters = attributes.getAnnotationArray(attributeName);
 
         return Streamable.of(() -> Arrays.stream(filters) //
                 .flatMap(it -> TypeFilterUtils.createTypeFiltersFor(it, this.environment, this.resourceLoader, this.registry)

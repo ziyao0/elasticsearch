@@ -18,6 +18,8 @@ package com.ziyao.springframework.data.mapping.model;
 import com.ziyao.springframework.data.mapping.PersistentEntity;
 import com.ziyao.springframework.data.mapping.PersistentPropertyAccessor;
 
+import java.util.function.Function;
+
 /**
  * Delegating {@link PersistentPropertyAccessorFactory} decorating the {@link PersistentPropertyAccessor}s created with
  * an {@link InstantiationAwarePropertyAccessor} to allow the handling of purely immutable types.
@@ -28,14 +30,14 @@ import com.ziyao.springframework.data.mapping.PersistentPropertyAccessor;
  */
 public class InstantiationAwarePropertyAccessorFactory implements PersistentPropertyAccessorFactory {
 
-	private final PersistentPropertyAccessorFactory delegate;
-	private final EntityInstantiators instantiators;
+    private final PersistentPropertyAccessorFactory delegate;
+    private final EntityInstantiators instantiators;
 
-	public InstantiationAwarePropertyAccessorFactory(PersistentPropertyAccessorFactory delegate,
-			EntityInstantiators instantiators) {
-		this.delegate = delegate;
-		this.instantiators = instantiators;
-	}
+    public InstantiationAwarePropertyAccessorFactory(PersistentPropertyAccessorFactory delegate,
+                                                     EntityInstantiators instantiators) {
+        this.delegate = delegate;
+        this.instantiators = instantiators;
+    }
 
 	/*
 	 * (non-Javadoc)
@@ -47,12 +49,12 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
 				instantiators);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.ziyao.springframework.data.mapping.model.PersistentPropertyAccessorFactory#isSupported(com.ziyao.springframework.data.mapping.PersistentEntity)
-	 */
-	@Override
-	public boolean isSupported(PersistentEntity<?, ?> entity) {
-		return delegate.isSupported(entity);
-	}
+    /*
+     * (non-Javadoc)
+     * @see com.ziyao.springframework.data.mapping.model.PersistentPropertyAccessorFactory#isSupported(com.ziyao.springframework.data.mapping.PersistentEntity)
+     */
+    @Override
+    public boolean isSupported(PersistentEntity<?, ?> entity) {
+        return delegate.isSupported(entity);
+    }
 }

@@ -1,0 +1,16 @@
+#spring:
+#  elasticsearch:
+#    uris:
+#      - http://192.168.3.13:29200
+#      - http://192.168.3.14:29200
+#      - http://192.168.3.15:29200
+#    connection-timeout: 3s
+#    username: elastic
+#    password: qazWSXEDC
+spring:
+  elasticsearch:
+    uris:
+      - http://192.168.201.43:9200
+    connection-timeout: 3s
+    username: elasticsearch
+    password: tjhOsYvA28V4P+EFv94z

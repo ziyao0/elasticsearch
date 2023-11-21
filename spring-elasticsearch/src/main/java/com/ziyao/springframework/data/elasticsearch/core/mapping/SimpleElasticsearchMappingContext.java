@@ -32,38 +32,38 @@ import org.springframework.lang.Nullable;
  * @author Peter-Josef Meisch
  */
 public class SimpleElasticsearchMappingContext
-		extends AbstractMappingContext<SimpleElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> {
+        extends AbstractMappingContext<SimpleElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> {
 
-	private static final FieldNamingStrategy DEFAULT_NAMING_STRATEGY = PropertyNameFieldNamingStrategy.INSTANCE;
+    private static final FieldNamingStrategy DEFAULT_NAMING_STRATEGY = PropertyNameFieldNamingStrategy.INSTANCE;
 
-	private FieldNamingStrategy fieldNamingStrategy = DEFAULT_NAMING_STRATEGY;
-	private boolean writeTypeHints = true;
+    private FieldNamingStrategy fieldNamingStrategy = DEFAULT_NAMING_STRATEGY;
+    private boolean writeTypeHints = true;
 
-	/**
-	 * Configures the {@link FieldNamingStrategy} to be used to determine the field name if no manual mapping is applied.
-	 * Defaults to a strategy using the plain property name.
-	 *
-	 * @param fieldNamingStrategy the {@link FieldNamingStrategy} to be used to determine the field name if no manual
-	 *          mapping is applied.
-	 * @since 4.2
-	 */
-	public void setFieldNamingStrategy(@Nullable FieldNamingStrategy fieldNamingStrategy) {
-		this.fieldNamingStrategy = fieldNamingStrategy == null ? DEFAULT_NAMING_STRATEGY : fieldNamingStrategy;
-	}
+    /**
+     * Configures the {@link FieldNamingStrategy} to be used to determine the field name if no manual mapping is applied.
+     * Defaults to a strategy using the plain property name.
+     *
+     * @param fieldNamingStrategy the {@link FieldNamingStrategy} to be used to determine the field name if no manual
+     *                            mapping is applied.
+     * @since 4.2
+     */
+    public void setFieldNamingStrategy(@Nullable FieldNamingStrategy fieldNamingStrategy) {
+        this.fieldNamingStrategy = fieldNamingStrategy == null ? DEFAULT_NAMING_STRATEGY : fieldNamingStrategy;
+    }
 
-	/**
-	 * Sets the flag if type hints should be written in Entities created by this instance.
-	 *
-	 * @since 4.3
-	 */
-	public void setWriteTypeHints(boolean writeTypeHints) {
-		this.writeTypeHints = writeTypeHints;
-	}
+    /**
+     * Sets the flag if type hints should be written in Entities created by this instance.
+     *
+     * @since 4.3
+     */
+    public void setWriteTypeHints(boolean writeTypeHints) {
+        this.writeTypeHints = writeTypeHints;
+    }
 
-	@Override
-	protected boolean shouldCreatePersistentEntityFor(TypeInformation<?> type) {
-		return !ElasticsearchSimpleTypes.HOLDER.isSimpleType(type.getType());
-	}
+    @Override
+    protected boolean shouldCreatePersistentEntityFor(TypeInformation<?> type) {
+        return !ElasticsearchSimpleTypes.HOLDER.isSimpleType(type.getType());
+    }
 
 	@Override
 	protected <T> SimpleElasticsearchPersistentEntity<?> createPersistentEntity(TypeInformation<T> typeInformation) {
@@ -71,9 +71,9 @@ public class SimpleElasticsearchMappingContext
 				new SimpleElasticsearchPersistentEntity.ContextConfiguration(fieldNamingStrategy, writeTypeHints));
 	}
 
-	@Override
-	protected ElasticsearchPersistentProperty createPersistentProperty(Property property,
-			SimpleElasticsearchPersistentEntity<?> owner, SimpleTypeHolder simpleTypeHolder) {
-		return new SimpleElasticsearchPersistentProperty(property, owner, simpleTypeHolder);
-	}
+    @Override
+    protected ElasticsearchPersistentProperty createPersistentProperty(Property property,
+                                                                       SimpleElasticsearchPersistentEntity<?> owner, SimpleTypeHolder simpleTypeHolder) {
+        return new SimpleElasticsearchPersistentProperty(property, owner, simpleTypeHolder);
+    }
 }

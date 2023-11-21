@@ -15,25 +15,24 @@
  */
 package com.ziyao.springframework.data.elasticsearch.repository.support;
 
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import com.ziyao.springframework.data.domain.*;
 import com.ziyao.springframework.data.elasticsearch.core.*;
 import com.ziyao.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 import com.ziyao.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import com.ziyao.springframework.data.elasticsearch.core.query.BaseQuery;
-import com.ziyao.springframework.data.elasticsearch.core.query.MoreLikeThisQuery;
-import com.ziyao.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import com.ziyao.springframework.data.elasticsearch.core.query.Query;
+import com.ziyao.springframework.data.elasticsearch.core.query.*;
 import com.ziyao.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import com.ziyao.springframework.data.util.StreamUtils;
 import com.ziyao.springframework.data.util.Streamable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,14 +52,16 @@ import java.util.stream.Collectors;
  * @author Aleksei Arsenev
  * @author Jens Schauder
  */
-public abstract class SimpleElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
+public  class SimpleElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleElasticsearchRepository.class);
 
     protected ElasticsearchOperations operations;
     protected IndexOperations indexOperations;
 
     protected Class<T> entityClass;
     protected ElasticsearchEntityInformation<T, ID> entityInformation;
-
+    private final BeanPropertyExtractor<T> beanPropertyExtractor;
     public SimpleElasticsearchRepository(ElasticsearchEntityInformation<T, ID> metadata,
                                          ElasticsearchOperations operations) {
         this.operations = operations;
@@ -70,6 +71,7 @@ public abstract class SimpleElasticsearchRepository<T, ID> implements Elasticsea
         this.entityInformation = metadata;
         this.entityClass = this.entityInformation.getJavaType();
         this.indexOperations = operations.indexOps(this.entityClass);
+        beanPropertyExtractor = new BeanPropertyExtractor<>(metadata.getJavaType());
 
         if (shouldCreateIndexAndMapping() && !indexOperations.exists()) {
             indexOperations.createWithMapping();
@@ -197,26 +199,6 @@ public abstract class SimpleElasticsearchRepository<T, ID> implements Elasticsea
     public boolean existsById(ID id) {
         // noinspection ConstantConditions
         return execute(operations -> operations.exists(stringIdRepresentation(id), getIndexCoordinates()));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Page<T> searchSimilar(T entity, @Nullable String[] fields, Pageable pageable) {
-
-        Assert.notNull(entity, "Cannot search similar records for 'null'.");
-        Assert.notNull(pageable, "'pageable' cannot be 'null'");
-
-        MoreLikeThisQuery query = new MoreLikeThisQuery();
-        query.setId(stringIdRepresentation(extractIdFromBean(entity)));
-        query.setPageable(pageable);
-
-        if (fields != null) {
-            query.addFields(fields);
-        }
-
-        SearchHits<T> searchHits = execute(operations -> operations.search(query, entityClass, getIndexCoordinates()));
-        SearchPage<T> searchPage = SearchHitSupport.searchPageFor(searchHits, pageable);
-        return (Page<T>) SearchHitSupport.unwrapSearchHits(searchPage);
     }
 
     @Override
@@ -349,4 +331,107 @@ public abstract class SimpleElasticsearchRepository<T, ID> implements Elasticsea
         return result;
     }
     // endregion
+
+    @Override
+    public Page<T> searchSimilar(T entity, Pageable pageable) {
+        return searchSimilar(entity, null, pageable);
+    }
+
+    @Override
+    public Page<T> searchSimilar(@NonNull T entity, @Nullable String[] fields, @NonNull Pageable pageable) {
+        return searchSimilar(entity, fields, pageable, Operator.And);
+    }
+
+
+    @Override
+    public Page<T> searchSimilar(T entity, @Nullable String[] fields, Pageable pageable, Operator operator) {
+        Assert.notNull(entity, "Cannot search similar records for 'null'.");
+        Assert.notNull(pageable, "'pageable' cannot be 'null'");
+
+        return search(
+                CriteriaQuery.builder(
+                                createCriteria(entity, fields, operator))
+                        .withPageable(pageable).build());
+    }
+
+    @Override
+    public Page<T> searchSimilar(Criteria criteria, Pageable pageable) {
+        Assert.notNull(criteria, "Query 不能为空");
+        Assert.notNull(pageable, "Query 不能为空");
+        return search(
+                CriteriaQuery.builder(criteria).withPageable(pageable).build());
+    }
+
+    @Override
+    public Page<T> search(Query query) {
+        Assert.notNull(query, "Query 不能为空");
+        return doSearch(query);
+    }
+
+    /**
+     * 查询核心方法
+     */
+    @SuppressWarnings("unchecked")
+    private Page<T> doSearch(Query query) {
+
+        SearchHits<T> searchHits = operations.search(query, entityClass);
+        SearchPage<T> searchPage = SearchHitSupport.searchPageFor(searchHits, query.getPageable());
+        return (Page<T>) SearchHitSupport.unwrapSearchHits(searchPage);
+    }
+
+    /**
+     * 创建并组装查询条件
+     */
+    private Criteria createCriteria(T entity, @Nullable String[] fields, Operator operator) {
+        Criteria criteria = new Criteria();
+
+        Map<String, Object> properties = extractPropertyFromEntity(entity, fields);
+        doCreateCriteria(properties).forEach(condition -> {
+            switch (operator) {
+                case And:
+                    criteria.and(condition);
+                    break;
+                case Or:
+                    criteria.or(condition);
+                    break;
+                default:
+                    LOGGER.error("未知的操作类型:{}", operator.jsonValue());
+            }
+        });
+        return criteria;
+    }
+
+    /**
+     * 创建查询条件
+     */
+    private List<Criteria> doCreateCriteria(Map<String, Object> properties) {
+        List<Criteria> criteriaList = new ArrayList<>();
+        for (Map.Entry<String, Object> property : properties.entrySet()) {
+
+            Object value = property.getValue();
+            //  skip value is null
+            if (!ObjectUtils.isEmpty(value)) {
+                criteriaList.add(new Criteria(property.getKey()).is(property.getValue()));
+            }
+        }
+        return criteriaList;
+    }
+
+    /**
+     * 从给定的实体类中提取请求参数和值，返回key-value格式
+     *
+     * @param entity 实体类
+     * @param fields 给定字段数组，如果不为空则从实体类中提取该数组中字段的值
+     * @return 返回key-value格式的集合
+     */
+    private Map<String, Object> extractPropertyFromEntity(T entity, @Nullable String[] fields) {
+        if (fields == null) {
+            return beanPropertyExtractor.extract(entity);
+        }
+        Map<String, Object> properties = new HashMap<>();
+        for (String field : fields) {
+            properties.put(field, beanPropertyExtractor.extract(entity, field));
+        }
+        return properties;
+    }
 }

@@ -1,4 +1,4 @@
-package com.ziyao.springboot.autoconfigure.elasticsearch.data;
+package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
 import com.ziyao.springframework.data.elasticsearch.annotations.Document;
 import com.ziyao.springframework.data.elasticsearch.core.ElasticsearchOperations;

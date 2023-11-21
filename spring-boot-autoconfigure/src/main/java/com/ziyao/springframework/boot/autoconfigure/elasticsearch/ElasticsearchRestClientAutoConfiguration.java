@@ -1,4 +1,4 @@
-package com.ziyao.springboot.autoconfigure.elasticsearch;
+package com.ziyao.springframework.boot.autoconfigure.elasticsearch;
 
 import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

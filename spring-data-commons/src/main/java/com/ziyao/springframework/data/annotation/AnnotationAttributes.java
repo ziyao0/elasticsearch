@@ -323,8 +323,8 @@ public class AnnotationAttributes extends LinkedHashMap<String, Object> {
      * @throws IllegalArgumentException if the attribute does not exist or
      *                                  if it is not of the expected type
      */
-    public AnnotationAttributes[] getAnnotationArray(String attributeName) {
-        return getRequiredAttribute(attributeName, AnnotationAttributes[].class);
+    public org.springframework.core.annotation.AnnotationAttributes[] getAnnotationArray(String attributeName) {
+        return getRequiredAttribute(attributeName, org.springframework.core.annotation.AnnotationAttributes[].class);
     }
 
     /**

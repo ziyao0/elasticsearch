@@ -1,4 +1,4 @@
-package com.ziyao.springboot.autoconfigure.elasticsearch;
+package com.ziyao.springframework.boot.autoconfigure.elasticsearch;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -88,6 +88,7 @@ class ElasticsearchRestClientConfigurations {
 
     }
 
+    @SuppressWarnings("deprecation")
     @Configuration
     @ConditionalOnClass(org.elasticsearch.client.RestHighLevelClient.class)
     @ConditionalOnMissingBean({org.elasticsearch.client.RestHighLevelClient.class, RestClient.class})
@@ -100,7 +101,7 @@ class ElasticsearchRestClientConfigurations {
         }
 
     }
-
+    @SuppressWarnings("deprecation")
     @Configuration
     @ConditionalOnClass(org.elasticsearch.client.RestHighLevelClient.class)
     @ConditionalOnSingleCandidate(org.elasticsearch.client.RestHighLevelClient.class)
@@ -127,7 +128,7 @@ class ElasticsearchRestClientConfigurations {
     }
 
 
-    static class DefaultRestClientBuilderCustomizer implements com.ziyao.springboot.autoconfigure.elasticsearch.RestClientBuilderCustomizer {
+    static class DefaultRestClientBuilderCustomizer implements com.ziyao.springframework.boot.autoconfigure.elasticsearch.RestClientBuilderCustomizer {
 
         private static final PropertyMapper map = PropertyMapper.get();
 

@@ -15,9 +15,9 @@
  */
 package com.ziyao.springframework.data.mapping.model;
 
-import org.springframework.core.KotlinDetector;
 import com.ziyao.springframework.data.annotation.PersistenceConstructor;
 import com.ziyao.springframework.data.mapping.*;
+import org.springframework.core.KotlinDetector;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
@@ -35,113 +35,112 @@ import java.util.function.Function;
  */
 public class InstantiationAwarePropertyAccessor<T> implements PersistentPropertyAccessor<T> {
 
-	private static final String NO_SETTER_OR_CONSTRUCTOR = "Cannot set property %s because no setter, wither or copy constructor exists for %s";
-	private static final String NO_CONSTRUCTOR_PARAMETER = "Cannot set property %s because no setter, no wither and it's not part of the persistence constructor %s";
+    private static final String NO_SETTER_OR_CONSTRUCTOR = "Cannot set property %s because no setter, wither or copy constructor exists for %s";
+    private static final String NO_CONSTRUCTOR_PARAMETER = "Cannot set property %s because no setter, no wither and it's not part of the persistence constructor %s";
 
-	private final Function<T, PersistentPropertyAccessor<T>> delegateFunction;
-	private final EntityInstantiators instantiators;
+    private final Function<T, PersistentPropertyAccessor<T>> delegateFunction;
+    private final EntityInstantiators instantiators;
+    private T bean;
 
-	private T bean;
+//	/**
+//	 * Creates an {@link InstantiationAwarePropertyAccessor} using the given delegate {@link PersistentPropertyAccessor}
+//	 * and {@link EntityInstantiators}.
+//	 *
+//	 * @param delegate must not be {@literal null}.
+//	 * @param instantiators must not be {@literal null}.
+//	 * @deprecated since 2.4. Using this constructor allows only setting a single property as
+//	 *             {@link PersistentPropertyAccessor} holds a reference to the initial bean state.
+//	 */
+//	@Deprecated
+//	public InstantiationAwarePropertyAccessor(PersistentPropertyAccessor<T> delegate, EntityInstantiators instantiators) {
+//
+//		Assert.notNull(delegate, "Delegate PersistentPropertyAccessor must not be null");
+//		Assert.notNull(instantiators, "EntityInstantiators must not be null");
+//
+//		this.instantiators = instantiators;
+//		this.delegateFunction = t -> delegate;
+//		this.bean = delegate.getBean();
+//	}
 
-	/**
-	 * Creates an {@link InstantiationAwarePropertyAccessor} using the given delegate {@link PersistentPropertyAccessor}
-	 * and {@link EntityInstantiators}.
-	 *
-	 * @param delegate must not be {@literal null}.
-	 * @param instantiators must not be {@literal null}.
-	 * @deprecated since 2.4. Using this constructor allows only setting a single property as
-	 *             {@link PersistentPropertyAccessor} holds a reference to the initial bean state.
-	 */
-	@Deprecated
-	public InstantiationAwarePropertyAccessor(PersistentPropertyAccessor<T> delegate, EntityInstantiators instantiators) {
+    /**
+     * Creates an {@link InstantiationAwarePropertyAccessor} using the given delegate {@code accessorFunction} and
+     * {@link EntityInstantiators}. {@code accessorFunction} is used to obtain a new {@link PersistentPropertyAccessor}
+     * for each property to set.
+     *
+     * @param bean             must not be {@literal null}.
+     * @param accessorFunction must not be {@literal null}.
+     * @param instantiators    must not be {@literal null}.
+     * @since 2.4
+     */
+    public InstantiationAwarePropertyAccessor(T bean, Function<T, PersistentPropertyAccessor<T>> accessorFunction,
+                                              EntityInstantiators instantiators) {
 
-		Assert.notNull(delegate, "Delegate PersistentPropertyAccessor must not be null");
-		Assert.notNull(instantiators, "EntityInstantiators must not be null");
+        Assert.notNull(bean, "Bean must not be null");
+        Assert.notNull(accessorFunction, "PersistentPropertyAccessor function must not be null");
+        Assert.notNull(instantiators, "EntityInstantiators must not be null");
 
-		this.instantiators = instantiators;
-		this.delegateFunction = t -> delegate;
-		this.bean = delegate.getBean();
-	}
+        this.delegateFunction = accessorFunction;
+        this.instantiators = instantiators;
+        this.bean = bean;
+    }
 
-	/**
-	 * Creates an {@link InstantiationAwarePropertyAccessor} using the given delegate {@code accessorFunction} and
-	 * {@link EntityInstantiators}. {@code accessorFunction} is used to obtain a new {@link PersistentPropertyAccessor}
-	 * for each property to set.
-	 *
-	 * @param bean must not be {@literal null}.
-	 * @param accessorFunction must not be {@literal null}.
-	 * @param instantiators must not be {@literal null}.
-	 * @since 2.4
-	 */
-	public InstantiationAwarePropertyAccessor(T bean, Function<T, PersistentPropertyAccessor<T>> accessorFunction,
-			EntityInstantiators instantiators) {
+    /*
+     * (non-Javadoc)
+     * @see com.ziyao.springframework.data.mapping.PersistentPropertyAccessor#setProperty(com.ziyao.springframework.data.mapping.PersistentProperty, java.lang.Object)
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
 
-		Assert.notNull(bean, "Bean must not be null");
-		Assert.notNull(accessorFunction, "PersistentPropertyAccessor function must not be null");
-		Assert.notNull(instantiators, "EntityInstantiators must not be null");
+        PersistentEntity<?, ?> owner = property.getOwner();
+        PersistentPropertyAccessor<T> delegate = delegateFunction.apply(this.bean);
 
-		this.delegateFunction = accessorFunction;
-		this.instantiators = instantiators;
-		this.bean = bean;
-	}
+        if (!property.isImmutable() || property.getWither() != null || KotlinDetector.isKotlinType(owner.getType())) {
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.ziyao.springframework.data.mapping.PersistentPropertyAccessor#setProperty(com.ziyao.springframework.data.mapping.PersistentProperty, java.lang.Object)
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
+            delegate.setProperty(property, value);
+            this.bean = delegate.getBean();
 
-		PersistentEntity<?, ?> owner = property.getOwner();
-		PersistentPropertyAccessor<T> delegate = delegateFunction.apply(this.bean);
+            return;
+        }
 
-		if (!property.isImmutable() || property.getWither() != null || KotlinDetector.isKotlinType(owner.getType())) {
+        InstanceCreatorMetadata<?> creator = owner.getInstanceCreatorMetadata();
 
-			delegate.setProperty(property, value);
-			this.bean = delegate.getBean();
+        if (creator == null) {
+            throw new IllegalStateException(String.format(NO_SETTER_OR_CONSTRUCTOR, property.getName(), owner.getType()));
+        }
 
-			return;
-		}
+        if (!creator.isCreatorParameter(property)) {
+            throw new IllegalStateException(
+                    String.format(NO_CONSTRUCTOR_PARAMETER, property.getName(), creator));
+        }
 
-		InstanceCreatorMetadata<?> creator = owner.getInstanceCreatorMetadata();
+        creator.getParameters().forEach(it -> {
 
-		if (creator == null) {
-			throw new IllegalStateException(String.format(NO_SETTER_OR_CONSTRUCTOR, property.getName(), owner.getType()));
-		}
+            if (it.getName() == null) {
+                throw new IllegalStateException(
+                        String.format("Cannot detect parameter names of copy creator of %s", owner.getType()));
+            }
+        });
 
-		if (!creator.isCreatorParameter(property)) {
-			throw new IllegalStateException(
-					String.format(NO_CONSTRUCTOR_PARAMETER, property.getName(), creator));
-		}
+        EntityInstantiator instantiator = instantiators.getInstantiatorFor(owner);
 
-		creator.getParameters().forEach(it -> {
+        this.bean = (T) instantiator.createInstance(owner, new ParameterValueProvider() {
 
-			if (it.getName() == null) {
-				throw new IllegalStateException(
-						String.format("Cannot detect parameter names of copy creator of %s", owner.getType()));
-			}
-		});
+            /*
+             * (non-Javadoc)
+             * @see com.ziyao.springframework.data.mapping.model.ParameterValueProvider#getParameterValue(com.ziyao.springframework.data.mapping.PreferredConstructor.Parameter)
+             */
+            @Override
+            @Nullable
+            @SuppressWarnings("null")
+            public Object getParameterValue(Parameter parameter) {
 
-		EntityInstantiator instantiator = instantiators.getInstantiatorFor(owner);
-
-		this.bean = (T) instantiator.createInstance(owner, new ParameterValueProvider() {
-
-			/*
-			 * (non-Javadoc)
-			 * @see com.ziyao.springframework.data.mapping.model.ParameterValueProvider#getParameterValue(com.ziyao.springframework.data.mapping.PreferredConstructor.Parameter)
-			 */
-			@Override
-			@Nullable
-			@SuppressWarnings("null")
-			public Object getParameterValue(Parameter parameter) {
-
-				return property.getName().equals(parameter.getName()) //
-						? value
-						: delegate.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
-			}
-		});
-	}
+                return property.getName().equals(parameter.getName()) //
+                        ? value
+                        : delegate.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
+            }
+        });
+    }
 
 	/*
 	 * (non-Javadoc)
@@ -153,12 +152,12 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 		return delegateFunction.apply(bean).getProperty(property);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.ziyao.springframework.data.mapping.PersistentPropertyAccessor#getBean()
-	 */
-	@Override
-	public T getBean() {
-		return this.bean;
-	}
+    /*
+     * (non-Javadoc)
+     * @see com.ziyao.springframework.data.mapping.PersistentPropertyAccessor#getBean()
+     */
+    @Override
+    public T getBean() {
+        return this.bean;
+    }
 }

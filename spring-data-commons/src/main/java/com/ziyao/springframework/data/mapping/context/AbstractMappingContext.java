@@ -23,7 +23,6 @@ import com.ziyao.springframework.data.support.NativeDetector;
 import com.ziyao.springframework.data.util.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;

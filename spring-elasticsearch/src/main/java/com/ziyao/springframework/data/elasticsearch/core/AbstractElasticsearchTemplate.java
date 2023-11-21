@@ -15,31 +15,30 @@
  */
 package com.ziyao.springframework.data.elasticsearch.core;
 
+import com.ziyao.springframework.data.convert.EntityReader;
+import com.ziyao.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
+import com.ziyao.springframework.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 import com.ziyao.springframework.data.elasticsearch.core.document.Document;
+import com.ziyao.springframework.data.elasticsearch.core.document.SearchDocumentResponse;
+import com.ziyao.springframework.data.elasticsearch.core.event.AfterConvertCallback;
 import com.ziyao.springframework.data.elasticsearch.core.event.AfterLoadCallback;
 import com.ziyao.springframework.data.elasticsearch.core.event.AfterSaveCallback;
+import com.ziyao.springframework.data.elasticsearch.core.event.BeforeConvertCallback;
+import com.ziyao.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 import com.ziyao.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import com.ziyao.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import com.ziyao.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
 import com.ziyao.springframework.data.elasticsearch.core.query.*;
 import com.ziyao.springframework.data.elasticsearch.core.routing.DefaultRoutingResolver;
 import com.ziyao.springframework.data.elasticsearch.core.routing.RoutingResolver;
 import com.ziyao.springframework.data.elasticsearch.support.VersionInfo;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import com.ziyao.springframework.data.convert.EntityReader;
-import com.ziyao.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
-import com.ziyao.springframework.data.elasticsearch.core.convert.MappingElasticsearchConverter;
-import com.ziyao.springframework.data.elasticsearch.core.document.SearchDocumentResponse;
-import com.ziyao.springframework.data.elasticsearch.core.event.AfterConvertCallback;
-import com.ziyao.springframework.data.elasticsearch.core.event.BeforeConvertCallback;
-import com.ziyao.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
-import com.ziyao.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
-import com.ziyao.springframework.data.elasticsearch.core.query.*;
 import com.ziyao.springframework.data.mapping.PersistentPropertyAccessor;
 import com.ziyao.springframework.data.mapping.callback.EntityCallbacks;
 import com.ziyao.springframework.data.mapping.context.MappingContext;
 import com.ziyao.springframework.data.util.Streamable;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -67,748 +66,749 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractElasticsearchTemplate implements ElasticsearchOperations, ApplicationContextAware {
 
-	protected ElasticsearchConverter elasticsearchConverter;
-	protected EntityOperations entityOperations;
-	@Nullable protected EntityCallbacks entityCallbacks;
-	@Nullable protected RefreshPolicy refreshPolicy;
-	protected RoutingResolver routingResolver;
-
-	public AbstractElasticsearchTemplate() {
-		this(null);
-	}
-
-	public AbstractElasticsearchTemplate(@Nullable ElasticsearchConverter elasticsearchConverter) {
-
-		this.elasticsearchConverter = elasticsearchConverter != null ? elasticsearchConverter
-				: createElasticsearchConverter();
-		MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext = this.elasticsearchConverter
-				.getMappingContext();
-		this.entityOperations = new EntityOperations(mappingContext);
-		this.routingResolver = new DefaultRoutingResolver(mappingContext);
-
-		// initialize the VersionInfo class in the initialization phase
-		// noinspection ResultOfMethodCallIgnored
-		VersionInfo.versionProperties();
-	}
-
-	/**
-	 * @return copy of this instance.
-	 */
-	private AbstractElasticsearchTemplate copy() {
-
-		AbstractElasticsearchTemplate copy = doCopy();
-
-		if (entityCallbacks != null) {
-			copy.setEntityCallbacks(entityCallbacks);
-		}
-
-		copy.setRoutingResolver(routingResolver);
-		copy.setRefreshPolicy(refreshPolicy);
-
-		return copy;
-	}
-
-	/**
-	 * must return a copy of this instance that will for example be used to set a custom routing resolver without
-	 * modifying the original object.
-	 */
-	protected abstract AbstractElasticsearchTemplate doCopy();
-
-	private ElasticsearchConverter createElasticsearchConverter() {
-		MappingElasticsearchConverter mappingElasticsearchConverter = new MappingElasticsearchConverter(
-				new SimpleElasticsearchMappingContext());
-		mappingElasticsearchConverter.afterPropertiesSet();
-		return mappingElasticsearchConverter;
-	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    protected ElasticsearchConverter elasticsearchConverter;
+    protected EntityOperations entityOperations;
+    @Nullable
+    protected EntityCallbacks entityCallbacks;
+    @Nullable
+    protected RefreshPolicy refreshPolicy;
+    protected RoutingResolver routingResolver;
+
+    public AbstractElasticsearchTemplate() {
+        this(null);
+    }
+
+    public AbstractElasticsearchTemplate(@Nullable ElasticsearchConverter elasticsearchConverter) {
+
+        this.elasticsearchConverter = elasticsearchConverter != null ? elasticsearchConverter
+                : createElasticsearchConverter();
+        MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext = this.elasticsearchConverter
+                .getMappingContext();
+        this.entityOperations = new EntityOperations(mappingContext);
+        this.routingResolver = new DefaultRoutingResolver(mappingContext);
+
+        // initialize the VersionInfo class in the initialization phase
+        // noinspection ResultOfMethodCallIgnored
+        VersionInfo.versionProperties();
+    }
+
+    /**
+     * @return copy of this instance.
+     */
+    private AbstractElasticsearchTemplate copy() {
+
+        AbstractElasticsearchTemplate copy = doCopy();
+
+        if (entityCallbacks != null) {
+            copy.setEntityCallbacks(entityCallbacks);
+        }
+
+        copy.setRoutingResolver(routingResolver);
+        copy.setRefreshPolicy(refreshPolicy);
+
+        return copy;
+    }
+
+    /**
+     * must return a copy of this instance that will for example be used to set a custom routing resolver without
+     * modifying the original object.
+     */
+    protected abstract AbstractElasticsearchTemplate doCopy();
+
+    private ElasticsearchConverter createElasticsearchConverter() {
+        MappingElasticsearchConverter mappingElasticsearchConverter = new MappingElasticsearchConverter(
+                new SimpleElasticsearchMappingContext());
+        mappingElasticsearchConverter.afterPropertiesSet();
+        return mappingElasticsearchConverter;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+
+        if (entityCallbacks == null) {
+            setEntityCallbacks(EntityCallbacks.create(applicationContext));
+        }
+
+        if (elasticsearchConverter instanceof ApplicationContextAware) {
+            ((ApplicationContextAware) elasticsearchConverter).setApplicationContext(applicationContext);
+        }
+    }
+
+    /**
+     * Set the {@link EntityCallbacks} instance to use when invoking {@link EntityCallbacks callbacks} like the
+     * {@link BeforeConvertCallback}.
+     * <p/>
+     * Overrides potentially existing {@link EntityCallbacks}.
+     *
+     * @param entityCallbacks must not be {@literal null}.
+     * @throws IllegalArgumentException if the given instance is {@literal null}.
+     * @since 4.0
+     */
+    public void setEntityCallbacks(EntityCallbacks entityCallbacks) {
+
+        Assert.notNull(entityCallbacks, "entityCallbacks must not be null");
+
+        this.entityCallbacks = entityCallbacks;
+    }
 
-		if (entityCallbacks == null) {
-			setEntityCallbacks(EntityCallbacks.create(applicationContext));
-		}
-
-		if (elasticsearchConverter instanceof ApplicationContextAware) {
-			((ApplicationContextAware) elasticsearchConverter).setApplicationContext(applicationContext);
-		}
-	}
-
-	/**
-	 * Set the {@link EntityCallbacks} instance to use when invoking {@link EntityCallbacks callbacks} like the
-	 * {@link BeforeConvertCallback}.
-	 * <p />
-	 * Overrides potentially existing {@link EntityCallbacks}.
-	 *
-	 * @param entityCallbacks must not be {@literal null}.
-	 * @throws IllegalArgumentException if the given instance is {@literal null}.
-	 * @since 4.0
-	 */
-	public void setEntityCallbacks(EntityCallbacks entityCallbacks) {
-
-		Assert.notNull(entityCallbacks, "entityCallbacks must not be null");
+    public void setRefreshPolicy(@Nullable RefreshPolicy refreshPolicy) {
+        this.refreshPolicy = refreshPolicy;
+    }
 
-		this.entityCallbacks = entityCallbacks;
-	}
+    @Nullable
+    public RefreshPolicy getRefreshPolicy() {
+        return refreshPolicy;
+    }
+
+    /**
+     * logs the versions of the different Elasticsearch components.
+     *
+     * @since 4.3
+     */
+    public void logVersions() {
+        VersionInfo.logVersions(getVendor(), getRuntimeLibraryVersion(), getClusterVersion());
+    }
 
-	public void setRefreshPolicy(@Nullable RefreshPolicy refreshPolicy) {
-		this.refreshPolicy = refreshPolicy;
-	}
+    // endregion
 
-	@Nullable
-	public RefreshPolicy getRefreshPolicy() {
-		return refreshPolicy;
-	}
+    // region DocumentOperations
+    @Override
+    public <T> T save(T entity) {
 
-	/**
-	 * logs the versions of the different Elasticsearch components.
-	 *
-	 * @since 4.3
-	 */
-	public void logVersions() {
-		VersionInfo.logVersions(getVendor(), getRuntimeLibraryVersion(), getClusterVersion());
-	}
+        Assert.notNull(entity, "entity must not be null");
 
-	// endregion
+        return save(entity, getIndexCoordinatesFor(entity.getClass()));
+    }
 
-	// region DocumentOperations
-	@Override
-	public <T> T save(T entity) {
+    @Override
+    public <T> T save(T entity, IndexCoordinates index) {
 
-		Assert.notNull(entity, "entity must not be null");
+        Assert.notNull(entity, "entity must not be null");
+        Assert.notNull(index, "index must not be null");
 
-		return save(entity, getIndexCoordinatesFor(entity.getClass()));
-	}
+        T entityAfterBeforeConvert = maybeCallbackBeforeConvert(entity, index);
 
-	@Override
-	public <T> T save(T entity, IndexCoordinates index) {
+        IndexQuery query = getIndexQuery(entityAfterBeforeConvert);
+        doIndex(query, index);
 
-		Assert.notNull(entity, "entity must not be null");
-		Assert.notNull(index, "index must not be null");
+        // noinspection unchecked
+        return (T) maybeCallbackAfterSave(Objects.requireNonNull(query.getObject()), index);
+    }
 
-		T entityAfterBeforeConvert = maybeCallbackBeforeConvert(entity, index);
+    @Override
+    public <T> Iterable<T> save(Iterable<T> entities) {
 
-		IndexQuery query = getIndexQuery(entityAfterBeforeConvert);
-		doIndex(query, index);
+        Assert.notNull(entities, "entities must not be null");
 
-		// noinspection unchecked
-		return (T) maybeCallbackAfterSave(Objects.requireNonNull(query.getObject()), index);
-	}
+        Iterator<T> iterator = entities.iterator();
+        if (iterator.hasNext()) {
+            return save(entities, getIndexCoordinatesFor(iterator.next().getClass()));
+        }
 
-	@Override
-	public <T> Iterable<T> save(Iterable<T> entities) {
+        return entities;
+    }
 
-		Assert.notNull(entities, "entities must not be null");
+    @Override
+    public <T> Iterable<T> save(Iterable<T> entities, IndexCoordinates index) {
 
-		Iterator<T> iterator = entities.iterator();
-		if (iterator.hasNext()) {
-			return save(entities, getIndexCoordinatesFor(iterator.next().getClass()));
-		}
+        Assert.notNull(entities, "entities must not be null");
+        Assert.notNull(index, "index must not be null");
 
-		return entities;
-	}
+        List<IndexQuery> indexQueries = Streamable.of(entities).stream().map(this::getIndexQuery)
+                .collect(Collectors.toList());
 
-	@Override
-	public <T> Iterable<T> save(Iterable<T> entities, IndexCoordinates index) {
+        if (indexQueries.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-		Assert.notNull(entities, "entities must not be null");
-		Assert.notNull(index, "index must not be null");
+        List<IndexedObjectInformation> indexedObjectInformationList = bulkIndex(indexQueries, index);
+        Iterator<IndexedObjectInformation> iterator = indexedObjectInformationList.iterator();
 
-		List<IndexQuery> indexQueries = Streamable.of(entities).stream().map(this::getIndexQuery)
-				.collect(Collectors.toList());
+        // noinspection unchecked
+        return indexQueries.stream() //
+                .map(IndexQuery::getObject) //
+                .map(entity -> (T) updateIndexedObject(entity, iterator.next())) //
+                .collect(Collectors.toList()); //
+    }
 
-		if (indexQueries.isEmpty()) {
-			return Collections.emptyList();
-		}
+    @SafeVarargs
+    @Override
+    public final <T> Iterable<T> save(T... entities) {
+        return save(Arrays.asList(entities));
+    }
 
-		List<IndexedObjectInformation> indexedObjectInformationList = bulkIndex(indexQueries, index);
-		Iterator<IndexedObjectInformation> iterator = indexedObjectInformationList.iterator();
+    @Override
+    public String index(IndexQuery query, IndexCoordinates index) {
 
-		// noinspection unchecked
-		return indexQueries.stream() //
-				.map(IndexQuery::getObject) //
-				.map(entity -> (T) updateIndexedObject(entity, iterator.next())) //
-				.collect(Collectors.toList()); //
-	}
+        maybeCallbackBeforeConvertWithQuery(query, index);
 
-	@SafeVarargs
-	@Override
-	public final <T> Iterable<T> save(T... entities) {
-		return save(Arrays.asList(entities));
-	}
+        String documentId = doIndex(query, index);
 
-	@Override
-	public String index(IndexQuery query, IndexCoordinates index) {
+        maybeCallbackAfterSaveWithQuery(query, index);
 
-		maybeCallbackBeforeConvertWithQuery(query, index);
+        return documentId;
+    }
 
-		String documentId = doIndex(query, index);
+    public abstract String doIndex(IndexQuery query, IndexCoordinates indexCoordinates);
 
-		maybeCallbackAfterSaveWithQuery(query, index);
+    @Override
+    @Nullable
+    public <T> T get(String id, Class<T> clazz) {
+        return get(id, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-		return documentId;
-	}
+    @Override
+    public <T> List<MultiGetItem<T>> multiGet(Query query, Class<T> clazz) {
+        return multiGet(query, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-	public abstract String doIndex(IndexQuery query, IndexCoordinates indexCoordinates);
+    @Override
+    public boolean exists(String id, Class<?> clazz) {
+        return exists(id, getIndexCoordinatesFor(clazz));
+    }
 
-	@Override
-	@Nullable
-	public <T> T get(String id, Class<T> clazz) {
-		return get(id, clazz, getIndexCoordinatesFor(clazz));
-	}
+    @Override
+    public boolean exists(String id, IndexCoordinates index) {
+        return doExists(id, index);
+    }
 
-	@Override
-	public <T> List<MultiGetItem<T>> multiGet(Query query, Class<T> clazz) {
-		return multiGet(query, clazz, getIndexCoordinatesFor(clazz));
-	}
+    abstract protected boolean doExists(String id, IndexCoordinates index);
 
-	@Override
-	public boolean exists(String id, Class<?> clazz) {
-		return exists(id, getIndexCoordinatesFor(clazz));
-	}
+    @Override
+    public String delete(String id, Class<?> entityType) {
 
-	@Override
-	public boolean exists(String id, IndexCoordinates index) {
-		return doExists(id, index);
-	}
+        Assert.notNull(id, "id must not be null");
+        Assert.notNull(entityType, "entityType must not be null");
 
-	abstract protected boolean doExists(String id, IndexCoordinates index);
+        return this.delete(id, getIndexCoordinatesFor(entityType));
+    }
 
-	@Override
-	public String delete(String id, Class<?> entityType) {
+    @Override
+    public ByQueryResponse delete(Query query, Class<?> clazz) {
+        return delete(query, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-		Assert.notNull(id, "id must not be null");
-		Assert.notNull(entityType, "entityType must not be null");
+    @Override
+    public String delete(Object entity) {
+        return delete(entity, getIndexCoordinatesFor(entity.getClass()));
+    }
 
-		return this.delete(id, getIndexCoordinatesFor(entityType));
-	}
+    @Override
+    public String delete(Object entity, IndexCoordinates index) {
+        String entityId = getEntityId(entity);
+        Assert.notNull(entityId, "entity must have an if that is notnull");
+        return this.delete(entityId, index);
+    }
 
-	@Override
-	public ByQueryResponse delete(Query query, Class<?> clazz) {
-		return delete(query, clazz, getIndexCoordinatesFor(clazz));
-	}
+    @Override
+    public String delete(String id, IndexCoordinates index) {
+        return doDelete(id, routingResolver.getRouting(), index);
+    }
 
-	@Override
-	public String delete(Object entity) {
-		return delete(entity, getIndexCoordinatesFor(entity.getClass()));
-	}
+    @Override
+    @Deprecated
+    final public String delete(String id, @Nullable String routing, IndexCoordinates index) {
+        return doDelete(id, routing, index);
+    }
 
-	@Override
-	public String delete(Object entity, IndexCoordinates index) {
-		String entityId = getEntityId(entity);
-		Assert.notNull(entityId, "entity must have an if that is notnull");
-		return this.delete(entityId, index);
-	}
+    protected abstract String doDelete(String id, @Nullable String routing, IndexCoordinates index);
 
-	@Override
-	public String delete(String id, IndexCoordinates index) {
-		return doDelete(id, routingResolver.getRouting(), index);
-	}
+    @Override
+    public List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, Class<?> clazz) {
+        return bulkIndex(queries, getIndexCoordinatesFor(clazz));
+    }
 
-	@Override
-	@Deprecated
-	final public String delete(String id, @Nullable String routing, IndexCoordinates index) {
-		return doDelete(id, routing, index);
-	}
+    @Override
+    public List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, BulkOptions bulkOptions, Class<?> clazz) {
+        return bulkIndex(queries, bulkOptions, getIndexCoordinatesFor(clazz));
+    }
 
-	protected abstract String doDelete(String id, @Nullable String routing, IndexCoordinates index);
+    @Override
+    public final List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, BulkOptions bulkOptions,
+                                                          IndexCoordinates index) {
 
-	@Override
-	public List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, Class<?> clazz) {
-		return bulkIndex(queries, getIndexCoordinatesFor(clazz));
-	}
+        Assert.notNull(queries, "List of IndexQuery must not be null");
+        Assert.notNull(bulkOptions, "BulkOptions must not be null");
 
-	@Override
-	public List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, BulkOptions bulkOptions, Class<?> clazz) {
-		return bulkIndex(queries, bulkOptions, getIndexCoordinatesFor(clazz));
-	}
+        return bulkOperation(queries, bulkOptions, index);
+    }
 
-	@Override
-	public final List<IndexedObjectInformation> bulkIndex(List<IndexQuery> queries, BulkOptions bulkOptions,
-			IndexCoordinates index) {
+    @Override
+    public void bulkUpdate(List<UpdateQuery> queries, Class<?> clazz) {
+        bulkUpdate(queries, getIndexCoordinatesFor(clazz));
+    }
 
-		Assert.notNull(queries, "List of IndexQuery must not be null");
-		Assert.notNull(bulkOptions, "BulkOptions must not be null");
+    public List<IndexedObjectInformation> bulkOperation(List<?> queries, BulkOptions bulkOptions,
+                                                        IndexCoordinates index) {
 
-		return bulkOperation(queries, bulkOptions, index);
-	}
+        Assert.notNull(queries, "List of IndexQuery must not be null");
+        Assert.notNull(bulkOptions, "BulkOptions must not be null");
 
-	@Override
-	public void bulkUpdate(List<UpdateQuery> queries, Class<?> clazz) {
-		bulkUpdate(queries, getIndexCoordinatesFor(clazz));
-	}
+        maybeCallbackBeforeConvertWithQueries(queries, index);
 
-	public List<IndexedObjectInformation> bulkOperation(List<?> queries, BulkOptions bulkOptions,
-			IndexCoordinates index) {
+        List<IndexedObjectInformation> indexedObjectInformationList = doBulkOperation(queries, bulkOptions, index);
 
-		Assert.notNull(queries, "List of IndexQuery must not be null");
-		Assert.notNull(bulkOptions, "BulkOptions must not be null");
+        maybeCallbackAfterSaveWithQueries(queries, index);
 
-		maybeCallbackBeforeConvertWithQueries(queries, index);
+        return indexedObjectInformationList;
+    }
 
-		List<IndexedObjectInformation> indexedObjectInformationList = doBulkOperation(queries, bulkOptions, index);
+    public abstract List<IndexedObjectInformation> doBulkOperation(List<?> queries, BulkOptions bulkOptions,
+                                                                   IndexCoordinates index);
 
-		maybeCallbackAfterSaveWithQueries(queries, index);
+    // endregion
 
-		return indexedObjectInformationList;
-	}
+    // region SearchOperations
+    @Override
+    public long count(Query query, Class<?> clazz) {
+        return count(query, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-	public abstract List<IndexedObjectInformation> doBulkOperation(List<?> queries, BulkOptions bulkOptions,
-			IndexCoordinates index);
+    @Override
+    public <T> SearchHitsIterator<T> searchForStream(Query query, Class<T> clazz) {
+        return searchForStream(query, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-	// endregion
+    @Override
+    public <T> SearchHitsIterator<T> searchForStream(Query query, Class<T> clazz, IndexCoordinates index) {
 
-	// region SearchOperations
-	@Override
-	public long count(Query query, Class<?> clazz) {
-		return count(query, clazz, getIndexCoordinatesFor(clazz));
-	}
+        Duration scrollTime = query.getScrollTime() != null ? query.getScrollTime() : Duration.ofMinutes(1);
+        long scrollTimeInMillis = scrollTime.toMillis();
+        // noinspection ConstantConditions
+        int maxCount = query.isLimiting() ? query.getMaxResults() : 0;
 
-	@Override
-	public <T> SearchHitsIterator<T> searchForStream(Query query, Class<T> clazz) {
-		return searchForStream(query, clazz, getIndexCoordinatesFor(clazz));
-	}
+        return StreamQueries.streamResults( //
+                maxCount, //
+                searchScrollStart(scrollTimeInMillis, query, clazz, index), //
+                scrollId -> searchScrollContinue(scrollId, scrollTimeInMillis, clazz, index), //
+                this::searchScrollClear);
+    }
 
-	@Override
-	public <T> SearchHitsIterator<T> searchForStream(Query query, Class<T> clazz, IndexCoordinates index) {
+    @Override
+    public <T> SearchHits<T> search(MoreLikeThisQuery query, Class<T> clazz) {
+        return search(query, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-		Duration scrollTime = query.getScrollTime() != null ? query.getScrollTime() : Duration.ofMinutes(1);
-		long scrollTimeInMillis = scrollTime.toMillis();
-		// noinspection ConstantConditions
-		int maxCount = query.isLimiting() ? query.getMaxResults() : 0;
+    @Override
+    public <T> SearchHits<T> search(MoreLikeThisQuery query, Class<T> clazz, IndexCoordinates index) {
 
-		return StreamQueries.streamResults( //
-				maxCount, //
-				searchScrollStart(scrollTimeInMillis, query, clazz, index), //
-				scrollId -> searchScrollContinue(scrollId, scrollTimeInMillis, clazz, index), //
-				this::searchScrollClear);
-	}
+        Assert.notNull(query.getId(), "No document id defined for MoreLikeThisQuery");
 
-	@Override
-	public <T> SearchHits<T> search(MoreLikeThisQuery query, Class<T> clazz) {
-		return search(query, clazz, getIndexCoordinatesFor(clazz));
-	}
+        return doSearch(query, clazz, index);
+    }
 
-	@Override
-	public <T> SearchHits<T> search(MoreLikeThisQuery query, Class<T> clazz, IndexCoordinates index) {
+    protected abstract <T> SearchHits<T> doSearch(MoreLikeThisQuery query, Class<T> clazz, IndexCoordinates index);
 
-		Assert.notNull(query.getId(), "No document id defined for MoreLikeThisQuery");
+    @Override
+    public <T> List<SearchHits<T>> multiSearch(List<? extends Query> queries, Class<T> clazz) {
+        return multiSearch(queries, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-		return doSearch(query, clazz, index);
-	}
+    @Override
+    public <T> SearchHits<T> search(Query query, Class<T> clazz) {
+        return search(query, clazz, getIndexCoordinatesFor(clazz));
+    }
 
-	protected abstract <T> SearchHits<T> doSearch(MoreLikeThisQuery query, Class<T> clazz, IndexCoordinates index);
+    /*
+     * internal use only, not for public API
+     */
+    abstract protected <T> SearchScrollHits<T> searchScrollStart(long scrollTimeInMillis, Query query, Class<T> clazz,
+                                                                 IndexCoordinates index);
 
-	@Override
-	public <T> List<SearchHits<T>> multiSearch(List<? extends Query> queries, Class<T> clazz) {
-		return multiSearch(queries, clazz, getIndexCoordinatesFor(clazz));
-	}
+    /*
+     * internal use only, not for public API
+     */
+    abstract protected <T> SearchScrollHits<T> searchScrollContinue(String scrollId, long scrollTimeInMillis,
+                                                                    Class<T> clazz, IndexCoordinates index);
 
-	@Override
-	public <T> SearchHits<T> search(Query query, Class<T> clazz) {
-		return search(query, clazz, getIndexCoordinatesFor(clazz));
-	}
+    /*
+     * internal use only, not for public API
+     */
+    protected void searchScrollClear(String scrollId) {
+        searchScrollClear(Collections.singletonList(scrollId));
+    }
 
-	/*
-	 * internal use only, not for public API
-	 */
-	abstract protected <T> SearchScrollHits<T> searchScrollStart(long scrollTimeInMillis, Query query, Class<T> clazz,
-			IndexCoordinates index);
+    /*
+     * internal use only, not for public API
+     */
+    abstract protected void searchScrollClear(List<String> scrollIds);
 
-	/*
-	 * internal use only, not for public API
-	 */
-	abstract protected <T> SearchScrollHits<T> searchScrollContinue(String scrollId, long scrollTimeInMillis,
-			Class<T> clazz, IndexCoordinates index);
+    // endregion
 
-	/*
-	 * internal use only, not for public API
-	 */
-	protected void searchScrollClear(String scrollId) {
-		searchScrollClear(Collections.singletonList(scrollId));
-	}
+    // region Helper methods
+    @Override
+    public ElasticsearchConverter getElasticsearchConverter() {
 
-	/*
-	 * internal use only, not for public API
-	 */
-	abstract protected void searchScrollClear(List<String> scrollIds);
+        Assert.notNull(elasticsearchConverter, "elasticsearchConverter is not initialized.");
 
-	// endregion
+        return elasticsearchConverter;
+    }
 
-	// region Helper methods
-	@Override
-	public ElasticsearchConverter getElasticsearchConverter() {
+    protected static String[] toArray(List<String> values) {
+        String[] valuesAsArray = new String[values.size()];
+        return values.toArray(valuesAsArray);
+    }
 
-		Assert.notNull(elasticsearchConverter, "elasticsearchConverter is not initialized.");
+    /**
+     * @param clazz the entity class
+     * @return the IndexCoordinates defined on the entity.
+     * @since 4.0
+     */
+    @Override
+    public IndexCoordinates getIndexCoordinatesFor(Class<?> clazz) {
+        return getRequiredPersistentEntity(clazz).getIndexCoordinates();
+    }
 
-		return elasticsearchConverter;
-	}
+    protected <T> T updateIndexedObject(T entity, IndexedObjectInformation indexedObjectInformation) {
 
-	protected static String[] toArray(List<String> values) {
-		String[] valuesAsArray = new String[values.size()];
-		return values.toArray(valuesAsArray);
-	}
+        ElasticsearchPersistentEntity<?> persistentEntity = elasticsearchConverter.getMappingContext()
+                .getPersistentEntity(entity.getClass());
 
-	/**
-	 * @param clazz the entity class
-	 * @return the IndexCoordinates defined on the entity.
-	 * @since 4.0
-	 */
-	@Override
-	public IndexCoordinates getIndexCoordinatesFor(Class<?> clazz) {
-		return getRequiredPersistentEntity(clazz).getIndexCoordinates();
-	}
+        if (persistentEntity != null) {
+            PersistentPropertyAccessor<Object> propertyAccessor = persistentEntity.getPropertyAccessor(entity);
+            ElasticsearchPersistentProperty idProperty = persistentEntity.getIdProperty();
 
-	protected <T> T updateIndexedObject(T entity, IndexedObjectInformation indexedObjectInformation) {
+            // Only deal with text because ES generated Ids are strings!
+            if (indexedObjectInformation.getId() != null && idProperty != null && idProperty.isWritable()
+                    && idProperty.getType().isAssignableFrom(String.class)) {
+                propertyAccessor.setProperty(idProperty, indexedObjectInformation.getId());
+            }
 
-		ElasticsearchPersistentEntity<?> persistentEntity = elasticsearchConverter.getMappingContext()
-				.getPersistentEntity(entity.getClass());
+            if (indexedObjectInformation.getSeqNo() != null && indexedObjectInformation.getPrimaryTerm() != null
+                    && persistentEntity.hasSeqNoPrimaryTermProperty()) {
+                ElasticsearchPersistentProperty seqNoPrimaryTermProperty = persistentEntity.getSeqNoPrimaryTermProperty();
+                // noinspection ConstantConditions
+                propertyAccessor.setProperty(seqNoPrimaryTermProperty,
+                        new SeqNoPrimaryTerm(indexedObjectInformation.getSeqNo(), indexedObjectInformation.getPrimaryTerm()));
+            }
 
-		if (persistentEntity != null) {
-			PersistentPropertyAccessor<Object> propertyAccessor = persistentEntity.getPropertyAccessor(entity);
-			ElasticsearchPersistentProperty idProperty = persistentEntity.getIdProperty();
+            if (indexedObjectInformation.getVersion() != null && persistentEntity.hasVersionProperty()) {
+                ElasticsearchPersistentProperty versionProperty = persistentEntity.getVersionProperty();
+                // noinspection ConstantConditions
+                propertyAccessor.setProperty(versionProperty, indexedObjectInformation.getVersion());
+            }
 
-			// Only deal with text because ES generated Ids are strings!
-			if (indexedObjectInformation.getId() != null && idProperty != null && idProperty.isWritable()
-					&& idProperty.getType().isAssignableFrom(String.class)) {
-				propertyAccessor.setProperty(idProperty, indexedObjectInformation.getId());
-			}
+            // noinspection unchecked
+            return (T) propertyAccessor.getBean();
+        }
+        return entity;
+    }
 
-			if (indexedObjectInformation.getSeqNo() != null && indexedObjectInformation.getPrimaryTerm() != null
-					&& persistentEntity.hasSeqNoPrimaryTermProperty()) {
-				ElasticsearchPersistentProperty seqNoPrimaryTermProperty = persistentEntity.getSeqNoPrimaryTermProperty();
-				// noinspection ConstantConditions
-				propertyAccessor.setProperty(seqNoPrimaryTermProperty,
-						new SeqNoPrimaryTerm(indexedObjectInformation.getSeqNo(), indexedObjectInformation.getPrimaryTerm()));
-			}
+    ElasticsearchPersistentEntity<?> getRequiredPersistentEntity(Class<?> clazz) {
+        return elasticsearchConverter.getMappingContext().getRequiredPersistentEntity(clazz);
+    }
 
-			if (indexedObjectInformation.getVersion() != null && persistentEntity.hasVersionProperty()) {
-				ElasticsearchPersistentProperty versionProperty = persistentEntity.getVersionProperty();
-				// noinspection ConstantConditions
-				propertyAccessor.setProperty(versionProperty, indexedObjectInformation.getVersion());
-			}
+    @Nullable
+    private String getEntityId(Object entity) {
+        EntityOperations.AdaptableEntity<Object> adaptableEntity = entityOperations.forEntity(entity, elasticsearchConverter.getConversionService(), routingResolver);
+        Object id = adaptableEntity.getId();
 
-			// noinspection unchecked
-			return (T) propertyAccessor.getBean();
-		}
-		return entity;
-	}
+        if (id != null) {
+            return stringIdRepresentation(id);
+        }
 
-	ElasticsearchPersistentEntity<?> getRequiredPersistentEntity(Class<?> clazz) {
-		return elasticsearchConverter.getMappingContext().getRequiredPersistentEntity(clazz);
-	}
+        return null;
+    }
 
-	@Nullable
-	private String getEntityId(Object entity) {
+    @Nullable
+    public String getEntityRouting(Object entity) {
+        return entityOperations.forEntity(entity, elasticsearchConverter.getConversionService(), routingResolver)
+                .getRouting();
+    }
 
-		Object id = entityOperations.forEntity(entity, elasticsearchConverter.getConversionService(), routingResolver)
-				.getId();
+    @Nullable
+    private Long getEntityVersion(Object entity) {
 
-		if (id != null) {
-			return stringIdRepresentation(id);
-		}
+        Number version = entityOperations.forEntity(entity, elasticsearchConverter.getConversionService(), routingResolver)
+                .getVersion();
 
-		return null;
-	}
+        if (version != null && Long.class.isAssignableFrom(version.getClass())) {
+            return ((Long) version);
+        }
 
-	@Nullable
-	public String getEntityRouting(Object entity) {
-		return entityOperations.forEntity(entity, elasticsearchConverter.getConversionService(), routingResolver)
-				.getRouting();
-	}
+        return null;
+    }
 
-	@Nullable
-	private Long getEntityVersion(Object entity) {
+    @Nullable
+    private SeqNoPrimaryTerm getEntitySeqNoPrimaryTerm(Object entity) {
+
+        EntityOperations.AdaptableEntity<Object> adaptableEntity = entityOperations.forEntity(entity,
+                elasticsearchConverter.getConversionService(), routingResolver);
+        return adaptableEntity.hasSeqNoPrimaryTerm() ? adaptableEntity.getSeqNoPrimaryTerm() : null;
+    }
+
+    private <T> IndexQuery getIndexQuery(T entity) {
 
-		Number version = entityOperations.forEntity(entity, elasticsearchConverter.getConversionService(), routingResolver)
-				.getVersion();
+//        String id = getEntityId(entity);
+String id = null;
+        if (id != null) {
+            id = elasticsearchConverter.convertId(id);
+        }
 
-		if (version != null && Long.class.isAssignableFrom(version.getClass())) {
-			return ((Long) version);
-		}
+        // noinspection ConstantConditions
+        IndexQueryBuilder builder = new IndexQueryBuilder() //
+                .withId(id) //
+                .withObject(entity);
 
-		return null;
-	}
+        SeqNoPrimaryTerm seqNoPrimaryTerm = getEntitySeqNoPrimaryTerm(entity);
 
-	@Nullable
-	private SeqNoPrimaryTerm getEntitySeqNoPrimaryTerm(Object entity) {
+        if (seqNoPrimaryTerm != null) {
+            builder.withSeqNoPrimaryTerm(seqNoPrimaryTerm);
+        } else {
+            // version cannot be used together with seq_no and primary_term
+            // noinspection ConstantConditions
+            builder.withVersion(getEntityVersion(entity));
+        }
+
+        String routing = getEntityRouting(entity);
 
-		EntityOperations.AdaptableEntity<Object> adaptableEntity = entityOperations.forEntity(entity,
-				elasticsearchConverter.getConversionService(), routingResolver);
-		return adaptableEntity.hasSeqNoPrimaryTerm() ? adaptableEntity.getSeqNoPrimaryTerm() : null;
-	}
+        if (routing != null) {
+            builder.withRouting(routing);
+        }
+
+        return builder.build();
+    }
 
-	private <T> IndexQuery getIndexQuery(T entity) {
+    protected <T> SearchDocumentResponse.EntityCreator<T> getEntityCreator(ReadDocumentCallback<T> documentCallback) {
+        return searchDocument -> CompletableFuture.completedFuture(documentCallback.doWith(searchDocument));
+    }
 
-		String id = getEntityId(entity);
+    /**
+     * tries to extract the version of the Elasticsearch cluster
+     *
+     * @return the version as string if it can be retrieved
+     */
+    @Nullable
+    abstract protected String getClusterVersion();
 
-		if (id != null) {
-			id = elasticsearchConverter.convertId(id);
-		}
+    /**
+     * @return the vendor name of the used cluster and client library
+     * @since 4.3
+     */
+    abstract protected String getVendor();
 
-		// noinspection ConstantConditions
-		IndexQueryBuilder builder = new IndexQueryBuilder() //
-				.withId(id) //
-				.withObject(entity);
+    /**
+     * @return the version of the used client runtime library.
+     * @since 4.3
+     */
+    abstract protected String getRuntimeLibraryVersion();
 
-		SeqNoPrimaryTerm seqNoPrimaryTerm = getEntitySeqNoPrimaryTerm(entity);
+    // endregion
 
-		if (seqNoPrimaryTerm != null) {
-			builder.withSeqNoPrimaryTerm(seqNoPrimaryTerm);
-		} else {
-			// version cannot be used together with seq_no and primary_term
-			// noinspection ConstantConditions
-			builder.withVersion(getEntityVersion(entity));
-		}
+    // region Entity callbacks
+    protected <T> T maybeCallbackBeforeConvert(T entity, IndexCoordinates index) {
 
-		String routing = getEntityRouting(entity);
+        if (entityCallbacks != null) {
+            return entityCallbacks.callback(BeforeConvertCallback.class, entity, index);
+        }
 
-		if (routing != null) {
-			builder.withRouting(routing);
-		}
+        return entity;
+    }
 
-		return builder.build();
-	}
+    protected void maybeCallbackBeforeConvertWithQuery(Object query, IndexCoordinates index) {
 
-	protected <T> SearchDocumentResponse.EntityCreator<T> getEntityCreator(ReadDocumentCallback<T> documentCallback) {
-		return searchDocument -> CompletableFuture.completedFuture(documentCallback.doWith(searchDocument));
-	}
+        if (query instanceof IndexQuery) {
+            IndexQuery indexQuery = (IndexQuery) query;
+            Object queryObject = indexQuery.getObject();
 
-	/**
-	 * tries to extract the version of the Elasticsearch cluster
-	 *
-	 * @return the version as string if it can be retrieved
-	 */
-	@Nullable
-	abstract protected String getClusterVersion();
+            if (queryObject != null) {
+                queryObject = maybeCallbackBeforeConvert(queryObject, index);
+                indexQuery.setObject(queryObject);
+                // the callback might have set som values relevant for the IndexQuery
+                IndexQuery newQuery = getIndexQuery(queryObject);
 
-	/**
-	 * @return the vendor name of the used cluster and client library
-	 * @since 4.3
-	 */
-	abstract protected String getVendor();
+                if (indexQuery.getRouting() == null && newQuery.getRouting() != null) {
+                    indexQuery.setRouting(newQuery.getRouting());
+                }
 
-	/**
-	 * @return the version of the used client runtime library.
-	 * @since 4.3
-	 */
-	abstract protected String getRuntimeLibraryVersion();
+                if (indexQuery.getSeqNo() == null && newQuery.getSeqNo() != null) {
+                    indexQuery.setSeqNo(newQuery.getSeqNo());
+                }
 
-	// endregion
+                if (indexQuery.getPrimaryTerm() == null && newQuery.getPrimaryTerm() != null) {
+                    indexQuery.setPrimaryTerm(newQuery.getPrimaryTerm());
+                }
+            }
+        }
+    }
 
-	// region Entity callbacks
-	protected <T> T maybeCallbackBeforeConvert(T entity, IndexCoordinates index) {
+    // this can be called with either a List<IndexQuery> or a List<UpdateQuery>; these query classes
+    // don't have a common base class, therefore the List<?> argument
+    protected void maybeCallbackBeforeConvertWithQueries(List<?> queries, IndexCoordinates index) {
+        queries.forEach(query -> maybeCallbackBeforeConvertWithQuery(query, index));
+    }
 
-		if (entityCallbacks != null) {
-			return entityCallbacks.callback(BeforeConvertCallback.class, entity, index);
-		}
+    protected <T> T maybeCallbackAfterSave(T entity, IndexCoordinates index) {
 
-		return entity;
-	}
+        if (entityCallbacks != null) {
+            return entityCallbacks.callback(AfterSaveCallback.class, entity, index);
+        }
 
-	protected void maybeCallbackBeforeConvertWithQuery(Object query, IndexCoordinates index) {
+        return entity;
+    }
 
-		if (query instanceof IndexQuery) {
-			IndexQuery indexQuery = (IndexQuery) query;
-			Object queryObject = indexQuery.getObject();
+    protected void maybeCallbackAfterSaveWithQuery(Object query, IndexCoordinates index) {
 
-			if (queryObject != null) {
-				queryObject = maybeCallbackBeforeConvert(queryObject, index);
-				indexQuery.setObject(queryObject);
-				// the callback might have set som values relevant for the IndexQuery
-				IndexQuery newQuery = getIndexQuery(queryObject);
+        if (query instanceof IndexQuery) {
+            IndexQuery indexQuery = (IndexQuery) query;
+            Object queryObject = indexQuery.getObject();
 
-				if (indexQuery.getRouting() == null && newQuery.getRouting() != null) {
-					indexQuery.setRouting(newQuery.getRouting());
-				}
+            if (queryObject != null) {
+                queryObject = maybeCallbackAfterSave(queryObject, index);
+                indexQuery.setObject(queryObject);
+            }
+        }
+    }
 
-				if (indexQuery.getSeqNo() == null && newQuery.getSeqNo() != null) {
-					indexQuery.setSeqNo(newQuery.getSeqNo());
-				}
+    // this can be called with either a List<IndexQuery> or a List<UpdateQuery>; these query classes
+    // don't have a common base class, therefore the List<?> argument
+    protected void maybeCallbackAfterSaveWithQueries(List<?> queries, IndexCoordinates index) {
+        queries.forEach(query -> maybeCallbackAfterSaveWithQuery(query, index));
+    }
 
-				if (indexQuery.getPrimaryTerm() == null && newQuery.getPrimaryTerm() != null) {
-					indexQuery.setPrimaryTerm(newQuery.getPrimaryTerm());
-				}
-			}
-		}
-	}
+    protected <T> T maybeCallbackAfterConvert(T entity, Document document, IndexCoordinates index) {
 
-	// this can be called with either a List<IndexQuery> or a List<UpdateQuery>; these query classes
-	// don't have a common base class, therefore the List<?> argument
-	protected void maybeCallbackBeforeConvertWithQueries(List<?> queries, IndexCoordinates index) {
-		queries.forEach(query -> maybeCallbackBeforeConvertWithQuery(query, index));
-	}
+        if (entityCallbacks != null) {
+            return entityCallbacks.callback(AfterConvertCallback.class, entity, document, index);
+        }
 
-	protected <T> T maybeCallbackAfterSave(T entity, IndexCoordinates index) {
+        return entity;
+    }
 
-		if (entityCallbacks != null) {
-			return entityCallbacks.callback(AfterSaveCallback.class, entity, index);
-		}
+    protected <T> Document maybeCallbackAfterLoad(Document document, Class<T> type, IndexCoordinates indexCoordinates) {
 
-		return entity;
-	}
+        if (entityCallbacks != null) {
+            return entityCallbacks.callback(AfterLoadCallback.class, document, type, indexCoordinates);
+        }
 
-	protected void maybeCallbackAfterSaveWithQuery(Object query, IndexCoordinates index) {
+        return document;
+    }
 
-		if (query instanceof IndexQuery) {
-			IndexQuery indexQuery = (IndexQuery) query;
-			Object queryObject = indexQuery.getObject();
+    // endregion
 
-			if (queryObject != null) {
-				queryObject = maybeCallbackAfterSave(queryObject, index);
-				indexQuery.setObject(queryObject);
-			}
-		}
-	}
+    protected void updateIndexedObjectsWithQueries(List<?> queries,
+                                                   List<IndexedObjectInformation> indexedObjectInformationList) {
 
-	// this can be called with either a List<IndexQuery> or a List<UpdateQuery>; these query classes
-	// don't have a common base class, therefore the List<?> argument
-	protected void maybeCallbackAfterSaveWithQueries(List<?> queries, IndexCoordinates index) {
-		queries.forEach(query -> maybeCallbackAfterSaveWithQuery(query, index));
-	}
+        for (int i = 0; i < queries.size(); i++) {
+            Object query = queries.get(i);
+
+            if (query instanceof IndexQuery) {
+                IndexQuery indexQuery = (IndexQuery) query;
+                Object queryObject = indexQuery.getObject();
 
-	protected <T> T maybeCallbackAfterConvert(T entity, Document document, IndexCoordinates index) {
+                if (queryObject != null) {
+                    indexQuery.setObject(updateIndexedObject(queryObject, indexedObjectInformationList.get(i)));
+                }
+            }
+        }
+    }
 
-		if (entityCallbacks != null) {
-			return entityCallbacks.callback(AfterConvertCallback.class, entity, document, index);
-		}
+    // region Document callbacks
+    protected interface DocumentCallback<T> {
+        @Nullable
+        T doWith(@Nullable Document document);
+    }
 
-		return entity;
-	}
+    protected class ReadDocumentCallback<T> implements DocumentCallback<T> {
+        private final EntityReader<? super T, Document> reader;
+        private final Class<T> type;
+        private final IndexCoordinates index;
 
-	protected <T> Document maybeCallbackAfterLoad(Document document, Class<T> type, IndexCoordinates indexCoordinates) {
+        public ReadDocumentCallback(EntityReader<? super T, Document> reader, Class<T> type, IndexCoordinates index) {
 
-		if (entityCallbacks != null) {
-			return entityCallbacks.callback(AfterLoadCallback.class, document, type, indexCoordinates);
-		}
+            Assert.notNull(reader, "reader is null");
+            Assert.notNull(type, "type is null");
 
-		return document;
-	}
+            this.reader = reader;
+            this.type = type;
+            this.index = index;
+        }
 
-	// endregion
+        @Nullable
+        public T doWith(@Nullable Document document) {
 
-	protected void updateIndexedObjectsWithQueries(List<?> queries,
-			List<IndexedObjectInformation> indexedObjectInformationList) {
+            if (document == null) {
+                return null;
+            }
+            Document documentAfterLoad = maybeCallbackAfterLoad(document, type, index);
 
-		for (int i = 0; i < queries.size(); i++) {
-			Object query = queries.get(i);
+            T entity = reader.read(type, documentAfterLoad);
 
-			if (query instanceof IndexQuery) {
-				IndexQuery indexQuery = (IndexQuery) query;
-				Object queryObject = indexQuery.getObject();
+            IndexedObjectInformation indexedObjectInformation = IndexedObjectInformation.of( //
+                    documentAfterLoad.hasId() ? documentAfterLoad.getId() : null, //
+                    documentAfterLoad.getSeqNo(), //
+                    documentAfterLoad.getPrimaryTerm(), //
+                    documentAfterLoad.getVersion()); //
+            entity = updateIndexedObject(entity, indexedObjectInformation);
 
-				if (queryObject != null) {
-					indexQuery.setObject(updateIndexedObject(queryObject, indexedObjectInformationList.get(i)));
-				}
-			}
-		}
-	}
+            return maybeCallbackAfterConvert(entity, documentAfterLoad, index);
+        }
+    }
 
-	// region Document callbacks
-	protected interface DocumentCallback<T> {
-		@Nullable
-		T doWith(@Nullable Document document);
-	}
+    protected interface SearchDocumentResponseCallback<T> {
+        @NonNull
+        T doWith(@NonNull SearchDocumentResponse response);
+    }
 
-	protected class ReadDocumentCallback<T> implements DocumentCallback<T> {
-		private final EntityReader<? super T, Document> reader;
-		private final Class<T> type;
-		private final IndexCoordinates index;
+    protected class ReadSearchDocumentResponseCallback<T> implements SearchDocumentResponseCallback<SearchHits<T>> {
+        private final DocumentCallback<T> delegate;
+        private final Class<T> type;
 
-		public ReadDocumentCallback(EntityReader<? super T, Document> reader, Class<T> type, IndexCoordinates index) {
+        public ReadSearchDocumentResponseCallback(Class<T> type, IndexCoordinates index) {
 
-			Assert.notNull(reader, "reader is null");
-			Assert.notNull(type, "type is null");
+            Assert.notNull(type, "type is null");
 
-			this.reader = reader;
-			this.type = type;
-			this.index = index;
-		}
+            this.delegate = new ReadDocumentCallback<>(elasticsearchConverter, type, index);
+            this.type = type;
+        }
 
-		@Nullable
-		public T doWith(@Nullable Document document) {
+        @NonNull
+        @Override
+        public SearchHits<T> doWith(SearchDocumentResponse response) {
+            List<T> entities = response.getSearchDocuments().stream().map(delegate::doWith).collect(Collectors.toList());
+            return SearchHitMapping.mappingFor(type, elasticsearchConverter).mapHits(response, entities);
+        }
+    }
 
-			if (document == null) {
-				return null;
-			}
-			Document documentAfterLoad = maybeCallbackAfterLoad(document, type, index);
+    protected class ReadSearchScrollDocumentResponseCallback<T>
+            implements SearchDocumentResponseCallback<SearchScrollHits<T>> {
+        private final DocumentCallback<T> delegate;
+        private final Class<T> type;
 
-			T entity = reader.read(type, documentAfterLoad);
+        public ReadSearchScrollDocumentResponseCallback(Class<T> type, IndexCoordinates index) {
 
-			IndexedObjectInformation indexedObjectInformation = IndexedObjectInformation.of( //
-					documentAfterLoad.hasId() ? documentAfterLoad.getId() : null, //
-					documentAfterLoad.getSeqNo(), //
-					documentAfterLoad.getPrimaryTerm(), //
-					documentAfterLoad.getVersion()); //
-			entity = updateIndexedObject(entity, indexedObjectInformation);
+            Assert.notNull(type, "type is null");
 
-			return maybeCallbackAfterConvert(entity, documentAfterLoad, index);
-		}
-	}
+            this.delegate = new ReadDocumentCallback<>(elasticsearchConverter, type, index);
+            this.type = type;
+        }
 
-	protected interface SearchDocumentResponseCallback<T> {
-		@NonNull
-		T doWith(@NonNull SearchDocumentResponse response);
-	}
+        @NonNull
+        @Override
+        public SearchScrollHits<T> doWith(SearchDocumentResponse response) {
+            List<T> entities = response.getSearchDocuments().stream().map(delegate::doWith).collect(Collectors.toList());
+            return SearchHitMapping.mappingFor(type, elasticsearchConverter).mapScrollHits(response, entities);
+        }
+    }
+    // endregion
 
-	protected class ReadSearchDocumentResponseCallback<T> implements SearchDocumentResponseCallback<SearchHits<T>> {
-		private final DocumentCallback<T> delegate;
-		private final Class<T> type;
+    // region routing
+    private void setRoutingResolver(RoutingResolver routingResolver) {
 
-		public ReadSearchDocumentResponseCallback(Class<T> type, IndexCoordinates index) {
+        Assert.notNull(routingResolver, "routingResolver must not be null");
 
-			Assert.notNull(type, "type is null");
+        this.routingResolver = routingResolver;
+    }
 
-			this.delegate = new ReadDocumentCallback<>(elasticsearchConverter, type, index);
-			this.type = type;
-		}
+    @Override
+    public ElasticsearchOperations withRouting(RoutingResolver routingResolver) {
 
-		@NonNull
-		@Override
-		public SearchHits<T> doWith(SearchDocumentResponse response) {
-			List<T> entities = response.getSearchDocuments().stream().map(delegate::doWith).collect(Collectors.toList());
-			return SearchHitMapping.mappingFor(type, elasticsearchConverter).mapHits(response, entities);
-		}
-	}
+        Assert.notNull(routingResolver, "routingResolver must not be null");
 
-	protected class ReadSearchScrollDocumentResponseCallback<T>
-			implements SearchDocumentResponseCallback<SearchScrollHits<T>> {
-		private final DocumentCallback<T> delegate;
-		private final Class<T> type;
+        AbstractElasticsearchTemplate copy = copy();
+        copy.setRoutingResolver(routingResolver);
+        return copy;
+    }
 
-		public ReadSearchScrollDocumentResponseCallback(Class<T> type, IndexCoordinates index) {
-
-			Assert.notNull(type, "type is null");
-
-			this.delegate = new ReadDocumentCallback<>(elasticsearchConverter, type, index);
-			this.type = type;
-		}
-
-		@NonNull
-		@Override
-		public SearchScrollHits<T> doWith(SearchDocumentResponse response) {
-			List<T> entities = response.getSearchDocuments().stream().map(delegate::doWith).collect(Collectors.toList());
-			return SearchHitMapping.mappingFor(type, elasticsearchConverter).mapScrollHits(response, entities);
-		}
-	}
-	// endregion
-
-	// region routing
-	private void setRoutingResolver(RoutingResolver routingResolver) {
-
-		Assert.notNull(routingResolver, "routingResolver must not be null");
-
-		this.routingResolver = routingResolver;
-	}
-
-	@Override
-	public ElasticsearchOperations withRouting(RoutingResolver routingResolver) {
-
-		Assert.notNull(routingResolver, "routingResolver must not be null");
-
-		AbstractElasticsearchTemplate copy = copy();
-		copy.setRoutingResolver(routingResolver);
-		return copy;
-	}
-
-	// endregion
+    // endregion
 }

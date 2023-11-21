@@ -187,8 +187,14 @@ abstract class RepositoryMethodInvoker {
 
                     return baseClassMethod.invoke(instance, invocationArguments);
                 }
-
-                return baseClassMethod.invoke(instance, args);
+                try {
+                    Object invoke = baseClassMethod.invoke(instance, args);
+                    return invoke;
+                } catch (Exception e) {
+                    Throwable cause = e.getCause();
+                    cause.printStackTrace();
+                    throw e;
+                }
             });
             this.adapterInformation = adapterInformation;
         }

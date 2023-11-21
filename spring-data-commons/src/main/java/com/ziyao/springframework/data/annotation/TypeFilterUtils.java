@@ -3,6 +3,7 @@ package com.ziyao.springframework.data.annotation;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.filter.*;
@@ -45,7 +46,7 @@ public abstract class TypeFilterUtils {
      * @see org.springframework.context.EnvironmentAware
      * @see org.springframework.context.ResourceLoaderAware
      */
-    public static List<TypeFilter> createTypeFiltersFor(com.ziyao.springframework.data.annotation.AnnotationAttributes filterAttributes, Environment environment,
+    public static List<TypeFilter> createTypeFiltersFor(AnnotationAttributes filterAttributes, Environment environment,
                                                         ResourceLoader resourceLoader, BeanDefinitionRegistry registry) {
 
         List<TypeFilter> typeFilters = new ArrayList<>();

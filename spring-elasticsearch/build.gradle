@@ -1,18 +1,12 @@
-plugins {
-    id 'java-library'
-    id 'org.springframework.boot' version '2.1.18.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-}
-
 dependencies {
     implementation(project(':spring-data-commons'))
     implementation('org.springframework:spring-context')
     implementation('org.springframework:spring-tx')
     implementation('org.springframework:spring-web')
-    api('org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.15')
-    api('org.elasticsearch:elasticsearch:7.17.15')
-    api('co.elastic.clients:elasticsearch-java:7.17.15')
-    api('org.elasticsearch.client:elasticsearch-rest-client:7.17.15')
+    implementation('org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.15')
+    implementation('org.elasticsearch:elasticsearch:7.17.15')
+    implementation('co.elastic.clients:elasticsearch-java:7.17.15')
+    implementation('org.elasticsearch.client:elasticsearch-rest-client:7.17.15')
     // Jackson JSON Mapper
     implementation('com.fasterxml.jackson.core:jackson-core:2.13.5')
     implementation('com.fasterxml.jackson.core:jackson-databind:2.13.5')
@@ -22,4 +16,10 @@ dependencies {
     implementation('org.slf4j:log4j-over-slf4j:1.7.32')
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework:spring-framework-bom:5.1.19.RELEASE'
+    }
 }

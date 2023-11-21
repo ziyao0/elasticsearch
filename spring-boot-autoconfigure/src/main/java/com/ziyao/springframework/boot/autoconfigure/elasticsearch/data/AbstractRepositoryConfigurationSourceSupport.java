@@ -1,4 +1,4 @@
-package com.ziyao.springboot.autoconfigure.elasticsearch.data;
+package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
 import com.ziyao.springframework.data.repository.config.AnnotationRepositoryConfigurationSource;
 import com.ziyao.springframework.data.repository.config.BootstrapMode;
@@ -50,7 +50,7 @@ public abstract class AbstractRepositoryConfigurationSourceSupport
     private AnnotationRepositoryConfigurationSource getConfigurationSource(BeanDefinitionRegistry registry,
                                                                            BeanNameGenerator importBeanNameGenerator) {
 //        AnnotationMetadata metadata = AnnotationMetadata.introspect(getConfiguration());
-        StandardAnnotationMetadata metadata = new StandardAnnotationMetadata(getConfiguration(), false);
+        StandardAnnotationMetadata metadata = new StandardAnnotationMetadata(getConfiguration(), true);
         return new AutoConfiguredAnnotationRepositoryConfigurationSource(metadata, getAnnotation(), this.resourceLoader,
                 this.environment, registry, importBeanNameGenerator) {
         };

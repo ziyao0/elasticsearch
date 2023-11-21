@@ -81,7 +81,7 @@ public class ElasticsearchRepositoryFactory extends RepositoryFactorySupport {
             throw new IllegalArgumentException("QueryDsl Support has not been implemented yet.");
         }
 
-        return BoostElasticsearchRepository.class;
+        return SimpleElasticsearchRepository.class;
     }
 
     private static boolean isQueryDslRepository(Class<?> repositoryInterface) {

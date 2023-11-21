@@ -1,4 +1,4 @@
-package com.ziyao.springboot.autoconfigure.elasticsearch;
+package com.ziyao.springframework.boot.autoconfigure.elasticsearch;
 
 /**
  * @author ziyao zhang

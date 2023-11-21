@@ -1,19 +1,32 @@
 plugins {
     id 'java'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 allprojects {
+    apply plugin: 'java'
+    apply plugin: "io.spring.dependency-management"
+
     group = 'com.ziyao.elasticsearch'
     version = '1.0.0'
 
-//    java {
-//        sourceCompatibility = '17'
-//    }
     sourceCompatibility = '1.8'
-    repositories {
-        mavenCentral()
+    configurations.configureEach {
+        transitive = true
     }
-    test {
-        useJUnitPlatform()
+
+    jar {
+        enabled = true //生成依赖jar包
+        archiveClassifier = '' //取消原来plain的后缀
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+    repositories{
+        mavenLocal()
+        mavenCentral()
     }
 }
