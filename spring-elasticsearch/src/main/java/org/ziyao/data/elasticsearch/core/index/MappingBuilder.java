@@ -480,7 +480,7 @@ public class MappingBuilder {
             ObjectNode fieldNode = objectMapper.createObjectNode();
             addFieldMappingParameters(fieldNode, annotation, nestedOrObjectField);
 
-            if (fieldNode.isEmpty()) {
+            if (fieldNode.isEmpty(null)) {
                 return;
             }
 

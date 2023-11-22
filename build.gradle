@@ -1,14 +1,16 @@
 plugins {
-    id 'java'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version '2.1.18.RELEASE'
 }
 
 allprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: "io.spring.dependency-management"
+    apply plugin: 'maven-publish'
+    apply plugin: "org.springframework.boot"
 
     group = 'com.ziyao.elasticsearch'
-    version = '1.0.0'
+    version = '1.0.1-SNAPSHOT'
 
     sourceCompatibility = '1.8'
     configurations.configureEach {
@@ -28,5 +30,26 @@ allprojects {
     repositories{
         mavenLocal()
         mavenCentral()
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                //如果是war包填写components.web，如果是jar包填写components.java
+                from components.java
+            }
+        }
+        repositories {
+            maven {
+                // 允许http访问
+                allowInsecureProtocol = true
+                // 私服仓库地址
+                url 'http://mirrors.dlsc.com:8081/repository/maven-snapshots/'
+                credentials {
+                    username 'dlsc-dev'
+                    password 'HGnBKm.(av7Ddj0c'
+                }
+            }
+        }
     }
 }

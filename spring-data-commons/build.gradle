@@ -5,7 +5,7 @@ dependencies {
     implementation('org.springframework:spring-expression')
     implementation('org.springframework:spring-tx')
     implementation('org.springframework:spring-oxm')
-    implementation('org.springframework:spring-web')
+//    implementation('org.springframework:spring-web')
     implementation('org.springframework.hateoas:spring-hateoas:1.5.6')
     implementation('javax.servlet:javax.servlet-api:4.0.1')
     implementation('javax.annotation:javax.annotation-api:1.3.2')
@@ -18,6 +18,8 @@ dependencies {
     implementation('org.eclipse.collections:eclipse-collections-api:11.0.0')
     implementation('org.eclipse.collections:eclipse-collections:11.0.0')
     implementation('org.jmolecules.integrations:jmolecules-spring:0.9.0')
+    implementation('com.fasterxml.jackson.core:jackson-annotations:2.15.3')
+    implementation('com.fasterxml.jackson.core:jackson-core:2.15.3')
     implementation('com.fasterxml.jackson.core:jackson-databind:2.15.3')
     implementation('javax.annotation:javax.annotation-api:1.3.2')
     //kotlin
@@ -27,17 +29,10 @@ dependencies {
     implementation('org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.6.4')
     implementation('org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.4')
     implementation('javax.enterprise:cdi-api:1.0')
-    implementation('com.google.guava:guava:30.0-android')
+    implementation('com.google.guava:guava:19.0')
     //scala
     implementation('org.scala-lang:scala-library:2.11.7')
     implementation('com.sun.xml.bind:jaxb-impl:2.3.5')
-    // Project Reactor
-//    implementation('io.projectreactor:reactor-core:3.4.34')
-//    implementation('io.reactivex:rxjava:1.3.8')
-//    implementation('io.reactivex:rxjava-reactive-streams:1.2.1')
-//    implementation('io.reactivex.rxjava2:rxjava:2.2.21')
-//    implementation('io.reactivex.rxjava3:rxjava:3.1.8')
-//    implementation('io.smallrye.reactive:mutiny:1.4.0')
 }
 
 dependencyManagement {
