@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.index;
 
-import org.ziyao.data.elasticsearch.core.document.Document;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.core.document.Document;
 
 /**
  * value object to describe alias information.
@@ -24,54 +24,58 @@ import org.springframework.lang.Nullable;
  * @author Peter-Josef Meisch
  */
 public class AliasData {
-	private String alias;
-	@Nullable
+    private String alias;
+    @Nullable
     Document filter;
-	@Nullable private String indexRouting;
-	@Nullable private String searchRouting;
-	@Nullable private Boolean isWriteIndex;
-	@Nullable private Boolean isHidden;
+    @Nullable
+    private String indexRouting;
+    @Nullable
+    private String searchRouting;
+    @Nullable
+    private Boolean isWriteIndex;
+    @Nullable
+    private Boolean isHidden;
 
-	private AliasData(String alias, @Nullable Document filter, @Nullable String indexRouting,
-			@Nullable String searchRouting, Boolean isWriteIndex, Boolean isHidden) {
-		this.alias = alias;
-		this.filter = filter;
-		this.indexRouting = indexRouting;
-		this.searchRouting = searchRouting;
-		this.isWriteIndex = isWriteIndex;
-		this.isHidden = isHidden;
-	}
+    private AliasData(String alias, @Nullable Document filter, @Nullable String indexRouting,
+                      @Nullable String searchRouting, Boolean isWriteIndex, Boolean isHidden) {
+        this.alias = alias;
+        this.filter = filter;
+        this.indexRouting = indexRouting;
+        this.searchRouting = searchRouting;
+        this.isWriteIndex = isWriteIndex;
+        this.isHidden = isHidden;
+    }
 
-	public static AliasData of(String alias, @Nullable Document filter, @Nullable String indexRouting,
-			@Nullable String searchRouting, @Nullable Boolean isWriteIndex, @Nullable Boolean isHidden) {
-		return new AliasData(alias, filter, indexRouting, searchRouting, isWriteIndex, isHidden);
-	}
+    public static AliasData of(String alias, @Nullable Document filter, @Nullable String indexRouting,
+                               @Nullable String searchRouting, @Nullable Boolean isWriteIndex, @Nullable Boolean isHidden) {
+        return new AliasData(alias, filter, indexRouting, searchRouting, isWriteIndex, isHidden);
+    }
 
-	public String getAlias() {
-		return alias;
-	}
+    public String getAlias() {
+        return alias;
+    }
 
-	public Document getFilter() {
-		return filter;
-	}
+    public Document getFilter() {
+        return filter;
+    }
 
-	@Nullable
-	public String getIndexRouting() {
-		return indexRouting;
-	}
+    @Nullable
+    public String getIndexRouting() {
+        return indexRouting;
+    }
 
-	@Nullable
-	public String getSearchRouting() {
-		return searchRouting;
-	}
+    @Nullable
+    public String getSearchRouting() {
+        return searchRouting;
+    }
 
-	@Nullable
-	public Boolean isWriteIndex() {
-		return isWriteIndex;
-	}
+    @Nullable
+    public Boolean isWriteIndex() {
+        return isWriteIndex;
+    }
 
-	@Nullable
-	public Boolean isHidden() {
-		return isHidden;
-	}
+    @Nullable
+    public Boolean isHidden() {
+        return isHidden;
+    }
 }

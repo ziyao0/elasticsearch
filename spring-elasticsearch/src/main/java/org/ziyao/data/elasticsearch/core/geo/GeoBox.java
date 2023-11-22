@@ -16,7 +16,7 @@
 package org.ziyao.data.elasticsearch.core.geo;
 
 import org.ziyao.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.geo.Box;
+import org.ziyao.data.geo.Box;
 
 /**
  * Geo bbox used for #{@link Criteria}.
@@ -25,33 +25,33 @@ import org.springframework.data.geo.Box;
  */
 public class GeoBox {
 
-	private GeoPoint topLeft;
-	private GeoPoint bottomRight;
+    private GeoPoint topLeft;
+    private GeoPoint bottomRight;
 
-	public GeoBox(GeoPoint topLeft, GeoPoint bottomRight) {
-		this.topLeft = topLeft;
-		this.bottomRight = bottomRight;
-	}
+    public GeoBox(GeoPoint topLeft, GeoPoint bottomRight) {
+        this.topLeft = topLeft;
+        this.bottomRight = bottomRight;
+    }
 
-	public GeoPoint getTopLeft() {
-		return topLeft;
-	}
+    public GeoPoint getTopLeft() {
+        return topLeft;
+    }
 
-	public GeoPoint getBottomRight() {
-		return bottomRight;
-	}
+    public GeoPoint getBottomRight() {
+        return bottomRight;
+    }
 
-	/**
-	 * return a {@link GeoBox} from a
-	 * {@link Box}.
-	 *
-	 * @param box {@link Box} to use
-	 * @return a {@link GeoBox}
-	 */
-	public static GeoBox fromBox(Box box) {
-		GeoPoint topLeft = GeoPoint.fromPoint(box.getFirst());
-		GeoPoint bottomRight = GeoPoint.fromPoint(box.getSecond());
+    /**
+     * return a {@link GeoBox} from a
+     * {@link Box}.
+     *
+     * @param box {@link Box} to use
+     * @return a {@link GeoBox}
+     */
+    public static GeoBox fromBox(Box box) {
+        GeoPoint topLeft = GeoPoint.fromPoint(box.getFirst());
+        GeoPoint bottomRight = GeoPoint.fromPoint(box.getSecond());
 
-		return new GeoBox(topLeft, bottomRight);
-	}
+        return new GeoBox(topLeft, bottomRight);
+    }
 }

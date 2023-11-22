@@ -25,4 +25,5 @@ import org.ziyao.data.elasticsearch.support.DefaultStringObjectMap;
  * @author Peter-Josef Meisch
  * @since 4.4
  */
-public class EntityAsMap extends DefaultStringObjectMap<EntityAsMap> {}
+public class EntityAsMap extends DefaultStringObjectMap<EntityAsMap> {
+}

@@ -15,11 +15,11 @@
  */
 package org.ziyao.data.elasticsearch.core.convert;
 
-import org.springframework.data.convert.TypeMapper;
-import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
-import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.convert.TypeMapper;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 
 import java.util.Map;
 
@@ -31,35 +31,35 @@ import java.util.Map;
  */
 public interface ElasticsearchTypeMapper extends TypeMapper<Map<String, Object>> {
 
-	String DEFAULT_TYPE_KEY = "_class";
+    String DEFAULT_TYPE_KEY = "_class";
 
-	/**
-	 * Returns whether the given key is the type key.
-	 *
-	 * @return {@literal true} if given {@literal key} is used as type hint key.
-	 */
-	boolean isTypeKey(String key);
+    /**
+     * Returns whether the given key is the type key.
+     *
+     * @return {@literal true} if given {@literal key} is used as type hint key.
+     */
+    boolean isTypeKey(String key);
 
-	/**
-	 * @return the type key.
-	 * @since 4.4
-	 */
-	@Nullable
-	String getTypeKey();
+    /**
+     * @return the type key.
+     * @since 4.4
+     */
+    @Nullable
+    String getTypeKey();
 
-	default boolean containsTypeInformation(Map<String, Object> source) {
-		return readType(source) != null;
-	}
+    default boolean containsTypeInformation(Map<String, Object> source) {
+        return readType(source) != null;
+    }
 
-	/**
-	 * Creates a new default {@link ElasticsearchTypeMapper}.
-	 *
-	 * @param mappingContext the mapping context.
-	 * @return a new default {@link ElasticsearchTypeMapper}.
-	 * @see DefaultElasticsearchTypeMapper
-	 */
-	static ElasticsearchTypeMapper create(
-			MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext) {
-		return new DefaultElasticsearchTypeMapper(DEFAULT_TYPE_KEY, mappingContext);
-	}
+    /**
+     * Creates a new default {@link ElasticsearchTypeMapper}.
+     *
+     * @param mappingContext the mapping context.
+     * @return a new default {@link ElasticsearchTypeMapper}.
+     * @see DefaultElasticsearchTypeMapper
+     */
+    static ElasticsearchTypeMapper create(
+            MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext) {
+        return new DefaultElasticsearchTypeMapper(DEFAULT_TYPE_KEY, mappingContext);
+    }
 }

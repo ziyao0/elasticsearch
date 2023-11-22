@@ -23,5 +23,5 @@ package org.springframework.data.mapping;
  */
 public interface PropertyHandler<P extends PersistentProperty<P>> {
 
-	void doWithPersistentProperty(P persistentProperty);
+    void doWithPersistentProperty(P persistentProperty);
 }

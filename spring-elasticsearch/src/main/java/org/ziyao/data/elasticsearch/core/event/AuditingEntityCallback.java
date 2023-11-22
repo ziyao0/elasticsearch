@@ -17,10 +17,10 @@ package org.ziyao.data.elasticsearch.core.event;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.core.Ordered;
-import org.springframework.data.auditing.IsNewAwareAuditingHandler;
-import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.mapping.callback.EntityCallback;
 import org.springframework.util.Assert;
+import org.ziyao.data.auditing.IsNewAwareAuditingHandler;
+import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 
 /**
  * {@link EntityCallback} to populate auditing related fields on an entity about to be saved.
@@ -31,28 +31,28 @@ import org.springframework.util.Assert;
  */
 public class AuditingEntityCallback implements BeforeConvertCallback<Object>, Ordered {
 
-	private final ObjectFactory<IsNewAwareAuditingHandler> auditingHandlerFactory;
+    private final ObjectFactory<IsNewAwareAuditingHandler> auditingHandlerFactory;
 
-	/**
-	 * Creates a new {@link AuditingEntityCallback} using the given {@link IsNewAwareAuditingHandler} provided by the
-	 * given {@link ObjectFactory}.
-	 *
-	 * @param auditingHandlerFactory must not be {@literal null}.
-	 */
-	public AuditingEntityCallback(ObjectFactory<IsNewAwareAuditingHandler> auditingHandlerFactory) {
+    /**
+     * Creates a new {@link AuditingEntityCallback} using the given {@link IsNewAwareAuditingHandler} provided by the
+     * given {@link ObjectFactory}.
+     *
+     * @param auditingHandlerFactory must not be {@literal null}.
+     */
+    public AuditingEntityCallback(ObjectFactory<IsNewAwareAuditingHandler> auditingHandlerFactory) {
 
-		Assert.notNull(auditingHandlerFactory, "IsNewAwareAuditingHandler must not be null!");
+        Assert.notNull(auditingHandlerFactory, "IsNewAwareAuditingHandler must not be null!");
 
-		this.auditingHandlerFactory = auditingHandlerFactory;
-	}
+        this.auditingHandlerFactory = auditingHandlerFactory;
+    }
 
-	@Override
-	public Object onBeforeConvert(Object entity, IndexCoordinates index) {
-		return auditingHandlerFactory.getObject().markAudited(entity);
-	}
+    @Override
+    public Object onBeforeConvert(Object entity, IndexCoordinates index) {
+        return auditingHandlerFactory.getObject().markAudited(entity);
+    }
 
-	@Override
-	public int getOrder() {
-		return 100;
-	}
+    @Override
+    public int getOrder() {
+        return 100;
+    }
 }

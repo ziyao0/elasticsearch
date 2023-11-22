@@ -28,45 +28,45 @@ import org.springframework.lang.Nullable;
  * @author Mark Paluch
  */
 public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P>>
-		implements ParameterValueProvider<P> {
+        implements ParameterValueProvider<P> {
 
-	private final SpELExpressionEvaluator evaluator;
-	private final ConversionService conversionService;
-	private final ParameterValueProvider<P> delegate;
+    private final SpELExpressionEvaluator evaluator;
+    private final ConversionService conversionService;
+    private final ParameterValueProvider<P> delegate;
 
-	public SpELExpressionParameterValueProvider(SpELExpressionEvaluator evaluator, ConversionService conversionService,
-			ParameterValueProvider<P> delegate) {
+    public SpELExpressionParameterValueProvider(SpELExpressionEvaluator evaluator, ConversionService conversionService,
+                                                ParameterValueProvider<P> delegate) {
 
-		this.evaluator = evaluator;
-		this.conversionService = conversionService;
-		this.delegate = delegate;
-	}
+        this.evaluator = evaluator;
+        this.conversionService = conversionService;
+        this.delegate = delegate;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.model.ParameterValueProvider#getParameterValue(org.ziyao.data.mapping.PreferredConstructor.Parameter)
-	 */
-	@Nullable
-	public <T> T getParameterValue(Parameter<T, P> parameter) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.model.ParameterValueProvider#getParameterValue(org.ziyao.data.mapping.PreferredConstructor.Parameter)
+     */
+    @Nullable
+    public <T> T getParameterValue(Parameter<T, P> parameter) {
 
-		if (!parameter.hasSpelExpression()) {
-			return delegate == null ? null : delegate.getParameterValue(parameter);
-		}
+        if (!parameter.hasSpelExpression()) {
+            return delegate == null ? null : delegate.getParameterValue(parameter);
+        }
 
-		Object object = evaluator.evaluate(parameter.getSpelExpression());
-		return object == null ? null : potentiallyConvertSpelValue(object, parameter);
-	}
+        Object object = evaluator.evaluate(parameter.getSpelExpression());
+        return object == null ? null : potentiallyConvertSpelValue(object, parameter);
+    }
 
-	/**
-	 * Hook to allow to massage the value resulting from the Spel expression evaluation. Default implementation will
-	 * leverage the configured {@link ConversionService} to massage the value into the parameter type.
-	 *
-	 * @param object the value to massage, will never be {@literal null}.
-	 * @param parameter the {@link Parameter} we create the value for
-	 * @return
-	 */
-	@Nullable
-	protected <T> T potentiallyConvertSpelValue(Object object, Parameter<T, P> parameter) {
-		return conversionService.convert(object, parameter.getRawType());
-	}
+    /**
+     * Hook to allow to massage the value resulting from the Spel expression evaluation. Default implementation will
+     * leverage the configured {@link ConversionService} to massage the value into the parameter type.
+     *
+     * @param object    the value to massage, will never be {@literal null}.
+     * @param parameter the {@link Parameter} we create the value for
+     * @return
+     */
+    @Nullable
+    protected <T> T potentiallyConvertSpelValue(Object object, Parameter<T, P> parameter) {
+        return conversionService.convert(object, parameter.getRawType());
+    }
 }

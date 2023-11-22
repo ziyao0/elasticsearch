@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.ziyao.data.elasticsearch.core.ScriptType;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.core.ScriptType;
 
 import java.util.Map;
 
@@ -27,44 +27,49 @@ import java.util.Map;
  * @since 4.4
  */
 public final class ScriptData {
-	@Nullable private final ScriptType type;
-	@Nullable private final String language;
-	@Nullable private final String script;
-	@Nullable private final String scriptName;
-	@Nullable private final Map<String, Object> params;
+    @Nullable
+    private final ScriptType type;
+    @Nullable
+    private final String language;
+    @Nullable
+    private final String script;
+    @Nullable
+    private final String scriptName;
+    @Nullable
+    private final Map<String, Object> params;
 
-	public ScriptData(@Nullable ScriptType type, @Nullable String language, @Nullable String script,
-			@Nullable String scriptName, @Nullable Map<String, Object> params) {
+    public ScriptData(@Nullable ScriptType type, @Nullable String language, @Nullable String script,
+                      @Nullable String scriptName, @Nullable Map<String, Object> params) {
 
-		this.type = type;
-		this.language = language;
-		this.script = script;
-		this.scriptName = scriptName;
-		this.params = params;
-	}
+        this.type = type;
+        this.language = language;
+        this.script = script;
+        this.scriptName = scriptName;
+        this.params = params;
+    }
 
-	@Nullable
-	public ScriptType getType() {
-		return type;
-	}
+    @Nullable
+    public ScriptType getType() {
+        return type;
+    }
 
-	@Nullable
-	public String getLanguage() {
-		return language;
-	}
+    @Nullable
+    public String getLanguage() {
+        return language;
+    }
 
-	@Nullable
-	public String getScript() {
-		return script;
-	}
+    @Nullable
+    public String getScript() {
+        return script;
+    }
 
-	@Nullable
-	public String getScriptName() {
-		return scriptName;
-	}
+    @Nullable
+    public String getScriptName() {
+        return scriptName;
+    }
 
-	@Nullable
-	public Map<String, Object> getParams() {
-		return params;
-	}
+    @Nullable
+    public Map<String, Object> getParams() {
+        return params;
+    }
 }

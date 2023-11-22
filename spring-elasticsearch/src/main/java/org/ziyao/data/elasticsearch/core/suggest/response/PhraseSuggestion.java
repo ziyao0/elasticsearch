@@ -23,28 +23,28 @@ import java.util.List;
  */
 public class PhraseSuggestion extends Suggest.Suggestion<PhraseSuggestion.Entry> {
 
-	public PhraseSuggestion(String name, int size, List<Entry> entries) {
-		super(name, size, entries);
-	}
+    public PhraseSuggestion(String name, int size, List<Entry> entries) {
+        super(name, size, entries);
+    }
 
-	public static class Entry extends Suggest.Suggestion.Entry<Entry.Option> {
+    public static class Entry extends Suggest.Suggestion.Entry<Entry.Option> {
 
-		private final double cutoffScore;
+        private final double cutoffScore;
 
-		public Entry(String text, int offset, int length, List<Option> options, double cutoffScore) {
-			super(text, offset, length, options);
-			this.cutoffScore = cutoffScore;
-		}
+        public Entry(String text, int offset, int length, List<Option> options, double cutoffScore) {
+            super(text, offset, length, options);
+            this.cutoffScore = cutoffScore;
+        }
 
-		public double getCutoffScore() {
-			return cutoffScore;
-		}
+        public double getCutoffScore() {
+            return cutoffScore;
+        }
 
-		public static class Option extends Suggest.Suggestion.Entry.Option {
+        public static class Option extends Suggest.Suggestion.Entry.Option {
 
-			public Option(String text, String highlighted, float score, Boolean collateMatch) {
-				super(text, highlighted, score, collateMatch);
-			}
-		}
-	}
+            public Option(String text, String highlighted, float score, Boolean collateMatch) {
+                super(text, highlighted, score, collateMatch);
+            }
+        }
+    }
 }

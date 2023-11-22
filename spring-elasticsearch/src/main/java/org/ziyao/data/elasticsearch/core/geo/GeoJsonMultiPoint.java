@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.geo;
 
-import org.springframework.data.geo.Point;
 import org.springframework.util.Assert;
+import org.ziyao.data.geo.Point;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,116 +30,116 @@ import java.util.stream.Collectors;
  *
  * @author Christoph Strobl
  * @author Peter-Josef Meisch
- * @since 4.1
  * @see <a href="https://geojson.org/geojson-spec.html#multipoint">https://geojson.org/geojson-spec.html#multipoint</a>
+ * @since 4.1
  */
 public class GeoJsonMultiPoint implements GeoJson<Iterable<Point>> {
 
-	public static final String TYPE = "MultiPoint";
+    public static final String TYPE = "MultiPoint";
 
-	private final List<Point> points;
+    private final List<Point> points;
 
-	private GeoJsonMultiPoint(List<Point> points) {
-		this.points = new ArrayList<>(points);
-	}
+    private GeoJsonMultiPoint(List<Point> points) {
+        this.points = new ArrayList<>(points);
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonMultiPoint} for the given {@link Point}s.
-	 *
-	 * @param points points must not be {@literal null} and have at least 2 entries.
-	 */
-	public static GeoJsonMultiPoint of(List<Point> points) {
+    /**
+     * Creates a new {@link GeoJsonMultiPoint} for the given {@link Point}s.
+     *
+     * @param points points must not be {@literal null} and have at least 2 entries.
+     */
+    public static GeoJsonMultiPoint of(List<Point> points) {
 
-		Assert.notNull(points, "Points must not be null.");
-		Assert.isTrue(points.size() >= 2, "Minimum of 2 Points required.");
+        Assert.notNull(points, "Points must not be null.");
+        Assert.isTrue(points.size() >= 2, "Minimum of 2 Points required.");
 
-		return new GeoJsonMultiPoint(points);
-	}
+        return new GeoJsonMultiPoint(points);
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonMultiPoint} for the given {@link Point}s.
-	 *
-	 * @param first must not be {@literal null}.
-	 * @param second must not be {@literal null}.
-	 * @param others must not be {@literal null}.
-	 */
-	public static GeoJsonMultiPoint of(Point first, Point second, Point... others) {
+    /**
+     * Creates a new {@link GeoJsonMultiPoint} for the given {@link Point}s.
+     *
+     * @param first  must not be {@literal null}.
+     * @param second must not be {@literal null}.
+     * @param others must not be {@literal null}.
+     */
+    public static GeoJsonMultiPoint of(Point first, Point second, Point... others) {
 
-		Assert.notNull(first, "First point must not be null!");
-		Assert.notNull(second, "Second point must not be null!");
-		Assert.notNull(others, "Additional points must not be null!");
+        Assert.notNull(first, "First point must not be null!");
+        Assert.notNull(second, "Second point must not be null!");
+        Assert.notNull(others, "Additional points must not be null!");
 
-		List<Point> points = new ArrayList<>();
-		points.add(first);
-		points.add(second);
-		points.addAll(Arrays.asList(others));
+        List<Point> points = new ArrayList<>();
+        points.add(first);
+        points.add(second);
+        points.addAll(Arrays.asList(others));
 
-		return new GeoJsonMultiPoint(points);
-	}
+        return new GeoJsonMultiPoint(points);
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonMultiPoint} for the given {@link GeoPoint}s.
-	 *
-	 * @param geoPoints geoPoints must not be {@literal null} and have at least 2 entries.
-	 */
-	public static GeoJsonMultiPoint ofGeoPoints(List<GeoPoint> geoPoints) {
+    /**
+     * Creates a new {@link GeoJsonMultiPoint} for the given {@link GeoPoint}s.
+     *
+     * @param geoPoints geoPoints must not be {@literal null} and have at least 2 entries.
+     */
+    public static GeoJsonMultiPoint ofGeoPoints(List<GeoPoint> geoPoints) {
 
-		Assert.notNull(geoPoints, "Points must not be null.");
-		Assert.isTrue(geoPoints.size() >= 2, "Minimum of 2 Points required.");
+        Assert.notNull(geoPoints, "Points must not be null.");
+        Assert.isTrue(geoPoints.size() >= 2, "Minimum of 2 Points required.");
 
-		return new GeoJsonMultiPoint(geoPoints.stream().map(GeoPoint::toPoint).collect(Collectors.toList()));
-	}
+        return new GeoJsonMultiPoint(geoPoints.stream().map(GeoPoint::toPoint).collect(Collectors.toList()));
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonMultiPoint} for the given {@link GeoPoint}s.
-	 *
-	 * @param first must not be {@literal null}.
-	 * @param second must not be {@literal null}.
-	 * @param others must not be {@literal null}.
-	 */
-	public static GeoJsonMultiPoint of(GeoPoint first, GeoPoint second, GeoPoint... others) {
+    /**
+     * Creates a new {@link GeoJsonMultiPoint} for the given {@link GeoPoint}s.
+     *
+     * @param first  must not be {@literal null}.
+     * @param second must not be {@literal null}.
+     * @param others must not be {@literal null}.
+     */
+    public static GeoJsonMultiPoint of(GeoPoint first, GeoPoint second, GeoPoint... others) {
 
-		Assert.notNull(first, "First point must not be null!");
-		Assert.notNull(second, "Second point must not be null!");
-		Assert.notNull(others, "Additional points must not be null!");
+        Assert.notNull(first, "First point must not be null!");
+        Assert.notNull(second, "Second point must not be null!");
+        Assert.notNull(others, "Additional points must not be null!");
 
-		List<Point> points = new ArrayList<>();
-		points.add(GeoPoint.toPoint(first));
-		points.add(GeoPoint.toPoint(second));
-		points.addAll(Arrays.stream(others).map(GeoPoint::toPoint).collect(Collectors.toList()));
+        List<Point> points = new ArrayList<>();
+        points.add(GeoPoint.toPoint(first));
+        points.add(GeoPoint.toPoint(second));
+        points.addAll(Arrays.stream(others).map(GeoPoint::toPoint).collect(Collectors.toList()));
 
-		return new GeoJsonMultiPoint(points);
-	}
+        return new GeoJsonMultiPoint(points);
+    }
 
-	@Override
-	public String getType() {
-		return TYPE;
-	}
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 
-	@Override
-	public List<Point> getCoordinates() {
-		return Collections.unmodifiableList(this.points);
-	}
+    @Override
+    public List<Point> getCoordinates() {
+        return Collections.unmodifiableList(this.points);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		GeoJsonMultiPoint that = (GeoJsonMultiPoint) o;
+        GeoJsonMultiPoint that = (GeoJsonMultiPoint) o;
 
-		return points.equals(that.points);
-	}
+        return points.equals(that.points);
+    }
 
-	@Override
-	public int hashCode() {
-		return points.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return points.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJsonMultiPoint{" + "points=" + points + '}';
-	}
+    @Override
+    public String toString() {
+        return "GeoJsonMultiPoint{" + "points=" + points + '}';
+    }
 }

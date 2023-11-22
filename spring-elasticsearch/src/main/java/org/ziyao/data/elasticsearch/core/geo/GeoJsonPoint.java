@@ -16,7 +16,7 @@
 package org.ziyao.data.elasticsearch.core.geo;
 
 import org.ziyao.data.elasticsearch.core.convert.GeoConverters;
-import org.springframework.data.geo.Point;
+import org.ziyao.data.geo.Point;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,94 +28,94 @@ import java.util.List;
  *
  * @author Christoph Strobl
  * @author Peter-Josef Meisch
- * @since 4.1
  * @see <a href="https://geojson.org/geojson-spec.html#point">https://geojson.org/geojson-spec.html#point</a>
+ * @since 4.1
  */
 public class GeoJsonPoint implements GeoJson<List<Double>> {
 
-	private final double x;
-	private final double y;
+    private final double x;
+    private final double y;
 
-	public static final String TYPE = "Point";
+    public static final String TYPE = "Point";
 
-	private GeoJsonPoint(double x, double y) {
-		this.x = x;
-		this.y = y;
-	}
+    private GeoJsonPoint(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 
-	/**
-	 * Creates {@link GeoJsonPoint} for given coordinates.
-	 *
-	 * @param x
-	 * @param y
-	 */
-	public static GeoJsonPoint of(double x, double y) {
-		return new GeoJsonPoint(x, y);
-	}
+    /**
+     * Creates {@link GeoJsonPoint} for given coordinates.
+     *
+     * @param x
+     * @param y
+     */
+    public static GeoJsonPoint of(double x, double y) {
+        return new GeoJsonPoint(x, y);
+    }
 
-	/**
-	 * Creates {@link GeoJsonPoint} for given {@link Point}.
-	 *
-	 * @param point must not be {@literal null}.
-	 */
-	public static GeoJsonPoint of(Point point) {
-		return new GeoJsonPoint(point.getX(), point.getY());
-	}
+    /**
+     * Creates {@link GeoJsonPoint} for given {@link Point}.
+     *
+     * @param point must not be {@literal null}.
+     */
+    public static GeoJsonPoint of(Point point) {
+        return new GeoJsonPoint(point.getX(), point.getY());
+    }
 
-	/**
-	 * Creates {@link GeoJsonPoint} for given {@link GeoPoint}.
-	 *
-	 * @param geoPoint must not be {@literal null}.
-	 */
-	public static GeoJsonPoint of(GeoPoint geoPoint) {
-		return new GeoJsonPoint(geoPoint.getLon(), geoPoint.getLat());
-	}
+    /**
+     * Creates {@link GeoJsonPoint} for given {@link GeoPoint}.
+     *
+     * @param geoPoint must not be {@literal null}.
+     */
+    public static GeoJsonPoint of(GeoPoint geoPoint) {
+        return new GeoJsonPoint(geoPoint.getLon(), geoPoint.getLat());
+    }
 
-	@Override
-	public String getType() {
-		return TYPE;
-	}
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 
-	public double getX() {
-		return x;
-	}
+    public double getX() {
+        return x;
+    }
 
-	public double getY() {
-		return y;
-	}
+    public double getY() {
+        return y;
+    }
 
-	@Override
-	public List<Double> getCoordinates() {
-		return Arrays.asList(getX(), getY());
-	}
+    @Override
+    public List<Double> getCoordinates() {
+        return Arrays.asList(getX(), getY());
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		GeoJsonPoint that = (GeoJsonPoint) o;
+        GeoJsonPoint that = (GeoJsonPoint) o;
 
-		if (Double.compare(that.x, x) != 0)
-			return false;
-		return Double.compare(that.y, y) == 0;
-	}
+        if (Double.compare(that.x, x) != 0)
+            return false;
+        return Double.compare(that.y, y) == 0;
+    }
 
-	@Override
-	public int hashCode() {
-		int result;
-		long temp;
-		temp = Double.doubleToLongBits(x);
-		result = (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(x);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJsonPoint{" + "x=" + x + ", y=" + y + '}';
-	}
+    @Override
+    public String toString() {
+        return "GeoJsonPoint{" + "x=" + x + ", y=" + y + '}';
+    }
 }

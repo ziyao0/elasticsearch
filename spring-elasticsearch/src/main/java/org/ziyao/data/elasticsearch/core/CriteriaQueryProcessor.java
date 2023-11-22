@@ -19,12 +19,12 @@ import org.apache.lucene.queryparser.flexible.standard.QueryParserUtil;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.ziyao.data.elasticsearch.annotations.FieldType;
-import org.ziyao.data.elasticsearch.core.query.Criteria;
-import org.ziyao.data.elasticsearch.core.query.Field;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.elasticsearch.annotations.FieldType;
+import org.ziyao.data.elasticsearch.core.query.Criteria;
+import org.ziyao.data.elasticsearch.core.query.Field;
 
 import java.util.ArrayList;
 import java.util.Iterator;

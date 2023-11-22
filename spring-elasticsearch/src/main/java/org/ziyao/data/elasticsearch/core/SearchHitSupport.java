@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.util.CloseableIterator;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.domain.PageImpl;
+import org.ziyao.data.domain.Pageable;
+import org.ziyao.data.util.CloseableIterator;
 
 import java.util.List;
 import java.util.stream.Collectors;

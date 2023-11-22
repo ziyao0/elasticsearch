@@ -23,10 +23,10 @@ package org.springframework.data.mapping;
  */
 public interface SimpleAssociationHandler {
 
-	/**
-	 * Handle the given {@link Association}.
-	 *
-	 * @param association will never be {@literal null}.
-	 */
-	void doWithAssociation(Association<? extends PersistentProperty<?>> association);
+    /**
+     * Handle the given {@link Association}.
+     *
+     * @param association will never be {@literal null}.
+     */
+    void doWithAssociation(Association<? extends PersistentProperty<?>> association);
 }

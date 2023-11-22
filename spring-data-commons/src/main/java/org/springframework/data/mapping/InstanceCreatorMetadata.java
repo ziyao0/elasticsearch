@@ -26,41 +26,41 @@ import java.util.List;
  */
 public interface InstanceCreatorMetadata<P extends PersistentProperty<P>> {
 
-	/**
-	 * Check whether the given {@link PersistentProperty} is being used as creator parameter.
-	 *
-	 * @param property
-	 * @return
-	 */
-	boolean isCreatorParameter(PersistentProperty<?> property);
+    /**
+     * Check whether the given {@link PersistentProperty} is being used as creator parameter.
+     *
+     * @param property
+     * @return
+     */
+    boolean isCreatorParameter(PersistentProperty<?> property);
 
-	/**
-	 * Returns whether the given {@link Parameter} is one referring to parent value (such as an enclosing class or a
-	 * receiver parameter).
-	 *
-	 * @param parameter
-	 * @return
-	 */
-	default boolean isParentParameter(Parameter<?, P> parameter) {
-		return false;
-	}
+    /**
+     * Returns whether the given {@link Parameter} is one referring to parent value (such as an enclosing class or a
+     * receiver parameter).
+     *
+     * @param parameter
+     * @return
+     */
+    default boolean isParentParameter(Parameter<?, P> parameter) {
+        return false;
+    }
 
-	/**
-	 * @return the number of parameters.
-	 */
-	default int getParameterCount() {
-		return getParameters().size();
-	}
+    /**
+     * @return the number of parameters.
+     */
+    default int getParameterCount() {
+        return getParameters().size();
+    }
 
-	/**
-	 * @return the parameters used by this creator.
-	 */
-	List<Parameter<Object, P>> getParameters();
+    /**
+     * @return the parameters used by this creator.
+     */
+    List<Parameter<Object, P>> getParameters();
 
-	/**
-	 * @return whether the creator accepts {@link Parameter}s.
-	 */
-	default boolean hasParameters() {
-		return !getParameters().isEmpty();
-	}
+    /**
+     * @return whether the creator accepts {@link Parameter}s.
+     */
+    default boolean hasParameters() {
+        return !getParameters().isEmpty();
+    }
 }

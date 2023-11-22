@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
-import org.ziyao.data.elasticsearch.core.suggest.response.Suggest;
-import org.springframework.data.util.Streamable;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.core.suggest.response.Suggest;
+import org.ziyao.data.util.Streamable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,73 +31,73 @@ import java.util.List;
  */
 public interface SearchHits<T> extends Streamable<SearchHit<T>> {
 
-	/**
-	 * @return the aggregations.
-	 */
-	@Nullable
+    /**
+     * @return the aggregations.
+     */
+    @Nullable
     AggregationsContainer<?> getAggregations();
 
-	/**
-	 * @return the maximum score
-	 */
-	float getMaxScore();
+    /**
+     * @return the maximum score
+     */
+    float getMaxScore();
 
-	/**
-	 * @param index position in List.
-	 * @return the {@link SearchHit} at position {index}
-	 * @throws IndexOutOfBoundsException on invalid index
-	 */
-	SearchHit<T> getSearchHit(int index);
+    /**
+     * @param index position in List.
+     * @return the {@link SearchHit} at position {index}
+     * @throws IndexOutOfBoundsException on invalid index
+     */
+    SearchHit<T> getSearchHit(int index);
 
-	/**
-	 * @return the contained {@link SearchHit}s.
-	 */
-	List<SearchHit<T>> getSearchHits();
+    /**
+     * @return the contained {@link SearchHit}s.
+     */
+    List<SearchHit<T>> getSearchHits();
 
-	/**
-	 * @return the number of total hits.
-	 */
-	long getTotalHits();
+    /**
+     * @return the number of total hits.
+     */
+    long getTotalHits();
 
-	/**
-	 * @return the relation for the total hits
-	 */
-	TotalHitsRelation getTotalHitsRelation();
+    /**
+     * @return the relation for the total hits
+     */
+    TotalHitsRelation getTotalHitsRelation();
 
-	/**
-	 * @return true if aggregations are available
-	 */
-	default boolean hasAggregations() {
-		return getAggregations() != null;
-	}
+    /**
+     * @return true if aggregations are available
+     */
+    default boolean hasAggregations() {
+        return getAggregations() != null;
+    }
 
-	/**
-	 * @return whether the {@link SearchHits} has search hits.
-	 */
-	default boolean hasSearchHits() {
-		return !getSearchHits().isEmpty();
-	}
+    /**
+     * @return whether the {@link SearchHits} has search hits.
+     */
+    default boolean hasSearchHits() {
+        return !getSearchHits().isEmpty();
+    }
 
-	/**
-	 * @return the suggest response
-	 * @since 4.3
-	 */
-	@Nullable
+    /**
+     * @return the suggest response
+     * @since 4.3
+     */
+    @Nullable
     Suggest getSuggest();
 
-	/**
-	 * @return wether the {@link SearchHits} has a suggest response.
-	 * @since 4.3
-	 */
-	default boolean hasSuggest() {
-		return getSuggest() != null;
-	}
+    /**
+     * @return wether the {@link SearchHits} has a suggest response.
+     * @since 4.3
+     */
+    default boolean hasSuggest() {
+        return getSuggest() != null;
+    }
 
-	/**
-	 * @return an iterator for {@link SearchHit}
-	 */
-	default Iterator<SearchHit<T>> iterator() {
-		return getSearchHits().iterator();
-	}
+    /**
+     * @return an iterator for {@link SearchHit}
+     */
+    default Iterator<SearchHit<T>> iterator() {
+        return getSearchHits().iterator();
+    }
 
 }

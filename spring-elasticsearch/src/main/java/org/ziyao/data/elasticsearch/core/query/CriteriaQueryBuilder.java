@@ -23,21 +23,21 @@ import org.springframework.util.Assert;
  */
 public class CriteriaQueryBuilder extends BaseQueryBuilder<CriteriaQuery, CriteriaQueryBuilder> {
 
-	private final Criteria criteria;
+    private final Criteria criteria;
 
-	public CriteriaQueryBuilder(Criteria criteria) {
+    public CriteriaQueryBuilder(Criteria criteria) {
 
-		Assert.notNull(criteria, "criteria must not be null");
+        Assert.notNull(criteria, "criteria must not be null");
 
-		this.criteria = criteria;
-	}
+        this.criteria = criteria;
+    }
 
-	public Criteria getCriteria() {
-		return criteria;
-	}
+    public Criteria getCriteria() {
+        return criteria;
+    }
 
-	@Override
-	public CriteriaQuery build() {
-		return new CriteriaQuery(this);
-	}
+    @Override
+    public CriteriaQuery build() {
+        return new CriteriaQuery(this);
+    }
 }

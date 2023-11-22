@@ -29,154 +29,155 @@ import java.util.Map.Entry;
  */
 public class SimpleTypeHolder {
 
-	private static final Set<Class<?>> DEFAULTS;
-	static {
-		Set<Class<?>> defaults = new HashSet<>();
-		defaults.add(boolean.class);
-		defaults.add(boolean[].class);
-		defaults.add(long.class);
-		defaults.add(long[].class);
-		defaults.add(short.class);
-		defaults.add(short[].class);
-		defaults.add(int.class);
-		defaults.add(int[].class);
-		defaults.add(byte.class);
-		defaults.add(byte[].class);
-		defaults.add(float.class);
-		defaults.add(float[].class);
-		defaults.add(double.class);
-		defaults.add(double[].class);
-		defaults.add(char.class);
-		defaults.add(char[].class);
-		defaults.add(Boolean.class);
-		defaults.add(Long.class);
-		defaults.add(Short.class);
-		defaults.add(Integer.class);
-		defaults.add(Byte.class);
-		defaults.add(Float.class);
-		defaults.add(Double.class);
-		defaults.add(Character.class);
-		defaults.add(String.class);
-		defaults.add(Date.class);
-		defaults.add(Locale.class);
-		defaults.add(Class.class);
-		defaults.add(Enum.class);
-		DEFAULTS = Collections.unmodifiableSet(defaults);
-	}
+    private static final Set<Class<?>> DEFAULTS;
 
-	public static final SimpleTypeHolder DEFAULT = new SimpleTypeHolder();
+    static {
+        Set<Class<?>> defaults = new HashSet<>();
+        defaults.add(boolean.class);
+        defaults.add(boolean[].class);
+        defaults.add(long.class);
+        defaults.add(long[].class);
+        defaults.add(short.class);
+        defaults.add(short[].class);
+        defaults.add(int.class);
+        defaults.add(int[].class);
+        defaults.add(byte.class);
+        defaults.add(byte[].class);
+        defaults.add(float.class);
+        defaults.add(float[].class);
+        defaults.add(double.class);
+        defaults.add(double[].class);
+        defaults.add(char.class);
+        defaults.add(char[].class);
+        defaults.add(Boolean.class);
+        defaults.add(Long.class);
+        defaults.add(Short.class);
+        defaults.add(Integer.class);
+        defaults.add(Byte.class);
+        defaults.add(Float.class);
+        defaults.add(Double.class);
+        defaults.add(Character.class);
+        defaults.add(String.class);
+        defaults.add(Date.class);
+        defaults.add(Locale.class);
+        defaults.add(Class.class);
+        defaults.add(Enum.class);
+        DEFAULTS = Collections.unmodifiableSet(defaults);
+    }
 
-	private volatile Map<Class<?>, Boolean> simpleTypes;
+    public static final SimpleTypeHolder DEFAULT = new SimpleTypeHolder();
 
-	/**
-	 * Creates a new {@link SimpleTypeHolder} containing the default types.
-	 *
-	 * @see #SimpleTypeHolder(Set, boolean)
-	 */
-	protected SimpleTypeHolder() {
-		this(Collections.emptySet(), true);
-	}
+    private volatile Map<Class<?>, Boolean> simpleTypes;
 
-	/**
-	 * Creates a new {@link SimpleTypeHolder} to carry the given custom simple types. Registration of default simple types
-	 * can be deactivated by passing {@literal false} for {@code registerDefaults}.
-	 *
-	 * @param customSimpleTypes
-	 * @param registerDefaults
-	 */
-	public SimpleTypeHolder(Set<? extends Class<?>> customSimpleTypes, boolean registerDefaults) {
+    /**
+     * Creates a new {@link SimpleTypeHolder} containing the default types.
+     *
+     * @see #SimpleTypeHolder(Set, boolean)
+     */
+    protected SimpleTypeHolder() {
+        this(Collections.emptySet(), true);
+    }
 
-		Assert.notNull(customSimpleTypes, "CustomSimpleTypes must not be null");
+    /**
+     * Creates a new {@link SimpleTypeHolder} to carry the given custom simple types. Registration of default simple types
+     * can be deactivated by passing {@literal false} for {@code registerDefaults}.
+     *
+     * @param customSimpleTypes
+     * @param registerDefaults
+     */
+    public SimpleTypeHolder(Set<? extends Class<?>> customSimpleTypes, boolean registerDefaults) {
 
-		this.simpleTypes = new WeakHashMap<>(customSimpleTypes.size() + DEFAULTS.size());
+        Assert.notNull(customSimpleTypes, "CustomSimpleTypes must not be null");
 
-		register(customSimpleTypes);
+        this.simpleTypes = new WeakHashMap<>(customSimpleTypes.size() + DEFAULTS.size());
 
-		if (registerDefaults) {
-			register(DEFAULTS);
-		}
-	}
+        register(customSimpleTypes);
 
-	/**
-	 * Copy constructor to create a new {@link SimpleTypeHolder} that carries the given additional custom simple types.
-	 *
-	 * @param customSimpleTypes must not be {@literal null}
-	 * @param source must not be {@literal null}
-	 */
-	public SimpleTypeHolder(Set<? extends Class<?>> customSimpleTypes, SimpleTypeHolder source) {
+        if (registerDefaults) {
+            register(DEFAULTS);
+        }
+    }
 
-		Assert.notNull(customSimpleTypes, "CustomSimpleTypes must not be null");
-		Assert.notNull(source, "SourceTypeHolder must not be null");
+    /**
+     * Copy constructor to create a new {@link SimpleTypeHolder} that carries the given additional custom simple types.
+     *
+     * @param customSimpleTypes must not be {@literal null}
+     * @param source            must not be {@literal null}
+     */
+    public SimpleTypeHolder(Set<? extends Class<?>> customSimpleTypes, SimpleTypeHolder source) {
 
-		this.simpleTypes = new WeakHashMap<>(customSimpleTypes.size() + source.simpleTypes.size());
+        Assert.notNull(customSimpleTypes, "CustomSimpleTypes must not be null");
+        Assert.notNull(source, "SourceTypeHolder must not be null");
 
-		register(customSimpleTypes);
-		registerCachePositives(source.simpleTypes);
-	}
+        this.simpleTypes = new WeakHashMap<>(customSimpleTypes.size() + source.simpleTypes.size());
 
-	private void registerCachePositives(Map<Class<?>, Boolean> source) {
+        register(customSimpleTypes);
+        registerCachePositives(source.simpleTypes);
+    }
 
-		for (Entry<Class<?>, Boolean> entry : source.entrySet()) {
+    private void registerCachePositives(Map<Class<?>, Boolean> source) {
 
-			if (!entry.getValue()) {
-				continue;
-			}
+        for (Entry<Class<?>, Boolean> entry : source.entrySet()) {
 
-			this.simpleTypes.put(entry.getKey(), true);
-		}
-	}
+            if (!entry.getValue()) {
+                continue;
+            }
 
-	/**
-	 * Returns whether the given type is considered a simple one.
-	 *
-	 * @param type must not be {@literal null}.
-	 * @return
-	 */
-	public boolean isSimpleType(Class<?> type) {
+            this.simpleTypes.put(entry.getKey(), true);
+        }
+    }
 
-		Assert.notNull(type, "Type must not be null");
+    /**
+     * Returns whether the given type is considered a simple one.
+     *
+     * @param type must not be {@literal null}.
+     * @return
+     */
+    public boolean isSimpleType(Class<?> type) {
 
-		Map<Class<?>, Boolean> localSimpleTypes = this.simpleTypes;
-		Boolean isSimpleType = localSimpleTypes.get(type);
+        Assert.notNull(type, "Type must not be null");
 
-		if (Object.class.equals(type) || Enum.class.isAssignableFrom(type)) {
-			return true;
-		}
+        Map<Class<?>, Boolean> localSimpleTypes = this.simpleTypes;
+        Boolean isSimpleType = localSimpleTypes.get(type);
 
-		if (isSimpleType != null) {
-			return isSimpleType;
-		}
+        if (Object.class.equals(type) || Enum.class.isAssignableFrom(type)) {
+            return true;
+        }
 
-		String typeName = type.getName();
+        if (isSimpleType != null) {
+            return isSimpleType;
+        }
 
-		if (typeName.startsWith("java.lang") || type.getName().startsWith("java.time") || typeName.equals("kotlin.Unit")) {
-			return true;
-		}
+        String typeName = type.getName();
 
-		for (Class<?> simpleType : localSimpleTypes.keySet()) {
+        if (typeName.startsWith("java.lang") || type.getName().startsWith("java.time") || typeName.equals("kotlin.Unit")) {
+            return true;
+        }
 
-			if (simpleType.isAssignableFrom(type)) {
+        for (Class<?> simpleType : localSimpleTypes.keySet()) {
 
-				isSimpleType = localSimpleTypes.get(simpleType);
-				this.simpleTypes = put(localSimpleTypes, type, isSimpleType);
-				return isSimpleType;
-			}
-		}
+            if (simpleType.isAssignableFrom(type)) {
 
-		this.simpleTypes = put(localSimpleTypes, type, false);
+                isSimpleType = localSimpleTypes.get(simpleType);
+                this.simpleTypes = put(localSimpleTypes, type, isSimpleType);
+                return isSimpleType;
+            }
+        }
 
-		return false;
-	}
+        this.simpleTypes = put(localSimpleTypes, type, false);
 
-	private void register(Collection<? extends Class<?>> types) {
-		types.forEach(customSimpleType -> this.simpleTypes.put(customSimpleType, true));
-	}
+        return false;
+    }
 
-	private static Map<Class<?>, Boolean> put(Map<Class<?>, Boolean> simpleTypes, Class<?> type, boolean isSimpleType) {
+    private void register(Collection<? extends Class<?>> types) {
+        types.forEach(customSimpleType -> this.simpleTypes.put(customSimpleType, true));
+    }
 
-		Map<Class<?>, Boolean> copy = new WeakHashMap<>(simpleTypes);
-		copy.put(type, isSimpleType);
+    private static Map<Class<?>, Boolean> put(Map<Class<?>, Boolean> simpleTypes, Class<?> type, boolean isSimpleType) {
 
-		return copy;
-	}
+        Map<Class<?>, Boolean> copy = new WeakHashMap<>(simpleTypes);
+        copy.put(type, isSimpleType);
+
+        return copy;
+    }
 }

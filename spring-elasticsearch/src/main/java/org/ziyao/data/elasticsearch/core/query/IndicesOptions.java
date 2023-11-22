@@ -25,65 +25,65 @@ import java.util.EnumSet;
  */
 public class IndicesOptions {
 
-	private EnumSet<Option> options;
-	private EnumSet<WildcardStates> expandWildcards;
+    private EnumSet<Option> options;
+    private EnumSet<WildcardStates> expandWildcards;
 
-	public static final IndicesOptions STRICT_EXPAND_OPEN = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES), EnumSet.of(WildcardStates.OPEN));
-	public static final IndicesOptions STRICT_EXPAND_OPEN_HIDDEN = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES),
-			EnumSet.of(WildcardStates.OPEN, WildcardStates.HIDDEN));
-	public static final IndicesOptions LENIENT_EXPAND_OPEN = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
-			EnumSet.of(WildcardStates.OPEN));
-	public static final IndicesOptions LENIENT_EXPAND_OPEN_HIDDEN = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
-			EnumSet.of(WildcardStates.OPEN, WildcardStates.HIDDEN));
-	public static final IndicesOptions LENIENT_EXPAND_OPEN_CLOSED = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
-			EnumSet.of(WildcardStates.OPEN, WildcardStates.CLOSED));
-	public static final IndicesOptions LENIENT_EXPAND_OPEN_CLOSED_HIDDEN = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
-			EnumSet.of(WildcardStates.OPEN, WildcardStates.CLOSED,
-					WildcardStates.HIDDEN));
-	public static final IndicesOptions STRICT_EXPAND_OPEN_CLOSED = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES),
-			EnumSet.of(WildcardStates.OPEN, WildcardStates.CLOSED));
-	public static final IndicesOptions STRICT_EXPAND_OPEN_CLOSED_HIDDEN = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES), EnumSet.of(WildcardStates.OPEN,
-					WildcardStates.CLOSED, WildcardStates.HIDDEN));
-	public static final IndicesOptions STRICT_EXPAND_OPEN_FORBID_CLOSED = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES, Option.FORBID_CLOSED_INDICES),
-			EnumSet.of(WildcardStates.OPEN));
-	public static final IndicesOptions STRICT_EXPAND_OPEN_HIDDEN_FORBID_CLOSED = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES, Option.FORBID_CLOSED_INDICES),
-			EnumSet.of(WildcardStates.OPEN, WildcardStates.HIDDEN));
-	public static final IndicesOptions STRICT_EXPAND_OPEN_FORBID_CLOSED_IGNORE_THROTTLED = new IndicesOptions(
-			EnumSet.of(Option.ALLOW_NO_INDICES, Option.FORBID_CLOSED_INDICES,
-					Option.IGNORE_THROTTLED),
-			EnumSet.of(WildcardStates.OPEN));
-	public static final IndicesOptions STRICT_SINGLE_INDEX_NO_EXPAND_FORBID_CLOSED = new IndicesOptions(
-			EnumSet.of(Option.FORBID_ALIASES_TO_MULTIPLE_INDICES, Option.FORBID_CLOSED_INDICES),
-			EnumSet.noneOf(WildcardStates.class));
+    public static final IndicesOptions STRICT_EXPAND_OPEN = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES), EnumSet.of(WildcardStates.OPEN));
+    public static final IndicesOptions STRICT_EXPAND_OPEN_HIDDEN = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES),
+            EnumSet.of(WildcardStates.OPEN, WildcardStates.HIDDEN));
+    public static final IndicesOptions LENIENT_EXPAND_OPEN = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
+            EnumSet.of(WildcardStates.OPEN));
+    public static final IndicesOptions LENIENT_EXPAND_OPEN_HIDDEN = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
+            EnumSet.of(WildcardStates.OPEN, WildcardStates.HIDDEN));
+    public static final IndicesOptions LENIENT_EXPAND_OPEN_CLOSED = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
+            EnumSet.of(WildcardStates.OPEN, WildcardStates.CLOSED));
+    public static final IndicesOptions LENIENT_EXPAND_OPEN_CLOSED_HIDDEN = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES, Option.IGNORE_UNAVAILABLE),
+            EnumSet.of(WildcardStates.OPEN, WildcardStates.CLOSED,
+                    WildcardStates.HIDDEN));
+    public static final IndicesOptions STRICT_EXPAND_OPEN_CLOSED = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES),
+            EnumSet.of(WildcardStates.OPEN, WildcardStates.CLOSED));
+    public static final IndicesOptions STRICT_EXPAND_OPEN_CLOSED_HIDDEN = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES), EnumSet.of(WildcardStates.OPEN,
+            WildcardStates.CLOSED, WildcardStates.HIDDEN));
+    public static final IndicesOptions STRICT_EXPAND_OPEN_FORBID_CLOSED = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES, Option.FORBID_CLOSED_INDICES),
+            EnumSet.of(WildcardStates.OPEN));
+    public static final IndicesOptions STRICT_EXPAND_OPEN_HIDDEN_FORBID_CLOSED = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES, Option.FORBID_CLOSED_INDICES),
+            EnumSet.of(WildcardStates.OPEN, WildcardStates.HIDDEN));
+    public static final IndicesOptions STRICT_EXPAND_OPEN_FORBID_CLOSED_IGNORE_THROTTLED = new IndicesOptions(
+            EnumSet.of(Option.ALLOW_NO_INDICES, Option.FORBID_CLOSED_INDICES,
+                    Option.IGNORE_THROTTLED),
+            EnumSet.of(WildcardStates.OPEN));
+    public static final IndicesOptions STRICT_SINGLE_INDEX_NO_EXPAND_FORBID_CLOSED = new IndicesOptions(
+            EnumSet.of(Option.FORBID_ALIASES_TO_MULTIPLE_INDICES, Option.FORBID_CLOSED_INDICES),
+            EnumSet.noneOf(WildcardStates.class));
 
-	public IndicesOptions(EnumSet<Option> options, EnumSet<WildcardStates> expandWildcards) {
-		this.options = options;
-		this.expandWildcards = expandWildcards;
-	}
+    public IndicesOptions(EnumSet<Option> options, EnumSet<WildcardStates> expandWildcards) {
+        this.options = options;
+        this.expandWildcards = expandWildcards;
+    }
 
-	public EnumSet<Option> getOptions() {
-		return options;
-	}
+    public EnumSet<Option> getOptions() {
+        return options;
+    }
 
-	public EnumSet<WildcardStates> getExpandWildcards() {
-		return expandWildcards;
-	}
+    public EnumSet<WildcardStates> getExpandWildcards() {
+        return expandWildcards;
+    }
 
-	public enum WildcardStates {
-		OPEN, CLOSED, HIDDEN;
-	}
+    public enum WildcardStates {
+        OPEN, CLOSED, HIDDEN;
+    }
 
-	public enum Option {
-		IGNORE_UNAVAILABLE, IGNORE_ALIASES, ALLOW_NO_INDICES, FORBID_ALIASES_TO_MULTIPLE_INDICES, FORBID_CLOSED_INDICES, IGNORE_THROTTLED;
-	}
+    public enum Option {
+        IGNORE_UNAVAILABLE, IGNORE_ALIASES, ALLOW_NO_INDICES, FORBID_ALIASES_TO_MULTIPLE_INDICES, FORBID_CLOSED_INDICES, IGNORE_THROTTLED;
+    }
 }

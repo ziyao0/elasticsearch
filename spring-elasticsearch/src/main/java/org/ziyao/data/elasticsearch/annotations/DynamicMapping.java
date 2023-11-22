@@ -27,10 +27,10 @@ import java.lang.annotation.*;
  * @deprecated since 4.3, use {@link Document#dynamic()} or {@link Field#dynamic()} instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.FIELD })
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Documented
 @Deprecated
 public @interface DynamicMapping {
 
-	DynamicMappingValue value() default DynamicMappingValue.True;
+    DynamicMappingValue value() default DynamicMappingValue.True;
 }

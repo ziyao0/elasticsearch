@@ -19,19 +19,20 @@ import org.ziyao.data.elasticsearch.core.AggregationContainer;
 
 /**
  * {@link AggregationContainer} for a {@link Aggregation} that holds Elasticsearch data.
+ *
  * @author Peter-Josef Meisch
  * @since 4.4
  */
 public class ElasticsearchAggregation implements AggregationContainer<Aggregation> {
 
-	private final Aggregation aggregation;
+    private final Aggregation aggregation;
 
-	public ElasticsearchAggregation(Aggregation aggregation) {
-		this.aggregation = aggregation;
-	}
+    public ElasticsearchAggregation(Aggregation aggregation) {
+        this.aggregation = aggregation;
+    }
 
-	@Override
-	public Aggregation aggregation() {
-		return aggregation;
-	}
+    @Override
+    public Aggregation aggregation() {
+        return aggregation;
+    }
 }

@@ -16,9 +16,9 @@
 package org.ziyao.data.elasticsearch.core;
 
 import org.springframework.core.io.ClassPathResource;
-import org.ziyao.data.elasticsearch.ResourceFailureException;
 import org.springframework.util.Assert;
 import org.springframework.util.StreamUtils;
+import org.ziyao.data.elasticsearch.ResourceFailureException;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -32,23 +32,24 @@ import java.nio.charset.Charset;
  */
 public abstract class ResourceUtil {
 
-	/**
-	 * Read a {@link ClassPathResource} into a {@link String}.
-	 *
-	 * @param url url the resource
-	 * @return the contents of the resource
-	 */
-	public static String readFileFromClasspath(String url) {
+    /**
+     * Read a {@link ClassPathResource} into a {@link String}.
+     *
+     * @param url url the resource
+     * @return the contents of the resource
+     */
+    public static String readFileFromClasspath(String url) {
 
-		Assert.notNull(url, "url must not be null");
+        Assert.notNull(url, "url must not be null");
 
-		try (InputStream is = new ClassPathResource(url).getInputStream()) {
-			return StreamUtils.copyToString(is, Charset.defaultCharset());
-		} catch (Exception e) {
-			throw new ResourceFailureException("Could not load resource from " + url, e);
-		}
-	}
+        try (InputStream is = new ClassPathResource(url).getInputStream()) {
+            return StreamUtils.copyToString(is, Charset.defaultCharset());
+        } catch (Exception e) {
+            throw new ResourceFailureException("Could not load resource from " + url, e);
+        }
+    }
 
-	// Utility constructor
-	private ResourceUtil() {}
+    // Utility constructor
+    private ResourceUtil() {
+    }
 }

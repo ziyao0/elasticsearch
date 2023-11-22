@@ -27,72 +27,72 @@ import java.util.stream.Collectors;
  */
 public class Highlight {
 
-	private final HighlightParameters parameters;
-	private final List<HighlightField> fields;
+    private final HighlightParameters parameters;
+    private final List<HighlightField> fields;
 
-	/**
-	 * @since 4.4
-	 */
-	public Highlight(List<HighlightField> fields) {
+    /**
+     * @since 4.4
+     */
+    public Highlight(List<HighlightField> fields) {
 
-		Assert.notNull(fields, "fields must not be null");
+        Assert.notNull(fields, "fields must not be null");
 
-		this.parameters = HighlightParameters.builder().build();
-		this.fields = fields;
-	}
+        this.parameters = HighlightParameters.builder().build();
+        this.fields = fields;
+    }
 
-	public Highlight(HighlightParameters parameters, List<HighlightField> fields) {
+    public Highlight(HighlightParameters parameters, List<HighlightField> fields) {
 
-		Assert.notNull(parameters, "parameters must not be null");
-		Assert.notNull(fields, "fields must not be null");
+        Assert.notNull(parameters, "parameters must not be null");
+        Assert.notNull(fields, "fields must not be null");
 
-		this.parameters = parameters;
-		this.fields = fields;
-	}
+        this.parameters = parameters;
+        this.fields = fields;
+    }
 
-	public HighlightParameters getParameters() {
-		return parameters;
-	}
+    public HighlightParameters getParameters() {
+        return parameters;
+    }
 
-	public List<HighlightField> getFields() {
-		return fields;
-	}
+    public List<HighlightField> getFields() {
+        return fields;
+    }
 
-	/**
-	 * Creates a {@link Highlight} from an Annotation instance.
-	 *
-	 * @param highlight must not be {@literal null}
-	 * @return highlight definition
-	 */
-	public static Highlight of(org.ziyao.data.elasticsearch.annotations.Highlight highlight) {
+    /**
+     * Creates a {@link Highlight} from an Annotation instance.
+     *
+     * @param highlight must not be {@literal null}
+     * @return highlight definition
+     */
+    public static Highlight of(org.ziyao.data.elasticsearch.annotations.Highlight highlight) {
 
-		Assert.notNull(highlight, "highlight must not be null");
+        Assert.notNull(highlight, "highlight must not be null");
 
-		org.ziyao.data.elasticsearch.annotations.HighlightParameters parameters = highlight.parameters();
-		HighlightParameters highlightParameters = HighlightParameters.builder() //
-				.withBoundaryChars(parameters.boundaryChars()) //
-				.withBoundaryMaxScan(parameters.boundaryMaxScan()) //
-				.withBoundaryScanner(parameters.boundaryScanner()) //
-				.withBoundaryScannerLocale(parameters.boundaryScannerLocale()) //
-				.withEncoder(parameters.encoder()) //
-				.withForceSource(parameters.forceSource()) //
-				.withFragmenter(parameters.fragmenter()) //
-				.withFragmentSize(parameters.fragmentSize()) //
-				.withNoMatchSize(parameters.noMatchSize()) //
-				.withNumberOfFragments(parameters.numberOfFragments()) //
-				.withOrder(parameters.order()) //
-				.withPhraseLimit(parameters.phraseLimit()) //
-				.withPreTags(parameters.preTags()) //
-				.withPostTags(parameters.postTags()) //
-				.withRequireFieldMatch(parameters.requireFieldMatch()) //
-				.withTagsSchema(parameters.tagsSchema()) //
-				.withType(parameters.type()) //
-				.build();
+        org.ziyao.data.elasticsearch.annotations.HighlightParameters parameters = highlight.parameters();
+        HighlightParameters highlightParameters = HighlightParameters.builder() //
+                .withBoundaryChars(parameters.boundaryChars()) //
+                .withBoundaryMaxScan(parameters.boundaryMaxScan()) //
+                .withBoundaryScanner(parameters.boundaryScanner()) //
+                .withBoundaryScannerLocale(parameters.boundaryScannerLocale()) //
+                .withEncoder(parameters.encoder()) //
+                .withForceSource(parameters.forceSource()) //
+                .withFragmenter(parameters.fragmenter()) //
+                .withFragmentSize(parameters.fragmentSize()) //
+                .withNoMatchSize(parameters.noMatchSize()) //
+                .withNumberOfFragments(parameters.numberOfFragments()) //
+                .withOrder(parameters.order()) //
+                .withPhraseLimit(parameters.phraseLimit()) //
+                .withPreTags(parameters.preTags()) //
+                .withPostTags(parameters.postTags()) //
+                .withRequireFieldMatch(parameters.requireFieldMatch()) //
+                .withTagsSchema(parameters.tagsSchema()) //
+                .withType(parameters.type()) //
+                .build();
 
-		List<HighlightField> highlightFields = Arrays.stream(highlight.fields()) //
-				.map(HighlightField::of) //
-				.collect(Collectors.toList());
+        List<HighlightField> highlightFields = Arrays.stream(highlight.fields()) //
+                .map(HighlightField::of) //
+                .collect(Collectors.toList());
 
-		return new Highlight(highlightParameters, highlightFields);
-	}
+        return new Highlight(highlightParameters, highlightFields);
+    }
 }

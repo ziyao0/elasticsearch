@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.repository.query;
 
-import org.springframework.data.repository.core.EntityMetadata;
+import org.ziyao.data.repository.core.EntityMetadata;
 
 /**
  * @author Christoph Strobl
@@ -24,5 +24,5 @@ import org.springframework.data.repository.core.EntityMetadata;
  */
 public interface ElasticsearchEntityMetadata<T> extends EntityMetadata<T> {
 
-	String getIndexName();
+    String getIndexName();
 }

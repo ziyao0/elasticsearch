@@ -27,65 +27,65 @@ import java.util.List;
  *
  * @author Christoph Strobl
  * @author Peter-Josef Meisch
- * @since 4.1
  * @see <a href=
- *      "https://geojson.org/geojson-spec.html#geometry-collection">https://geojson.org/geojson-spec.html#geometry-collection</a>
+ * "https://geojson.org/geojson-spec.html#geometry-collection">https://geojson.org/geojson-spec.html#geometry-collection</a>
+ * @since 4.1
  */
 public class GeoJsonGeometryCollection implements GeoJson<Iterable<GeoJson<?>>> {
 
-	public static final String TYPE = "GeometryCollection";
+    public static final String TYPE = "GeometryCollection";
 
-	private final List<GeoJson<?>> geometries = new ArrayList<>();
+    private final List<GeoJson<?>> geometries = new ArrayList<>();
 
-	private GeoJsonGeometryCollection(List<GeoJson<?>> geometries) {
-		this.geometries.addAll(geometries);
-	}
+    private GeoJsonGeometryCollection(List<GeoJson<?>> geometries) {
+        this.geometries.addAll(geometries);
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonGeometryCollection} for the given {@link GeoJson} instances.
-	 *
-	 * @param geometries must not be {@literal null}.
-	 */
-	public static GeoJsonGeometryCollection of(List<GeoJson<?>> geometries) {
+    /**
+     * Creates a new {@link GeoJsonGeometryCollection} for the given {@link GeoJson} instances.
+     *
+     * @param geometries must not be {@literal null}.
+     */
+    public static GeoJsonGeometryCollection of(List<GeoJson<?>> geometries) {
 
-		Assert.notNull(geometries, "Geometries must not be null!");
+        Assert.notNull(geometries, "Geometries must not be null!");
 
-		return new GeoJsonGeometryCollection(geometries);
-	}
+        return new GeoJsonGeometryCollection(geometries);
+    }
 
-	@Override
-	public String getType() {
-		return TYPE;
-	}
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 
-	@Override
-	public Iterable<GeoJson<?>> getCoordinates() {
-		return getGeometries();
-	}
+    @Override
+    public Iterable<GeoJson<?>> getCoordinates() {
+        return getGeometries();
+    }
 
-	public List<GeoJson<?>> getGeometries() {
-		return Collections.unmodifiableList(this.geometries);
-	}
+    public List<GeoJson<?>> getGeometries() {
+        return Collections.unmodifiableList(this.geometries);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		GeoJsonGeometryCollection that = (GeoJsonGeometryCollection) o;
+        GeoJsonGeometryCollection that = (GeoJsonGeometryCollection) o;
 
-		return geometries.equals(that.geometries);
-	}
+        return geometries.equals(that.geometries);
+    }
 
-	@Override
-	public int hashCode() {
-		return geometries.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return geometries.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJsonGeometryCollection{" + "geometries=" + geometries + '}';
-	}
+    @Override
+    public String toString() {
+        return "GeoJsonGeometryCollection{" + "geometries=" + geometries + '}';
+    }
 }

@@ -26,27 +26,27 @@ import org.springframework.util.Assert;
  */
 public class UpdateResponse {
 
-	private Result result;
+    private Result result;
 
-	public UpdateResponse(Result result) {
+    public UpdateResponse(Result result) {
 
-		Assert.notNull(result, "result must not be null");
+        Assert.notNull(result, "result must not be null");
 
-		this.result = result;
-	}
+        this.result = result;
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	public static UpdateResponse of(Result result) {
-		return new UpdateResponse(result);
-	}
+    /**
+     * @since 4.4
+     */
+    public static UpdateResponse of(Result result) {
+        return new UpdateResponse(result);
+    }
 
-	public Result getResult() {
-		return result;
-	}
+    public Result getResult() {
+        return result;
+    }
 
-	public enum Result {
-		CREATED, UPDATED, DELETED, NOT_FOUND, NOOP;
-	}
+    public enum Result {
+        CREATED, UPDATED, DELETED, NOT_FOUND, NOOP;
+    }
 }

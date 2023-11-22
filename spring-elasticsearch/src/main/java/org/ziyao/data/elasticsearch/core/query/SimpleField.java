@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.ziyao.data.elasticsearch.annotations.FieldType;
-import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.annotations.FieldType;
+import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 
 /**
  * The most trivial implementation of a Field. The {@link #name} is updatable, so it may be changed during query
@@ -30,54 +30,56 @@ import org.springframework.util.Assert;
  */
 public class SimpleField implements Field {
 
-	private String name;
-	@Nullable private FieldType fieldType;
-	@Nullable private String path;
+    private String name;
+    @Nullable
+    private FieldType fieldType;
+    @Nullable
+    private String path;
 
-	public SimpleField(String name) {
+    public SimpleField(String name) {
 
-		Assert.hasText(name, "name must not be null");
+        Assert.hasText(name, "name must not be null");
 
-		this.name = name;
-	}
+        this.name = name;
+    }
 
-	@Override
-	public void setName(String name) {
+    @Override
+    public void setName(String name) {
 
-		Assert.hasText(name, "name must not be null");
+        Assert.hasText(name, "name must not be null");
 
-		this.name = name;
-	}
+        this.name = name;
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public void setFieldType(FieldType fieldType) {
-		this.fieldType = fieldType;
-	}
+    @Override
+    public void setFieldType(FieldType fieldType) {
+        this.fieldType = fieldType;
+    }
 
-	@Nullable
-	@Override
-	public FieldType getFieldType() {
-		return fieldType;
-	}
+    @Nullable
+    @Override
+    public FieldType getFieldType() {
+        return fieldType;
+    }
 
-	@Override
-	public void setPath(@Nullable String path) {
-		this.path = path;
-	}
+    @Override
+    public void setPath(@Nullable String path) {
+        this.path = path;
+    }
 
-	@Override
-	@Nullable
-	public String getPath() {
-		return path;
-	}
+    @Override
+    @Nullable
+    public String getPath() {
+        return path;
+    }
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

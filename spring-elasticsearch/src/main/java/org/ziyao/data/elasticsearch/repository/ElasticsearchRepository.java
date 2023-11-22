@@ -16,13 +16,13 @@
 package org.ziyao.data.elasticsearch.repository;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
+import org.ziyao.data.domain.Page;
+import org.ziyao.data.domain.Pageable;
 import org.ziyao.data.elasticsearch.core.query.Criteria;
 import org.ziyao.data.elasticsearch.core.query.Query;
-import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.lang.Nullable;
+import org.ziyao.data.repository.NoRepositoryBean;
+import org.ziyao.data.repository.PagingAndSortingRepository;
 
 /**
  * @param <T>

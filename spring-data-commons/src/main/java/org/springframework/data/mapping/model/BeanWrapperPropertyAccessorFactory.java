@@ -25,23 +25,23 @@ import org.springframework.data.mapping.PersistentPropertyAccessor;
  */
 public enum BeanWrapperPropertyAccessorFactory implements PersistentPropertyAccessorFactory {
 
-	INSTANCE;
+    INSTANCE;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.model.PersistentPropertyAccessorFactory#getPropertyAccessor(org.ziyao.data.mapping.PersistentEntity, java.lang.Object)
-	 */
-	@Override
-	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
-		return new BeanWrapper<>(bean);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.model.PersistentPropertyAccessorFactory#getPropertyAccessor(org.ziyao.data.mapping.PersistentEntity, java.lang.Object)
+     */
+    @Override
+    public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
+        return new BeanWrapper<>(bean);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.model.PersistentPropertyAccessorFactory#isSupported(org.ziyao.data.mapping.PersistentEntity)
-	 */
-	@Override
-	public boolean isSupported(PersistentEntity<?, ?> entity) {
-		return true;
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.model.PersistentPropertyAccessorFactory#isSupported(org.ziyao.data.mapping.PersistentEntity)
+     */
+    @Override
+    public boolean isSupported(PersistentEntity<?, ?> entity) {
+        return true;
+    }
 }

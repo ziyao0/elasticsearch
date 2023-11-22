@@ -1,14 +1,16 @@
 package com.ziyao.springframework.boot.test.demo;
 
-import org.springframework.data.annotation.Id;
+import org.ziyao.data.annotation.Id;
 import org.ziyao.data.elasticsearch.annotations.Document;
 import org.ziyao.data.elasticsearch.annotations.Field;
 import org.ziyao.data.elasticsearch.annotations.FieldType;
+import org.ziyao.data.elasticsearch.annotations.Setting;
 
 /**
  * @author ziyao zhang
  * @since 2023/11/17
  */
+@Setting(shards = 2, replicas = 2)
 @Document(indexName = "audit_log_index")
 public class AuditLog {
 
@@ -18,6 +20,15 @@ public class AuditLog {
     private Long level;
     @Field(type = FieldType.Text)
     private String log;
+
+    public AuditLog(String id, Long level, String log) {
+        this.id = id;
+        this.level = level;
+        this.log = log;
+    }
+
+    public AuditLog() {
+    }
 
     public String getId() {
         return id;

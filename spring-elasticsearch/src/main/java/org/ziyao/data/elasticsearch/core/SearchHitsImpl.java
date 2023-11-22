@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
-import org.ziyao.data.elasticsearch.core.suggest.response.Suggest;
-import org.springframework.data.util.Lazy;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.suggest.response.Suggest;
+import org.ziyao.data.util.Lazy;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,92 +33,95 @@ import java.util.List;
  */
 public class SearchHitsImpl<T> implements SearchScrollHits<T> {
 
-	private final long totalHits;
-	private final TotalHitsRelation totalHitsRelation;
-	private final float maxScore;
-	@Nullable private final String scrollId;
-	private final List<? extends SearchHit<T>> searchHits;
-	private final Lazy<List<SearchHit<T>>> unmodifiableSearchHits;
-	@Nullable private final AggregationsContainer<?> aggregations;
-	@Nullable private final Suggest suggest;
+    private final long totalHits;
+    private final TotalHitsRelation totalHitsRelation;
+    private final float maxScore;
+    @Nullable
+    private final String scrollId;
+    private final List<? extends SearchHit<T>> searchHits;
+    private final Lazy<List<SearchHit<T>>> unmodifiableSearchHits;
+    @Nullable
+    private final AggregationsContainer<?> aggregations;
+    @Nullable
+    private final Suggest suggest;
 
-	/**
-	 * @param totalHits the number of total hits for the search
-	 * @param totalHitsRelation the relation {@see TotalHitsRelation}, must not be {@literal null}
-	 * @param maxScore the maximum score
-	 * @param scrollId the scroll id if available
-	 * @param searchHits must not be {@literal null}
-	 * @param aggregations the aggregations if available
-	 */
-	public SearchHitsImpl(long totalHits, TotalHitsRelation totalHitsRelation, float maxScore, @Nullable String scrollId,
-			List<? extends SearchHit<T>> searchHits, @Nullable AggregationsContainer<?> aggregations,
-			@Nullable Suggest suggest) {
+    /**
+     * @param totalHits         the number of total hits for the search
+     * @param totalHitsRelation the relation {@see TotalHitsRelation}, must not be {@literal null}
+     * @param maxScore          the maximum score
+     * @param scrollId          the scroll id if available
+     * @param searchHits        must not be {@literal null}
+     * @param aggregations      the aggregations if available
+     */
+    public SearchHitsImpl(long totalHits, TotalHitsRelation totalHitsRelation, float maxScore, @Nullable String scrollId,
+                          List<? extends SearchHit<T>> searchHits, @Nullable AggregationsContainer<?> aggregations,
+                          @Nullable Suggest suggest) {
 
-		Assert.notNull(searchHits, "searchHits must not be null");
+        Assert.notNull(searchHits, "searchHits must not be null");
 
-		this.totalHits = totalHits;
-		this.totalHitsRelation = totalHitsRelation;
-		this.maxScore = maxScore;
-		this.scrollId = scrollId;
-		this.searchHits = searchHits;
-		this.aggregations = aggregations;
-		this.suggest = suggest;
-		this.unmodifiableSearchHits = Lazy.of(() -> Collections.unmodifiableList(searchHits));
-	}
+        this.totalHits = totalHits;
+        this.totalHitsRelation = totalHitsRelation;
+        this.maxScore = maxScore;
+        this.scrollId = scrollId;
+        this.searchHits = searchHits;
+        this.aggregations = aggregations;
+        this.suggest = suggest;
+        this.unmodifiableSearchHits = Lazy.of(() -> Collections.unmodifiableList(searchHits));
+    }
 
-	// region getter
-	@Override
-	public long getTotalHits() {
-		return totalHits;
-	}
+    // region getter
+    @Override
+    public long getTotalHits() {
+        return totalHits;
+    }
 
-	@Override
-	public TotalHitsRelation getTotalHitsRelation() {
-		return totalHitsRelation;
-	}
+    @Override
+    public TotalHitsRelation getTotalHitsRelation() {
+        return totalHitsRelation;
+    }
 
-	@Override
-	public float getMaxScore() {
-		return maxScore;
-	}
+    @Override
+    public float getMaxScore() {
+        return maxScore;
+    }
 
-	@Override
-	@Nullable
-	public String getScrollId() {
-		return scrollId;
-	}
+    @Override
+    @Nullable
+    public String getScrollId() {
+        return scrollId;
+    }
 
-	@Override
-	public List<SearchHit<T>> getSearchHits() {
-		return unmodifiableSearchHits.get();
-	}
+    @Override
+    public List<SearchHit<T>> getSearchHits() {
+        return unmodifiableSearchHits.get();
+    }
 
-	@Override
-	public SearchHit<T> getSearchHit(int index) {
-		return searchHits.get(index);
-	}
+    @Override
+    public SearchHit<T> getSearchHit(int index) {
+        return searchHits.get(index);
+    }
 
-	@Override
-	@Nullable
-	public AggregationsContainer<?> getAggregations() {
-		return aggregations;
-	}
+    @Override
+    @Nullable
+    public AggregationsContainer<?> getAggregations() {
+        return aggregations;
+    }
 
-	@Override
-	@Nullable
-	public Suggest getSuggest() {
-		return suggest;
-	}
+    @Override
+    @Nullable
+    public Suggest getSuggest() {
+        return suggest;
+    }
 
-	@Override
-	public String toString() {
-		return "SearchHits{" + //
-				"totalHits=" + totalHits + //
-				", totalHitsRelation=" + totalHitsRelation + //
-				", maxScore=" + maxScore + //
-				", scrollId='" + scrollId + '\'' + //
-				", searchHits={" + searchHits.size() + " elements}" + //
-				", aggregations=" + aggregations + //
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "SearchHits{" + //
+                "totalHits=" + totalHits + //
+                ", totalHitsRelation=" + totalHitsRelation + //
+                ", maxScore=" + maxScore + //
+                ", scrollId='" + scrollId + '\'' + //
+                ", searchHits={" + searchHits.size() + " elements}" + //
+                ", aggregations=" + aggregations + //
+                '}';
+    }
 }

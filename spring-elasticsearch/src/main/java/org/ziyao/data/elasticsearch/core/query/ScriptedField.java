@@ -23,23 +23,23 @@ import org.springframework.util.Assert;
  */
 public class ScriptedField {
 
-	private final String fieldName;
-	private final ScriptData scriptData;
+    private final String fieldName;
+    private final ScriptData scriptData;
 
-	public ScriptedField(String fieldName, ScriptData scriptData) {
+    public ScriptedField(String fieldName, ScriptData scriptData) {
 
-		Assert.notNull(fieldName, "fieldName must not be null");
-		Assert.notNull(scriptData, "scriptData must not be null");
+        Assert.notNull(fieldName, "fieldName must not be null");
+        Assert.notNull(scriptData, "scriptData must not be null");
 
-		this.fieldName = fieldName;
-		this.scriptData = scriptData;
-	}
+        this.fieldName = fieldName;
+        this.scriptData = scriptData;
+    }
 
-	public String getFieldName() {
-		return fieldName;
-	}
+    public String getFieldName() {
+        return fieldName;
+    }
 
-	public ScriptData getScriptData() {
-		return scriptData;
-	}
+    public ScriptData getScriptData() {
+        return scriptData;
+    }
 }

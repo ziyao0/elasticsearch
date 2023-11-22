@@ -26,20 +26,20 @@ import java.util.Set;
  */
 public class NoReachableHostException extends RuntimeException {
 
-	public NoReachableHostException(Set<ElasticsearchHost> hosts) {
-		super(createMessage(hosts));
-	}
+    public NoReachableHostException(Set<ElasticsearchHost> hosts) {
+        super(createMessage(hosts));
+    }
 
-	public NoReachableHostException(Set<ElasticsearchHost> hosts, Throwable cause) {
-		super(createMessage(hosts), cause);
-	}
+    public NoReachableHostException(Set<ElasticsearchHost> hosts, Throwable cause) {
+        super(createMessage(hosts), cause);
+    }
 
-	private static String createMessage(Set<ElasticsearchHost> hosts) {
+    private static String createMessage(Set<ElasticsearchHost> hosts) {
 
-		if (hosts.size() == 1) {
-			return String.format("Host '%s' not reachable. Cluster state is offline.", hosts.iterator().next().getEndpoint());
-		}
+        if (hosts.size() == 1) {
+            return String.format("Host '%s' not reachable. Cluster state is offline.", hosts.iterator().next().getEndpoint());
+        }
 
-		return String.format("No active host found in cluster. (%s) of (%s) nodes offline.", hosts.size(), hosts.size());
-	}
+        return String.format("No active host found in cluster. (%s) of (%s) nodes offline.", hosts.size(), hosts.size());
+    }
 }

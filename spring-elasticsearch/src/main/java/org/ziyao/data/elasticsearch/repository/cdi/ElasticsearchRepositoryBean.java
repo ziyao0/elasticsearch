@@ -15,13 +15,13 @@
  */
 package org.ziyao.data.elasticsearch.repository.cdi;
 
+import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
 import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
 import org.ziyao.data.elasticsearch.repository.support.ElasticsearchRepositoryFactory;
-import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.cdi.CdiRepositoryBean;
-import org.springframework.data.repository.config.CustomRepositoryImplementationDetector;
-import org.springframework.util.Assert;
+import org.ziyao.data.repository.Repository;
+import org.ziyao.data.repository.cdi.CdiRepositoryBean;
+import org.ziyao.data.repository.config.CustomRepositoryImplementationDetector;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
@@ -40,46 +40,46 @@ import java.util.Set;
  */
 public class ElasticsearchRepositoryBean<T> extends CdiRepositoryBean<T> {
 
-	private final Bean<ElasticsearchOperations> elasticsearchOperationsBean;
+    private final Bean<ElasticsearchOperations> elasticsearchOperationsBean;
 
-	/**
-	 * Creates a new {@link ElasticsearchRepositoryBean}.
-	 *
-	 * @param operations must not be {@literal null}.
-	 * @param qualifiers must not be {@literal null}.
-	 * @param repositoryType must not be {@literal null}.
-	 * @param beanManager must not be {@literal null}.
-	 * @param detector detector for the custom {@link Repository} implementations
-	 *          {@link CustomRepositoryImplementationDetector}, can be {@literal null}.
-	 */
-	public ElasticsearchRepositoryBean(Bean<ElasticsearchOperations> operations, Set<Annotation> qualifiers,
-			Class<T> repositoryType, BeanManager beanManager, CustomRepositoryImplementationDetector detector) {
+    /**
+     * Creates a new {@link ElasticsearchRepositoryBean}.
+     *
+     * @param operations     must not be {@literal null}.
+     * @param qualifiers     must not be {@literal null}.
+     * @param repositoryType must not be {@literal null}.
+     * @param beanManager    must not be {@literal null}.
+     * @param detector       detector for the custom {@link Repository} implementations
+     *                       {@link CustomRepositoryImplementationDetector}, can be {@literal null}.
+     */
+    public ElasticsearchRepositoryBean(Bean<ElasticsearchOperations> operations, Set<Annotation> qualifiers,
+                                       Class<T> repositoryType, BeanManager beanManager, CustomRepositoryImplementationDetector detector) {
 
-		super(qualifiers, repositoryType, beanManager, Optional.of(detector));
+        super(qualifiers, repositoryType, beanManager, Optional.of(detector));
 
-		Assert.notNull(operations, "Cannot create repository with 'null' for ElasticsearchOperations.");
-		this.elasticsearchOperationsBean = operations;
-	}
+        Assert.notNull(operations, "Cannot create repository with 'null' for ElasticsearchOperations.");
+        this.elasticsearchOperationsBean = operations;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.cdi.CdiRepositoryBean#create(javax.enterprise.context.spi.CreationalContext, java.lang.Class)
-	 */
-	@Override
-	protected T create(CreationalContext<T> creationalContext, Class<T> repositoryType) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.cdi.CdiRepositoryBean#create(javax.enterprise.context.spi.CreationalContext, java.lang.Class)
+     */
+    @Override
+    protected T create(CreationalContext<T> creationalContext, Class<T> repositoryType) {
 
-		ElasticsearchOperations operations = getDependencyInstance(elasticsearchOperationsBean,
-				ElasticsearchOperations.class);
+        ElasticsearchOperations operations = getDependencyInstance(elasticsearchOperationsBean,
+                ElasticsearchOperations.class);
 
-		return create(() -> new ElasticsearchRepositoryFactory(operations), repositoryType);
-	}
+        return create(() -> new ElasticsearchRepositoryFactory(operations), repositoryType);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.cdi.CdiRepositoryBean#getScope()
-	 */
-	@Override
-	public Class<? extends Annotation> getScope() {
-		return elasticsearchOperationsBean.getScope();
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.cdi.CdiRepositoryBean#getScope()
+     */
+    @Override
+    public Class<? extends Annotation> getScope() {
+        return elasticsearchOperationsBean.getScope();
+    }
 }

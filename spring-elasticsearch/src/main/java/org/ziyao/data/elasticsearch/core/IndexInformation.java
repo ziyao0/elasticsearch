@@ -16,10 +16,10 @@
 
 package org.ziyao.data.elasticsearch.core;
 
+import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.core.document.Document;
 import org.ziyao.data.elasticsearch.core.index.AliasData;
 import org.ziyao.data.elasticsearch.core.index.Settings;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -31,40 +31,43 @@ import java.util.List;
  * @since 4.2
  */
 public class IndexInformation {
-	private final String name;
-	@Nullable private final Settings settings;
-	@Nullable private final Document mapping;
-	@Nullable private final List<AliasData> aliases;
+    private final String name;
+    @Nullable
+    private final Settings settings;
+    @Nullable
+    private final Document mapping;
+    @Nullable
+    private final List<AliasData> aliases;
 
-	public static IndexInformation of(String name, @Nullable Settings settings, @Nullable Document mapping,
-			@Nullable List<AliasData> aliases) {
-		return new IndexInformation(name, settings, mapping, aliases);
-	}
+    public static IndexInformation of(String name, @Nullable Settings settings, @Nullable Document mapping,
+                                      @Nullable List<AliasData> aliases) {
+        return new IndexInformation(name, settings, mapping, aliases);
+    }
 
-	private IndexInformation(String name, @Nullable Settings settings, @Nullable Document mapping,
-			@Nullable List<AliasData> aliases) {
-		this.name = name;
-		this.settings = settings;
-		this.mapping = mapping;
-		this.aliases = aliases;
-	}
+    private IndexInformation(String name, @Nullable Settings settings, @Nullable Document mapping,
+                             @Nullable List<AliasData> aliases) {
+        this.name = name;
+        this.settings = settings;
+        this.mapping = mapping;
+        this.aliases = aliases;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Nullable
-	public Document getMapping() {
-		return mapping;
-	}
+    @Nullable
+    public Document getMapping() {
+        return mapping;
+    }
 
-	@Nullable
-	public Settings getSettings() {
-		return settings;
-	}
+    @Nullable
+    public Settings getSettings() {
+        return settings;
+    }
 
-	@Nullable
-	public List<AliasData> getAliases() {
-		return aliases;
-	}
+    @Nullable
+    public List<AliasData> getAliases() {
+        return aliases;
+    }
 }

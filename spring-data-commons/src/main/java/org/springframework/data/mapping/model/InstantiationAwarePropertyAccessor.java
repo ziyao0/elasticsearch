@@ -16,10 +16,10 @@
 package org.springframework.data.mapping.model;
 
 import org.springframework.core.KotlinDetector;
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mapping.*;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.annotation.PersistenceConstructor;
 
 import java.util.function.Function;
 

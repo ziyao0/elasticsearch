@@ -15,45 +15,45 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
-import org.springframework.data.util.CloseableIterator;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.util.CloseableIterator;
 
 /**
  * A {@link SearchHitsIterator} encapsulates {@link SearchHit} results that can be wrapped in a Java 8
  * {@link java.util.stream.Stream}.
  *
- * @author Sascha Woo
  * @param <T>
+ * @author Sascha Woo
  * @since 4.0
  */
 public interface SearchHitsIterator<T> extends CloseableIterator<SearchHit<T>> {
 
-	/**
-	 * @return the aggregations.
-	 */
-	@Nullable
+    /**
+     * @return the aggregations.
+     */
+    @Nullable
     AggregationsContainer<?> getAggregations();
 
-	/**
-	 * @return the maximum score
-	 */
-	float getMaxScore();
+    /**
+     * @return the maximum score
+     */
+    float getMaxScore();
 
-	/**
-	 * @return the number of total hits.
-	 */
-	long getTotalHits();
+    /**
+     * @return the number of total hits.
+     */
+    long getTotalHits();
 
-	/**
-	 * @return the relation for the total hits
-	 */
-	TotalHitsRelation getTotalHitsRelation();
+    /**
+     * @return the relation for the total hits
+     */
+    TotalHitsRelation getTotalHitsRelation();
 
-	/**
-	 * @return true if aggregations are available
-	 */
-	default boolean hasAggregations() {
-		return getAggregations() != null;
-	}
+    /**
+     * @return true if aggregations are available
+     */
+    default boolean hasAggregations() {
+        return getAggregations() != null;
+    }
 
 }

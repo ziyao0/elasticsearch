@@ -29,24 +29,25 @@ import java.io.UnsupportedEncodingException;
  */
 final class JsonUtils {
 
-	private static final Log LOGGER = LogFactory.getLog(JsonUtils.class);
+    private static final Log LOGGER = LogFactory.getLog(JsonUtils.class);
 
-	private JsonUtils() {}
+    private JsonUtils() {
+    }
 
-	public static String toJson(Object object, JsonpMapper mapper) {
+    public static String toJson(Object object, JsonpMapper mapper) {
 
-		// noinspection SpellCheckingInspection
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		JsonGenerator generator = mapper.jsonProvider().createGenerator(baos);
-		mapper.serialize(object, generator);
-		generator.close();
-		String jsonMapping = "{}";
-		try {
-			jsonMapping = baos.toString("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			LOGGER.warn("could not read json", e);
-		}
+        // noinspection SpellCheckingInspection
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        JsonGenerator generator = mapper.jsonProvider().createGenerator(baos);
+        mapper.serialize(object, generator);
+        generator.close();
+        String jsonMapping = "{}";
+        try {
+            jsonMapping = baos.toString("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.warn("could not read json", e);
+        }
 
-		return jsonMapping;
-	}
+        return jsonMapping;
+    }
 }

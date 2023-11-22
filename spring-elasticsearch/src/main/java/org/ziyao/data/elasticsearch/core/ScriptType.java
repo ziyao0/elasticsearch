@@ -23,5 +23,5 @@ package org.ziyao.data.elasticsearch.core;
  */
 
 public enum ScriptType {
-	INLINE, STORED
+    INLINE, STORED
 }

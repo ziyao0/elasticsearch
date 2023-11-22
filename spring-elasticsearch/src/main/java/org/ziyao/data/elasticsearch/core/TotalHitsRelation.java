@@ -25,10 +25,10 @@ package org.ziyao.data.elasticsearch.core;
  * @since 4.0
  */
 public enum TotalHitsRelation {
-	EQUAL_TO, //
-	GREATER_THAN_OR_EQUAL_TO, //
-	/**
-	 * @since 4.1
-	 */
-	OFF
+    EQUAL_TO, //
+    GREATER_THAN_OR_EQUAL_TO, //
+    /**
+     * @since 4.1
+     */
+    OFF
 }

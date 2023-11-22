@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.repository.query;
 
-import org.springframework.data.repository.query.ParameterAccessor;
+import org.ziyao.data.repository.query.ParameterAccessor;
 
 /**
  * @author Christoph Strobl
@@ -23,10 +23,10 @@ import org.springframework.data.repository.query.ParameterAccessor;
  */
 public interface ElasticsearchParameterAccessor extends ParameterAccessor {
 
-	/**
-	 * Returns the raw parameter values of the underlying query method.
-	 *
-	 * @return
-	 */
-	Object[] getValues();
+    /**
+     * Returns the raw parameter values of the underlying query method.
+     *
+     * @return
+     */
+    Object[] getValues();
 }

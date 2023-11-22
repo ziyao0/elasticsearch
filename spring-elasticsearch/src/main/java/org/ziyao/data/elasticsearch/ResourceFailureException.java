@@ -21,11 +21,11 @@ import org.springframework.core.NestedRuntimeException;
  * @author Peter-Josef Meisch
  */
 public class ResourceFailureException extends NestedRuntimeException {
-	public ResourceFailureException(String msg) {
-		super(msg);
-	}
+    public ResourceFailureException(String msg) {
+        super(msg);
+    }
 
-	public ResourceFailureException(String msg, Throwable cause) {
-		super(msg, cause);
-	}
+    public ResourceFailureException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

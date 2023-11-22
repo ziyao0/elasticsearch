@@ -32,159 +32,159 @@ import java.util.function.BiConsumer;
  */
 public class DefaultStringObjectMap<T extends StringObjectMap<T>> implements StringObjectMap<T> {
 
-	static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-	private final LinkedHashMap<String, Object> delegate;
+    static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final LinkedHashMap<String, Object> delegate;
 
-	public DefaultStringObjectMap() {
-		this(new LinkedHashMap<>());
-	}
+    public DefaultStringObjectMap() {
+        this(new LinkedHashMap<>());
+    }
 
-	public DefaultStringObjectMap(Map<String, ? extends Object> map) {
-		this.delegate = new LinkedHashMap<>(map);
-	}
+    public DefaultStringObjectMap(Map<String, ? extends Object> map) {
+        this.delegate = new LinkedHashMap<>(map);
+    }
 
-	@Override
-	public String toJson() {
-		try {
-			return OBJECT_MAPPER.writeValueAsString(this);
-		} catch (JsonProcessingException e) {
-			throw new IllegalArgumentException("Cannot render document to JSON", e);
-		}
-	}
+    @Override
+    public String toJson() {
+        try {
+            return OBJECT_MAPPER.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("Cannot render document to JSON", e);
+        }
+    }
 
-	@Override
-	public T fromJson(String json) {
+    @Override
+    public T fromJson(String json) {
 
-		Assert.notNull(json, "JSON must not be null");
+        Assert.notNull(json, "JSON must not be null");
 
-		delegate.clear();
-		try {
-			delegate.putAll(OBJECT_MAPPER.readerFor(Map.class).readValue(json));
-		} catch (IOException e) {
-			throw new IllegalArgumentException("Cannot parse JSON", e);
-		}
-		return (T) this;
-	}
+        delegate.clear();
+        try {
+            delegate.putAll(OBJECT_MAPPER.readerFor(Map.class).readValue(json));
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Cannot parse JSON", e);
+        }
+        return (T) this;
+    }
 
-	@Override
-	public int size() {
-		return delegate.size();
-	}
+    @Override
+    public int size() {
+        return delegate.size();
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return delegate.isEmpty();
-	}
+    @Override
+    public boolean isEmpty() {
+        return delegate.isEmpty();
+    }
 
-	@Override
-	public boolean containsKey(Object key) {
-		return delegate.containsKey(key);
-	}
+    @Override
+    public boolean containsKey(Object key) {
+        return delegate.containsKey(key);
+    }
 
-	@Override
-	public boolean containsValue(Object value) {
-		return delegate.containsValue(value);
-	}
+    @Override
+    public boolean containsValue(Object value) {
+        return delegate.containsValue(value);
+    }
 
-	@Override
-	@Nullable
-	public Object get(Object key) {
-		return delegate.get(key);
-	}
+    @Override
+    @Nullable
+    public Object get(Object key) {
+        return delegate.get(key);
+    }
 
-	@Override
-	public Object getOrDefault(Object key, Object defaultValue) {
-		return delegate.getOrDefault(key, defaultValue);
-	}
+    @Override
+    public Object getOrDefault(Object key, Object defaultValue) {
+        return delegate.getOrDefault(key, defaultValue);
+    }
 
-	@Override
-	public Object put(String key, Object value) {
-		return delegate.put(key, value);
-	}
+    @Override
+    public Object put(String key, Object value) {
+        return delegate.put(key, value);
+    }
 
-	@Override
-	public Object remove(Object key) {
-		return delegate.remove(key);
-	}
+    @Override
+    public Object remove(Object key) {
+        return delegate.remove(key);
+    }
 
-	@Override
-	public void putAll(Map<? extends String, ?> m) {
-		delegate.putAll(m);
-	}
+    @Override
+    public void putAll(Map<? extends String, ?> m) {
+        delegate.putAll(m);
+    }
 
-	@Override
-	public void clear() {
-		delegate.clear();
-	}
+    @Override
+    public void clear() {
+        delegate.clear();
+    }
 
-	@Override
-	public Set<String> keySet() {
-		return delegate.keySet();
-	}
+    @Override
+    public Set<String> keySet() {
+        return delegate.keySet();
+    }
 
-	@Override
-	public Collection<Object> values() {
-		return delegate.values();
-	}
+    @Override
+    public Collection<Object> values() {
+        return delegate.values();
+    }
 
-	@Override
-	public Set<Entry<String, Object>> entrySet() {
-		return delegate.entrySet();
-	}
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        return delegate.entrySet();
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		return delegate.equals(o);
-	}
+    @Override
+    public boolean equals(Object o) {
+        return delegate.equals(o);
+    }
 
-	@Override
-	public int hashCode() {
-		return delegate.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return delegate.hashCode();
+    }
 
-	@Override
-	public void forEach(BiConsumer<? super String, ? super Object> action) {
-		delegate.forEach(action);
-	}
+    @Override
+    public void forEach(BiConsumer<? super String, ? super Object> action) {
+        delegate.forEach(action);
+    }
 
-	@Override
-	public String toString() {
-		return "DefaultStringObjectMap: " + toJson();
-	}
+    @Override
+    public String toString() {
+        return "DefaultStringObjectMap: " + toJson();
+    }
 
-	/**
-	 * Gets the object at the given key path (dot separated) or null if no object exists with this path.
-	 *
-	 * @param path the key path, must not be {@literal null}
-	 * @return the found object or null
-	 */
-	@Nullable
-	public Object path(String path) {
+    /**
+     * Gets the object at the given key path (dot separated) or null if no object exists with this path.
+     *
+     * @param path the key path, must not be {@literal null}
+     * @return the found object or null
+     */
+    @Nullable
+    public Object path(String path) {
 
-		Assert.notNull(path, "path must not be null");
+        Assert.notNull(path, "path must not be null");
 
-		Map<String, Object> current = this;
+        Map<String, Object> current = this;
 
-		String[] segments = path.split("\\.");
-		for (int i = 0; i < segments.length; i++) {
-			String segment = segments[i];
+        String[] segments = path.split("\\.");
+        for (int i = 0; i < segments.length; i++) {
+            String segment = segments[i];
 
-			if (current.containsKey(segment)) {
-				Object currentObject = current.get(segment);
+            if (current.containsKey(segment)) {
+                Object currentObject = current.get(segment);
 
-				if (i == segments.length - 1) {
-					return currentObject;
-				}
+                if (i == segments.length - 1) {
+                    return currentObject;
+                }
 
-				if (currentObject instanceof Map) {
-					current = (Map<String, Object>) currentObject;
-				} else {
-					return null;
-				}
-			} else {
-				return null;
-			}
-		}
-		return null;
-	}
+                if (currentObject instanceof Map) {
+                    current = (Map<String, Object>) currentObject;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+        return null;
+    }
 }

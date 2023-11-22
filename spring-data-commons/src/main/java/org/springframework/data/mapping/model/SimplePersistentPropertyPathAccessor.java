@@ -19,10 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.CollectionFactory;
 import org.springframework.data.mapping.*;
-import org.springframework.data.mapping.AccessOptions.GetOptions;
-import org.springframework.data.mapping.AccessOptions.GetOptions.GetNulls;
-import org.springframework.data.mapping.AccessOptions.SetOptions;
-import org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
@@ -30,9 +26,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls.REJECT;
-import static org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls.SKIP;
 
 /**
  * {@link PersistentPropertyPathAccessor} that propagates attempts to set property values through collections and map
@@ -47,7 +40,7 @@ import static org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls
 class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathAccessor<T> {
 
     private static final Log logger = LogFactory.getLog(SimplePersistentPropertyPathAccessor.class);
-    private static final GetOptions DEFAULT_GET_OPTIONS = AccessOptions.defaultGetOptions();
+    private static final AccessOptions.GetOptions DEFAULT_GET_OPTIONS = AccessOptions.defaultGetOptions();
 
     private final PersistentPropertyAccessor<T> delegate;
 
@@ -90,7 +83,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
      */
     @Nullable
     @Override
-    public Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, GetOptions options) {
+    public Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, AccessOptions.GetOptions options) {
 
         Object bean = getBean();
         Object current = bean;
@@ -139,7 +132,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
     @SuppressWarnings("unchecked")
     @Override
     public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value,
-                            SetOptions options) {
+                            AccessOptions.SetOptions options) {
 
         Assert.notNull(path, "PersistentPropertyPath must not be null");
         Assert.isTrue(!path.isEmpty(), "PersistentPropertyPath must not be empty");
@@ -151,8 +144,8 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
             return;
         }
 
-        GetOptions lookupOptions = options.getNullHandling() != REJECT
-                ? DEFAULT_GET_OPTIONS.withNullValues(GetNulls.EARLY_RETURN)
+        AccessOptions.GetOptions lookupOptions = options.getNullHandling() != AccessOptions.SetOptions.SetNulls.REJECT
+                ? DEFAULT_GET_OPTIONS.withNullValues(AccessOptions.GetOptions.GetNulls.EARLY_RETURN)
                 : DEFAULT_GET_OPTIONS;
 
         Object parent = parentPath.isEmpty() ? getBean() : getProperty(parentPath, lookupOptions);
@@ -215,15 +208,15 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
      * @return
      */
     @Nullable
-    private Object handleNull(PersistentPropertyPath<? extends PersistentProperty<?>> path, SetNulls handling) {
+    private Object handleNull(PersistentPropertyPath<? extends PersistentProperty<?>> path, AccessOptions.SetOptions.SetNulls handling) {
 
-        if (SKIP.equals(handling)) {
+        if (AccessOptions.SetOptions.SetNulls.SKIP.equals(handling)) {
             return null;
         }
 
         String nullIntermediateMessage = "Cannot lookup property %s on null intermediate; Original path was: %s on %s";
 
-        if (SetNulls.SKIP_AND_LOG.equals(handling)) {
+        if (AccessOptions.SetOptions.SetNulls.SKIP_AND_LOG.equals(handling)) {
             logger.info(nullIntermediateMessage);
             return null;
         }

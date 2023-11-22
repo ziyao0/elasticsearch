@@ -27,11 +27,11 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HighlightField {
 
-	/**
-	 * The name of the field to apply highlighting to. This must be the field name of the entity's property, not the name
-	 * of the field in the index mappings.
-	 */
-	String name() default "";
+    /**
+     * The name of the field to apply highlighting to. This must be the field name of the entity's property, not the name
+     * of the field in the index mappings.
+     */
+    String name() default "";
 
-	HighlightParameters parameters() default @HighlightParameters;
+    HighlightParameters parameters() default @HighlightParameters;
 }

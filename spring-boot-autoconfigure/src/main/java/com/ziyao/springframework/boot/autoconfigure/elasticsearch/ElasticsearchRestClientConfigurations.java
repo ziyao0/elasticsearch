@@ -101,6 +101,7 @@ class ElasticsearchRestClientConfigurations {
         }
 
     }
+
     @SuppressWarnings("deprecation")
     @Configuration
     @ConditionalOnClass(org.elasticsearch.client.RestHighLevelClient.class)

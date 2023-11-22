@@ -25,16 +25,16 @@ import org.springframework.data.mapping.context.MappingContext;
  */
 public enum WriteTypeHint {
 
-	/**
-	 * Use the global settings from the {@link MappingContext}.
-	 */
-	DEFAULT,
-	/**
-	 * Always write type hints for the entity.
-	 */
-	TRUE,
-	/**
-	 * Never write type hints for the entity.
-	 */
-	FALSE
+    /**
+     * Use the global settings from the {@link MappingContext}.
+     */
+    DEFAULT,
+    /**
+     * Always write type hints for the entity.
+     */
+    TRUE,
+    /**
+     * Never write type hints for the entity.
+     */
+    FALSE
 }

@@ -24,48 +24,50 @@ import org.springframework.lang.Nullable;
  */
 public class UncategorizedElasticsearchException extends UncategorizedDataAccessException {
 
-	/**
-	 * the response status code from Elasticsearch if available
-	 *
-	 * @since 4.4
-	 */
-	@Nullable private final Integer statusCode;
+    /**
+     * the response status code from Elasticsearch if available
+     *
+     * @since 4.4
+     */
+    @Nullable
+    private final Integer statusCode;
 
-	/**
-	 * The response body from Elasticsearch if available
-	 *
-	 * @since 4.4
-	 */
-	@Nullable final String responseBody;
+    /**
+     * The response body from Elasticsearch if available
+     *
+     * @since 4.4
+     */
+    @Nullable
+    final String responseBody;
 
-	public UncategorizedElasticsearchException(String msg) {
-		this(msg, null);
-	}
+    public UncategorizedElasticsearchException(String msg) {
+        this(msg, null);
+    }
 
-	public UncategorizedElasticsearchException(String msg, @Nullable Throwable cause) {
-		this(msg, null, null, cause);
-	}
+    public UncategorizedElasticsearchException(String msg, @Nullable Throwable cause) {
+        this(msg, null, null, cause);
+    }
 
-	public UncategorizedElasticsearchException(String msg, @Nullable Integer statusCode, @Nullable String responseBody,
-			@Nullable Throwable cause) {
-		super(msg, cause);
-		this.statusCode = statusCode;
-		this.responseBody = responseBody;
-	}
+    public UncategorizedElasticsearchException(String msg, @Nullable Integer statusCode, @Nullable String responseBody,
+                                               @Nullable Throwable cause) {
+        super(msg, cause);
+        this.statusCode = statusCode;
+        this.responseBody = responseBody;
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	@Nullable
-	public Integer getStatusCode() {
-		return statusCode;
-	}
+    /**
+     * @since 4.4
+     */
+    @Nullable
+    public Integer getStatusCode() {
+        return statusCode;
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	@Nullable
-	public String getResponseBody() {
-		return responseBody;
-	}
+    /**
+     * @since 4.4
+     */
+    @Nullable
+    public String getResponseBody() {
+        return responseBody;
+    }
 }

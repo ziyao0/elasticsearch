@@ -29,28 +29,28 @@ import java.lang.annotation.*;
 @Inherited
 public @interface CompletionContext {
 
-	String name();
+    String name();
 
-	ContextMappingType type();
+    ContextMappingType type();
 
-	String precision() default "";
+    String precision() default "";
 
-	String path() default "";
+    String path() default "";
 
-	/**
-	 * @since 4.3
-	 */
-	enum ContextMappingType {
-		CATEGORY("category"), GEO("geo");
+    /**
+     * @since 4.3
+     */
+    enum ContextMappingType {
+        CATEGORY("category"), GEO("geo");
 
-		private final String mappedName;
+        private final String mappedName;
 
-		ContextMappingType(String mappedName) {
-			this.mappedName = mappedName;
-		}
+        ContextMappingType(String mappedName) {
+            this.mappedName = mappedName;
+        }
 
-		public String getMappedName() {
-			return mappedName;
-		}
-	}
+        public String getMappedName() {
+            return mappedName;
+        }
+    }
 }

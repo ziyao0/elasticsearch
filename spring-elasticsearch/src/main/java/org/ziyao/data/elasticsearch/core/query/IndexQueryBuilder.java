@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.ziyao.data.elasticsearch.core.RefreshPolicy;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.core.RefreshPolicy;
 
 /**
  * IndexQuery Builder
@@ -29,75 +29,87 @@ import org.springframework.lang.Nullable;
  */
 public class IndexQueryBuilder {
 
-	@Nullable private String id;
-	@Nullable private Object object;
-	@Nullable private Long version;
-	@Nullable private String source;
-	@Deprecated
-	@Nullable private String parentId;
-	@Nullable private Long seqNo;
-	@Nullable private Long primaryTerm;
-	@Nullable private String routing;
-	@Nullable private IndexQuery.OpType opType;
-	@Nullable private RefreshPolicy refreshPolicy;
-	@Nullable private String indexName;
+    @Nullable
+    private String id;
+    @Nullable
+    private Object object;
+    @Nullable
+    private Long version;
+    @Nullable
+    private String source;
+    @Deprecated
+    @Nullable
+    private String parentId;
+    @Nullable
+    private Long seqNo;
+    @Nullable
+    private Long primaryTerm;
+    @Nullable
+    private String routing;
+    @Nullable
+    private IndexQuery.OpType opType;
+    @Nullable
+    private RefreshPolicy refreshPolicy;
+    @Nullable
+    private String indexName;
 
-	public IndexQueryBuilder() {}
+    public IndexQueryBuilder() {
+    }
 
-	public IndexQueryBuilder withId(String id) {
-		this.id = id;
-		return this;
-	}
+    public IndexQueryBuilder withId(String id) {
+        this.id = id;
+        return this;
+    }
 
-	public IndexQueryBuilder withObject(Object object) {
-		this.object = object;
-		return this;
-	}
+    public IndexQueryBuilder withObject(Object object) {
+        this.object = object;
+        return this;
+    }
 
-	public IndexQueryBuilder withVersion(Long version) {
-		this.version = version;
-		return this;
-	}
+    public IndexQueryBuilder withVersion(Long version) {
+        this.version = version;
+        return this;
+    }
 
-	public IndexQueryBuilder withSource(String source) {
-		this.source = source;
-		return this;
-	}
+    public IndexQueryBuilder withSource(String source) {
+        this.source = source;
+        return this;
+    }
 
-	@Deprecated
-	public IndexQueryBuilder withParentId(String parentId) {
-		this.parentId = parentId;
-		return this;
-	}
+    @Deprecated
+    public IndexQueryBuilder withParentId(String parentId) {
+        this.parentId = parentId;
+        return this;
+    }
 
-	public IndexQueryBuilder withSeqNoPrimaryTerm(SeqNoPrimaryTerm seqNoPrimaryTerm) {
-		this.seqNo = seqNoPrimaryTerm.getSequenceNumber();
-		this.primaryTerm = seqNoPrimaryTerm.getPrimaryTerm();
-		return this;
-	}
+    public IndexQueryBuilder withSeqNoPrimaryTerm(SeqNoPrimaryTerm seqNoPrimaryTerm) {
+        this.seqNo = seqNoPrimaryTerm.getSequenceNumber();
+        this.primaryTerm = seqNoPrimaryTerm.getPrimaryTerm();
+        return this;
+    }
 
-	public IndexQueryBuilder withRouting(@Nullable String routing) {
-		this.routing = routing;
-		return this;
-	}
+    public IndexQueryBuilder withRouting(@Nullable String routing) {
+        this.routing = routing;
+        return this;
+    }
 
-	/**
-	 * @since 4.2
-	 */
-	public IndexQueryBuilder withOpType(IndexQuery.OpType opType) {
-		this.opType = opType;
-		return this;
-	}
+    /**
+     * @since 4.2
+     */
+    public IndexQueryBuilder withOpType(IndexQuery.OpType opType) {
+        this.opType = opType;
+        return this;
+    }
 
-	public IndexQuery build() {
-		return new IndexQuery(id, object, version, source, parentId, seqNo, primaryTerm, routing, opType, indexName);
-	}
+    public IndexQuery build() {
+        return new IndexQuery(id, object, version, source, parentId, seqNo, primaryTerm, routing, opType, indexName);
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	public IndexQueryBuilder withIndex(@Nullable String indexName) {
-		this.indexName = indexName;
-		return this;
-	}
+    /**
+     * @since 4.4
+     */
+    public IndexQueryBuilder withIndex(@Nullable String indexName) {
+        this.indexName = indexName;
+        return this;
+    }
 }

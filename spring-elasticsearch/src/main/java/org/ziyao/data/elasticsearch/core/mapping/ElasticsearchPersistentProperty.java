@@ -16,10 +16,10 @@
 package org.ziyao.data.elasticsearch.core.mapping;
 
 import org.springframework.core.convert.converter.Converter;
-import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
-import org.ziyao.data.elasticsearch.core.query.SeqNoPrimaryTerm;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
+import org.ziyao.data.elasticsearch.core.query.SeqNoPrimaryTerm;
 
 /**
  * ElasticsearchPersistentProperty
@@ -33,107 +33,107 @@ import org.springframework.lang.Nullable;
  */
 public interface ElasticsearchPersistentProperty extends PersistentProperty<ElasticsearchPersistentProperty> {
 
-	/**
-	 * Returns the name to be used to store the property in the document.
-	 *
-	 * @return
-	 */
-	String getFieldName();
+    /**
+     * Returns the name to be used to store the property in the document.
+     *
+     * @return
+     */
+    String getFieldName();
 
-	/**
-	 * Returns whether the current property is a {@link SeqNoPrimaryTerm} property.
-	 *
-	 * @return true if the type is {@link SeqNoPrimaryTerm}
-	 * @since 4.0
-	 */
-	boolean isSeqNoPrimaryTermProperty();
+    /**
+     * Returns whether the current property is a {@link SeqNoPrimaryTerm} property.
+     *
+     * @return true if the type is {@link SeqNoPrimaryTerm}
+     * @since 4.0
+     */
+    boolean isSeqNoPrimaryTermProperty();
 
-	/**
-	 * @return true if an {@link PropertyValueConverter} is available for this instance.
-	 * @since 4.0
-	 */
-	boolean hasPropertyValueConverter();
+    /**
+     * @return true if an {@link PropertyValueConverter} is available for this instance.
+     * @since 4.0
+     */
+    boolean hasPropertyValueConverter();
 
-	/**
-	 * @return the {@link PropertyValueConverter} for this instance.
-	 * @since 4.0
-	 */
-	@Nullable
-	PropertyValueConverter getPropertyValueConverter();
+    /**
+     * @return the {@link PropertyValueConverter} for this instance.
+     * @since 4.0
+     */
+    @Nullable
+    PropertyValueConverter getPropertyValueConverter();
 
-	/**
-	 * Returns true if the property may be read.
-	 *
-	 * @return true if readable, false otherwise
-	 * @since 4.0
-	 */
-	boolean isReadable();
+    /**
+     * Returns true if the property may be read.
+     *
+     * @return true if readable, false otherwise
+     * @since 4.0
+     */
+    boolean isReadable();
 
-	/**
-	 * @return {@literal true} if null values should be stored in Elasticsearch
-	 * @since 4.1
-	 */
-	boolean storeNullValue();
+    /**
+     * @return {@literal true} if null values should be stored in Elasticsearch
+     * @since 4.1
+     */
+    boolean storeNullValue();
 
-	/**
-	 * @return {@literal true} if this is a GeoPoint property
-	 * @since 4.1
-	 */
-	boolean isGeoPointProperty();
+    /**
+     * @return {@literal true} if this is a GeoPoint property
+     * @since 4.1
+     */
+    boolean isGeoPointProperty();
 
-	/**
-	 * @return {@literal true} if this is a GeoShape property
-	 * @since 4.1
-	 */
-	boolean isGeoShapeProperty();
+    /**
+     * @return {@literal true} if this is a GeoShape property
+     * @since 4.1
+     */
+    boolean isGeoShapeProperty();
 
-	/**
-	 * @return {@literal true} if this is a JoinField property
-	 * @since 4.1
-	 */
-	boolean isJoinFieldProperty();
+    /**
+     * @return {@literal true} if this is a JoinField property
+     * @since 4.1
+     */
+    boolean isJoinFieldProperty();
 
-	/**
-	 * @return {@literal true} if this is a Completion property
-	 * @since 4.1
-	 */
-	boolean isCompletionProperty();
+    /**
+     * @return {@literal true} if this is a Completion property
+     * @since 4.1
+     */
+    boolean isCompletionProperty();
 
-	/**
-	 * calls {@link #getActualType()} but returns null when an exception is thrown
-	 *
-	 * @since 4.1
-	 */
-	@Nullable
-	default Class<?> getActualTypeOrNull() {
-		try {
-			return getActualType();
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    /**
+     * calls {@link #getActualType()} but returns null when an exception is thrown
+     *
+     * @since 4.1
+     */
+    @Nullable
+    default Class<?> getActualTypeOrNull() {
+        try {
+            return getActualType();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	enum PropertyToFieldNameConverter implements Converter<ElasticsearchPersistentProperty, String> {
+    enum PropertyToFieldNameConverter implements Converter<ElasticsearchPersistentProperty, String> {
 
-		INSTANCE;
+        INSTANCE;
 
-		@Override
-		public String convert(ElasticsearchPersistentProperty source) {
-			return source.getFieldName();
-		}
-	}
+        @Override
+        public String convert(ElasticsearchPersistentProperty source) {
+            return source.getFieldName();
+        }
+    }
 
-	/**
-	 * when building CriteriaQueries use the name; the fieldname is set later with
-	 * {@link ElasticsearchConverter}.
-	 */
-	enum QueryPropertyToFieldNameConverter implements Converter<ElasticsearchPersistentProperty, String> {
+    /**
+     * when building CriteriaQueries use the name; the fieldname is set later with
+     * {@link ElasticsearchConverter}.
+     */
+    enum QueryPropertyToFieldNameConverter implements Converter<ElasticsearchPersistentProperty, String> {
 
-		INSTANCE;
+        INSTANCE;
 
-		@Override
-		public String convert(ElasticsearchPersistentProperty source) {
-			return source.getName();
-		}
-	}
+        @Override
+        public String convert(ElasticsearchPersistentProperty source) {
+            return source.getName();
+        }
+    }
 }

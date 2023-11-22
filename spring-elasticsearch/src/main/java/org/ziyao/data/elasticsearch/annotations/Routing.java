@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.annotations;
 
-import org.springframework.data.annotation.Persistent;
+import org.ziyao.data.annotation.Persistent;
 
 import java.lang.annotation.*;
 
@@ -28,12 +28,12 @@ import java.lang.annotation.*;
 @Persistent
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 public @interface Routing {
 
-	/**
-	 * defines how the routing is determined. Can be either the name of a property or a SpEL expression. See the reference
-	 * documentation for examples how to use this annotation.
-	 */
-	String value();
+    /**
+     * defines how the routing is determined. Can be either the name of a property or a SpEL expression. See the reference
+     * documentation for examples how to use this annotation.
+     */
+    String value();
 }

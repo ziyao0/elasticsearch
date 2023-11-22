@@ -28,37 +28,37 @@ import java.util.List;
  */
 public class DateRangePropertyValueConverter extends AbstractRangePropertyValueConverter<Date> {
 
-	private static final Log LOGGER = LogFactory.getLog(DateRangePropertyValueConverter.class);
+    private static final Log LOGGER = LogFactory.getLog(DateRangePropertyValueConverter.class);
 
-	private final List<ElasticsearchDateConverter> dateConverters;
+    private final List<ElasticsearchDateConverter> dateConverters;
 
-	public DateRangePropertyValueConverter(PersistentProperty<?> property,
-			List<ElasticsearchDateConverter> dateConverters) {
+    public DateRangePropertyValueConverter(PersistentProperty<?> property,
+                                           List<ElasticsearchDateConverter> dateConverters) {
 
-		super(property);
-		this.dateConverters = dateConverters;
-	}
+        super(property);
+        this.dateConverters = dateConverters;
+    }
 
-	@Override
-	protected String format(Date value) {
-		return dateConverters.get(0).format(value);
-	}
+    @Override
+    protected String format(Date value) {
+        return dateConverters.get(0).format(value);
+    }
 
-	@Override
-	protected Date parse(String value) {
+    @Override
+    protected Date parse(String value) {
 
-		for (ElasticsearchDateConverter converters : dateConverters) {
-			try {
-				return converters.parse(value);
-			} catch (Exception e) {
-				if (LOGGER.isTraceEnabled()) {
-					LOGGER.trace(e.getMessage(), e);
-				}
-			}
-		}
+        for (ElasticsearchDateConverter converters : dateConverters) {
+            try {
+                return converters.parse(value);
+            } catch (Exception e) {
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(e.getMessage(), e);
+                }
+            }
+        }
 
-		throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", value,
-				getGenericType().getTypeName(), getProperty().getName()));
-	}
+        throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", value,
+                getGenericType().getTypeName(), getProperty().getName()));
+    }
 
 }

@@ -17,8 +17,8 @@ package org.ziyao.data.elasticsearch.config;
 
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 import org.ziyao.data.elasticsearch.repository.config.ElasticsearchRepositoryConfigExtension;
-import org.springframework.data.repository.config.RepositoryBeanDefinitionParser;
-import org.springframework.data.repository.config.RepositoryConfigurationExtension;
+import org.ziyao.data.repository.config.RepositoryBeanDefinitionParser;
+import org.ziyao.data.repository.config.RepositoryConfigurationExtension;
 
 /**
  * ElasticsearchNamespaceHandler
@@ -29,12 +29,12 @@ import org.springframework.data.repository.config.RepositoryConfigurationExtensi
  */
 public class ElasticsearchNamespaceHandler extends NamespaceHandlerSupport {
 
-	@Override
-	public void init() {
-		RepositoryConfigurationExtension extension = new ElasticsearchRepositoryConfigExtension();
-		RepositoryBeanDefinitionParser parser = new RepositoryBeanDefinitionParser(extension);
+    @Override
+    public void init() {
+        RepositoryConfigurationExtension extension = new ElasticsearchRepositoryConfigExtension();
+        RepositoryBeanDefinitionParser parser = new RepositoryBeanDefinitionParser(extension);
 
-		registerBeanDefinitionParser("repositories", parser);
-		registerBeanDefinitionParser("rest-client", new RestClientBeanDefinitionParser());
-	}
+        registerBeanDefinitionParser("repositories", parser);
+        registerBeanDefinitionParser("rest-client", new RestClientBeanDefinitionParser());
+    }
 }

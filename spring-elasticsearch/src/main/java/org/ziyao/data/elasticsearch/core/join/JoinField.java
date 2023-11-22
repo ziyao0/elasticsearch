@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.join;
 
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.annotation.PersistenceConstructor;
 
 import java.util.Objects;
 
@@ -27,51 +27,52 @@ import java.util.Objects;
  */
 public class JoinField<ID> {
 
-	private final String name;
+    private final String name;
 
-	@Nullable private ID parent;
+    @Nullable
+    private ID parent;
 
-	public JoinField() {
-		this("default", null);
-	}
+    public JoinField() {
+        this("default", null);
+    }
 
-	public JoinField(String name) {
-		this(name, null);
-	}
+    public JoinField(String name) {
+        this(name, null);
+    }
 
-	@PersistenceConstructor
-	public JoinField(String name, @Nullable ID parent) {
-		this.name = name;
-		this.parent = parent;
-	}
+    @PersistenceConstructor
+    public JoinField(String name, @Nullable ID parent) {
+        this.name = name;
+        this.parent = parent;
+    }
 
-	public void setParent(@Nullable ID parent) {
-		this.parent = parent;
-	}
+    public void setParent(@Nullable ID parent) {
+        this.parent = parent;
+    }
 
-	@Nullable
-	public ID getParent() {
-		return parent;
-	}
+    @Nullable
+    public ID getParent() {
+        return parent;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(name, parent);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, parent);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof JoinField)) {
-			return false;
-		}
-		JoinField other = (JoinField) obj;
-		return Objects.equals(name, other.name) && Objects.equals(parent, other.parent);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof JoinField)) {
+            return false;
+        }
+        JoinField other = (JoinField) obj;
+        return Objects.equals(name, other.name) && Objects.equals(parent, other.parent);
+    }
 }

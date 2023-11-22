@@ -21,17 +21,17 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.data.mapping.model.FieldNamingStrategy;
+import org.springframework.data.mapping.model.PropertyNameFieldNamingStrategy;
+import org.springframework.lang.Nullable;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
 import org.ziyao.data.elasticsearch.annotations.Document;
 import org.ziyao.data.elasticsearch.core.RefreshPolicy;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchCustomConversions;
 import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
-import org.springframework.data.mapping.model.FieldNamingStrategy;
-import org.springframework.data.mapping.model.PropertyNameFieldNamingStrategy;
-import org.springframework.lang.Nullable;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -16,7 +16,7 @@
 package org.springframework.data.mapping.model;
 
 import org.springframework.data.mapping.*;
-import org.springframework.data.spel.EvaluationContextProvider;
+import org.ziyao.data.spel.EvaluationContextProvider;
 
 /**
  * Interface capturing mutator methods for {@link PersistentEntity}s.

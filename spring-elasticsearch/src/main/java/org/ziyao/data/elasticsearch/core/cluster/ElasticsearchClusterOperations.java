@@ -15,25 +15,25 @@
  */
 package org.ziyao.data.elasticsearch.core.cluster;
 
-import org.ziyao.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 /**
  * @author Peter-Josef Meisch
  * @since 4.4
  */
 public class ElasticsearchClusterOperations {
-	/**
-	 * Creates a ClusterOperations for a {@link ElasticsearchRestTemplate}.
-	 *
-	 * @param template the template, must not be {@literal null}
-	 * @return ClusterOperations
-	 */
-	public static ClusterOperations forTemplate(ElasticsearchRestTemplate template) {
+    /**
+     * Creates a ClusterOperations for a {@link ElasticsearchRestTemplate}.
+     *
+     * @param template the template, must not be {@literal null}
+     * @return ClusterOperations
+     */
+    public static ClusterOperations forTemplate(ElasticsearchRestTemplate template) {
 
-		Assert.notNull(template, "template must not be null");
+        Assert.notNull(template, "template must not be null");
 
-		return new DefaultClusterOperations(template);
-	}
+        return new DefaultClusterOperations(template);
+    }
 
 }

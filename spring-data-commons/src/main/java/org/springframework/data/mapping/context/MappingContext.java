@@ -17,8 +17,8 @@ package org.springframework.data.mapping.context;
 
 import org.springframework.data.mapping.*;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.util.TypeInformation;
 
 import java.util.Collection;
 import java.util.function.Predicate;

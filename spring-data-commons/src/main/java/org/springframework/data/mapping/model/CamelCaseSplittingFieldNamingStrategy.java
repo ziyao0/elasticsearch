@@ -16,9 +16,9 @@
 package org.springframework.data.mapping.model;
 
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.util.ParsingUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.util.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,49 +32,49 @@ import java.util.List;
  */
 public class CamelCaseSplittingFieldNamingStrategy implements FieldNamingStrategy {
 
-	private final String delimiter;
+    private final String delimiter;
 
-	/**
-	 * Creates a new {@link CamelCaseSplittingFieldNamingStrategy}.
-	 *
-	 * @param delimiter must not be {@literal null}.
-	 */
-	public CamelCaseSplittingFieldNamingStrategy(String delimiter) {
+    /**
+     * Creates a new {@link CamelCaseSplittingFieldNamingStrategy}.
+     *
+     * @param delimiter must not be {@literal null}.
+     */
+    public CamelCaseSplittingFieldNamingStrategy(String delimiter) {
 
-		Assert.notNull(delimiter, "Delimiter must not be null");
-		this.delimiter = delimiter;
-	}
+        Assert.notNull(delimiter, "Delimiter must not be null");
+        this.delimiter = delimiter;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.model.FieldNamingStrategy#getFieldName(org.ziyao.data.mapping.PersistentProperty)
-	 */
-	@Override
-	public String getFieldName(PersistentProperty<?> property) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.model.FieldNamingStrategy#getFieldName(org.ziyao.data.mapping.PersistentProperty)
+     */
+    @Override
+    public String getFieldName(PersistentProperty<?> property) {
 
-		List<String> parts = ParsingUtils.splitCamelCaseToLower(property.getName());
-		List<String> result = new ArrayList<>();
+        List<String> parts = ParsingUtils.splitCamelCaseToLower(property.getName());
+        List<String> result = new ArrayList<>();
 
-		for (String part : parts) {
+        for (String part : parts) {
 
-			String candidate = preparePart(part);
+            String candidate = preparePart(part);
 
-			if (StringUtils.hasText(candidate)) {
-				result.add(candidate);
-			}
-		}
+            if (StringUtils.hasText(candidate)) {
+                result.add(candidate);
+            }
+        }
 
-		return StringUtils.collectionToDelimitedString(result, delimiter);
-	}
+        return StringUtils.collectionToDelimitedString(result, delimiter);
+    }
 
-	/**
-	 * Callback to prepare the uncapitalized part obtained from the split up of the camel case source. Default
-	 * implementation returns the part as is.
-	 *
-	 * @param part
-	 * @return
-	 */
-	protected String preparePart(String part) {
-		return part;
-	}
+    /**
+     * Callback to prepare the uncapitalized part obtained from the split up of the camel case source. Default
+     * implementation returns the part as is.
+     *
+     * @param part
+     * @return
+     */
+    protected String preparePart(String part) {
+        return part;
+    }
 }

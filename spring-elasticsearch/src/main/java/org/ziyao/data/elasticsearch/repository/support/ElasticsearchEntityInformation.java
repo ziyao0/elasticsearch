@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.elasticsearch.repository.support;
 
+import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.annotations.Document;
 import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.repository.core.EntityInformation;
-import org.springframework.lang.Nullable;
+import org.ziyao.data.repository.core.EntityInformation;
 
 /**
  * @param <T>
@@ -32,13 +32,13 @@ import org.springframework.lang.Nullable;
  */
 public interface ElasticsearchEntityInformation<T, ID> extends EntityInformation<T, ID> {
 
-	String getIdAttribute();
+    String getIdAttribute();
 
-	IndexCoordinates getIndexCoordinates();
+    IndexCoordinates getIndexCoordinates();
 
-	@Nullable
-	Long getVersion(T entity);
+    @Nullable
+    Long getVersion(T entity);
 
-	@Nullable
-	Document.VersionType getVersionType();
+    @Nullable
+    Document.VersionType getVersionType();
 }

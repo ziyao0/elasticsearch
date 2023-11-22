@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.repository.query;
 
-import org.springframework.data.repository.query.ParametersParameterAccessor;
+import org.ziyao.data.repository.query.ParametersParameterAccessor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,24 +25,24 @@ import java.util.List;
  * @since 3.2
  */
 class ElasticsearchParametersParameterAccessor extends ParametersParameterAccessor
-		implements ElasticsearchParameterAccessor {
+        implements ElasticsearchParameterAccessor {
 
-	private final List<Object> values;
+    private final List<Object> values;
 
-	/**
-	 * Creates a new {@link ElasticsearchParametersParameterAccessor}.
-	 *
-	 * @param method must not be {@literal null}.
-	 * @param values must not be {@literal null}.
-	 */
-	ElasticsearchParametersParameterAccessor(ElasticsearchQueryMethod method, Object[] values) {
+    /**
+     * Creates a new {@link ElasticsearchParametersParameterAccessor}.
+     *
+     * @param method must not be {@literal null}.
+     * @param values must not be {@literal null}.
+     */
+    ElasticsearchParametersParameterAccessor(ElasticsearchQueryMethod method, Object[] values) {
 
-		super(method.getParameters(), values);
-		this.values = Arrays.asList(values);
-	}
+        super(method.getParameters(), values);
+        this.values = Arrays.asList(values);
+    }
 
-	@Override
-	public Object[] getValues() {
-		return values.toArray();
-	}
+    @Override
+    public Object[] getValues() {
+        return values.toArray();
+    }
 }

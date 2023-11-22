@@ -23,20 +23,20 @@ package org.ziyao.data.elasticsearch.core.mapping;
  */
 public interface PropertyValueConverter {
 
-	/**
-	 * Converts a property value to an elasticsearch value. If the converter cannot convert the value, it must return a
-	 * String representation.
-	 *
-	 * @param value the value to convert, must not be {@literal null}
-	 * @return The elasticsearch property value, must not be {@literal null}
-	 */
-	Object write(Object value);
+    /**
+     * Converts a property value to an elasticsearch value. If the converter cannot convert the value, it must return a
+     * String representation.
+     *
+     * @param value the value to convert, must not be {@literal null}
+     * @return The elasticsearch property value, must not be {@literal null}
+     */
+    Object write(Object value);
 
-	/**
-	 * Converts an elasticsearch property value to a property value.
-	 *
-	 * @param value the elasticsearch property value to convert, must not be {@literal null}
-	 * @return The converted value, must not be {@literal null}
-	 */
-	Object read(Object value);
+    /**
+     * Converts an elasticsearch property value to a property value.
+     *
+     * @param value the elasticsearch property value to convert, must not be {@literal null}
+     * @return The converted value, must not be {@literal null}
+     */
+    Object read(Object value);
 }

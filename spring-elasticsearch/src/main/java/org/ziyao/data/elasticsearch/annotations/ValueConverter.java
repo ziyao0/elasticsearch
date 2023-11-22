@@ -27,17 +27,17 @@ import java.lang.annotation.*;
  * @since 4.3
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Documented
 @Inherited
 public @interface ValueConverter {
 
-	/**
-	 * Defines the class implementing the {@link PropertyValueConverter} interface. If this is a normal class, it must
-	 * provide a default constructor with no arguments. If this is an enum and thus implementing a singleton by enum it
-	 * must only have one enum value.
-	 * 
-	 * @return the class to use for conversion
-	 */
-	Class<? extends PropertyValueConverter> value();
+    /**
+     * Defines the class implementing the {@link PropertyValueConverter} interface. If this is a normal class, it must
+     * provide a default constructor with no arguments. If this is an enum and thus implementing a singleton by enum it
+     * must only have one enum value.
+     *
+     * @return the class to use for conversion
+     */
+    Class<? extends PropertyValueConverter> value();
 }

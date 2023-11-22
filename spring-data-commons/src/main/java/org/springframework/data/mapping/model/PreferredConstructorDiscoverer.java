@@ -21,17 +21,17 @@ import kotlin.reflect.full.KClasses;
 import kotlin.reflect.jvm.ReflectJvmMapping;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.data.annotation.AnnotationUtils;
-import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mapping.Parameter;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.mapping.PreferredConstructor;
-import org.springframework.data.util.ClassTypeInformation;
-import org.springframework.data.util.KotlinReflectionUtils;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.annotation.AnnotationUtils;
+import org.ziyao.data.annotation.PersistenceCreator;
+import org.ziyao.data.util.ClassTypeInformation;
+import org.ziyao.data.util.KotlinReflectionUtils;
+import org.ziyao.data.util.TypeInformation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -50,177 +50,175 @@ import java.util.List;
  */
 public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<P>> {
 
-	/**
-	 * Discovers the {@link PreferredConstructor} for the given type.
-	 *
-	 * @param type must not be {@literal null}.
-	 * @return the {@link PreferredConstructor} if found or {@literal null}.
-	 */
-	@Nullable
-	static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(Class<T> type) {
+    /**
+     * Discovers the {@link PreferredConstructor} for the given type.
+     *
+     * @param type must not be {@literal null}.
+     * @return the {@link PreferredConstructor} if found or {@literal null}.
+     */
+    @Nullable
+    static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(Class<T> type) {
 
-		Assert.notNull(type, "Type must not be null");
+        Assert.notNull(type, "Type must not be null");
 
-		return Discoverers.findDiscoverer(type) //
-				.discover(ClassTypeInformation.from(type), null);
-	}
+        return Discoverers.findDiscoverer(type) //
+                .discover(ClassTypeInformation.from(type), null);
+    }
 
-	/**
-	 * Discovers the {@link PreferredConstructorDiscoverer} for the given {@link PersistentEntity}.
-	 *
-	 * @param entity must not be {@literal null}.
-	 * @return the {@link PreferredConstructor} if found or {@literal null}.
-	 */
-	@Nullable
-	static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(PersistentEntity<T, P> entity) {
+    /**
+     * Discovers the {@link PreferredConstructorDiscoverer} for the given {@link PersistentEntity}.
+     *
+     * @param entity must not be {@literal null}.
+     * @return the {@link PreferredConstructor} if found or {@literal null}.
+     */
+    @Nullable
+    static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(PersistentEntity<T, P> entity) {
 
-		Assert.notNull(entity, "PersistentEntity must not be null");
+        Assert.notNull(entity, "PersistentEntity must not be null");
 
-		return Discoverers.findDiscoverer(entity.getType()) //
-				.discover(entity.getTypeInformation(), entity);
-	}
+        return Discoverers.findDiscoverer(entity.getType()) //
+                .discover(entity.getTypeInformation(), entity);
+    }
 
-	/**
-	 * Helper class to find a {@link PreferredConstructor}.
-	 *
-	 * @author Oliver Gierke
-	 * @author Christoph Strobl
-	 * @author Roman Rodov
-	 * @author Mark Paluch
-	 * @since 2.0
-	 */
-	enum Discoverers {
+    /**
+     * Helper class to find a {@link PreferredConstructor}.
+     *
+     * @author Oliver Gierke
+     * @author Christoph Strobl
+     * @author Roman Rodov
+     * @author Mark Paluch
+     * @since 2.0
+     */
+    enum Discoverers {
 
-		/**
-		 * Discovers a {@link PreferredConstructor} for Java types.
-		 */
-		DEFAULT {
+        /**
+         * Discovers a {@link PreferredConstructor} for Java types.
+         */
+        DEFAULT {
+            /*
+             * (non-Javadoc)
+             * @see org.ziyao.data.mapping.model.PreferredConstructorDiscoverers#discover(org.ziyao.data.util.TypeInformation, org.ziyao.data.mapping.PersistentEntity)
+             */
+            @Nullable
+            @Override
+            <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
+                                                                                     @Nullable PersistentEntity<T, P> entity) {
 
-			/*
-			 * (non-Javadoc)
-			 * @see org.ziyao.data.mapping.model.PreferredConstructorDiscoverers#discover(org.ziyao.data.util.TypeInformation, org.ziyao.data.mapping.PersistentEntity)
-			 */
-			@Nullable
-			@Override
-			<T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
-					@Nullable PersistentEntity<T, P> entity) {
+                Class<?> rawOwningType = type.getType();
 
-				Class<?> rawOwningType = type.getType();
+                List<Constructor<?>> candidates = new ArrayList<>();
+                Constructor<?> noArg = null;
+                for (Constructor<?> candidate : rawOwningType.getDeclaredConstructors()) {
 
-				List<Constructor<?>> candidates = new ArrayList<>();
-				Constructor<?> noArg = null;
-				for (Constructor<?> candidate : rawOwningType.getDeclaredConstructors()) {
+                    // Synthetic constructors should not be considered
+                    if (candidate.isSynthetic()) {
+                        continue;
+                    }
 
-					// Synthetic constructors should not be considered
-					if (candidate.isSynthetic()) {
-						continue;
-					}
+                    if (AnnotationUtils.findAnnotation(candidate, PersistenceCreator.class) != null) {
+                        return buildPreferredConstructor(candidate, type, entity);
+                    }
 
-					if (AnnotationUtils.findAnnotation(candidate, PersistenceCreator.class) != null) {
-						return buildPreferredConstructor(candidate, type, entity);
-					}
+                    if (candidate.getParameterCount() == 0) {
+                        noArg = candidate;
+                    } else {
+                        candidates.add(candidate);
+                    }
+                }
 
-					if (candidate.getParameterCount() == 0) {
-						noArg = candidate;
-					} else {
-						candidates.add(candidate);
-					}
-				}
+                if (noArg != null) {
+                    return buildPreferredConstructor(noArg, type, entity);
+                }
 
-				if (noArg != null) {
-					return buildPreferredConstructor(noArg, type, entity);
-				}
+                return candidates.size() > 1 || candidates.isEmpty() ? null
+                        : buildPreferredConstructor(candidates.iterator().next(), type, entity);
+            }
+        },
 
-				return candidates.size() > 1 || candidates.isEmpty() ? null
-						: buildPreferredConstructor(candidates.iterator().next(), type, entity);
-			}
-		},
+        /**
+         * Discovers a {@link PreferredConstructor} for Kotlin types.
+         */
+        KOTLIN {
+            /*
+             * (non-Javadoc)
+             * @see org.ziyao.data.mapping.model.PreferredConstructorDiscoverers#discover(org.ziyao.data.util.TypeInformation, org.ziyao.data.mapping.PersistentEntity)
+             */
+            @Nullable
+            @Override
+            <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
+                                                                                     @Nullable PersistentEntity<T, P> entity) {
 
-		/**
-		 * Discovers a {@link PreferredConstructor} for Kotlin types.
-		 */
-		KOTLIN {
+                Class<?> rawOwningType = type.getType();
 
-			/*
-			 * (non-Javadoc)
-			 * @see org.ziyao.data.mapping.model.PreferredConstructorDiscoverers#discover(org.ziyao.data.util.TypeInformation, org.ziyao.data.mapping.PersistentEntity)
-			 */
-			@Nullable
-			@Override
-			<T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
-					@Nullable PersistentEntity<T, P> entity) {
+                return Arrays.stream(rawOwningType.getDeclaredConstructors()) //
+                        .filter(it -> !it.isSynthetic()) // Synthetic constructors should not be considered
+                        // Explicitly defined creator trumps all
+                        .filter(it -> AnnotationUtils.findAnnotation(it, PersistenceCreator.class) != null)
+                        .map(it -> buildPreferredConstructor(it, type, entity)) //
+                        .findFirst() //
+                        .orElseGet(() -> {
 
-				Class<?> rawOwningType = type.getType();
+                            KFunction<T> primaryConstructor = KClasses
+                                    .getPrimaryConstructor(JvmClassMappingKt.getKotlinClass(type.getType()));
 
-				return Arrays.stream(rawOwningType.getDeclaredConstructors()) //
-						.filter(it -> !it.isSynthetic()) // Synthetic constructors should not be considered
-						// Explicitly defined creator trumps all
-						.filter(it -> AnnotationUtils.findAnnotation(it, PersistenceCreator.class) != null)
-						.map(it -> buildPreferredConstructor(it, type, entity)) //
-						.findFirst() //
-						.orElseGet(() -> {
+                            if (primaryConstructor == null) {
+                                return DEFAULT.discover(type, entity);
+                            }
 
-							KFunction<T> primaryConstructor = KClasses
-									.getPrimaryConstructor(JvmClassMappingKt.getKotlinClass(type.getType()));
+                            Constructor<T> javaConstructor = ReflectJvmMapping.getJavaConstructor(primaryConstructor);
 
-							if (primaryConstructor == null) {
-								return DEFAULT.discover(type, entity);
-							}
+                            return javaConstructor != null ? buildPreferredConstructor(javaConstructor, type, entity) : null;
+                        });
+            }
+        };
 
-							Constructor<T> javaConstructor = ReflectJvmMapping.getJavaConstructor(primaryConstructor);
+        private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
 
-							return javaConstructor != null ? buildPreferredConstructor(javaConstructor, type, entity) : null;
-						});
-			}
-		};
+        /**
+         * Find the appropriate discoverer for {@code type}.
+         *
+         * @param type must not be {@literal null}.
+         * @return the appropriate discoverer for {@code type}.
+         */
+        private static Discoverers findDiscoverer(Class<?> type) {
+            return KotlinReflectionUtils.isSupportedKotlinClass(type) ? KOTLIN : DEFAULT;
+        }
 
-		private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
+        /**
+         * Discovers a constructor for the given type.
+         *
+         * @param type   must not be {@literal null}.
+         * @param entity may be {@literal null}.
+         * @return the {@link PreferredConstructor} if found or {@literal null}.
+         */
+        @Nullable
+        abstract <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
+                                                                                          @Nullable PersistentEntity<T, P> entity);
 
-		/**
-		 * Find the appropriate discoverer for {@code type}.
-		 *
-		 * @param type must not be {@literal null}.
-		 * @return the appropriate discoverer for {@code type}.
-		 */
-		private static Discoverers findDiscoverer(Class<?> type) {
-			return KotlinReflectionUtils.isSupportedKotlinClass(type) ? KOTLIN : DEFAULT;
-		}
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        private static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> buildPreferredConstructor(
+                Constructor<?> constructor, TypeInformation<T> typeInformation, @Nullable PersistentEntity<T, P> entity) {
 
-		/**
-		 * Discovers a constructor for the given type.
-		 *
-		 * @param type must not be {@literal null}.
-		 * @param entity may be {@literal null}.
-		 * @return the {@link PreferredConstructor} if found or {@literal null}.
-		 */
-		@Nullable
-		abstract <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
-				@Nullable PersistentEntity<T, P> entity);
+            if (constructor.getParameterCount() == 0) {
+                return new PreferredConstructor<>((Constructor<T>) constructor);
+            }
 
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		private static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> buildPreferredConstructor(
-				Constructor<?> constructor, TypeInformation<T> typeInformation, @Nullable PersistentEntity<T, P> entity) {
+            List<TypeInformation<?>> parameterTypes = typeInformation.getParameterTypes(constructor);
+            String[] parameterNames = PARAMETER_NAME_DISCOVERER.getParameterNames(constructor);
 
-			if (constructor.getParameterCount() == 0) {
-				return new PreferredConstructor<>((Constructor<T>) constructor);
-			}
+            Parameter<Object, P>[] parameters = new Parameter[parameterTypes.size()];
+            Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
 
-			List<TypeInformation<?>> parameterTypes = typeInformation.getParameterTypes(constructor);
-			String[] parameterNames = PARAMETER_NAME_DISCOVERER.getParameterNames(constructor);
+            for (int i = 0; i < parameterTypes.size(); i++) {
 
-			Parameter<Object, P>[] parameters = new Parameter[parameterTypes.size()];
-			Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
+                String name = parameterNames == null || parameterNames.length <= i ? null : parameterNames[i];
+                TypeInformation<?> type = parameterTypes.get(i);
+                Annotation[] annotations = parameterAnnotations[i];
 
-			for (int i = 0; i < parameterTypes.size(); i++) {
+                parameters[i] = new Parameter(name, type, annotations, entity);
+            }
 
-				String name = parameterNames == null || parameterNames.length <= i ? null : parameterNames[i];
-				TypeInformation<?> type = parameterTypes.get(i);
-				Annotation[] annotations = parameterAnnotations[i];
-
-				parameters[i] = new Parameter(name, type, annotations, entity);
-			}
-
-			return new PreferredConstructor<>((Constructor<T>) constructor, parameters);
-		}
-	}
+            return new PreferredConstructor<>((Constructor<T>) constructor, parameters);
+        }
+    }
 }

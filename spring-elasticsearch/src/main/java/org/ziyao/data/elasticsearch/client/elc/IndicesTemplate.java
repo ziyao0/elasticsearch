@@ -15,16 +15,18 @@
  */
 package org.ziyao.data.elasticsearch.client.elc;
 
-import co.elastic.clients.elasticsearch.indices.*;
 import co.elastic.clients.elasticsearch.indices.DeleteTemplateRequest;
 import co.elastic.clients.elasticsearch.indices.ExistsTemplateRequest;
 import co.elastic.clients.elasticsearch.indices.GetTemplateRequest;
 import co.elastic.clients.elasticsearch.indices.PutTemplateRequest;
+import co.elastic.clients.elasticsearch.indices.*;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.ziyao.data.annotation.AnnotatedElementUtils;
 import org.ziyao.data.elasticsearch.UncategorizedElasticsearchException;
 import org.ziyao.data.elasticsearch.annotations.Mapping;
 import org.ziyao.data.elasticsearch.core.IndexInformation;
@@ -33,11 +35,8 @@ import org.ziyao.data.elasticsearch.core.ResourceUtil;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.document.Document;
 import org.ziyao.data.elasticsearch.core.index.*;
-import org.ziyao.data.elasticsearch.core.index.*;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;

@@ -26,15 +26,15 @@ import org.springframework.lang.NonNull;
  */
 public class ElasticsearchAggregation implements AggregationContainer<Aggregation> {
 
-	private final Aggregation aggregation;
+    private final Aggregation aggregation;
 
-	public ElasticsearchAggregation(Aggregation aggregation) {
-		this.aggregation = aggregation;
-	}
+    public ElasticsearchAggregation(Aggregation aggregation) {
+        this.aggregation = aggregation;
+    }
 
-	@NonNull
-	@Override
-	public Aggregation aggregation() {
-		return aggregation;
-	}
+    @NonNull
+    @Override
+    public Aggregation aggregation() {
+        return aggregation;
+    }
 }

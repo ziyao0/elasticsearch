@@ -34,176 +34,176 @@ import java.lang.annotation.*;
  * @author Sascha Woo
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Documented
 @Inherited
 public @interface Field {
 
-	/**
-	 * Alias for {@link #name}.
-	 *
-	 * @since 3.2
-	 */
-	@AliasFor("name")
-	String value() default "";
+    /**
+     * Alias for {@link #name}.
+     *
+     * @since 3.2
+     */
+    @AliasFor("name")
+    String value() default "";
 
-	/**
-	 * The <em>name</em> to be used to store the field inside the document.
-	 * <p>
-	 * √5 If not set, the name of the annotated property is used.
-	 *
-	 * @since 3.2
-	 */
-	@AliasFor("value")
-	String name() default "";
+    /**
+     * The <em>name</em> to be used to store the field inside the document.
+     * <p>
+     * √5 If not set, the name of the annotated property is used.
+     *
+     * @since 3.2
+     */
+    @AliasFor("value")
+    String name() default "";
 
-	FieldType type() default FieldType.Auto;
+    FieldType type() default FieldType.Auto;
 
-	boolean index() default true;
+    boolean index() default true;
 
-	DateFormat[] format() default { DateFormat.date_optional_time, DateFormat.epoch_millis };
+    DateFormat[] format() default {DateFormat.date_optional_time, DateFormat.epoch_millis};
 
-	String[] pattern() default {};
+    String[] pattern() default {};
 
-	boolean store() default false;
+    boolean store() default false;
 
-	boolean fielddata() default false;
+    boolean fielddata() default false;
 
-	String searchAnalyzer() default "";
+    String searchAnalyzer() default "";
 
-	String analyzer() default "";
+    String analyzer() default "";
 
-	String normalizer() default "";
+    String normalizer() default "";
 
-	String[] ignoreFields() default {};
+    String[] ignoreFields() default {};
 
-	boolean includeInParent() default false;
+    boolean includeInParent() default false;
 
-	String[] copyTo() default {};
+    String[] copyTo() default {};
 
-	/**
-	 * @since 4.0
-	 */
-	int ignoreAbove() default -1;
+    /**
+     * @since 4.0
+     */
+    int ignoreAbove() default -1;
 
-	/**
-	 * @since 4.0
-	 */
-	boolean coerce() default true;
+    /**
+     * @since 4.0
+     */
+    boolean coerce() default true;
 
-	/**
-	 * @since 4.0
-	 */
-	boolean docValues() default true;
+    /**
+     * @since 4.0
+     */
+    boolean docValues() default true;
 
-	/**
-	 * @since 4.0
-	 */
-	boolean ignoreMalformed() default false;
+    /**
+     * @since 4.0
+     */
+    boolean ignoreMalformed() default false;
 
-	/**
-	 * @since 4.0
-	 */
-	IndexOptions indexOptions() default IndexOptions.none;
+    /**
+     * @since 4.0
+     */
+    IndexOptions indexOptions() default IndexOptions.none;
 
-	/**
-	 * @since 4.0
-	 */
-	boolean indexPhrases() default false;
+    /**
+     * @since 4.0
+     */
+    boolean indexPhrases() default false;
 
-	/**
-	 * implemented as array to enable the empty default value
-	 *
-	 * @since 4.0
-	 */
-	IndexPrefixes[] indexPrefixes() default {};
+    /**
+     * implemented as array to enable the empty default value
+     *
+     * @since 4.0
+     */
+    IndexPrefixes[] indexPrefixes() default {};
 
-	/**
-	 * @since 4.0
-	 */
-	boolean norms() default true;
+    /**
+     * @since 4.0
+     */
+    boolean norms() default true;
 
-	/**
-	 * @since 4.0
-	 */
-	String nullValue() default "";
+    /**
+     * @since 4.0
+     */
+    String nullValue() default "";
 
-	/**
-	 * @since 4.0
-	 */
-	int positionIncrementGap() default -1;
+    /**
+     * @since 4.0
+     */
+    int positionIncrementGap() default -1;
 
-	/**
-	 * @since 4.0
-	 */
-	Similarity similarity() default Similarity.Default;
+    /**
+     * @since 4.0
+     */
+    Similarity similarity() default Similarity.Default;
 
-	/**
-	 * @since 4.0
-	 */
-	TermVector termVector() default TermVector.none;
+    /**
+     * @since 4.0
+     */
+    TermVector termVector() default TermVector.none;
 
-	/**
-	 * @since 4.0
-	 */
-	double scalingFactor() default 1;
+    /**
+     * @since 4.0
+     */
+    double scalingFactor() default 1;
 
-	/**
-	 * @since 4.0
-	 */
-	int maxShingleSize() default -1;
+    /**
+     * @since 4.0
+     */
+    int maxShingleSize() default -1;
 
-	/**
-	 * if true, the field will be stored in Elasticsearch even if it has a null value
-	 *
-	 * @since 4.1
-	 */
-	boolean storeNullValue() default false;
+    /**
+     * if true, the field will be stored in Elasticsearch even if it has a null value
+     *
+     * @since 4.1
+     */
+    boolean storeNullValue() default false;
 
-	/**
-	 * to be used in combination with {@link FieldType#Rank_Feature}
-	 *
-	 * @since 4.1
-	 */
-	boolean positiveScoreImpact() default true;
+    /**
+     * to be used in combination with {@link FieldType#Rank_Feature}
+     *
+     * @since 4.1
+     */
+    boolean positiveScoreImpact() default true;
 
-	/**
-	 * to be used in combination with {@link FieldType#Object}
-	 *
-	 * @since 4.1
-	 */
-	boolean enabled() default true;
+    /**
+     * to be used in combination with {@link FieldType#Object}
+     *
+     * @since 4.1
+     */
+    boolean enabled() default true;
 
-	/**
-	 * @since 4.1
-	 */
-	boolean eagerGlobalOrdinals() default false;
+    /**
+     * @since 4.1
+     */
+    boolean eagerGlobalOrdinals() default false;
 
-	/**
-	 * @since 4.1
-	 */
-	NullValueType nullValueType() default NullValueType.String;
+    /**
+     * @since 4.1
+     */
+    NullValueType nullValueType() default NullValueType.String;
 
-	/**
-	 * to be used in combination with {@link FieldType#Dense_Vector}
-	 *
-	 * @since 4.2
-	 */
-	int dims() default -1;
+    /**
+     * to be used in combination with {@link FieldType#Dense_Vector}
+     *
+     * @since 4.2
+     */
+    int dims() default -1;
 
-	/**
-	 * Controls how Elasticsearch dynamically adds fields to the inner object within the document.<br>
-	 * To be used in combination with {@link FieldType#Object} or {@link FieldType#Nested}
-	 *
-	 * @since 4.3
-	 */
-	Dynamic dynamic() default Dynamic.INHERIT;
+    /**
+     * Controls how Elasticsearch dynamically adds fields to the inner object within the document.<br>
+     * To be used in combination with {@link FieldType#Object} or {@link FieldType#Nested}
+     *
+     * @since 4.3
+     */
+    Dynamic dynamic() default Dynamic.INHERIT;
 
-	/**
-	 * marks this field to be excluded from the _source in Elasticsearch
-	 * (https://www.elastic.co/guide/en/elasticsearch/reference/7.15/mapping-source-field.html#include-exclude)
-	 *
-	 * @since 4.3
-	 */
-	boolean excludeFromSource() default false;
+    /**
+     * marks this field to be excluded from the _source in Elasticsearch
+     * (https://www.elastic.co/guide/en/elasticsearch/reference/7.15/mapping-source-field.html#include-exclude)
+     *
+     * @since 4.3
+     */
+    boolean excludeFromSource() default false;
 }

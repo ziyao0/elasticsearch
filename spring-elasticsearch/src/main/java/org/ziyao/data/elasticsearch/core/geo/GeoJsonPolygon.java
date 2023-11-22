@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.geo;
 
-import org.springframework.data.geo.Point;
 import org.springframework.util.Assert;
+import org.ziyao.data.geo.Point;
 
 import java.util.*;
 
@@ -27,194 +27,194 @@ import java.util.*;
  * @author Christoph Strobl
  * @author Mark Paluch
  * @author Peter-Josef Meisch
- * @since 4.1
  * @see <a href="https://geojson.org/geojson-spec.html#polygon">https://geojson.org/geojson-spec.html#polygon</a>
+ * @since 4.1
  */
 public class GeoJsonPolygon implements GeoJson<Iterable<GeoJsonLineString>> {
 
-	public static final String TYPE = "Polygon";
+    public static final String TYPE = "Polygon";
 
-	private final List<GeoJsonLineString> coordinates = new ArrayList<>();
+    private final List<GeoJsonLineString> coordinates = new ArrayList<>();
 
-	private GeoJsonPolygon(GeoJsonLineString geoJsonLineString) {
-		Assert.notNull(geoJsonLineString, "geoJsonLineString must not be null");
-		Assert.isTrue(geoJsonLineString.getCoordinates().size() >= 4, "geoJsonLineString must have at least 4 points");
+    private GeoJsonPolygon(GeoJsonLineString geoJsonLineString) {
+        Assert.notNull(geoJsonLineString, "geoJsonLineString must not be null");
+        Assert.isTrue(geoJsonLineString.getCoordinates().size() >= 4, "geoJsonLineString must have at least 4 points");
 
-		this.coordinates.add(geoJsonLineString);
-	}
+        this.coordinates.add(geoJsonLineString);
+    }
 
-	private GeoJsonPolygon(List<Point> points) {
-		this(GeoJsonLineString.of(points));
-	}
+    private GeoJsonPolygon(List<Point> points) {
+        this(GeoJsonLineString.of(points));
+    }
 
-	/**
-	 * Creates new {@link GeoJsonPolygon} from the given {@link GeoJsonLineString}.
-	 *
-	 * @param geoJsonLineString must not be {@literal null}.
-	 */
-	public static GeoJsonPolygon of(GeoJsonLineString geoJsonLineString) {
-		return new GeoJsonPolygon(geoJsonLineString);
-	}
+    /**
+     * Creates new {@link GeoJsonPolygon} from the given {@link GeoJsonLineString}.
+     *
+     * @param geoJsonLineString must not be {@literal null}.
+     */
+    public static GeoJsonPolygon of(GeoJsonLineString geoJsonLineString) {
+        return new GeoJsonPolygon(geoJsonLineString);
+    }
 
-	/**
-	 * Creates new {@link GeoJsonPolygon} from the given {@link Point}s.
-	 *
-	 * @param points must not be {@literal null}.
-	 */
-	public static GeoJsonPolygon of(List<Point> points) {
-		return new GeoJsonPolygon(points);
-	}
+    /**
+     * Creates new {@link GeoJsonPolygon} from the given {@link Point}s.
+     *
+     * @param points must not be {@literal null}.
+     */
+    public static GeoJsonPolygon of(List<Point> points) {
+        return new GeoJsonPolygon(points);
+    }
 
-	/**
-	 * Creates new {@link GeoJsonPolygon} from the given {@link GeoPoint}s.
-	 *
-	 * @param geoPoints must not be {@literal null}.
-	 */
-	public static GeoJsonPolygon ofGeoPoints(List<GeoPoint> geoPoints) {
-		return new GeoJsonPolygon(GeoJsonLineString.ofGeoPoints(geoPoints));
-	}
+    /**
+     * Creates new {@link GeoJsonPolygon} from the given {@link GeoPoint}s.
+     *
+     * @param geoPoints must not be {@literal null}.
+     */
+    public static GeoJsonPolygon ofGeoPoints(List<GeoPoint> geoPoints) {
+        return new GeoJsonPolygon(GeoJsonLineString.ofGeoPoints(geoPoints));
+    }
 
-	/**
-	 * Creates new {@link GeoJsonPolygon} from the given {@link Point}s.
-	 *
-	 * @param first must not be {@literal null}.
-	 * @param second must not be {@literal null}.
-	 * @param third must not be {@literal null}.
-	 * @param fourth must not be {@literal null}
-	 * @param others can be empty.
-	 */
-	public static GeoJsonPolygon of(Point first, Point second, Point third, Point fourth, Point... others) {
-		return new GeoJsonPolygon(asList(first, second, third, fourth, others));
-	}
+    /**
+     * Creates new {@link GeoJsonPolygon} from the given {@link Point}s.
+     *
+     * @param first  must not be {@literal null}.
+     * @param second must not be {@literal null}.
+     * @param third  must not be {@literal null}.
+     * @param fourth must not be {@literal null}
+     * @param others can be empty.
+     */
+    public static GeoJsonPolygon of(Point first, Point second, Point third, Point fourth, Point... others) {
+        return new GeoJsonPolygon(asList(first, second, third, fourth, others));
+    }
 
-	/**
-	 * Creates new {@link GeoJsonPolygon} from the given {@link GeoPoint}s.
-	 *
-	 * @param first must not be {@literal null}.
-	 * @param second must not be {@literal null}.
-	 * @param third must not be {@literal null}.
-	 * @param fourth must not be {@literal null}
-	 * @param others can be empty.
-	 */
-	public static GeoJsonPolygon of(GeoPoint first, GeoPoint second, GeoPoint third, GeoPoint fourth,
-			GeoPoint... others) {
-		return new GeoJsonPolygon(GeoJsonLineString.ofGeoPoints(asList(first, second, third, fourth, others)));
-	}
+    /**
+     * Creates new {@link GeoJsonPolygon} from the given {@link GeoPoint}s.
+     *
+     * @param first  must not be {@literal null}.
+     * @param second must not be {@literal null}.
+     * @param third  must not be {@literal null}.
+     * @param fourth must not be {@literal null}
+     * @param others can be empty.
+     */
+    public static GeoJsonPolygon of(GeoPoint first, GeoPoint second, GeoPoint third, GeoPoint fourth,
+                                    GeoPoint... others) {
+        return new GeoJsonPolygon(GeoJsonLineString.ofGeoPoints(asList(first, second, third, fourth, others)));
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link Point}s.
-	 *
-	 * @param first must not be {@literal null}.
-	 * @param second must not be {@literal null}.
-	 * @param third must not be {@literal null}.
-	 * @param fourth must not be {@literal null}.
-	 * @param others can be empty.
-	 * @return new {@link GeoJsonPolygon}.
-	 */
-	public GeoJsonPolygon withInnerRing(Point first, Point second, Point third, Point fourth, Point... others) {
-		return withInnerRing(asList(first, second, third, fourth, others));
-	}
+    /**
+     * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link Point}s.
+     *
+     * @param first  must not be {@literal null}.
+     * @param second must not be {@literal null}.
+     * @param third  must not be {@literal null}.
+     * @param fourth must not be {@literal null}.
+     * @param others can be empty.
+     * @return new {@link GeoJsonPolygon}.
+     */
+    public GeoJsonPolygon withInnerRing(Point first, Point second, Point third, Point fourth, Point... others) {
+        return withInnerRing(asList(first, second, third, fourth, others));
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link GeoPoint}s.
-	 *
-	 * @param first must not be {@literal null}.
-	 * @param second must not be {@literal null}.
-	 * @param third must not be {@literal null}.
-	 * @param fourth must not be {@literal null}.
-	 * @param others can be empty.
-	 * @return new {@link GeoJsonPolygon}.
-	 */
-	public GeoJsonPolygon withInnerRing(GeoPoint first, GeoPoint second, GeoPoint third, GeoPoint fourth,
-			GeoPoint... others) {
-		return withInnerRingOfGeoPoints(asList(first, second, third, fourth, others));
-	}
+    /**
+     * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link GeoPoint}s.
+     *
+     * @param first  must not be {@literal null}.
+     * @param second must not be {@literal null}.
+     * @param third  must not be {@literal null}.
+     * @param fourth must not be {@literal null}.
+     * @param others can be empty.
+     * @return new {@link GeoJsonPolygon}.
+     */
+    public GeoJsonPolygon withInnerRing(GeoPoint first, GeoPoint second, GeoPoint third, GeoPoint fourth,
+                                        GeoPoint... others) {
+        return withInnerRingOfGeoPoints(asList(first, second, third, fourth, others));
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link List} of {@link Point}s.
-	 *
-	 * @param points must not be {@literal null}.
-	 * @return new {@link GeoJsonPolygon}.
-	 */
-	public GeoJsonPolygon withInnerRing(List<Point> points) {
-		return withInnerRing(GeoJsonLineString.of(points));
-	}
+    /**
+     * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link List} of {@link Point}s.
+     *
+     * @param points must not be {@literal null}.
+     * @return new {@link GeoJsonPolygon}.
+     */
+    public GeoJsonPolygon withInnerRing(List<Point> points) {
+        return withInnerRing(GeoJsonLineString.of(points));
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link List} of {@link GeoPoint}s.
-	 *
-	 * @param geoPoints must not be {@literal null}.
-	 * @return new {@link GeoJsonPolygon}.
-	 */
-	public GeoJsonPolygon withInnerRingOfGeoPoints(List<GeoPoint> geoPoints) {
-		return withInnerRing(GeoJsonLineString.ofGeoPoints(geoPoints));
-	}
+    /**
+     * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link List} of {@link GeoPoint}s.
+     *
+     * @param geoPoints must not be {@literal null}.
+     * @return new {@link GeoJsonPolygon}.
+     */
+    public GeoJsonPolygon withInnerRingOfGeoPoints(List<GeoPoint> geoPoints) {
+        return withInnerRing(GeoJsonLineString.ofGeoPoints(geoPoints));
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link GeoJsonLineString}.
-	 *
-	 * @param lineString must not be {@literal null}.
-	 * @return new {@link GeoJsonPolygon}.
-	 * @since 1.10
-	 */
-	public GeoJsonPolygon withInnerRing(GeoJsonLineString lineString) {
+    /**
+     * Creates a new {@link GeoJsonPolygon} with an inner ring defined be the given {@link GeoJsonLineString}.
+     *
+     * @param lineString must not be {@literal null}.
+     * @return new {@link GeoJsonPolygon}.
+     * @since 1.10
+     */
+    public GeoJsonPolygon withInnerRing(GeoJsonLineString lineString) {
 
-		Assert.notNull(lineString, "LineString must not be null!");
+        Assert.notNull(lineString, "LineString must not be null!");
 
-		Iterator<GeoJsonLineString> it = this.coordinates.iterator();
-		GeoJsonPolygon polygon = new GeoJsonPolygon(it.next().getCoordinates());
+        Iterator<GeoJsonLineString> it = this.coordinates.iterator();
+        GeoJsonPolygon polygon = new GeoJsonPolygon(it.next().getCoordinates());
 
-		while (it.hasNext()) {
-			polygon.coordinates.add(it.next());
-		}
+        while (it.hasNext()) {
+            polygon.coordinates.add(it.next());
+        }
 
-		polygon.coordinates.add(lineString);
-		return polygon;
-	}
+        polygon.coordinates.add(lineString);
+        return polygon;
+    }
 
-	@Override
-	public String getType() {
-		return TYPE;
-	}
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 
-	@Override
-	public List<GeoJsonLineString> getCoordinates() {
-		return Collections.unmodifiableList(this.coordinates);
-	}
+    @Override
+    public List<GeoJsonLineString> getCoordinates() {
+        return Collections.unmodifiableList(this.coordinates);
+    }
 
-	@SafeVarargs
-	private static <T> List<T> asList(T first, T second, T third, T fourth, T... others) {
+    @SafeVarargs
+    private static <T> List<T> asList(T first, T second, T third, T fourth, T... others) {
 
-		ArrayList<T> result = new ArrayList<>(3 + others.length);
+        ArrayList<T> result = new ArrayList<>(3 + others.length);
 
-		result.add(first);
-		result.add(second);
-		result.add(third);
-		result.add(fourth);
-		result.addAll(Arrays.asList(others));
+        result.add(first);
+        result.add(second);
+        result.add(third);
+        result.add(fourth);
+        result.addAll(Arrays.asList(others));
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		GeoJsonPolygon that = (GeoJsonPolygon) o;
+        GeoJsonPolygon that = (GeoJsonPolygon) o;
 
-		return coordinates.equals(that.coordinates);
-	}
+        return coordinates.equals(that.coordinates);
+    }
 
-	@Override
-	public int hashCode() {
-		return coordinates.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return coordinates.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJsonPolygon{" + "coordinates=" + coordinates + '}';
-	}
+    @Override
+    public String toString() {
+        return "GeoJsonPolygon{" + "coordinates=" + coordinates + '}';
+    }
 }

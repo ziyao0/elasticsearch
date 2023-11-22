@@ -19,29 +19,29 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.ziyao.data.elasticsearch.client.RestClientFactoryBean;
 import org.w3c.dom.Element;
+import org.ziyao.data.elasticsearch.client.RestClientFactoryBean;
 
 /**
  * @author Don Wellington
  */
 public class RestClientBeanDefinitionParser extends AbstractBeanDefinitionParser {
 
-	@Override
-	protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
-		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(RestClientFactoryBean.class);
-		setConfigurations(element, builder);
-		return getSourcedBeanDefinition(builder, element, parserContext);
-	}
+    @Override
+    protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(RestClientFactoryBean.class);
+        setConfigurations(element, builder);
+        return getSourcedBeanDefinition(builder, element, parserContext);
+    }
 
-	private void setConfigurations(Element element, BeanDefinitionBuilder builder) {
-		builder.addPropertyValue("hosts", element.getAttribute("hosts"));
-	}
+    private void setConfigurations(Element element, BeanDefinitionBuilder builder) {
+        builder.addPropertyValue("hosts", element.getAttribute("hosts"));
+    }
 
-	private AbstractBeanDefinition getSourcedBeanDefinition(BeanDefinitionBuilder builder, Element source,
-			ParserContext context) {
-		AbstractBeanDefinition definition = builder.getBeanDefinition();
-		definition.setSource(context.extractSource(source));
-		return definition;
-	}
+    private AbstractBeanDefinition getSourcedBeanDefinition(BeanDefinitionBuilder builder, Element source,
+                                                            ParserContext context) {
+        AbstractBeanDefinition definition = builder.getBeanDefinition();
+        definition.setSource(context.extractSource(source));
+        return definition;
+    }
 }

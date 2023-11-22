@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.util.Assert;
+import org.ziyao.data.domain.Pageable;
 
 /**
  * CriteriaQuery
@@ -28,62 +28,62 @@ import org.springframework.util.Assert;
  */
 public class CriteriaQuery extends BaseQuery {
 
-	private final Criteria criteria;
+    private final Criteria criteria;
 
-	/**
-	 * @since 4.4
-	 */
-	public CriteriaQuery(CriteriaQueryBuilder builder) {
-		super(builder);
-		this.criteria = builder.getCriteria();
-	}
+    /**
+     * @since 4.4
+     */
+    public CriteriaQuery(CriteriaQueryBuilder builder) {
+        super(builder);
+        this.criteria = builder.getCriteria();
+    }
 
-	public static CriteriaQueryBuilder builder(Criteria criteria) {
-		return new CriteriaQueryBuilder(criteria);
-	}
+    public static CriteriaQueryBuilder builder(Criteria criteria) {
+        return new CriteriaQueryBuilder(criteria);
+    }
 
-	public CriteriaQuery(Criteria criteria) {
-		this(criteria, Pageable.unpaged());
-	}
+    public CriteriaQuery(Criteria criteria) {
+        this(criteria, Pageable.unpaged());
+    }
 
-	public CriteriaQuery(Criteria criteria, Pageable pageable) {
+    public CriteriaQuery(Criteria criteria, Pageable pageable) {
 
-		Assert.notNull(criteria, "Criteria must not be null!");
-		Assert.notNull(pageable, "Pageable must not be null!");
+        Assert.notNull(criteria, "Criteria must not be null!");
+        Assert.notNull(pageable, "Pageable must not be null!");
 
-		this.criteria = criteria;
-		this.pageable = pageable;
-		this.addSort(pageable.getSort());
-	}
+        this.criteria = criteria;
+        this.pageable = pageable;
+        this.addSort(pageable.getSort());
+    }
 
-	public static Query fromQuery(CriteriaQuery source) {
-		return fromQuery(source, new CriteriaQuery(source.criteria));
-	}
+    public static Query fromQuery(CriteriaQuery source) {
+        return fromQuery(source, new CriteriaQuery(source.criteria));
+    }
 
-	public static <T extends CriteriaQuery> T fromQuery(CriteriaQuery source, T destination) {
+    public static <T extends CriteriaQuery> T fromQuery(CriteriaQuery source, T destination) {
 
-		Assert.notNull(source, "source must not be null");
-		Assert.notNull(destination, "destination must not be null");
+        Assert.notNull(source, "source must not be null");
+        Assert.notNull(destination, "destination must not be null");
 
-		destination.addCriteria(source.getCriteria());
+        destination.addCriteria(source.getCriteria());
 
-		if (source.getSort() != null) {
-			destination.addSort(source.getSort());
-		}
+        if (source.getSort() != null) {
+            destination.addSort(source.getSort());
+        }
 
-		return destination;
-	}
+        return destination;
+    }
 
-	@SuppressWarnings("unchecked")
-	public final <T extends CriteriaQuery> T addCriteria(Criteria criteria) {
+    @SuppressWarnings("unchecked")
+    public final <T extends CriteriaQuery> T addCriteria(Criteria criteria) {
 
-		Assert.notNull(criteria, "Cannot add null criteria.");
+        Assert.notNull(criteria, "Cannot add null criteria.");
 
-		this.criteria.and(criteria);
-		return (T) this;
-	}
+        this.criteria.and(criteria);
+        return (T) this;
+    }
 
-	public Criteria getCriteria() {
-		return this.criteria;
-	}
+    public Criteria getCriteria() {
+        return this.criteria;
+    }
 }

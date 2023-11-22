@@ -29,114 +29,114 @@ import java.util.function.Function;
  * properties.
  *
  * @author Oliver Drotbohm
- * @since 2.2
  * @soundtrack 8-Bit Misfits - Crash Into Me (Dave Matthews Band cover)
+ * @since 2.2
  */
 public class TraversalContext {
 
-	private Map<PersistentProperty<?>, Function<Object, Object>> handlers = new HashMap<>();
+    private Map<PersistentProperty<?>, Function<Object, Object>> handlers = new HashMap<>();
 
-	/**
-	 * Registers a {@link Function} to post-process values for the given property.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @param handler must not be {@literal null}.
-	 * @return
-	 */
-	public TraversalContext registerHandler(PersistentProperty<?> property, Function<Object, Object> handler) {
+    /**
+     * Registers a {@link Function} to post-process values for the given property.
+     *
+     * @param property must not be {@literal null}.
+     * @param handler  must not be {@literal null}.
+     * @return
+     */
+    public TraversalContext registerHandler(PersistentProperty<?> property, Function<Object, Object> handler) {
 
-		Assert.notNull(property, "Property must not be null");
-		Assert.notNull(handler, "Handler must not be null");
+        Assert.notNull(property, "Property must not be null");
+        Assert.notNull(handler, "Handler must not be null");
 
-		handlers.put(property, handler);
+        handlers.put(property, handler);
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Registers a {@link Function} to handle {@link Collection} values for the given property.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @param handler must not be {@literal null}.
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public TraversalContext registerCollectionHandler(PersistentProperty<?> property,
-			Function<? super Collection<?>, Object> handler) {
-		return registerHandler(property, Collection.class, (Function<Object, Object>) handler);
-	}
+    /**
+     * Registers a {@link Function} to handle {@link Collection} values for the given property.
+     *
+     * @param property must not be {@literal null}.
+     * @param handler  must not be {@literal null}.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public TraversalContext registerCollectionHandler(PersistentProperty<?> property,
+                                                      Function<? super Collection<?>, Object> handler) {
+        return registerHandler(property, Collection.class, (Function<Object, Object>) handler);
+    }
 
-	/**
-	 * Registers a {@link Function} to handle {@link List} values for the given property.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @param handler must not be {@literal null}.
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public TraversalContext registerListHandler(PersistentProperty<?> property,
-			Function<? super List<?>, Object> handler) {
-		return registerHandler(property, List.class, (Function<Object, Object>) handler);
-	}
+    /**
+     * Registers a {@link Function} to handle {@link List} values for the given property.
+     *
+     * @param property must not be {@literal null}.
+     * @param handler  must not be {@literal null}.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public TraversalContext registerListHandler(PersistentProperty<?> property,
+                                                Function<? super List<?>, Object> handler) {
+        return registerHandler(property, List.class, (Function<Object, Object>) handler);
+    }
 
-	/**
-	 * Registers a {@link Function} to handle {@link Set} values for the given property.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @param handler must not be {@literal null}.
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public TraversalContext registerSetHandler(PersistentProperty<?> property, Function<? super Set<?>, Object> handler) {
-		return registerHandler(property, Set.class, (Function<Object, Object>) handler);
-	}
+    /**
+     * Registers a {@link Function} to handle {@link Set} values for the given property.
+     *
+     * @param property must not be {@literal null}.
+     * @param handler  must not be {@literal null}.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public TraversalContext registerSetHandler(PersistentProperty<?> property, Function<? super Set<?>, Object> handler) {
+        return registerHandler(property, Set.class, (Function<Object, Object>) handler);
+    }
 
-	/**
-	 * Registers a {@link Function} to handle {@link Map} values for the given property.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @param handler must not be {@literal null}.
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public TraversalContext registerMapHandler(PersistentProperty<?> property,
-			Function<? super Map<?, ?>, Object> handler) {
-		return registerHandler(property, Map.class, (Function<Object, Object>) handler);
-	}
+    /**
+     * Registers a {@link Function} to handle {@link Map} values for the given property.
+     *
+     * @param property must not be {@literal null}.
+     * @param handler  must not be {@literal null}.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public TraversalContext registerMapHandler(PersistentProperty<?> property,
+                                               Function<? super Map<?, ?>, Object> handler) {
+        return registerHandler(property, Map.class, (Function<Object, Object>) handler);
+    }
 
-	/**
-	 * Registers the given {@link Function} to post-process values obtained for the given {@link PersistentProperty} for
-	 * the given type.
-	 *
-	 * @param <T> the type of the value to handle.
-	 * @param property must not be {@literal null}.
-	 * @param type must not be {@literal null}.
-	 * @param handler must not be {@literal null}.
-	 * @return
-	 */
-	public <T> TraversalContext registerHandler(PersistentProperty<?> property, Class<T> type,
-			Function<? super T, Object> handler) {
+    /**
+     * Registers the given {@link Function} to post-process values obtained for the given {@link PersistentProperty} for
+     * the given type.
+     *
+     * @param <T>      the type of the value to handle.
+     * @param property must not be {@literal null}.
+     * @param type     must not be {@literal null}.
+     * @param handler  must not be {@literal null}.
+     * @return
+     */
+    public <T> TraversalContext registerHandler(PersistentProperty<?> property, Class<T> type,
+                                                Function<? super T, Object> handler) {
 
-		Assert.isTrue(type.isAssignableFrom(property.getType()), () -> String
-				.format("Cannot register a property handler for %s on a property of type %s", type, property.getType()));
+        Assert.isTrue(type.isAssignableFrom(property.getType()), () -> String
+                .format("Cannot register a property handler for %s on a property of type %s", type, property.getType()));
 
-		Function<Object, T> caster = it -> type.cast(it);
+        Function<Object, T> caster = it -> type.cast(it);
 
-		return registerHandler(property, caster.andThen(handler));
-	}
+        return registerHandler(property, caster.andThen(handler));
+    }
 
-	/**
-	 * Post-processes the value obtained for the given {@link PersistentProperty} using the registered handler.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @param value can be {@literal null}.
-	 * @return the post-processed value or the value itself if no handlers registered.
-	 */
-	@Nullable
-	Object postProcess(PersistentProperty<?> property, @Nullable Object value) {
+    /**
+     * Post-processes the value obtained for the given {@link PersistentProperty} using the registered handler.
+     *
+     * @param property must not be {@literal null}.
+     * @param value    can be {@literal null}.
+     * @return the post-processed value or the value itself if no handlers registered.
+     */
+    @Nullable
+    Object postProcess(PersistentProperty<?> property, @Nullable Object value) {
 
-		Function<Object, Object> handler = handlers.get(property);
+        Function<Object, Object> handler = handlers.get(property);
 
-		return handler == null ? value : handler.apply(value);
-	}
+        return handler == null ? value : handler.apply(value);
+    }
 }

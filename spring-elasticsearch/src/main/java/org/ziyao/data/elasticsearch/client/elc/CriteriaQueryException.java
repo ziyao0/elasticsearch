@@ -22,7 +22,7 @@ import org.springframework.dao.UncategorizedDataAccessException;
  * @since 4.4
  */
 public class CriteriaQueryException extends UncategorizedDataAccessException {
-	public CriteriaQueryException(String msg) {
-		super(msg, null);
-	}
+    public CriteriaQueryException(String msg) {
+        super(msg, null);
+    }
 }

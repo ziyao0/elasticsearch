@@ -23,21 +23,21 @@ import org.springframework.util.Assert;
  */
 public class StringQueryBuilder extends BaseQueryBuilder<StringQuery, StringQueryBuilder> {
 
-	private final String source;
+    private final String source;
 
-	public StringQueryBuilder(String source) {
+    public StringQueryBuilder(String source) {
 
-		Assert.notNull(source, "source must not be null");
+        Assert.notNull(source, "source must not be null");
 
-		this.source = source;
-	}
+        this.source = source;
+    }
 
-	public String getSource() {
-		return source;
-	}
+    public String getSource() {
+        return source;
+    }
 
-	@Override
-	public StringQuery build() {
-		return new StringQuery(this);
-	}
+    @Override
+    public StringQuery build() {
+        return new StringQuery(this);
+    }
 }

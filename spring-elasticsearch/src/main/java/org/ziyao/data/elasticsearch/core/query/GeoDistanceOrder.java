@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.springframework.data.domain.Sort;
+import org.ziyao.data.domain.Sort;
 import org.ziyao.data.elasticsearch.core.geo.GeoPoint;
 
 /**
@@ -27,93 +27,93 @@ import org.ziyao.data.elasticsearch.core.geo.GeoPoint;
  */
 public class GeoDistanceOrder extends Order {
 
-	public static final DistanceType DEFAULT_DISTANCE_TYPE = DistanceType.arc;
-	public static final String DEFAULT_UNIT = "m";
-	public static final Boolean DEFAULT_IGNORE_UNMAPPED = false;
+    public static final DistanceType DEFAULT_DISTANCE_TYPE = DistanceType.arc;
+    public static final String DEFAULT_UNIT = "m";
+    public static final Boolean DEFAULT_IGNORE_UNMAPPED = false;
 
-	private final GeoPoint geoPoint;
-	private final DistanceType distanceType;
-	private final String unit;
-	private final Boolean ignoreUnmapped;
+    private final GeoPoint geoPoint;
+    private final DistanceType distanceType;
+    private final String unit;
+    private final Boolean ignoreUnmapped;
 
-	public GeoDistanceOrder(String property, GeoPoint geoPoint) {
-		this(property, geoPoint, Sort.Direction.ASC, DEFAULT_DISTANCE_TYPE, DEFAULT_MODE, DEFAULT_UNIT,
-				DEFAULT_IGNORE_UNMAPPED);
-	}
+    public GeoDistanceOrder(String property, GeoPoint geoPoint) {
+        this(property, geoPoint, Sort.Direction.ASC, DEFAULT_DISTANCE_TYPE, DEFAULT_MODE, DEFAULT_UNIT,
+                DEFAULT_IGNORE_UNMAPPED);
+    }
 
-	private GeoDistanceOrder(String property, GeoPoint geoPoint, Sort.Direction direction, DistanceType distanceType,
-			Mode mode, String unit, Boolean ignoreUnmapped) {
-		super(direction, property, mode);
-		this.geoPoint = geoPoint;
-		this.distanceType = distanceType;
-		this.unit = unit;
-		this.ignoreUnmapped = ignoreUnmapped;
-	}
+    private GeoDistanceOrder(String property, GeoPoint geoPoint, Sort.Direction direction, DistanceType distanceType,
+                             Mode mode, String unit, Boolean ignoreUnmapped) {
+        super(direction, property, mode);
+        this.geoPoint = geoPoint;
+        this.distanceType = distanceType;
+        this.unit = unit;
+        this.ignoreUnmapped = ignoreUnmapped;
+    }
 
-	public GeoPoint getGeoPoint() {
-		return geoPoint;
-	}
+    public GeoPoint getGeoPoint() {
+        return geoPoint;
+    }
 
-	public DistanceType getDistanceType() {
-		return distanceType;
-	}
+    public DistanceType getDistanceType() {
+        return distanceType;
+    }
 
-	public Mode getMode() {
-		return mode;
-	}
+    public Mode getMode() {
+        return mode;
+    }
 
-	public String getUnit() {
-		return unit;
-	}
+    public String getUnit() {
+        return unit;
+    }
 
-	public Boolean getIgnoreUnmapped() {
-		return ignoreUnmapped;
-	}
+    public Boolean getIgnoreUnmapped() {
+        return ignoreUnmapped;
+    }
 
-	@Override
-	public GeoDistanceOrder withProperty(String property) {
-		return new GeoDistanceOrder(property, getGeoPoint(), getDirection(), getDistanceType(), getMode(), getUnit(),
-				getIgnoreUnmapped());
-	}
+    @Override
+    public GeoDistanceOrder withProperty(String property) {
+        return new GeoDistanceOrder(property, getGeoPoint(), getDirection(), getDistanceType(), getMode(), getUnit(),
+                getIgnoreUnmapped());
+    }
 
-	@Override
-	public GeoDistanceOrder with(Sort.Direction direction) {
-		return new GeoDistanceOrder(getProperty(), getGeoPoint(), direction, getDistanceType(), getMode(), getUnit(),
-				getIgnoreUnmapped());
-	}
+    @Override
+    public GeoDistanceOrder with(Sort.Direction direction) {
+        return new GeoDistanceOrder(getProperty(), getGeoPoint(), direction, getDistanceType(), getMode(), getUnit(),
+                getIgnoreUnmapped());
+    }
 
-	@Override
-	public GeoDistanceOrder with(Sort.NullHandling nullHandling) {
-		throw new UnsupportedOperationException("null handling is not supported for _geo_distance sorts");
-	}
+    @Override
+    public GeoDistanceOrder with(Sort.NullHandling nullHandling) {
+        throw new UnsupportedOperationException("null handling is not supported for _geo_distance sorts");
+    }
 
-	public GeoDistanceOrder with(DistanceType distanceType) {
-		return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), distanceType, getMode(), getUnit(),
-				getIgnoreUnmapped());
-	}
+    public GeoDistanceOrder with(DistanceType distanceType) {
+        return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), distanceType, getMode(), getUnit(),
+                getIgnoreUnmapped());
+    }
 
-	public GeoDistanceOrder with(Mode mode) {
-		return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), getDistanceType(), mode, getUnit(),
-				getIgnoreUnmapped());
-	}
+    public GeoDistanceOrder with(Mode mode) {
+        return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), getDistanceType(), mode, getUnit(),
+                getIgnoreUnmapped());
+    }
 
-	public GeoDistanceOrder withUnit(String unit) {
-		return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), getDistanceType(), getMode(), unit,
-				getIgnoreUnmapped());
-	}
+    public GeoDistanceOrder withUnit(String unit) {
+        return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), getDistanceType(), getMode(), unit,
+                getIgnoreUnmapped());
+    }
 
-	public GeoDistanceOrder withIgnoreUnmapped(Boolean ignoreUnmapped) {
-		return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), getDistanceType(), getMode(), getUnit(),
-				ignoreUnmapped);
-	}
+    public GeoDistanceOrder withIgnoreUnmapped(Boolean ignoreUnmapped) {
+        return new GeoDistanceOrder(getProperty(), getGeoPoint(), getDirection(), getDistanceType(), getMode(), getUnit(),
+                ignoreUnmapped);
+    }
 
-	@Override
-	public String toString() {
-		return "GeoDistanceOrder{" + "geoPoint=" + geoPoint + ", distanceType=" + distanceType + ", mode=" + mode
-				+ ", unit='" + unit + '\'' + ", ignoreUnmapped=" + ignoreUnmapped + "} " + super.toString();
-	}
+    @Override
+    public String toString() {
+        return "GeoDistanceOrder{" + "geoPoint=" + geoPoint + ", distanceType=" + distanceType + ", mode=" + mode
+                + ", unit='" + unit + '\'' + ", ignoreUnmapped=" + ignoreUnmapped + "} " + super.toString();
+    }
 
-	public enum DistanceType {
-		arc, plane
-	}
+    public enum DistanceType {
+        arc, plane
+    }
 }

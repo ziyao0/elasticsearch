@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.repository.query;
 
-import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 
 /**
  * @author Christoph Strobl
@@ -25,25 +25,25 @@ import org.springframework.util.Assert;
  */
 public class SimpleElasticsearchEntityMetadata<T> implements ElasticsearchEntityMetadata<T> {
 
-	private final Class<T> type;
-	private final ElasticsearchPersistentEntity<?> entity;
+    private final Class<T> type;
+    private final ElasticsearchPersistentEntity<?> entity;
 
-	public SimpleElasticsearchEntityMetadata(Class<T> type, ElasticsearchPersistentEntity<?> entity) {
+    public SimpleElasticsearchEntityMetadata(Class<T> type, ElasticsearchPersistentEntity<?> entity) {
 
-		Assert.notNull(type, "Type must not be null!");
-		Assert.notNull(entity, "Entity must not be null!");
+        Assert.notNull(type, "Type must not be null!");
+        Assert.notNull(entity, "Entity must not be null!");
 
-		this.type = type;
-		this.entity = entity;
-	}
+        this.type = type;
+        this.entity = entity;
+    }
 
-	@Override
-	public String getIndexName() {
-		return entity.getIndexCoordinates().getIndexName();
-	}
+    @Override
+    public String getIndexName() {
+        return entity.getIndexCoordinates().getIndexName();
+    }
 
-	@Override
-	public Class<T> getJavaType() {
-		return type;
-	}
+    @Override
+    public Class<T> getJavaType() {
+        return type;
+    }
 }

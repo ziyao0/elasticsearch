@@ -19,13 +19,13 @@ package org.ziyao.data.elasticsearch.core;
  * Aggregation container used in the Spring Data Elasticsearch API for a single aggregation. The concrete
  * implementations must be provided by the code handling the direct communication with Elasticsearch.
  *
- * @author Peter-Josef Meisch
  * @param <T> the aggregation class from the used client implementation.
+ * @author Peter-Josef Meisch
  * @since 4.3
  */
 public interface AggregationContainer<T> {
-	/**
-	 * @return the concrete aggregations implementation
-	 */
-	T aggregation();
+    /**
+     * @return the concrete aggregations implementation
+     */
+    T aggregation();
 }

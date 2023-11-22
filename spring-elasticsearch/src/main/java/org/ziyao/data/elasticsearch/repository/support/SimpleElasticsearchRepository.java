@@ -18,19 +18,19 @@ package org.ziyao.data.elasticsearch.repository.support;
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.*;
-import org.ziyao.data.elasticsearch.core.*;
-import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
-import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.ziyao.data.elasticsearch.core.query.*;
-import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.data.util.StreamUtils;
-import org.springframework.data.util.Streamable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.domain.*;
+import org.ziyao.data.elasticsearch.core.*;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
+import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.ziyao.data.elasticsearch.core.query.*;
+import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
+import org.ziyao.data.util.StreamUtils;
+import org.ziyao.data.util.Streamable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
  * @author Aleksei Arsenev
  * @author Jens Schauder
  */
-public  class SimpleElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
+public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleElasticsearchRepository.class);
 
@@ -62,6 +62,7 @@ public  class SimpleElasticsearchRepository<T, ID> implements ElasticsearchRepos
     protected Class<T> entityClass;
     protected ElasticsearchEntityInformation<T, ID> entityInformation;
     private final BeanPropertyExtractor<T> beanPropertyExtractor;
+
     public SimpleElasticsearchRepository(ElasticsearchEntityInformation<T, ID> metadata,
                                          ElasticsearchOperations operations) {
         this.operations = operations;

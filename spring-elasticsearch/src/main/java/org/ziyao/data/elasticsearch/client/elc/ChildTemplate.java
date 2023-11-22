@@ -18,8 +18,8 @@ package org.ziyao.data.elasticsearch.client.elc;
 import co.elastic.clients.ApiClient;
 import co.elastic.clients.elasticsearch.cluster.ElasticsearchClusterClient;
 import co.elastic.clients.json.JsonpMapper;
-import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 
 import java.io.IOException;
 
@@ -33,42 +33,42 @@ import java.io.IOException;
  */
 public abstract class ChildTemplate<CLIENT extends ApiClient> {
 
-	protected final CLIENT client;
-	protected final RequestConverter requestConverter;
-	protected final ResponseConverter responseConverter;
-	protected final ElasticsearchExceptionTranslator exceptionTranslator;
+    protected final CLIENT client;
+    protected final RequestConverter requestConverter;
+    protected final ResponseConverter responseConverter;
+    protected final ElasticsearchExceptionTranslator exceptionTranslator;
 
-	public ChildTemplate(CLIENT client, ElasticsearchConverter elasticsearchConverter) {
-		this.client = client;
-		JsonpMapper jsonpMapper = client._transport().jsonpMapper();
-		requestConverter = new RequestConverter(elasticsearchConverter, jsonpMapper);
-		responseConverter = new ResponseConverter(jsonpMapper);
-		exceptionTranslator = new ElasticsearchExceptionTranslator(jsonpMapper);
-	}
+    public ChildTemplate(CLIENT client, ElasticsearchConverter elasticsearchConverter) {
+        this.client = client;
+        JsonpMapper jsonpMapper = client._transport().jsonpMapper();
+        requestConverter = new RequestConverter(elasticsearchConverter, jsonpMapper);
+        responseConverter = new ResponseConverter(jsonpMapper);
+        exceptionTranslator = new ElasticsearchExceptionTranslator(jsonpMapper);
+    }
 
-	/**
-	 * Callback interface to be used with {@link #execute(ClientCallback)} for operating directly on the client.
-	 */
-	@FunctionalInterface
-	public interface ClientCallback<CLIENT, RESULT> {
-		RESULT doWithClient(CLIENT client) throws IOException;
-	}
+    /**
+     * Callback interface to be used with {@link #execute(ClientCallback)} for operating directly on the client.
+     */
+    @FunctionalInterface
+    public interface ClientCallback<CLIENT, RESULT> {
+        RESULT doWithClient(CLIENT client) throws IOException;
+    }
 
-	/**
-	 * Execute a callback with the client and provide exception translation.
-	 *
-	 * @param callback the callback to execute, must not be {@literal null}
-	 * @param <RESULT> the type returned from the callback
-	 * @return the callback result
-	 */
-	public <RESULT> RESULT execute(ClientCallback<CLIENT, RESULT> callback) {
+    /**
+     * Execute a callback with the client and provide exception translation.
+     *
+     * @param callback the callback to execute, must not be {@literal null}
+     * @param <RESULT> the type returned from the callback
+     * @return the callback result
+     */
+    public <RESULT> RESULT execute(ClientCallback<CLIENT, RESULT> callback) {
 
-		Assert.notNull(callback, "callback must not be null");
+        Assert.notNull(callback, "callback must not be null");
 
-		try {
-			return callback.doWithClient(client);
-		} catch (IOException | RuntimeException e) {
-			throw exceptionTranslator.translateException(e);
-		}
-	}
+        try {
+            return callback.doWithClient(client);
+        } catch (IOException | RuntimeException e) {
+            throw exceptionTranslator.translateException(e);
+        }
+    }
 }

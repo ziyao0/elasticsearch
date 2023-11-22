@@ -16,8 +16,8 @@
 package org.ziyao.data.elasticsearch.config;
 
 import org.springframework.beans.factory.FactoryBean;
-import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 import org.springframework.data.mapping.context.PersistentEntities;
+import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 
 /**
  * Simple helper to be able to wire the {@link PersistentEntities} from a {@link MappingElasticsearchConverter} bean
@@ -31,24 +31,24 @@ import org.springframework.data.mapping.context.PersistentEntities;
  */
 public class PersistentEntitiesFactoryBean implements FactoryBean<PersistentEntities> {
 
-	private final MappingElasticsearchConverter converter;
+    private final MappingElasticsearchConverter converter;
 
-	/**
-	 * Creates a new {@link PersistentEntitiesFactoryBean} for the given {@link MappingElasticsearchConverter}.
-	 *
-	 * @param converter must not be {@literal null}.
-	 */
-	public PersistentEntitiesFactoryBean(MappingElasticsearchConverter converter) {
-		this.converter = converter;
-	}
+    /**
+     * Creates a new {@link PersistentEntitiesFactoryBean} for the given {@link MappingElasticsearchConverter}.
+     *
+     * @param converter must not be {@literal null}.
+     */
+    public PersistentEntitiesFactoryBean(MappingElasticsearchConverter converter) {
+        this.converter = converter;
+    }
 
-	@Override
-	public PersistentEntities getObject() {
-		return PersistentEntities.of(converter.getMappingContext());
-	}
+    @Override
+    public PersistentEntities getObject() {
+        return PersistentEntities.of(converter.getMappingContext());
+    }
 
-	@Override
-	public Class<?> getObjectType() {
-		return PersistentEntities.class;
-	}
+    @Override
+    public Class<?> getObjectType() {
+        return PersistentEntities.class;
+    }
 }

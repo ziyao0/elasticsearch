@@ -19,26 +19,26 @@ import java.time.temporal.TemporalAccessor;
 
 /**
  * Interface to convert from and to {@link TemporalAccessor}s.
- * 
+ *
  * @author Peter-Josef Meisch
  * @since 4.2
  */
 public interface DateFormatter {
-	/**
-	 * Formats a {@link TemporalAccessor} into a String.
-	 * 
-	 * @param accessor must not be {@literal null}
-	 * @return the formatted String
-	 */
-	String format(TemporalAccessor accessor);
+    /**
+     * Formats a {@link TemporalAccessor} into a String.
+     *
+     * @param accessor must not be {@literal null}
+     * @return the formatted String
+     */
+    String format(TemporalAccessor accessor);
 
-	/**
-	 * Parses a String into a {@link TemporalAccessor}.
-	 * 
-	 * @param input the String to parse, must not be {@literal null}
-	 * @param type the class of T
-	 * @param <T> the {@link TemporalAccessor} implementation
-	 * @return the parsed instance
-	 */
-	<T extends TemporalAccessor> T parse(String input, Class<T> type);
+    /**
+     * Parses a String into a {@link TemporalAccessor}.
+     *
+     * @param input the String to parse, must not be {@literal null}
+     * @param type  the class of T
+     * @param <T>   the {@link TemporalAccessor} implementation
+     * @return the parsed instance
+     */
+    <T extends TemporalAccessor> T parse(String input, Class<T> type);
 }

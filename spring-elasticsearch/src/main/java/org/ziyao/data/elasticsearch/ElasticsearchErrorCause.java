@@ -25,53 +25,56 @@ import java.util.List;
  * @since 4.4
  */
 public class ElasticsearchErrorCause {
-	@Nullable private final String type;
+    @Nullable
+    private final String type;
 
-	private final String reason;
+    private final String reason;
 
-	@Nullable private final String stackTrace;
+    @Nullable
+    private final String stackTrace;
 
-	@Nullable private final ElasticsearchErrorCause causedBy;
+    @Nullable
+    private final ElasticsearchErrorCause causedBy;
 
-	private final List<ElasticsearchErrorCause> rootCause;
+    private final List<ElasticsearchErrorCause> rootCause;
 
-	private final List<ElasticsearchErrorCause> suppressed;
+    private final List<ElasticsearchErrorCause> suppressed;
 
-	public ElasticsearchErrorCause(@Nullable String type, String reason, @Nullable String stackTrace,
-			@Nullable ElasticsearchErrorCause causedBy, List<ElasticsearchErrorCause> rootCause,
-			List<ElasticsearchErrorCause> suppressed) {
-		this.type = type;
-		this.reason = reason;
-		this.stackTrace = stackTrace;
-		this.causedBy = causedBy;
-		this.rootCause = rootCause;
-		this.suppressed = suppressed;
-	}
+    public ElasticsearchErrorCause(@Nullable String type, String reason, @Nullable String stackTrace,
+                                   @Nullable ElasticsearchErrorCause causedBy, List<ElasticsearchErrorCause> rootCause,
+                                   List<ElasticsearchErrorCause> suppressed) {
+        this.type = type;
+        this.reason = reason;
+        this.stackTrace = stackTrace;
+        this.causedBy = causedBy;
+        this.rootCause = rootCause;
+        this.suppressed = suppressed;
+    }
 
-	@Nullable
-	public String getType() {
-		return type;
-	}
+    @Nullable
+    public String getType() {
+        return type;
+    }
 
-	public String getReason() {
-		return reason;
-	}
+    public String getReason() {
+        return reason;
+    }
 
-	@Nullable
-	public String getStackTrace() {
-		return stackTrace;
-	}
+    @Nullable
+    public String getStackTrace() {
+        return stackTrace;
+    }
 
-	@Nullable
-	public ElasticsearchErrorCause getCausedBy() {
-		return causedBy;
-	}
+    @Nullable
+    public ElasticsearchErrorCause getCausedBy() {
+        return causedBy;
+    }
 
-	public List<ElasticsearchErrorCause> getRootCause() {
-		return rootCause;
-	}
+    public List<ElasticsearchErrorCause> getRootCause() {
+        return rootCause;
+    }
 
-	public List<ElasticsearchErrorCause> getSuppressed() {
-		return suppressed;
-	}
+    public List<ElasticsearchErrorCause> getSuppressed() {
+        return suppressed;
+    }
 }

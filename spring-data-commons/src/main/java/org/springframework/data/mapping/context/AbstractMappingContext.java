@@ -26,15 +26,14 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.core.KotlinDetector;
 import org.springframework.data.mapping.*;
 import org.springframework.data.mapping.model.*;
-import org.springframework.data.spel.EvaluationContextProvider;
-import org.springframework.data.spel.ExtensionAwareEvaluationContextProvider;
-import org.springframework.data.support.NativeDetector;
-import org.springframework.data.util.*;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
-import org.springframework.util.ReflectionUtils.FieldFilter;
+import org.ziyao.data.spel.EvaluationContextProvider;
+import org.ziyao.data.spel.ExtensionAwareEvaluationContextProvider;
+import org.ziyao.data.support.NativeDetector;
+import org.ziyao.data.util.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -181,7 +180,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
      */
     @Nullable
     public E getPersistentEntity(Class<?> type) {
-        return getPersistentEntity(ClassTypeInformation.from(type));
+        ClassTypeInformation<?> from = ClassTypeInformation.from(type);
+        return getPersistentEntity(from);
     }
 
     /*
@@ -421,7 +421,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
             }
 
             PersistentPropertyCreator persistentPropertyCreator = new PersistentPropertyCreator(entity, descriptors);
-            ReflectionUtils.doWithFields(type, persistentPropertyCreator, PersistentPropertyFilter.INSTANCE);
+            org.ziyao.data.annotation.ReflectionUtils.doWithFields(type, persistentPropertyCreator, PersistentPropertyFilter.INSTANCE);
             persistentPropertyCreator.addPropertiesForRemainingDescriptors();
 
             entity.verify();
@@ -521,7 +521,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
      *
      * @author Oliver Gierke
      */
-    private final class PersistentPropertyCreator implements FieldCallback {
+    private final class PersistentPropertyCreator implements org.ziyao.data.annotation.ReflectionUtils.FieldCallback {
 
         private final E entity;
         private final Map<String, PropertyDescriptor> descriptors;
@@ -692,7 +692,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
      *
      * @author Oliver Gierke
      */
-    static enum PersistentPropertyFilter implements FieldFilter {
+    static enum PersistentPropertyFilter implements org.ziyao.data.annotation.ReflectionUtils.FieldFilter {
 
         INSTANCE;
 

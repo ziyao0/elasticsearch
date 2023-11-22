@@ -24,31 +24,31 @@ import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 /**
  * @author Christoph Strobl
  * @author Peter-Josef Meisch
- * @since 3.2
  * @see ElasticsearchConfigurationSupport
+ * @since 3.2
  */
 public abstract class AbstractElasticsearchConfiguration extends ElasticsearchConfigurationSupport {
 
-	/**
-	 * Return the {@link RestHighLevelClient} instance used to connect to the cluster. <br />
-	 *
-	 * @return never {@literal null}.
-	 */
-	@Bean
-	public abstract RestHighLevelClient elasticsearchClient();
+    /**
+     * Return the {@link RestHighLevelClient} instance used to connect to the cluster. <br />
+     *
+     * @return never {@literal null}.
+     */
+    @Bean
+    public abstract RestHighLevelClient elasticsearchClient();
 
-	/**
-	 * Creates {@link ElasticsearchOperations}.
-	 *
-	 * @return never {@literal null}.
-	 */
-	@Bean(name = { "elasticsearchOperations", "elasticsearchTemplate" })
-	public ElasticsearchOperations elasticsearchOperations(ElasticsearchConverter elasticsearchConverter,
+    /**
+     * Creates {@link ElasticsearchOperations}.
+     *
+     * @return never {@literal null}.
+     */
+    @Bean(name = {"elasticsearchOperations", "elasticsearchTemplate"})
+    public ElasticsearchOperations elasticsearchOperations(ElasticsearchConverter elasticsearchConverter,
                                                            RestHighLevelClient elasticsearchClient) {
 
-		ElasticsearchRestTemplate template = new ElasticsearchRestTemplate(elasticsearchClient, elasticsearchConverter);
-		template.setRefreshPolicy(refreshPolicy());
+        ElasticsearchRestTemplate template = new ElasticsearchRestTemplate(elasticsearchClient, elasticsearchConverter);
+        template.setRefreshPolicy(refreshPolicy());
 
-		return template;
-	}
+        return template;
+    }
 }

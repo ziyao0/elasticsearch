@@ -23,10 +23,10 @@ package org.ziyao.data.elasticsearch.core.cluster;
  */
 public interface ClusterOperations {
 
-	/**
-	 * get the cluster's health status.
-	 *
-	 * @return health information for the cluster.
-	 */
-	ClusterHealth health();
+    /**
+     * get the cluster's health status.
+     *
+     * @return health information for the cluster.
+     */
+    ClusterHealth health();
 }

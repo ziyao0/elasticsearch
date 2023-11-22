@@ -20,5 +20,5 @@ package org.ziyao.data.elasticsearch.annotations;
  * @since 4.0
  */
 public enum IndexOptions {
-	none, docs, freqs, positions, offsets
+    none, docs, freqs, positions, offsets
 }

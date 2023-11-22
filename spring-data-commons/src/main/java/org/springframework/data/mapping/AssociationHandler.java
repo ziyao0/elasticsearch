@@ -23,10 +23,10 @@ package org.springframework.data.mapping;
  */
 public interface AssociationHandler<P extends PersistentProperty<P>> {
 
-	/**
-	 * Processes the given {@link Association}.
-	 *
-	 * @param association
-	 */
-	void doWithAssociation(Association<P> association);
+    /**
+     * Processes the given {@link Association}.
+     *
+     * @param association
+     */
+    void doWithAssociation(Association<P> association);
 }

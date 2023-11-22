@@ -26,19 +26,19 @@ import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
  */
 public class Aggregation {
 
-	private final String name;
-	private final Aggregate aggregate;
+    private final String name;
+    private final Aggregate aggregate;
 
-	public Aggregation(String name, Aggregate aggregate) {
-		this.name = name;
-		this.aggregate = aggregate;
-	}
+    public Aggregation(String name, Aggregate aggregate) {
+        this.name = name;
+        this.aggregate = aggregate;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Aggregate getAggregate() {
-		return aggregate;
-	}
+    public Aggregate getAggregate() {
+        return aggregate;
+    }
 }

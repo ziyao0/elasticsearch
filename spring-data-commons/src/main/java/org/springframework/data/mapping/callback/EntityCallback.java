@@ -15,7 +15,7 @@
  */
 package org.springframework.data.mapping.callback;
 
-import org.springframework.data.annotation.Order;
+import org.ziyao.data.annotation.Order;
 
 /**
  * Marker interface for entity callbacks to be implemented in specific callback subtypes. Intended for internal usage
@@ -54,12 +54,12 @@ import org.springframework.data.annotation.Order;
  * }
  * </pre>
  *
+ * @param <T> Entity type used to detect {@link EntityCallback callbacks} to invoke via their generic type signature.
  * @author Mark Paluch
  * @author Christoph Strobl
- * @param <T> Entity type used to detect {@link EntityCallback callbacks} to invoke via their generic type signature.
- * @since 2.2
  * @see org.springframework.core.Ordered
  * @see Order
+ * @since 2.2
  */
 public interface EntityCallback<T> {
 

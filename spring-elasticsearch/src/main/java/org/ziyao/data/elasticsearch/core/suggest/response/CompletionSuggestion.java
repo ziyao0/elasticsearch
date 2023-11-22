@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.elasticsearch.core.suggest.response;
 
+import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.core.SearchHit;
 import org.ziyao.data.elasticsearch.core.document.SearchDocument;
 import org.ziyao.data.elasticsearch.support.ScoreDoc;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -31,50 +31,53 @@ import java.util.function.BiFunction;
  */
 public class CompletionSuggestion<T> extends Suggest.Suggestion<CompletionSuggestion.Entry<T>> {
 
-	public CompletionSuggestion(String name, int size, List<Entry<T>> entries) {
-		super(name, size, entries);
-	}
+    public CompletionSuggestion(String name, int size, List<Entry<T>> entries) {
+        super(name, size, entries);
+    }
 
-	public static class Entry<T> extends Suggest.Suggestion.Entry<Entry.Option<T>> {
+    public static class Entry<T> extends Suggest.Suggestion.Entry<Entry.Option<T>> {
 
-		public Entry(String text, int offset, int length, List<Option<T>> options) {
-			super(text, offset, length, options);
-		}
+        public Entry(String text, int offset, int length, List<Option<T>> options) {
+            super(text, offset, length, options);
+        }
 
-		public static class Option<T> extends Suggest.Suggestion.Entry.Option {
+        public static class Option<T> extends Suggest.Suggestion.Entry.Option {
 
-			private final Map<String, Set<String>> contexts;
-			private final ScoreDoc scoreDoc;
-			@Nullable private final SearchDocument searchDocument;
-			@Nullable private final T hitEntity;
-			@Nullable private SearchHit<T> searchHit;
+            private final Map<String, Set<String>> contexts;
+            private final ScoreDoc scoreDoc;
+            @Nullable
+            private final SearchDocument searchDocument;
+            @Nullable
+            private final T hitEntity;
+            @Nullable
+            private SearchHit<T> searchHit;
 
-			public Option(String text, String highlighted, float score, Boolean collateMatch,
-					Map<String, Set<String>> contexts, ScoreDoc scoreDoc, @Nullable SearchDocument searchDocument,
-					@Nullable T hitEntity) {
-				super(text, highlighted, score, collateMatch);
-				this.contexts = contexts;
-				this.scoreDoc = scoreDoc;
-				this.searchDocument = searchDocument;
-				this.hitEntity = hitEntity;
-			}
+            public Option(String text, String highlighted, float score, Boolean collateMatch,
+                          Map<String, Set<String>> contexts, ScoreDoc scoreDoc, @Nullable SearchDocument searchDocument,
+                          @Nullable T hitEntity) {
+                super(text, highlighted, score, collateMatch);
+                this.contexts = contexts;
+                this.scoreDoc = scoreDoc;
+                this.searchDocument = searchDocument;
+                this.hitEntity = hitEntity;
+            }
 
-			public Map<String, Set<String>> getContexts() {
-				return contexts;
-			}
+            public Map<String, Set<String>> getContexts() {
+                return contexts;
+            }
 
-			public ScoreDoc getScoreDoc() {
-				return scoreDoc;
-			}
+            public ScoreDoc getScoreDoc() {
+                return scoreDoc;
+            }
 
-			@Nullable
-			public SearchHit<T> getSearchHit() {
-				return searchHit;
-			}
+            @Nullable
+            public SearchHit<T> getSearchHit() {
+                return searchHit;
+            }
 
-			public void updateSearchHit(BiFunction<SearchDocument, T, SearchHit<T>> mapper) {
-				searchHit = mapper.apply(searchDocument, hitEntity);
-			}
-		}
-	}
+            public void updateSearchHit(BiFunction<SearchDocument, T, SearchHit<T>> mapper) {
+                searchHit = mapper.apply(searchDocument, hitEntity);
+            }
+        }
+    }
 }

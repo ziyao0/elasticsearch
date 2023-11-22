@@ -21,13 +21,13 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.json.JsonData;
 import org.apache.lucene.queryparser.flexible.standard.QueryParserUtil;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.ziyao.data.elasticsearch.annotations.FieldType;
 import org.ziyao.data.elasticsearch.core.query.Criteria;
 import org.ziyao.data.elasticsearch.core.query.CriteriaQuery;
 import org.ziyao.data.elasticsearch.core.query.Field;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;

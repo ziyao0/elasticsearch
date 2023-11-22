@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.event;
 
-import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.mapping.callback.EntityCallback;
+import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 
 /**
  * Callback being invoked before a domain object is converted to be persisted.
@@ -28,13 +28,13 @@ import org.springframework.data.mapping.callback.EntityCallback;
 @FunctionalInterface
 public interface BeforeConvertCallback<T> extends EntityCallback<T> {
 
-	/**
-	 * Callback method that will be invoked before an entity is persisted. Can return the same or a different instance of
-	 * the domain entity class.
-	 * 
-	 * @param entity the entity being converted
-	 * @param index must not be {@literal null}.
-	 * @return the entity to be converted
-	 */
-	T onBeforeConvert(T entity, IndexCoordinates index);
+    /**
+     * Callback method that will be invoked before an entity is persisted. Can return the same or a different instance of
+     * the domain entity class.
+     *
+     * @param entity the entity being converted
+     * @param index  must not be {@literal null}.
+     * @return the entity to be converted
+     */
+    T onBeforeConvert(T entity, IndexCoordinates index);
 }

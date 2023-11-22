@@ -20,30 +20,32 @@ import org.springframework.lang.Nullable;
 /**
  * SourceFilter builder for providing includes and excludes.
  *
- * @Author Jon Tsiros
  * @author Peter-Josef Meisch
+ * @Author Jon Tsiros
  */
 public class FetchSourceFilterBuilder {
 
-	@Nullable private String[] includes;
-	@Nullable private String[] excludes;
+    @Nullable
+    private String[] includes;
+    @Nullable
+    private String[] excludes;
 
-	public FetchSourceFilterBuilder withIncludes(String... includes) {
-		this.includes = includes;
-		return this;
-	}
+    public FetchSourceFilterBuilder withIncludes(String... includes) {
+        this.includes = includes;
+        return this;
+    }
 
-	public FetchSourceFilterBuilder withExcludes(String... excludes) {
-		this.excludes = excludes;
-		return this;
-	}
+    public FetchSourceFilterBuilder withExcludes(String... excludes) {
+        this.excludes = excludes;
+        return this;
+    }
 
-	public SourceFilter build() {
-		if (includes == null)
-			includes = new String[0];
-		if (excludes == null)
-			excludes = new String[0];
+    public SourceFilter build() {
+        if (includes == null)
+            includes = new String[0];
+        if (excludes == null)
+            excludes = new String[0];
 
-		return new FetchSourceFilter(includes, excludes);
-	}
+        return new FetchSourceFilter(includes, excludes);
+    }
 }

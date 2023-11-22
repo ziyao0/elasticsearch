@@ -2,7 +2,7 @@ package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
 import org.ziyao.data.elasticsearch.repository.config.ElasticsearchRepositoryConfigExtension;
 import org.ziyao.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
-import org.springframework.data.repository.config.RepositoryConfigurationExtension;
+import org.ziyao.data.repository.config.RepositoryConfigurationExtension;
 
 import java.lang.annotation.Annotation;
 

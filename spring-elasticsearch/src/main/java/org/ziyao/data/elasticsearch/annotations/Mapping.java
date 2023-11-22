@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.annotations;
 
-import org.springframework.data.annotation.Persistent;
+import org.ziyao.data.annotation.Persistent;
 
 import java.lang.annotation.*;
 
@@ -28,49 +28,49 @@ import java.lang.annotation.*;
 @Persistent
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.FIELD })
+@Target({ElementType.TYPE, ElementType.FIELD})
 public @interface Mapping {
 
-	String mappingPath() default "";
+    String mappingPath() default "";
 
-	/**
-	 * whether mappings are enabled
-	 *
-	 * @since 4.2
-	 */
-	boolean enabled() default true;
+    /**
+     * whether mappings are enabled
+     *
+     * @since 4.2
+     */
+    boolean enabled() default true;
 
-	/**
-	 * whether date_detection is enabled
-	 *
-	 * @since 4.3
-	 */
-	Detection dateDetection() default Detection.DEFAULT;
+    /**
+     * whether date_detection is enabled
+     *
+     * @since 4.3
+     */
+    Detection dateDetection() default Detection.DEFAULT;
 
-	/**
-	 * whether numeric_detection is enabled
-	 *
-	 * @since 4.3
-	 */
-	Detection numericDetection() default Detection.DEFAULT;
+    /**
+     * whether numeric_detection is enabled
+     *
+     * @since 4.3
+     */
+    Detection numericDetection() default Detection.DEFAULT;
 
-	/**
-	 * custom dynamic date formats
-	 *
-	 * @since 4.3
-	 */
-	String[] dynamicDateFormats() default {};
+    /**
+     * custom dynamic date formats
+     *
+     * @since 4.3
+     */
+    String[] dynamicDateFormats() default {};
 
-	/**
-	 * classpath to a JSON file containing the values for a runtime mapping definition. The file must contain the JSON
-	 * object that is written as the value of the runtime property. {@see <a href=
-	 * "https://www.elastic.co/guide/en/elasticsearch/reference/7.12/runtime-mapping-fields.html">elasticsearch doc</a>}
-	 *
-	 * @since 4.3
-	 */
-	String runtimeFieldsPath() default "";
+    /**
+     * classpath to a JSON file containing the values for a runtime mapping definition. The file must contain the JSON
+     * object that is written as the value of the runtime property. {@see <a href=
+     * "https://www.elastic.co/guide/en/elasticsearch/reference/7.12/runtime-mapping-fields.html">elasticsearch doc</a>}
+     *
+     * @since 4.3
+     */
+    String runtimeFieldsPath() default "";
 
-	enum Detection {
-		DEFAULT, TRUE, FALSE;
-	}
+    enum Detection {
+        DEFAULT, TRUE, FALSE;
+    }
 }

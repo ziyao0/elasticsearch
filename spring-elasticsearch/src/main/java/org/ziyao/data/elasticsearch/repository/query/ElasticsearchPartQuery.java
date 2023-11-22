@@ -15,14 +15,14 @@
  */
 package org.ziyao.data.elasticsearch.repository.query;
 
+import org.springframework.data.mapping.context.MappingContext;
 import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.ziyao.data.elasticsearch.core.query.BaseQuery;
 import org.ziyao.data.elasticsearch.core.query.Query;
 import org.ziyao.data.elasticsearch.repository.query.parser.ElasticsearchQueryCreator;
-import org.springframework.data.mapping.context.MappingContext;
-import org.springframework.data.repository.query.ParametersParameterAccessor;
-import org.springframework.data.repository.query.parser.PartTree;
+import org.ziyao.data.repository.query.ParametersParameterAccessor;
+import org.ziyao.data.repository.query.parser.PartTree;
 
 /**
  * ElasticsearchPartQuery
@@ -36,39 +36,39 @@ import org.springframework.data.repository.query.parser.PartTree;
  */
 public class ElasticsearchPartQuery extends AbstractElasticsearchRepositoryQuery {
 
-	private final PartTree tree;
-	private final MappingContext<?, ElasticsearchPersistentProperty> mappingContext;
+    private final PartTree tree;
+    private final MappingContext<?, ElasticsearchPersistentProperty> mappingContext;
 
-	public ElasticsearchPartQuery(ElasticsearchQueryMethod method, ElasticsearchOperations elasticsearchOperations) {
-		super(method, elasticsearchOperations);
-		this.tree = new PartTree(queryMethod.getName(), queryMethod.getResultProcessor().getReturnedType().getDomainType());
-		this.mappingContext = elasticsearchConverter.getMappingContext();
-	}
+    public ElasticsearchPartQuery(ElasticsearchQueryMethod method, ElasticsearchOperations elasticsearchOperations) {
+        super(method, elasticsearchOperations);
+        this.tree = new PartTree(queryMethod.getName(), queryMethod.getResultProcessor().getReturnedType().getDomainType());
+        this.mappingContext = elasticsearchConverter.getMappingContext();
+    }
 
-	@Override
-	public boolean isCountQuery() {
-		return tree.isCountProjection();
-	}
+    @Override
+    public boolean isCountQuery() {
+        return tree.isCountProjection();
+    }
 
-	@Override
-	protected boolean isDeleteQuery() {
-		return tree.isDelete();
-	}
+    @Override
+    protected boolean isDeleteQuery() {
+        return tree.isDelete();
+    }
 
-	@Override
-	protected boolean isExistsQuery() {
-		return tree.isExistsProjection();
-	}
+    @Override
+    protected boolean isExistsQuery() {
+        return tree.isExistsProjection();
+    }
 
-	protected Query createQuery(ParametersParameterAccessor accessor) {
+    protected Query createQuery(ParametersParameterAccessor accessor) {
 
-		BaseQuery query = new ElasticsearchQueryCreator(tree, accessor, mappingContext).createQuery();
+        BaseQuery query = new ElasticsearchQueryCreator(tree, accessor, mappingContext).createQuery();
 
-		if (tree.isLimiting()) {
-			// noinspection ConstantConditions
-			query.setMaxResults(tree.getMaxResults());
-		}
+        if (tree.isLimiting()) {
+            // noinspection ConstantConditions
+            query.setMaxResults(tree.getMaxResults());
+        }
 
-		return query;
-	}
+        return query;
+    }
 }

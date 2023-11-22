@@ -21,16 +21,16 @@ import org.springframework.util.Assert;
  * @author Peter-Josef Meisch
  */
 public class ExistsTemplateRequest {
-	private final String templateName;
+    private final String templateName;
 
-	public ExistsTemplateRequest(String templateName) {
+    public ExistsTemplateRequest(String templateName) {
 
-		Assert.notNull(templateName, "templateName must not be null");
+        Assert.notNull(templateName, "templateName must not be null");
 
-		this.templateName = templateName;
-	}
+        this.templateName = templateName;
+    }
 
-	public String getTemplateName() {
-		return templateName;
-	}
+    public String getTemplateName() {
+        return templateName;
+    }
 }

@@ -26,15 +26,15 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Documented
 public @interface GeoShapeField {
-	Orientation orientation() default Orientation.ccw;
+    Orientation orientation() default Orientation.ccw;
 
-	boolean ignoreMalformed() default false;
+    boolean ignoreMalformed() default false;
 
-	boolean ignoreZValue() default true;
+    boolean ignoreZValue() default true;
 
-	boolean coerce() default false;
+    boolean coerce() default false;
 
-	enum Orientation {
-		right, ccw, counterclockwise, left, cw, clockwise
-	}
+    enum Orientation {
+        right, ccw, counterclockwise, left, cw, clockwise
+    }
 }

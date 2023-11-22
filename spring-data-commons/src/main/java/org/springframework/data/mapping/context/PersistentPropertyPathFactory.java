@@ -16,15 +16,15 @@
 package org.springframework.data.mapping.context;
 
 import org.springframework.data.mapping.*;
-import org.springframework.data.util.ClassTypeInformation;
-import org.springframework.data.util.Pair;
-import org.springframework.data.util.StreamUtils;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.util.ClassTypeInformation;
+import org.ziyao.data.util.Pair;
+import org.ziyao.data.util.StreamUtils;
+import org.ziyao.data.util.TypeInformation;
 
 import java.util.*;
 import java.util.function.Function;

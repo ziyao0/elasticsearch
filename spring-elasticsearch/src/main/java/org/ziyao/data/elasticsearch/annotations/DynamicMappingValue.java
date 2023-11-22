@@ -25,15 +25,15 @@ package org.ziyao.data.elasticsearch.annotations;
  */
 @Deprecated
 public enum DynamicMappingValue {
-	True("true"), False("false"), Strict("strict");
+    True("true"), False("false"), Strict("strict");
 
-	private final String mappedName;
+    private final String mappedName;
 
-	DynamicMappingValue(String mappedName) {
-		this.mappedName = mappedName;
-	}
+    DynamicMappingValue(String mappedName) {
+        this.mappedName = mappedName;
+    }
 
-	public String getMappedName() {
-		return mappedName;
-	}
+    public String getMappedName() {
+        return mappedName;
+    }
 }

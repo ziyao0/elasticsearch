@@ -30,16 +30,16 @@ import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
  */
 public class ClusterTemplate extends ChildTemplate<ElasticsearchClusterClient> implements ClusterOperations {
 
-	public ClusterTemplate(ElasticsearchClusterClient client, ElasticsearchConverter elasticsearchConverter) {
-		super(client, elasticsearchConverter);
-	}
+    public ClusterTemplate(ElasticsearchClusterClient client, ElasticsearchConverter elasticsearchConverter) {
+        super(client, elasticsearchConverter);
+    }
 
-	@Override
-	public ClusterHealth health() {
+    @Override
+    public ClusterHealth health() {
 
-		HealthRequest healthRequest = requestConverter.clusterHealthRequest();
-		HealthResponse healthResponse = execute(client -> client.health(healthRequest));
-		return responseConverter.clusterHealth(healthResponse);
-	}
+        HealthRequest healthRequest = requestConverter.clusterHealthRequest();
+        HealthResponse healthResponse = execute(client -> client.health(healthRequest));
+        return responseConverter.clusterHealth(healthResponse);
+    }
 
 }

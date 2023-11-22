@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.elasticsearch.core.convert;
 
-import org.ziyao.data.elasticsearch.core.Range;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.Range;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,97 +28,97 @@ import java.util.Map;
  */
 public abstract class AbstractRangePropertyValueConverter<T> extends AbstractPropertyValueConverter {
 
-	protected static final String LT_FIELD = "lt";
-	protected static final String LTE_FIELD = "lte";
-	protected static final String GT_FIELD = "gt";
-	protected static final String GTE_FIELD = "gte";
+    protected static final String LT_FIELD = "lt";
+    protected static final String LTE_FIELD = "lte";
+    protected static final String GT_FIELD = "gt";
+    protected static final String GTE_FIELD = "gte";
 
-	public AbstractRangePropertyValueConverter(PersistentProperty<?> property) {
-		super(property);
-	}
+    public AbstractRangePropertyValueConverter(PersistentProperty<?> property) {
+        super(property);
+    }
 
-	@Override
-	public Object read(Object value) {
+    @Override
+    public Object read(Object value) {
 
-		Assert.notNull(value, "value must not be null.");
-		Assert.isInstanceOf(Map.class, value, "value must be instance of Map.");
+        Assert.notNull(value, "value must not be null.");
+        Assert.isInstanceOf(Map.class, value, "value must be instance of Map.");
 
-		try {
-			Map<String, Object> source = (Map<String, Object>) value;
-			Range.Bound<T> lowerBound;
-			Range.Bound<T> upperBound;
+        try {
+            Map<String, Object> source = (Map<String, Object>) value;
+            Range.Bound<T> lowerBound;
+            Range.Bound<T> upperBound;
 
-			if (source.containsKey(GTE_FIELD)) {
-				lowerBound = Range.Bound.inclusive(parse((String) source.get(GTE_FIELD)));
-			} else if (source.containsKey(GT_FIELD)) {
-				lowerBound = Range.Bound.exclusive(parse((String) source.get(GT_FIELD)));
-			} else {
-				lowerBound = Range.Bound.unbounded();
-			}
+            if (source.containsKey(GTE_FIELD)) {
+                lowerBound = Range.Bound.inclusive(parse((String) source.get(GTE_FIELD)));
+            } else if (source.containsKey(GT_FIELD)) {
+                lowerBound = Range.Bound.exclusive(parse((String) source.get(GT_FIELD)));
+            } else {
+                lowerBound = Range.Bound.unbounded();
+            }
 
-			if (source.containsKey(LTE_FIELD)) {
-				upperBound = Range.Bound.inclusive(parse((String) source.get(LTE_FIELD)));
-			} else if (source.containsKey(LT_FIELD)) {
-				upperBound = Range.Bound.exclusive(parse((String) source.get(LT_FIELD)));
-			} else {
-				upperBound = Range.Bound.unbounded();
-			}
+            if (source.containsKey(LTE_FIELD)) {
+                upperBound = Range.Bound.inclusive(parse((String) source.get(LTE_FIELD)));
+            } else if (source.containsKey(LT_FIELD)) {
+                upperBound = Range.Bound.exclusive(parse((String) source.get(LT_FIELD)));
+            } else {
+                upperBound = Range.Bound.unbounded();
+            }
 
-			return Range.of(lowerBound, upperBound);
+            return Range.of(lowerBound, upperBound);
 
-		} catch (Exception e) {
-			throw new ConversionException(
-					String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
-		}
-	}
+        } catch (Exception e) {
+            throw new ConversionException(
+                    String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
+        }
+    }
 
-	@Override
-	public Object write(Object value) {
+    @Override
+    public Object write(Object value) {
 
-		Assert.notNull(value, "value must not be null.");
+        Assert.notNull(value, "value must not be null.");
 
-		if (!Range.class.isAssignableFrom(value.getClass())) {
-			return value.toString();
-		}
+        if (!Range.class.isAssignableFrom(value.getClass())) {
+            return value.toString();
+        }
 
-		try {
-			Range<T> range = (Range<T>) value;
-			Range.Bound<T> lowerBound = range.getLowerBound();
-			Range.Bound<T> upperBound = range.getUpperBound();
-			Map<String, Object> target = new LinkedHashMap<>();
+        try {
+            Range<T> range = (Range<T>) value;
+            Range.Bound<T> lowerBound = range.getLowerBound();
+            Range.Bound<T> upperBound = range.getUpperBound();
+            Map<String, Object> target = new LinkedHashMap<>();
 
-			if (lowerBound.isBounded()) {
-				String lowerBoundValue = format(lowerBound.getValue().get());
-				if (lowerBound.isInclusive()) {
-					target.put(GTE_FIELD, lowerBoundValue);
-				} else {
-					target.put(GT_FIELD, lowerBoundValue);
-				}
-			}
+            if (lowerBound.isBounded()) {
+                String lowerBoundValue = format(lowerBound.getValue().get());
+                if (lowerBound.isInclusive()) {
+                    target.put(GTE_FIELD, lowerBoundValue);
+                } else {
+                    target.put(GT_FIELD, lowerBoundValue);
+                }
+            }
 
-			if (upperBound.isBounded()) {
-				String upperBoundValue = format(upperBound.getValue().get());
-				if (upperBound.isInclusive()) {
-					target.put(LTE_FIELD, upperBoundValue);
-				} else {
-					target.put(LT_FIELD, upperBoundValue);
-				}
-			}
+            if (upperBound.isBounded()) {
+                String upperBoundValue = format(upperBound.getValue().get());
+                if (upperBound.isInclusive()) {
+                    target.put(LTE_FIELD, upperBoundValue);
+                } else {
+                    target.put(LT_FIELD, upperBoundValue);
+                }
+            }
 
-			return target;
+            return target;
 
-		} catch (Exception e) {
-			throw new ConversionException(
-					String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
-		}
-	}
+        } catch (Exception e) {
+            throw new ConversionException(
+                    String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
+        }
+    }
 
-	protected abstract String format(T value);
+    protected abstract String format(T value);
 
-	protected Class<?> getGenericType() {
-		return getProperty().getTypeInformation().getTypeArguments().get(0).getType();
-	}
+    protected Class<?> getGenericType() {
+        return getProperty().getTypeInformation().getTypeArguments().get(0).getType();
+    }
 
-	protected abstract T parse(String value);
+    protected abstract T parse(String value);
 
 }

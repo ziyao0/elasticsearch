@@ -22,10 +22,10 @@ package org.springframework.data.mapping;
  */
 public interface SimplePropertyHandler {
 
-	/**
-	 * Handle the given {@link PersistentProperty}.
-	 *
-	 * @param property will never be {@literal null}.
-	 */
-	void doWithPersistentProperty(PersistentProperty<?> property);
+    /**
+     * Handle the given {@link PersistentProperty}.
+     *
+     * @param property will never be {@literal null}.
+     */
+    void doWithPersistentProperty(PersistentProperty<?> property);
 }

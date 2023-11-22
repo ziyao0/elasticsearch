@@ -24,9 +24,10 @@ import org.elasticsearch.search.SearchHits;
  * @since 4.4
  */
 public final class SearchHitsUtil {
-	private SearchHitsUtil() {}
+    private SearchHitsUtil() {
+    }
 
-	public static long getTotalCount(SearchHits searchHits) {
-		return searchHits.getTotalHits().value;
-	}
+    public static long getTotalCount(SearchHits searchHits) {
+        return searchHits.getTotalHits().value;
+    }
 }

@@ -21,24 +21,24 @@ import org.springframework.data.mapping.PersistentProperty;
  * {@link FieldNamingStrategy} that abbreviates field names by using the very first letter of the camel case parts of
  * the {@link PersistentProperty}'s name.
  *
- * @since 1.9
  * @author Oliver Gierke
+ * @since 1.9
  */
 public class CamelCaseAbbreviatingFieldNamingStrategy extends CamelCaseSplittingFieldNamingStrategy {
 
-	/**
-	 * Creates a new {@link CamelCaseAbbreviatingFieldNamingStrategy}.
-	 */
-	public CamelCaseAbbreviatingFieldNamingStrategy() {
-		super("");
-	}
+    /**
+     * Creates a new {@link CamelCaseAbbreviatingFieldNamingStrategy}.
+     */
+    public CamelCaseAbbreviatingFieldNamingStrategy() {
+        super("");
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mongodb.core.mapping.CamelCaseSplittingFieldNamingStrategy#preparePart(java.lang.String)
-	 */
-	@Override
-	protected String preparePart(String part) {
-		return part.substring(0, 1);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mongodb.core.mapping.CamelCaseSplittingFieldNamingStrategy#preparePart(java.lang.String)
+     */
+    @Override
+    protected String preparePart(String part) {
+        return part.substring(0, 1);
+    }
 }

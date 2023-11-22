@@ -30,12 +30,12 @@ import org.apache.http.protocol.HttpContext;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
-import org.ziyao.data.elasticsearch.client.ClientConfiguration;
-import org.ziyao.data.elasticsearch.client.ClientLogger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.client.ClientConfiguration;
+import org.ziyao.data.elasticsearch.client.ClientLogger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

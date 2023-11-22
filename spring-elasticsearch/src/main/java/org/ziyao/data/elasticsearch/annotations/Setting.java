@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.annotations;
 
-import org.springframework.data.annotation.Persistent;
+import org.ziyao.data.annotation.Persistent;
 
 import java.lang.annotation.*;
 
@@ -29,78 +29,78 @@ import java.lang.annotation.*;
 @Persistent
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 public @interface Setting {
 
-	/**
-	 * Resource path for a settings configuration
-	 */
-	String settingPath() default "";
+    /**
+     * Resource path for a settings configuration
+     */
+    String settingPath() default "";
 
-	/**
-	 * Use server-side settings when creating the index.
-	 */
-	boolean useServerConfiguration() default false;
+    /**
+     * Use server-side settings when creating the index.
+     */
+    boolean useServerConfiguration() default false;
 
-	/**
-	 * Number of shards for the index. Used for index creation. <br/>
-	 * With version 4.0, the default value is changed from 5 to 1 to reflect the change in the default settings of
-	 * Elasticsearch which changed to 1 as well in Elasticsearch 7.0.
-	 */
-	short shards() default 1;
+    /**
+     * Number of shards for the index. Used for index creation. <br/>
+     * With version 4.0, the default value is changed from 5 to 1 to reflect the change in the default settings of
+     * Elasticsearch which changed to 1 as well in Elasticsearch 7.0.
+     */
+    short shards() default 1;
 
-	/**
-	 * Number of replicas for the index. Used for index creation.
-	 */
-	short replicas() default 1;
+    /**
+     * Number of replicas for the index. Used for index creation.
+     */
+    short replicas() default 1;
 
-	/**
-	 * Refresh interval for the index. Used for index creation.
-	 */
-	String refreshInterval() default "1s";
+    /**
+     * Refresh interval for the index. Used for index creation.
+     */
+    String refreshInterval() default "1s";
 
-	/**
-	 * Index storage type for the index. Used for index creation.
-	 */
-	String indexStoreType() default "fs";
+    /**
+     * Index storage type for the index. Used for index creation.
+     */
+    String indexStoreType() default "fs";
 
-	/**
-	 * fields to define an index sorting
-	 *
-	 * @since 4.2
-	 */
-	String[] sortFields() default {};
+    /**
+     * fields to define an index sorting
+     *
+     * @since 4.2
+     */
+    String[] sortFields() default {};
 
-	/**
-	 * defines the order for {@link #sortFields()}. If present, it must have the same number of elements
-	 *
-	 * @since 4.2
-	 */
-	SortOrder[] sortOrders() default {};
+    /**
+     * defines the order for {@link #sortFields()}. If present, it must have the same number of elements
+     *
+     * @since 4.2
+     */
+    SortOrder[] sortOrders() default {};
 
-	/**
-	 * defines the mode for {@link #sortFields()}. If present, it must have the same number of elements
-	 *
-	 * @since 4.2
-	 */
-	SortMode[] sortModes() default {};
+    /**
+     * defines the mode for {@link #sortFields()}. If present, it must have the same number of elements
+     *
+     * @since 4.2
+     */
+    SortMode[] sortModes() default {};
 
-	/**
-	 * defines the missing value for {@link #sortFields()}. If present, it must have the same number of elements
-	 *
-	 * @since 4.2
-	 */
-	SortMissing[] sortMissingValues() default {};
+    /**
+     * defines the missing value for {@link #sortFields()}. If present, it must have the same number of elements
+     *
+     * @since 4.2
+     */
+    SortMissing[] sortMissingValues() default {};
 
-	enum SortOrder {
-		asc, desc
-	}
+    enum SortOrder {
+        asc, desc
+    }
 
-	enum SortMode {
-		min, max
-	}
+    enum SortMode {
+        min, max
+    }
 
-	enum SortMissing {
-		_last, _first
-	}
+    enum SortMissing {
+        _last, _first
+    }
 }

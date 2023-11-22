@@ -34,90 +34,90 @@ import org.springframework.util.ClassUtils;
  */
 public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathAccessor<T> {
 
-	private final PersistentPropertyAccessor<T> accessor;
-	private final ConversionService conversionService;
+    private final PersistentPropertyAccessor<T> accessor;
+    private final ConversionService conversionService;
 
-	/**
-	 * Creates a new {@link ConvertingPropertyAccessor} for the given delegate {@link PersistentPropertyAccessor} and
-	 * {@link ConversionService}.
-	 *
-	 * @param accessor must not be {@literal null}.
-	 * @param conversionService must not be {@literal null}.
-	 */
-	public ConvertingPropertyAccessor(PersistentPropertyAccessor<T> accessor, ConversionService conversionService) {
+    /**
+     * Creates a new {@link ConvertingPropertyAccessor} for the given delegate {@link PersistentPropertyAccessor} and
+     * {@link ConversionService}.
+     *
+     * @param accessor          must not be {@literal null}.
+     * @param conversionService must not be {@literal null}.
+     */
+    public ConvertingPropertyAccessor(PersistentPropertyAccessor<T> accessor, ConversionService conversionService) {
 
-		super(accessor);
+        super(accessor);
 
-		Assert.notNull(accessor, "PersistentPropertyAccessor must not be null");
-		Assert.notNull(conversionService, "ConversionService must not be null");
+        Assert.notNull(accessor, "PersistentPropertyAccessor must not be null");
+        Assert.notNull(conversionService, "ConversionService must not be null");
 
-		this.accessor = accessor;
-		this.conversionService = conversionService;
-	}
+        this.accessor = accessor;
+        this.conversionService = conversionService;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.PersistentPropertyAccessor#setProperty(org.ziyao.data.mapping.PersistentProperty, java.lang.Object)
-	 */
-	@Override
-	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
-		accessor.setProperty(property, convertIfNecessary(value, property.getType()));
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.PersistentPropertyAccessor#setProperty(org.ziyao.data.mapping.PersistentProperty, java.lang.Object)
+     */
+    @Override
+    public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
+        accessor.setProperty(property, convertIfNecessary(value, property.getType()));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.PersistentPropertyAccessor#setProperty(org.ziyao.data.mapping.PersistentPropertyPath, java.lang.Object)
-	 */
-	@Override
-	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.PersistentPropertyAccessor#setProperty(org.ziyao.data.mapping.PersistentPropertyPath, java.lang.Object)
+     */
+    @Override
+    public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
 
-		Object converted = convertIfNecessary(value, path.getRequiredLeafProperty().getType());
+        Object converted = convertIfNecessary(value, path.getRequiredLeafProperty().getType());
 
-		super.setProperty(path, converted);
-	}
+        super.setProperty(path, converted);
+    }
 
-	/**
-	 * Returns the value of the given {@link PersistentProperty} converted to the given type.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @param targetType must not be {@literal null}.
-	 * @return
-	 */
-	@Nullable
-	public <S> S getProperty(PersistentProperty<?> property, Class<S> targetType) {
+    /**
+     * Returns the value of the given {@link PersistentProperty} converted to the given type.
+     *
+     * @param property   must not be {@literal null}.
+     * @param targetType must not be {@literal null}.
+     * @return
+     */
+    @Nullable
+    public <S> S getProperty(PersistentProperty<?> property, Class<S> targetType) {
 
-		Assert.notNull(property, "PersistentProperty must not be null");
-		Assert.notNull(targetType, "Target type must not be null");
+        Assert.notNull(property, "PersistentProperty must not be null");
+        Assert.notNull(targetType, "Target type must not be null");
 
-		return convertIfNecessary(getProperty(property), targetType);
-	}
+        return convertIfNecessary(getProperty(property), targetType);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.model.SimplePersistentPropertyPathAccessor#getTypedProperty(org.ziyao.data.mapping.PersistentProperty, java.lang.Class)
-	 */
-	@Nullable
-	@Override
-	protected <S> S getTypedProperty(PersistentProperty<?> property, Class<S> type) {
-		return convertIfNecessary(super.getTypedProperty(property, type), type);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.model.SimplePersistentPropertyPathAccessor#getTypedProperty(org.ziyao.data.mapping.PersistentProperty, java.lang.Class)
+     */
+    @Nullable
+    @Override
+    protected <S> S getTypedProperty(PersistentProperty<?> property, Class<S> type) {
+        return convertIfNecessary(super.getTypedProperty(property, type), type);
+    }
 
-	/**
-	 * Triggers the conversion of the source value into the target type unless the value already is a value of given
-	 * target type.
-	 *
-	 * @param source can be {@literal null}.
-	 * @param type must not be {@literal null}.
-	 * @return
-	 */
-	@Nullable
-	@SuppressWarnings("unchecked")
-	private <S> S convertIfNecessary(@Nullable Object source, Class<S> type) {
+    /**
+     * Triggers the conversion of the source value into the target type unless the value already is a value of given
+     * target type.
+     *
+     * @param source can be {@literal null}.
+     * @param type   must not be {@literal null}.
+     * @return
+     */
+    @Nullable
+    @SuppressWarnings("unchecked")
+    private <S> S convertIfNecessary(@Nullable Object source, Class<S> type) {
 
-		return (S) (source == null //
-				? null //
-				: ClassUtils.isAssignable(type, source.getClass())
-						? source //
-						: conversionService.convert(source, type));
-	}
+        return (S) (source == null //
+                ? null //
+                : ClassUtils.isAssignable(type, source.getClass())
+                ? source //
+                : conversionService.convert(source, type));
+    }
 }

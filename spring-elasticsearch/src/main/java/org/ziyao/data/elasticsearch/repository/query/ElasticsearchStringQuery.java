@@ -15,13 +15,13 @@
  */
 package org.ziyao.data.elasticsearch.repository.query;
 
+import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
 import org.ziyao.data.elasticsearch.core.query.BaseQuery;
 import org.ziyao.data.elasticsearch.core.query.Query;
 import org.ziyao.data.elasticsearch.core.query.StringQuery;
 import org.ziyao.data.elasticsearch.repository.support.StringQueryUtil;
-import org.springframework.data.repository.query.ParametersParameterAccessor;
-import org.springframework.util.Assert;
+import org.ziyao.data.repository.query.ParametersParameterAccessor;
 
 /**
  * ElasticsearchStringQuery
@@ -34,37 +34,37 @@ import org.springframework.util.Assert;
  */
 public class ElasticsearchStringQuery extends AbstractElasticsearchRepositoryQuery {
 
-	private final String queryString;
+    private final String queryString;
 
-	public ElasticsearchStringQuery(ElasticsearchQueryMethod queryMethod, ElasticsearchOperations elasticsearchOperations,
+    public ElasticsearchStringQuery(ElasticsearchQueryMethod queryMethod, ElasticsearchOperations elasticsearchOperations,
                                     String queryString) {
-		super(queryMethod, elasticsearchOperations);
-		Assert.notNull(queryString, "Query cannot be empty");
-		this.queryString = queryString;
-	}
+        super(queryMethod, elasticsearchOperations);
+        Assert.notNull(queryString, "Query cannot be empty");
+        this.queryString = queryString;
+    }
 
-	@Override
-	public boolean isCountQuery() {
-		return queryMethod.hasCountQueryAnnotation();
-	}
+    @Override
+    public boolean isCountQuery() {
+        return queryMethod.hasCountQueryAnnotation();
+    }
 
-	@Override
-	protected boolean isDeleteQuery() {
-		return false;
-	}
+    @Override
+    protected boolean isDeleteQuery() {
+        return false;
+    }
 
-	@Override
-	protected boolean isExistsQuery() {
-		return false;
-	}
+    @Override
+    protected boolean isExistsQuery() {
+        return false;
+    }
 
-	protected Query createQuery(ParametersParameterAccessor parameterAccessor) {
+    protected Query createQuery(ParametersParameterAccessor parameterAccessor) {
 
-		String queryString = new StringQueryUtil(elasticsearchOperations.getElasticsearchConverter().getConversionService())
-				.replacePlaceholders(this.queryString, parameterAccessor);
+        String queryString = new StringQueryUtil(elasticsearchOperations.getElasticsearchConverter().getConversionService())
+                .replacePlaceholders(this.queryString, parameterAccessor);
 
-		BaseQuery query = new StringQuery(queryString);
-		query.addSort(parameterAccessor.getSort());
-		return query;
-	}
+        BaseQuery query = new StringQuery(queryString);
+        query.addSort(parameterAccessor.getSort());
+        return query;
+    }
 }

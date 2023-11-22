@@ -1,15 +1,15 @@
 package org.ziyao.data.elasticsearch.repository.support;
 
+import org.springframework.data.mapping.PersistentPropertyAccessor;
+import org.springframework.data.mapping.model.Property;
+import org.springframework.data.mapping.model.SimpleTypeHolder;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
 import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchPersistentEntity;
 import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchPersistentProperty;
-import org.springframework.data.mapping.PersistentPropertyAccessor;
-import org.springframework.data.mapping.model.Property;
-import org.springframework.data.mapping.model.SimpleTypeHolder;
-import org.springframework.data.util.ClassTypeInformation;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import org.ziyao.data.util.ClassTypeInformation;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

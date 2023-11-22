@@ -15,10 +15,10 @@
  */
 package org.springframework.data.mapping.model;
 
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.mapping.IdentifierAccessor;
 import org.springframework.data.mapping.TargetAwareIdentifierAccessor;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.domain.Persistable;
 
 /**
  * {@link IdentifierAccessor} that invokes {@link Persistable#getId()}.
@@ -27,27 +27,27 @@ import org.springframework.lang.Nullable;
  */
 class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {
 
-	private final Persistable<?> target;
+    private final Persistable<?> target;
 
-	/**
-	 * Creates a new {@link PersistableIdentifierAccessor} for the given target.
-	 *
-	 * @param target must not be {@literal null}.
-	 */
-	public PersistableIdentifierAccessor(Persistable<?> target) {
+    /**
+     * Creates a new {@link PersistableIdentifierAccessor} for the given target.
+     *
+     * @param target must not be {@literal null}.
+     */
+    public PersistableIdentifierAccessor(Persistable<?> target) {
 
-		super(target);
+        super(target);
 
-		this.target = target;
-	}
+        this.target = target;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.IdentifierAccessor#getIdentifier()
-	 */
-	@Override
-	@Nullable
-	public Object getIdentifier() {
-		return target.getId();
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.IdentifierAccessor#getIdentifier()
+     */
+    @Override
+    @Nullable
+    public Object getIdentifier() {
+        return target.getId();
+    }
 }

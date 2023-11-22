@@ -26,7 +26,7 @@ import java.lang.annotation.*;
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface JoinTypeRelation {
 
-	String parent();
+    String parent();
 
-	String[] children();
+    String[] children();
 }

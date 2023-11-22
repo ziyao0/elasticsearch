@@ -27,5 +27,5 @@ import java.lang.annotation.*;
 @Inherited
 public @interface JoinTypeRelations {
 
-	JoinTypeRelation[] relations();
+    JoinTypeRelation[] relations();
 }

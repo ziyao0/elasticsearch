@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.ziyao.data.elasticsearch.annotations.FieldType;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.annotations.FieldType;
 
 /**
  * Defines a Field that can be used within a Criteria.
@@ -27,33 +27,33 @@ import org.springframework.lang.Nullable;
  */
 public interface Field {
 
-	void setName(String name);
+    void setName(String name);
 
-	String getName();
+    String getName();
 
-	/**
-	 * @param fieldType sets the field's type
-	 */
-	void setFieldType(FieldType fieldType);
+    /**
+     * @param fieldType sets the field's type
+     */
+    void setFieldType(FieldType fieldType);
 
-	/**
-	 * @return The annotated FieldType of the field
-	 */
-	@Nullable
-	FieldType getFieldType();
+    /**
+     * @return The annotated FieldType of the field
+     */
+    @Nullable
+    FieldType getFieldType();
 
-	/**
-	 * Sets the path if this field has a multi-part name that should be used in a nested query.
-	 *
-	 * @param path the value to set
-	 * @since 4.2
-	 */
-	void setPath(@Nullable String path);
+    /**
+     * Sets the path if this field has a multi-part name that should be used in a nested query.
+     *
+     * @param path the value to set
+     * @since 4.2
+     */
+    void setPath(@Nullable String path);
 
-	/**
-	 * @return the path if this is a field for a nested query
-	 * @since 4.2
-	 */
-	@Nullable
-	String getPath();
+    /**
+     * @return the path if this is a field for a nested query
+     * @since 4.2
+     */
+    @Nullable
+    String getPath();
 }

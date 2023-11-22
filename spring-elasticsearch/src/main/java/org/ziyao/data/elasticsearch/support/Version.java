@@ -28,57 +28,57 @@ import java.util.regex.Pattern;
  */
 public class Version {
 
-	private static final Pattern PATTERN = Pattern.compile("^(\\d+)(\\.(\\d+))?(\\.(\\d+))?.*$");
+    private static final Pattern PATTERN = Pattern.compile("^(\\d+)(\\.(\\d+))?(\\.(\\d+))?.*$");
 
-	private final int major;
-	private final int minor;
-	private final int revision;
+    private final int major;
+    private final int minor;
+    private final int revision;
 
-	public Version(int major, int minor, int revision) {
-		this.major = major;
-		this.minor = minor;
-		this.revision = revision;
-	}
+    public Version(int major, int minor, int revision) {
+        this.major = major;
+        this.minor = minor;
+        this.revision = revision;
+    }
 
-	@Override
-	public String toString() {
-		return "" + major + "." + minor + "." + revision;
-	}
+    @Override
+    public String toString() {
+        return "" + major + "." + minor + "." + revision;
+    }
 
-	/**
-	 * Creates a version from a String that matches {@link #PATTERN}; major, minor and revision numbers separated by dots
-	 * with optional trailing characters. A missing revision is treated as 0.
-	 *
-	 * @param s the String to parse
-	 * @return the Version
-	 * @throws IllegalArgumentException if the input is null or cannot be parsed.
-	 */
-	public static Version fromString(String s) {
+    /**
+     * Creates a version from a String that matches {@link #PATTERN}; major, minor and revision numbers separated by dots
+     * with optional trailing characters. A missing revision is treated as 0.
+     *
+     * @param s the String to parse
+     * @return the Version
+     * @throws IllegalArgumentException if the input is null or cannot be parsed.
+     */
+    public static Version fromString(String s) {
 
-		Assert.notNull(s, "s must not be null");
+        Assert.notNull(s, "s must not be null");
 
-		Matcher matcher = PATTERN.matcher(s);
+        Matcher matcher = PATTERN.matcher(s);
 
-		if (!matcher.matches()) {
-			throw new IllegalArgumentException("invalid input pattern");
-		}
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("invalid input pattern");
+        }
 
-		int major = Integer.parseInt(matcher.group(1));
-		int minor = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
-		int revision = matcher.group(5) != null ? Integer.parseInt(matcher.group(5)) : 0;
+        int major = Integer.parseInt(matcher.group(1));
+        int minor = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
+        int revision = matcher.group(5) != null ? Integer.parseInt(matcher.group(5)) : 0;
 
-		return new Version(major, minor, revision);
-	}
+        return new Version(major, minor, revision);
+    }
 
-	public int getMajor() {
-		return major;
-	}
+    public int getMajor() {
+        return major;
+    }
 
-	public int getMinor() {
-		return minor;
-	}
+    public int getMinor() {
+        return minor;
+    }
 
-	public int getRevision() {
-		return revision;
-	}
+    public int getRevision() {
+        return revision;
+    }
 }

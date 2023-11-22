@@ -25,48 +25,48 @@ import org.springframework.util.Assert;
  */
 public abstract class AliasAction {
 
-	private final AliasActionParameters parameters;
+    private final AliasActionParameters parameters;
 
-	protected AliasAction(AliasActionParameters parameters) {
+    protected AliasAction(AliasActionParameters parameters) {
 
-		Assert.notNull(parameters, "parameters must not be null");
-		Assert.notEmpty(parameters.getIndices(), "parameters must have an indexname set");
+        Assert.notNull(parameters, "parameters must not be null");
+        Assert.notEmpty(parameters.getIndices(), "parameters must have an indexname set");
 
-		this.parameters = parameters;
-	}
+        this.parameters = parameters;
+    }
 
-	public AliasActionParameters getParameters() {
-		return parameters;
-	}
+    public AliasActionParameters getParameters() {
+        return parameters;
+    }
 
-	/**
-	 * {@link AliasAction} to add an alias.
-	 */
-	public static class Add extends AliasAction {
+    /**
+     * {@link AliasAction} to add an alias.
+     */
+    public static class Add extends AliasAction {
 
-		public Add(AliasActionParameters parameters) {
-			super(parameters);
-		}
-	}
+        public Add(AliasActionParameters parameters) {
+            super(parameters);
+        }
+    }
 
-	/**
-	 * {@link AliasAction} to remove an alias.
-	 */
-	public static class Remove extends AliasAction {
+    /**
+     * {@link AliasAction} to remove an alias.
+     */
+    public static class Remove extends AliasAction {
 
-		public Remove(AliasActionParameters parameters) {
-			super(parameters);
-		}
-	}
+        public Remove(AliasActionParameters parameters) {
+            super(parameters);
+        }
+    }
 
-	/**
-	 * {@link AliasAction} to remove an index.
-	 */
-	public static class RemoveIndex extends AliasAction {
+    /**
+     * {@link AliasAction} to remove an index.
+     */
+    public static class RemoveIndex extends AliasAction {
 
-		public RemoveIndex(AliasActionParameters parameters) {
-			super(parameters);
-		}
-	}
+        public RemoveIndex(AliasActionParameters parameters) {
+            super(parameters);
+        }
+    }
 
 }

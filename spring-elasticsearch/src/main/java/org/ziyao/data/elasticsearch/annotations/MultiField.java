@@ -26,11 +26,11 @@ import java.lang.annotation.*;
  * @author Peter-Josef Meisch
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Documented
 public @interface MultiField {
 
-	Field mainField();
+    Field mainField();
 
-	InnerField[] otherFields() default {};
+    InnerField[] otherFields() default {};
 }

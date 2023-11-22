@@ -20,17 +20,17 @@ package org.ziyao.data.elasticsearch.annotations;
  * @since 4.0
  */
 public enum Similarity {
-	Default("default"), BM25("BM25"), classic("classic"), Boolean("boolean");
+    Default("default"), BM25("BM25"), classic("classic"), Boolean("boolean");
 
-	// need to use a custom name because 'boolean' can't be used as enum name
-	private final String toStringName;
+    // need to use a custom name because 'boolean' can't be used as enum name
+    private final String toStringName;
 
-	Similarity(String name) {
-		this.toStringName = name;
-	}
+    Similarity(String name) {
+        this.toStringName = name;
+    }
 
-	@Override
-	public String toString() {
-		return toStringName;
-	}
+    @Override
+    public String toString() {
+        return toStringName;
+    }
 }

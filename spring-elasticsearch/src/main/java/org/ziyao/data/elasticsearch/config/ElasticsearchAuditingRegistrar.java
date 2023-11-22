@@ -20,12 +20,12 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
-import org.springframework.data.auditing.IsNewAwareAuditingHandler;
-import org.springframework.data.auditing.config.AuditingBeanDefinitionRegistrarSupport;
-import org.springframework.data.auditing.config.AuditingConfiguration;
-import org.springframework.data.config.ParsingUtils;
-import org.ziyao.data.elasticsearch.core.event.AuditingEntityCallback;
 import org.springframework.util.Assert;
+import org.ziyao.data.auditing.IsNewAwareAuditingHandler;
+import org.ziyao.data.auditing.config.AuditingBeanDefinitionRegistrarSupport;
+import org.ziyao.data.auditing.config.AuditingConfiguration;
+import org.ziyao.data.config.ParsingUtils;
+import org.ziyao.data.elasticsearch.core.event.AuditingEntityCallback;
 
 import java.lang.annotation.Annotation;
 
@@ -37,40 +37,40 @@ import java.lang.annotation.Annotation;
  */
 class ElasticsearchAuditingRegistrar extends AuditingBeanDefinitionRegistrarSupport {
 
-	@Override
-	protected Class<? extends Annotation> getAnnotation() {
-		return EnableElasticsearchAuditing.class;
-	}
+    @Override
+    protected Class<? extends Annotation> getAnnotation() {
+        return EnableElasticsearchAuditing.class;
+    }
 
-	@Override
-	protected String getAuditingHandlerBeanName() {
-		return "elasticsearchAuditingHandler";
-	}
+    @Override
+    protected String getAuditingHandlerBeanName() {
+        return "elasticsearchAuditingHandler";
+    }
 
-	@Override
-	protected BeanDefinitionBuilder getAuditHandlerBeanDefinitionBuilder(AuditingConfiguration configuration) {
+    @Override
+    protected BeanDefinitionBuilder getAuditHandlerBeanDefinitionBuilder(AuditingConfiguration configuration) {
 
-		Assert.notNull(configuration, "AuditingConfiguration must not be null!");
+        Assert.notNull(configuration, "AuditingConfiguration must not be null!");
 
-		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(IsNewAwareAuditingHandler.class);
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(IsNewAwareAuditingHandler.class);
 
-		BeanDefinitionBuilder definition = BeanDefinitionBuilder.genericBeanDefinition(PersistentEntitiesFactoryBean.class);
-		definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_CONSTRUCTOR);
+        BeanDefinitionBuilder definition = BeanDefinitionBuilder.genericBeanDefinition(PersistentEntitiesFactoryBean.class);
+        definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_CONSTRUCTOR);
 
-		builder.addConstructorArgValue(definition.getBeanDefinition());
-		return configureDefaultAuditHandlerAttributes(configuration, builder);
-	}
+        builder.addConstructorArgValue(definition.getBeanDefinition());
+        return configureDefaultAuditHandlerAttributes(configuration, builder);
+    }
 
-	@Override
-	protected void registerAuditListenerBeanDefinition(BeanDefinition auditingHandlerDefinition,
-			BeanDefinitionRegistry registry) {
+    @Override
+    protected void registerAuditListenerBeanDefinition(BeanDefinition auditingHandlerDefinition,
+                                                       BeanDefinitionRegistry registry) {
 
-		Assert.notNull(auditingHandlerDefinition, "BeanDefinition must not be null!");
-		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
+        Assert.notNull(auditingHandlerDefinition, "BeanDefinition must not be null!");
+        Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
 
-		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(AuditingEntityCallback.class);
-		builder.addConstructorArgValue(ParsingUtils.getObjectFactoryBeanDefinition(getAuditingHandlerBeanName(), registry));
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(AuditingEntityCallback.class);
+        builder.addConstructorArgValue(ParsingUtils.getObjectFactoryBeanDefinition(getAuditingHandlerBeanName(), registry));
 
-		registerInfrastructureBeanWithId(builder.getBeanDefinition(), AuditingEntityCallback.class.getName(), registry);
-	}
+        registerInfrastructureBeanWithId(builder.getBeanDefinition(), AuditingEntityCallback.class.getName(), registry);
+    }
 }

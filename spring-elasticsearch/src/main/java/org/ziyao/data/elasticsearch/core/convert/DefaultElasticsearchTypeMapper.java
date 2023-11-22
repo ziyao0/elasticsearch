@@ -15,13 +15,13 @@
  */
 package org.ziyao.data.elasticsearch.core.convert;
 
-import org.springframework.data.convert.*;
 import org.springframework.data.mapping.Alias;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.context.MappingContext;
-import org.springframework.data.util.ClassTypeInformation;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.convert.*;
+import org.ziyao.data.util.ClassTypeInformation;
+import org.ziyao.data.util.TypeInformation;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,89 +35,89 @@ import java.util.Map;
  * @since 3.2
  */
 public class DefaultElasticsearchTypeMapper extends DefaultTypeMapper<Map<String, Object>>
-		implements ElasticsearchTypeMapper {
+        implements ElasticsearchTypeMapper {
 
-	@SuppressWarnings("rawtypes") //
-	private static final TypeInformation<Map> MAP_TYPE_INFO = ClassTypeInformation.from(Map.class);
+    @SuppressWarnings("rawtypes") //
+    private static final TypeInformation<Map> MAP_TYPE_INFO = ClassTypeInformation.from(Map.class);
 
-	private final @Nullable String typeKey;
+    private final @Nullable String typeKey;
 
-	public DefaultElasticsearchTypeMapper(@Nullable String typeKey) {
-		this(typeKey, Collections.singletonList(new SimpleTypeInformationMapper()));
-	}
+    public DefaultElasticsearchTypeMapper(@Nullable String typeKey) {
+        this(typeKey, Collections.singletonList(new SimpleTypeInformationMapper()));
+    }
 
-	public DefaultElasticsearchTypeMapper(@Nullable String typeKey,
-			MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext) {
-		this(typeKey, new MapTypeAliasAccessor(typeKey), mappingContext,
-				Collections.singletonList(new SimpleTypeInformationMapper()));
-	}
+    public DefaultElasticsearchTypeMapper(@Nullable String typeKey,
+                                          MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext) {
+        this(typeKey, new MapTypeAliasAccessor(typeKey), mappingContext,
+                Collections.singletonList(new SimpleTypeInformationMapper()));
+    }
 
-	public DefaultElasticsearchTypeMapper(@Nullable String typeKey, List<? extends TypeInformationMapper> mappers) {
-		this(typeKey, new MapTypeAliasAccessor(typeKey), null, mappers);
-	}
+    public DefaultElasticsearchTypeMapper(@Nullable String typeKey, List<? extends TypeInformationMapper> mappers) {
+        this(typeKey, new MapTypeAliasAccessor(typeKey), null, mappers);
+    }
 
-	public DefaultElasticsearchTypeMapper(@Nullable String typeKey, TypeAliasAccessor<Map<String, Object>> accessor,
-			@Nullable MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext,
-			List<? extends TypeInformationMapper> mappers) {
+    public DefaultElasticsearchTypeMapper(@Nullable String typeKey, TypeAliasAccessor<Map<String, Object>> accessor,
+                                          @Nullable MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext,
+                                          List<? extends TypeInformationMapper> mappers) {
 
-		super(accessor, mappingContext, mappers);
-		this.typeKey = typeKey;
-	}
+        super(accessor, mappingContext, mappers);
+        this.typeKey = typeKey;
+    }
 
-	@Override
-	public boolean isTypeKey(String key) {
-		return typeKey != null && typeKey.equals(key);
-	}
+    @Override
+    public boolean isTypeKey(String key) {
+        return typeKey != null && typeKey.equals(key);
+    }
 
-	@Override
-	@Nullable
-	public String getTypeKey() {
-		return typeKey;
-	}
+    @Override
+    @Nullable
+    public String getTypeKey() {
+        return typeKey;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.convert.DefaultTypeMapper#getFallbackTypeFor(java.lang.Object)
-	 */
-	@Override
-	protected TypeInformation<?> getFallbackTypeFor(Map<String, Object> source) {
-		return MAP_TYPE_INFO;
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.convert.DefaultTypeMapper#getFallbackTypeFor(java.lang.Object)
+     */
+    @Override
+    protected TypeInformation<?> getFallbackTypeFor(Map<String, Object> source) {
+        return MAP_TYPE_INFO;
+    }
 
-	/**
-	 * {@link TypeAliasAccessor} to store aliases in a {@link Map}.
-	 *
-	 * @author Christoph Strobl
-	 */
-	public static class MapTypeAliasAccessor implements TypeAliasAccessor<Map<String, Object>> {
+    /**
+     * {@link TypeAliasAccessor} to store aliases in a {@link Map}.
+     *
+     * @author Christoph Strobl
+     */
+    public static class MapTypeAliasAccessor implements TypeAliasAccessor<Map<String, Object>> {
 
-		private final @Nullable String typeKey;
+        private final @Nullable String typeKey;
 
-		public MapTypeAliasAccessor(@Nullable String typeKey) {
-			this.typeKey = typeKey;
-		}
+        public MapTypeAliasAccessor(@Nullable String typeKey) {
+            this.typeKey = typeKey;
+        }
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.ziyao.data.convert.TypeAliasAccessor#readAliasFrom(java.lang.Object)
-		 */
-		@Override
-		public Alias readAliasFrom(Map<String, Object> source) {
-			return Alias.ofNullable(source.get(typeKey));
-		}
+        /*
+         * (non-Javadoc)
+         * @see org.ziyao.data.convert.TypeAliasAccessor#readAliasFrom(java.lang.Object)
+         */
+        @Override
+        public Alias readAliasFrom(Map<String, Object> source) {
+            return Alias.ofNullable(source.get(typeKey));
+        }
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.ziyao.data.convert.TypeAliasAccessor#writeTypeTo(java.lang.Object, java.lang.Object)
-		 */
-		@Override
-		public void writeTypeTo(Map<String, Object> sink, Object alias) {
+        /*
+         * (non-Javadoc)
+         * @see org.ziyao.data.convert.TypeAliasAccessor#writeTypeTo(java.lang.Object, java.lang.Object)
+         */
+        @Override
+        public void writeTypeTo(Map<String, Object> sink, Object alias) {
 
-			if (typeKey == null) {
-				return;
-			}
+            if (typeKey == null) {
+                return;
+            }
 
-			sink.put(typeKey, alias);
-		}
-	}
+            sink.put(typeKey, alias);
+        }
+    }
 }

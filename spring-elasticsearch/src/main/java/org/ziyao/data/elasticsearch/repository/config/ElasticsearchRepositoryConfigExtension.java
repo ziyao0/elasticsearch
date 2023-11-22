@@ -16,16 +16,16 @@
 package org.ziyao.data.elasticsearch.repository.config;
 
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.data.annotation.AnnotationAttributes;
+import org.w3c.dom.Element;
+import org.ziyao.data.annotation.AnnotationAttributes;
 import org.ziyao.data.elasticsearch.annotations.Document;
 import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
 import org.ziyao.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
-import org.springframework.data.repository.config.AnnotationRepositoryConfigurationSource;
-import org.springframework.data.repository.config.RepositoryConfigurationExtension;
-import org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport;
-import org.springframework.data.repository.config.XmlRepositoryConfigurationSource;
-import org.springframework.data.repository.core.RepositoryMetadata;
-import org.w3c.dom.Element;
+import org.ziyao.data.repository.config.AnnotationRepositoryConfigurationSource;
+import org.ziyao.data.repository.config.RepositoryConfigurationExtension;
+import org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport;
+import org.ziyao.data.repository.config.XmlRepositoryConfigurationSource;
+import org.ziyao.data.repository.core.RepositoryMetadata;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -44,70 +44,70 @@ import java.util.Collections;
  */
 public class ElasticsearchRepositoryConfigExtension extends RepositoryConfigurationExtensionSupport {
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryConfigurationExtension#getRepositoryFactoryBeanClassName()
-	 */
-	@Override
-	public String getRepositoryFactoryBeanClassName() {
-		return ElasticsearchRepositoryFactoryBean.class.getName();
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryConfigurationExtension#getRepositoryFactoryBeanClassName()
+     */
+    @Override
+    public String getRepositoryFactoryBeanClassName() {
+        return ElasticsearchRepositoryFactoryBean.class.getName();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#getModulePrefix()
-	 */
-	@Override
-	protected String getModulePrefix() {
-		return "elasticsearch";
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#getModulePrefix()
+     */
+    @Override
+    protected String getModulePrefix() {
+        return "elasticsearch";
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#postProcess(org.springframework.beans.factory.support.BeanDefinitionBuilder, org.ziyao.data.repository.config.AnnotationRepositoryConfigurationSource)
-	 */
-	@Override
-	public void postProcess(BeanDefinitionBuilder builder, AnnotationRepositoryConfigurationSource config) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#postProcess(org.springframework.beans.factory.support.BeanDefinitionBuilder, org.ziyao.data.repository.config.AnnotationRepositoryConfigurationSource)
+     */
+    @Override
+    public void postProcess(BeanDefinitionBuilder builder, AnnotationRepositoryConfigurationSource config) {
 
-		AnnotationAttributes attributes = config.getAttributes();
-		builder.addPropertyReference("elasticsearchOperations", attributes.getString("elasticsearchTemplateRef"));
-	}
+        AnnotationAttributes attributes = config.getAttributes();
+        builder.addPropertyReference("elasticsearchOperations", attributes.getString("elasticsearchTemplateRef"));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#postProcess(org.springframework.beans.factory.support.BeanDefinitionBuilder, org.ziyao.data.repository.config.XmlRepositoryConfigurationSource)
-	 */
-	@Override
-	public void postProcess(BeanDefinitionBuilder builder, XmlRepositoryConfigurationSource config) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#postProcess(org.springframework.beans.factory.support.BeanDefinitionBuilder, org.ziyao.data.repository.config.XmlRepositoryConfigurationSource)
+     */
+    @Override
+    public void postProcess(BeanDefinitionBuilder builder, XmlRepositoryConfigurationSource config) {
 
-		Element element = config.getElement();
-		builder.addPropertyReference("elasticsearchOperations", element.getAttribute("elasticsearch-template-ref"));
-	}
+        Element element = config.getElement();
+        builder.addPropertyReference("elasticsearchOperations", element.getAttribute("elasticsearch-template-ref"));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#getIdentifyingAnnotations()
-	 */
-	@Override
-	protected Collection<Class<? extends Annotation>> getIdentifyingAnnotations() {
-		return Collections.singleton(Document.class);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#getIdentifyingAnnotations()
+     */
+    @Override
+    protected Collection<Class<? extends Annotation>> getIdentifyingAnnotations() {
+        return Collections.singleton(Document.class);
+    }
 
-	/*
-	* (non-Javadoc)
-	* @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#getIdentifyingTypes()
-	*/
-	@Override
-	protected Collection<Class<?>> getIdentifyingTypes() {
-		return Arrays.asList(ElasticsearchRepository.class, ElasticsearchRepository.class);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#getIdentifyingTypes()
+     */
+    @Override
+    protected Collection<Class<?>> getIdentifyingTypes() {
+        return Arrays.asList(ElasticsearchRepository.class, ElasticsearchRepository.class);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#useRepositoryConfiguration(org.ziyao.data.repository.core.RepositoryMetadata)
-	 */
-	@Override
-	protected boolean useRepositoryConfiguration(RepositoryMetadata metadata) {
-		return !metadata.isReactiveRepository();
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryConfigurationExtensionSupport#useRepositoryConfiguration(org.ziyao.data.repository.core.RepositoryMetadata)
+     */
+    @Override
+    protected boolean useRepositoryConfiguration(RepositoryMetadata metadata) {
+        return !metadata.isReactiveRepository();
+    }
 }

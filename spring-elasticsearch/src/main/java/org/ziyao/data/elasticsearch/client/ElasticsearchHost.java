@@ -29,85 +29,85 @@ import java.time.Instant;
  */
 public class ElasticsearchHost {
 
-	/**
-	 * Default HTTP port for Elasticsearch servers.
-	 */
-	public static final int DEFAULT_PORT = 9200;
+    /**
+     * Default HTTP port for Elasticsearch servers.
+     */
+    public static final int DEFAULT_PORT = 9200;
 
-	private final InetSocketAddress endpoint;
-	private final State state;
-	private final Instant timestamp;
+    private final InetSocketAddress endpoint;
+    private final State state;
+    private final Instant timestamp;
 
-	public ElasticsearchHost(InetSocketAddress endpoint, State state) {
+    public ElasticsearchHost(InetSocketAddress endpoint, State state) {
 
-		Assert.notNull(endpoint, "Host must not be null");
-		Assert.notNull(state, "State must not be null");
+        Assert.notNull(endpoint, "Host must not be null");
+        Assert.notNull(state, "State must not be null");
 
-		this.endpoint = endpoint;
-		this.state = state;
-		this.timestamp = Instant.now();
-	}
+        this.endpoint = endpoint;
+        this.state = state;
+        this.timestamp = Instant.now();
+    }
 
-	/**
-	 * @param host must not be {@literal null}.
-	 * @return new instance of {@link ElasticsearchHost}.
-	 */
-	public static ElasticsearchHost online(InetSocketAddress host) {
-		return new ElasticsearchHost(host, State.ONLINE);
-	}
+    /**
+     * @param host must not be {@literal null}.
+     * @return new instance of {@link ElasticsearchHost}.
+     */
+    public static ElasticsearchHost online(InetSocketAddress host) {
+        return new ElasticsearchHost(host, State.ONLINE);
+    }
 
-	/**
-	 * @param host must not be {@literal null}.
-	 * @return new instance of {@link ElasticsearchHost}.
-	 */
-	public static ElasticsearchHost offline(InetSocketAddress host) {
-		return new ElasticsearchHost(host, State.OFFLINE);
-	}
+    /**
+     * @param host must not be {@literal null}.
+     * @return new instance of {@link ElasticsearchHost}.
+     */
+    public static ElasticsearchHost offline(InetSocketAddress host) {
+        return new ElasticsearchHost(host, State.OFFLINE);
+    }
 
-	/**
-	 * Parse a {@literal hostAndPort} string into a {@link InetSocketAddress}.
-	 *
-	 * @param hostAndPort the string containing host and port or IP address and port in the format {@code host:port}.
-	 * @return the parsed {@link InetSocketAddress}.
-	 */
-	public static InetSocketAddress parse(String hostAndPort) {
-		return InetSocketAddressParser.parse(hostAndPort, DEFAULT_PORT);
-	}
+    /**
+     * Parse a {@literal hostAndPort} string into a {@link InetSocketAddress}.
+     *
+     * @param hostAndPort the string containing host and port or IP address and port in the format {@code host:port}.
+     * @return the parsed {@link InetSocketAddress}.
+     */
+    public static InetSocketAddress parse(String hostAndPort) {
+        return InetSocketAddressParser.parse(hostAndPort, DEFAULT_PORT);
+    }
 
-	/**
-	 * @return {@literal true} if the last known {@link State} was {@link State#ONLINE}
-	 */
-	public boolean isOnline() {
-		return State.ONLINE.equals(state);
-	}
+    /**
+     * @return {@literal true} if the last known {@link State} was {@link State#ONLINE}
+     */
+    public boolean isOnline() {
+        return State.ONLINE.equals(state);
+    }
 
-	/**
-	 * @return never {@literal null}.
-	 */
-	public InetSocketAddress getEndpoint() {
-		return endpoint;
-	}
+    /**
+     * @return never {@literal null}.
+     */
+    public InetSocketAddress getEndpoint() {
+        return endpoint;
+    }
 
-	/**
-	 * @return the last known {@link State}.
-	 */
-	public State getState() {
-		return state;
-	}
+    /**
+     * @return the last known {@link State}.
+     */
+    public State getState() {
+        return state;
+    }
 
-	/**
-	 * @return the {@link Instant} the information was captured.
-	 */
-	public Instant getTimestamp() {
-		return timestamp;
-	}
+    /**
+     * @return the {@link Instant} the information was captured.
+     */
+    public Instant getTimestamp() {
+        return timestamp;
+    }
 
-	@Override
-	public String toString() {
-		return "ElasticsearchHost(" + endpoint + ", " + state.name() + ')';
-	}
+    @Override
+    public String toString() {
+        return "ElasticsearchHost(" + endpoint + ", " + state.name() + ')';
+    }
 
-	public enum State {
-		ONLINE, OFFLINE, UNKNOWN
-	}
+    public enum State {
+        ONLINE, OFFLINE, UNKNOWN
+    }
 }

@@ -21,25 +21,25 @@ package org.ziyao.data.elasticsearch.support;
  */
 public class ScoreDoc {
 
-	private final float score;
-	private final int doc;
-	private final int shardIndex;
+    private final float score;
+    private final int doc;
+    private final int shardIndex;
 
-	public ScoreDoc(float score, int doc, int shardIndex) {
-		this.score = score;
-		this.doc = doc;
-		this.shardIndex = shardIndex;
-	}
+    public ScoreDoc(float score, int doc, int shardIndex) {
+        this.score = score;
+        this.doc = doc;
+        this.shardIndex = shardIndex;
+    }
 
-	public float getScore() {
-		return score;
-	}
+    public float getScore() {
+        return score;
+    }
 
-	public int getDoc() {
-		return doc;
-	}
+    public int getDoc() {
+        return doc;
+    }
 
-	public int getShardIndex() {
-		return shardIndex;
-	}
+    public int getShardIndex() {
+        return shardIndex;
+    }
 }

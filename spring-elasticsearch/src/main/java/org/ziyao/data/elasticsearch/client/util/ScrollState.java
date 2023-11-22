@@ -29,38 +29,40 @@ import java.util.*;
  */
 public class ScrollState {
 
-	private final Object lock = new Object();
+    private final Object lock = new Object();
 
-	private final Set<String> pastIds = new LinkedHashSet<>();
-	@Nullable private String scrollId;
+    private final Set<String> pastIds = new LinkedHashSet<>();
+    @Nullable
+    private String scrollId;
 
-	public ScrollState() {}
+    public ScrollState() {
+    }
 
-	public ScrollState(String scrollId) {
-		updateScrollId(scrollId);
-	}
+    public ScrollState(String scrollId) {
+        updateScrollId(scrollId);
+    }
 
-	@Nullable
-	public String getScrollId() {
-		return scrollId;
-	}
+    @Nullable
+    public String getScrollId() {
+        return scrollId;
+    }
 
-	public List<String> getScrollIds() {
+    public List<String> getScrollIds() {
 
-		synchronized (lock) {
-			return Collections.unmodifiableList(new ArrayList<>(pastIds));
-		}
-	}
+        synchronized (lock) {
+            return Collections.unmodifiableList(new ArrayList<>(pastIds));
+        }
+    }
 
-	public void updateScrollId(@Nullable String scrollId) {
+    public void updateScrollId(@Nullable String scrollId) {
 
-		if (StringUtils.hasText(scrollId)) {
+        if (StringUtils.hasText(scrollId)) {
 
-			synchronized (lock) {
+            synchronized (lock) {
 
-				this.scrollId = scrollId;
-				pastIds.add(scrollId);
-			}
-		}
-	}
+                this.scrollId = scrollId;
+                pastIds.add(scrollId);
+            }
+        }
+    }
 }

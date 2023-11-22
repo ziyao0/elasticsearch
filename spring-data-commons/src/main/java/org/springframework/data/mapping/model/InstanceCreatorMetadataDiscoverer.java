@@ -17,11 +17,11 @@ package org.springframework.data.mapping.model;
 
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.data.annotation.MergedAnnotations;
-import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mapping.*;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.annotation.MergedAnnotations;
+import org.ziyao.data.annotation.PersistenceCreator;
+import org.ziyao.data.util.TypeInformation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

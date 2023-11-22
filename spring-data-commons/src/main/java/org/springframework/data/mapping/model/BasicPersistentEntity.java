@@ -15,21 +15,21 @@
  */
 package org.springframework.data.mapping.model;
 
-import org.springframework.data.annotation.AnnotatedElementUtils;
-import org.springframework.data.annotation.Immutable;
-import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.mapping.*;
-import org.springframework.data.spel.EvaluationContextProvider;
-import org.springframework.data.spel.ExpressionDependencies;
-import org.springframework.data.support.IsNewStrategy;
-import org.springframework.data.support.PersistableIsNewStrategy;
-import org.springframework.data.util.Lazy;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.lang.Nullable;
 import org.springframework.util.*;
 import org.springframework.util.ConcurrentReferenceHashMap.ReferenceType;
+import org.ziyao.data.annotation.AnnotatedElementUtils;
+import org.ziyao.data.annotation.Immutable;
+import org.ziyao.data.annotation.TypeAlias;
+import org.ziyao.data.domain.Persistable;
+import org.ziyao.data.spel.EvaluationContextProvider;
+import org.ziyao.data.spel.ExpressionDependencies;
+import org.ziyao.data.support.IsNewStrategy;
+import org.ziyao.data.support.PersistableIsNewStrategy;
+import org.ziyao.data.util.Lazy;
+import org.ziyao.data.util.TypeInformation;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;

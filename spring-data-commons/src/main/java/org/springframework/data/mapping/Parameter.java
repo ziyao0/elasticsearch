@@ -16,13 +16,13 @@
 package org.springframework.data.mapping;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.annotation.MergedAnnotations;
-import org.springframework.data.util.Lazy;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.annotation.MergedAnnotations;
+import org.ziyao.data.util.Lazy;
+import org.ziyao.data.util.TypeInformation;
 
 import java.lang.annotation.Annotation;
 
@@ -34,180 +34,180 @@ import java.lang.annotation.Annotation;
  */
 public class Parameter<T, P extends PersistentProperty<P>> {
 
-	private final @Nullable String name;
-	private final TypeInformation<T> type;
-	private final MergedAnnotations annotations;
-	private final String key;
-	private final @Nullable PersistentEntity<T, P> entity;
+    private final @Nullable String name;
+    private final TypeInformation<T> type;
+    private final MergedAnnotations annotations;
+    private final String key;
+    private final @Nullable PersistentEntity<T, P> entity;
 
-	private final Lazy<Boolean> enclosingClassCache;
-	private final Lazy<Boolean> hasSpelExpression;
+    private final Lazy<Boolean> enclosingClassCache;
+    private final Lazy<Boolean> hasSpelExpression;
 
-	/**
-	 * Creates a new {@link Parameter} with the given name, {@link TypeInformation} as well as an array of
-	 * {@link Annotation}s. Will inspect the annotations for an {@link Value} annotation to lookup a key or an SpEL
-	 * expression to be evaluated.
-	 *
-	 * @param name the name of the parameter, can be {@literal null}
-	 * @param type must not be {@literal null}
-	 * @param annotations must not be {@literal null} but can be empty
-	 * @param entity must not be {@literal null}.
-	 */
-	public Parameter(@Nullable String name, TypeInformation<T> type, Annotation[] annotations,
-			@Nullable PersistentEntity<T, P> entity) {
+    /**
+     * Creates a new {@link Parameter} with the given name, {@link TypeInformation} as well as an array of
+     * {@link Annotation}s. Will inspect the annotations for an {@link Value} annotation to lookup a key or an SpEL
+     * expression to be evaluated.
+     *
+     * @param name        the name of the parameter, can be {@literal null}
+     * @param type        must not be {@literal null}
+     * @param annotations must not be {@literal null} but can be empty
+     * @param entity      must not be {@literal null}.
+     */
+    public Parameter(@Nullable String name, TypeInformation<T> type, Annotation[] annotations,
+                     @Nullable PersistentEntity<T, P> entity) {
 
-		Assert.notNull(type, "Type must not be null");
-		Assert.notNull(annotations, "Annotations must not be null");
+        Assert.notNull(type, "Type must not be null");
+        Assert.notNull(annotations, "Annotations must not be null");
 
-		this.name = name;
-		this.type = type;
-		this.annotations = MergedAnnotations.from(annotations);
-		this.key = getValue(this.annotations);
-		this.entity = entity;
+        this.name = name;
+        this.type = type;
+        this.annotations = MergedAnnotations.from(annotations);
+        this.key = getValue(this.annotations);
+        this.entity = entity;
 
-		this.enclosingClassCache = Lazy.of(() -> {
+        this.enclosingClassCache = Lazy.of(() -> {
 
-			if (entity == null) {
-				throw new IllegalStateException();
-			}
+            if (entity == null) {
+                throw new IllegalStateException();
+            }
 
-			Class<?> owningType = entity.getType();
+            Class<?> owningType = entity.getType();
 
-			return owningType.isMemberClass() && type.getType().equals(owningType.getEnclosingClass());
-		});
+            return owningType.isMemberClass() && type.getType().equals(owningType.getEnclosingClass());
+        });
 
-		this.hasSpelExpression = Lazy.of(() -> StringUtils.hasText(getSpelExpression()));
-	}
+        this.hasSpelExpression = Lazy.of(() -> StringUtils.hasText(getSpelExpression()));
+    }
 
-	@Nullable
-	private static String getValue(MergedAnnotations annotations) {
+    @Nullable
+    private static String getValue(MergedAnnotations annotations) {
 
-		return annotations.get(Value.class) //
-				.getValue("value", String.class) //
-				.filter(StringUtils::hasText) //
-				.orElse(null);
-	}
+        return annotations.get(Value.class) //
+                .getValue("value", String.class) //
+                .filter(StringUtils::hasText) //
+                .orElse(null);
+    }
 
-	/**
-	 * Returns the name of the parameter.
-	 *
-	 * @return
-	 */
-	@Nullable
-	public String getName() {
-		return name;
-	}
+    /**
+     * Returns the name of the parameter.
+     *
+     * @return
+     */
+    @Nullable
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Returns the {@link TypeInformation} of the parameter.
-	 *
-	 * @return
-	 */
-	public TypeInformation<T> getType() {
-		return type;
-	}
+    /**
+     * Returns the {@link TypeInformation} of the parameter.
+     *
+     * @return
+     */
+    public TypeInformation<T> getType() {
+        return type;
+    }
 
-	/**
-	 * Merged annotations that this parameter is annotated with.
-	 *
-	 * @return
-	 * @since 2.5
-	 */
-	public MergedAnnotations getAnnotations() {
-		return annotations;
-	}
+    /**
+     * Merged annotations that this parameter is annotated with.
+     *
+     * @return
+     * @since 2.5
+     */
+    public MergedAnnotations getAnnotations() {
+        return annotations;
+    }
 
-	/**
-	 * Returns the raw resolved type of the parameter.
-	 *
-	 * @return
-	 */
-	public Class<T> getRawType() {
-		return type.getType();
-	}
+    /**
+     * Returns the raw resolved type of the parameter.
+     *
+     * @return
+     */
+    public Class<T> getRawType() {
+        return type.getType();
+    }
 
-	/**
-	 * Returns the key to be used when looking up a source data structure to populate the actual parameter value.
-	 *
-	 * @return
-	 */
-	public String getSpelExpression() {
-		return key;
-	}
+    /**
+     * Returns the key to be used when looking up a source data structure to populate the actual parameter value.
+     *
+     * @return
+     */
+    public String getSpelExpression() {
+        return key;
+    }
 
-	/**
-	 * Returns whether the constructor parameter is equipped with a SpEL expression.
-	 *
-	 * @return
-	 */
-	public boolean hasSpelExpression() {
-		return this.hasSpelExpression.get();
-	}
+    /**
+     * Returns whether the constructor parameter is equipped with a SpEL expression.
+     *
+     * @return
+     */
+    public boolean hasSpelExpression() {
+        return this.hasSpelExpression.get();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
 
-		if (this == o) {
-			return true;
-		}
+        if (this == o) {
+            return true;
+        }
 
-		if (!(o instanceof Parameter<?, ?>)) {
-			return false;
-		}
+        if (!(o instanceof Parameter<?, ?>)) {
+            return false;
+        }
 
-		Parameter<?, ?> parameter = (Parameter<?, ?>) o;
+        Parameter<?, ?> parameter = (Parameter<?, ?>) o;
 
-		if (!ObjectUtils.nullSafeEquals(name, parameter.name)) {
-			return false;
-		}
+        if (!ObjectUtils.nullSafeEquals(name, parameter.name)) {
+            return false;
+        }
 
-		if (!ObjectUtils.nullSafeEquals(type, parameter.type)) {
-			return false;
-		}
+        if (!ObjectUtils.nullSafeEquals(type, parameter.type)) {
+            return false;
+        }
 
-		if (!ObjectUtils.nullSafeEquals(key, parameter.key)) {
-			return false;
-		}
+        if (!ObjectUtils.nullSafeEquals(key, parameter.key)) {
+            return false;
+        }
 
-		return ObjectUtils.nullSafeEquals(entity, parameter.entity);
-	}
+        return ObjectUtils.nullSafeEquals(entity, parameter.entity);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(name);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(type);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(key);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(entity);
-		return result;
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = ObjectUtils.nullSafeHashCode(name);
+        result = 31 * result + ObjectUtils.nullSafeHashCode(type);
+        result = 31 * result + ObjectUtils.nullSafeHashCode(key);
+        result = 31 * result + ObjectUtils.nullSafeHashCode(entity);
+        return result;
+    }
 
-	/**
-	 * Returns whether the {@link Parameter} maps the given {@link PersistentProperty}.
-	 *
-	 * @param property
-	 * @return
-	 */
-	boolean maps(PersistentProperty<?> property) {
+    /**
+     * Returns whether the {@link Parameter} maps the given {@link PersistentProperty}.
+     *
+     * @param property
+     * @return
+     */
+    boolean maps(PersistentProperty<?> property) {
 
-		PersistentEntity<T, P> entity = this.entity;
-		String name = this.name;
+        PersistentEntity<T, P> entity = this.entity;
+        String name = this.name;
 
-		PersistentProperty<?> referencedProperty = entity == null //
-				? null //
-				: name == null ? null : entity.getPersistentProperty(name);
+        PersistentProperty<?> referencedProperty = entity == null //
+                ? null //
+                : name == null ? null : entity.getPersistentProperty(name);
 
-		return property.equals(referencedProperty);
-	}
+        return property.equals(referencedProperty);
+    }
 
-	boolean isEnclosingClassParameter() {
-		return enclosingClassCache.get();
-	}
+    boolean isEnclosingClassParameter() {
+        return enclosingClassCache.get();
+    }
 }

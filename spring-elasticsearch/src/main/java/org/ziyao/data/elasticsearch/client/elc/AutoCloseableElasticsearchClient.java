@@ -30,18 +30,18 @@ import org.springframework.util.Assert;
  */
 public class AutoCloseableElasticsearchClient extends ElasticsearchClient implements AutoCloseable {
 
-	public AutoCloseableElasticsearchClient(ElasticsearchTransport transport) {
-		super(transport);
-		Assert.notNull(transport, "transport must not be null");
-	}
+    public AutoCloseableElasticsearchClient(ElasticsearchTransport transport) {
+        super(transport);
+        Assert.notNull(transport, "transport must not be null");
+    }
 
-	@Override
-	public void close() throws Exception {
-		transport.close();
-	}
+    @Override
+    public void close() throws Exception {
+        transport.close();
+    }
 
-	@Override
-	public ElasticsearchClusterClient cluster() {
-		return super.cluster();
-	}
+    @Override
+    public ElasticsearchClusterClient cluster() {
+        return super.cluster();
+    }
 }

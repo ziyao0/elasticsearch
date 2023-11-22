@@ -28,47 +28,47 @@ import java.util.Map;
  */
 public class RuntimeField {
 
-	private final String name;
-	private final String type;
-	private final String script;
+    private final String name;
+    private final String type;
+    private final String script;
 
-	public RuntimeField(String name, String type, String script) {
+    public RuntimeField(String name, String type, String script) {
 
-		Assert.notNull(name, "name must not be null");
-		Assert.notNull(type, "type must not be null");
-		Assert.notNull(script, "script must not be null");
+        Assert.notNull(name, "name must not be null");
+        Assert.notNull(type, "type must not be null");
+        Assert.notNull(script, "script must not be null");
 
-		this.name = name;
-		this.type = type;
-		this.script = script;
-	}
+        this.name = name;
+        this.type = type;
+        this.script = script;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the mapping as a Map like it is needed for the Elasticsearch client
-	 */
-	public Map<String, Object> getMapping() {
+    /**
+     * @return the mapping as a Map like it is needed for the Elasticsearch client
+     */
+    public Map<String, Object> getMapping() {
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("type", type);
-		map.put("script", script);
-		return map;
-	}
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", type);
+        map.put("script", script);
+        return map;
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * @since 4.4
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	public String getScript() {
-		return script;
-	}
+    /**
+     * @since 4.4
+     */
+    public String getScript() {
+        return script;
+    }
 }

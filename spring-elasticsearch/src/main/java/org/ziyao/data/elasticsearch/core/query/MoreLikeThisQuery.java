@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;

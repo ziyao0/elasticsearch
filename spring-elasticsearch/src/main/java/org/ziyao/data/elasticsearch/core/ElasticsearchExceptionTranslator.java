@@ -24,12 +24,12 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
-import org.ziyao.data.elasticsearch.NoSuchIndexException;
-import org.ziyao.data.elasticsearch.RestStatusException;
-import org.ziyao.data.elasticsearch.UncategorizedElasticsearchException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.elasticsearch.NoSuchIndexException;
+import org.ziyao.data.elasticsearch.RestStatusException;
+import org.ziyao.data.elasticsearch.UncategorizedElasticsearchException;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,105 +47,105 @@ import java.util.List;
  */
 public class ElasticsearchExceptionTranslator implements PersistenceExceptionTranslator {
 
-	@Override
-	public DataAccessException translateExceptionIfPossible(RuntimeException ex) {
+    @Override
+    public DataAccessException translateExceptionIfPossible(RuntimeException ex) {
 
-		if (isSeqNoConflict(ex)) {
-			return new OptimisticLockingFailureException("Cannot index a document due to seq_no+primary_term conflict", ex);
-		}
+        if (isSeqNoConflict(ex)) {
+            return new OptimisticLockingFailureException("Cannot index a document due to seq_no+primary_term conflict", ex);
+        }
 
-		if (ex instanceof ElasticsearchException) {
+        if (ex instanceof ElasticsearchException) {
 
-			ElasticsearchException elasticsearchException = (ElasticsearchException) ex;
+            ElasticsearchException elasticsearchException = (ElasticsearchException) ex;
 
-			if (!indexAvailable(elasticsearchException)) {
-				return new NoSuchIndexException(ObjectUtils.nullSafeToString(elasticsearchException.getMetadata("es.index")),
-						ex);
-			}
+            if (!indexAvailable(elasticsearchException)) {
+                return new NoSuchIndexException(ObjectUtils.nullSafeToString(elasticsearchException.getMetadata("es.index")),
+                        ex);
+            }
 
-			if (elasticsearchException instanceof ElasticsearchStatusException) {
-				ElasticsearchStatusException elasticsearchStatusException = (ElasticsearchStatusException) elasticsearchException;
-				return new RestStatusException(elasticsearchStatusException.status().getStatus(),
-						elasticsearchStatusException.getMessage(), elasticsearchStatusException);
-			}
+            if (elasticsearchException instanceof ElasticsearchStatusException) {
+                ElasticsearchStatusException elasticsearchStatusException = (ElasticsearchStatusException) elasticsearchException;
+                return new RestStatusException(elasticsearchStatusException.status().getStatus(),
+                        elasticsearchStatusException.getMessage(), elasticsearchStatusException);
+            }
 
-			return new UncategorizedElasticsearchException(ex.getMessage(), ex);
-		}
+            return new UncategorizedElasticsearchException(ex.getMessage(), ex);
+        }
 
-		if (ex instanceof RestStatusException) {
-			RestStatusException restStatusException = (RestStatusException) ex;
-			Throwable cause = restStatusException.getCause();
-			if (cause instanceof ElasticsearchException) {
-				ElasticsearchException elasticsearchException = (ElasticsearchException) cause;
+        if (ex instanceof RestStatusException) {
+            RestStatusException restStatusException = (RestStatusException) ex;
+            Throwable cause = restStatusException.getCause();
+            if (cause instanceof ElasticsearchException) {
+                ElasticsearchException elasticsearchException = (ElasticsearchException) cause;
 
-				if (!indexAvailable(elasticsearchException)) {
-					return new NoSuchIndexException(ObjectUtils.nullSafeToString(elasticsearchException.getMetadata("es.index")),
-							ex);
-				}
-			}
-		}
+                if (!indexAvailable(elasticsearchException)) {
+                    return new NoSuchIndexException(ObjectUtils.nullSafeToString(elasticsearchException.getMetadata("es.index")),
+                            ex);
+                }
+            }
+        }
 
-		if (ex instanceof ValidationException) {
-			return new DataIntegrityViolationException(ex.getMessage(), ex);
-		}
+        if (ex instanceof ValidationException) {
+            return new DataIntegrityViolationException(ex.getMessage(), ex);
+        }
 
-		Throwable cause = ex.getCause();
-		if (cause instanceof IOException) {
-			return new DataAccessResourceFailureException(ex.getMessage(), ex);
-		}
+        Throwable cause = ex.getCause();
+        if (cause instanceof IOException) {
+            return new DataAccessResourceFailureException(ex.getMessage(), ex);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	private boolean isSeqNoConflict(Exception exception) {
+    private boolean isSeqNoConflict(Exception exception) {
 
-		Integer status = null;
-		String message = null;
+        Integer status = null;
+        String message = null;
 
-		if (exception instanceof ElasticsearchStatusException) {
+        if (exception instanceof ElasticsearchStatusException) {
 
-			ElasticsearchStatusException statusException = (ElasticsearchStatusException) exception;
-			status = statusException.status().getStatus();
-			message = statusException.getMessage();
-		}
+            ElasticsearchStatusException statusException = (ElasticsearchStatusException) exception;
+            status = statusException.status().getStatus();
+            message = statusException.getMessage();
+        }
 
-		if (exception instanceof RestStatusException) {
+        if (exception instanceof RestStatusException) {
 
-			RestStatusException statusException = (RestStatusException) exception;
-			status = statusException.getStatus();
-			message = statusException.getMessage();
-		}
+            RestStatusException statusException = (RestStatusException) exception;
+            status = statusException.getStatus();
+            message = statusException.getMessage();
+        }
 
-		if (status != null && message != null) {
-			return status == 409 && message.contains("type=version_conflict_engine_exception")
-					&& message.contains("version conflict, required seqNo");
-		}
+        if (status != null && message != null) {
+            return status == 409 && message.contains("type=version_conflict_engine_exception")
+                    && message.contains("version conflict, required seqNo");
+        }
 
-		if (exception instanceof VersionConflictEngineException) {
+        if (exception instanceof VersionConflictEngineException) {
 
-			VersionConflictEngineException versionConflictEngineException = (VersionConflictEngineException) exception;
+            VersionConflictEngineException versionConflictEngineException = (VersionConflictEngineException) exception;
 
-			return versionConflictEngineException.getMessage() != null
-					&& versionConflictEngineException.getMessage().contains("version conflict, required seqNo");
-		}
+            return versionConflictEngineException.getMessage() != null
+                    && versionConflictEngineException.getMessage().contains("version conflict, required seqNo");
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	private boolean indexAvailable(ElasticsearchException ex) {
+    private boolean indexAvailable(ElasticsearchException ex) {
 
-		List<String> metadata = ex.getMetadata("es.index_uuid");
-		if (metadata == null) {
+        List<String> metadata = ex.getMetadata("es.index_uuid");
+        if (metadata == null) {
 
-			if (ex.getCause() instanceof ElasticsearchException) {
-				return indexAvailable((ElasticsearchException) ex.getCause());
-			}
+            if (ex.getCause() instanceof ElasticsearchException) {
+                return indexAvailable((ElasticsearchException) ex.getCause());
+            }
 
-			if (ex instanceof ElasticsearchStatusException) {
-				return StringUtils.hasText(ObjectUtils.nullSafeToString(ex.getIndex()));
-			}
-			return true;
-		}
-		return !CollectionUtils.contains(metadata.iterator(), "_na_");
-	}
+            if (ex instanceof ElasticsearchStatusException) {
+                return StringUtils.hasText(ObjectUtils.nullSafeToString(ex.getIndex()));
+            }
+            return true;
+        }
+        return !CollectionUtils.contains(metadata.iterator(), "_na_");
+    }
 }

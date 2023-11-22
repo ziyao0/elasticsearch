@@ -26,20 +26,20 @@ import java.lang.annotation.*;
  * @author Peter-Josef Meisch
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Documented
 @Inherited
 public @interface CompletionField {
 
-	String searchAnalyzer() default "simple";
+    String searchAnalyzer() default "simple";
 
-	String analyzer() default "simple";
+    String analyzer() default "simple";
 
-	boolean preserveSeparators() default true;
+    boolean preserveSeparators() default true;
 
-	boolean preservePositionIncrements() default true;
+    boolean preservePositionIncrements() default true;
 
-	int maxInputLength() default 50;
+    int maxInputLength() default 50;
 
-	CompletionContext[] contexts() default {};
+    CompletionContext[] contexts() default {};
 }

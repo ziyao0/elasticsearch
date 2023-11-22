@@ -20,12 +20,12 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.*;
 import co.elastic.clients.json.JsonpMapper;
 import org.elasticsearch.search.SearchHits;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.TotalHitsRelation;
 import org.ziyao.data.elasticsearch.core.document.SearchDocument;
 import org.ziyao.data.elasticsearch.core.document.SearchDocumentResponse;
 import org.ziyao.data.elasticsearch.core.suggest.response.Suggest;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,83 +38,83 @@ import java.util.Map;
  * @since 4.4
  */
 class SearchDocumentResponseBuilder {
-	/**
-	 * creates a SearchDocumentResponse from the {@link SearchResponse}
-	 *
-	 * @param responseBody the Elasticsearch response body
-	 * @param entityCreator function to create an entity from a {@link SearchDocument}
-	 * @param jsonpMapper to map JsonData objects
-	 * @return the SearchDocumentResponse
-	 */
-	@SuppressWarnings("DuplicatedCode")
-	public static <T> SearchDocumentResponse from(ResponseBody<EntityAsMap> responseBody,
-			SearchDocumentResponse.EntityCreator<T> entityCreator, JsonpMapper jsonpMapper) {
+    /**
+     * creates a SearchDocumentResponse from the {@link SearchResponse}
+     *
+     * @param responseBody  the Elasticsearch response body
+     * @param entityCreator function to create an entity from a {@link SearchDocument}
+     * @param jsonpMapper   to map JsonData objects
+     * @return the SearchDocumentResponse
+     */
+    @SuppressWarnings("DuplicatedCode")
+    public static <T> SearchDocumentResponse from(ResponseBody<EntityAsMap> responseBody,
+                                                  SearchDocumentResponse.EntityCreator<T> entityCreator, JsonpMapper jsonpMapper) {
 
-		Assert.notNull(responseBody, "responseBody must not be null");
-		Assert.notNull(entityCreator, "entityCreator must not be null");
+        Assert.notNull(responseBody, "responseBody must not be null");
+        Assert.notNull(entityCreator, "entityCreator must not be null");
 
-		HitsMetadata<EntityAsMap> hitsMetadata = responseBody.hits();
-		String scrollId = responseBody.scrollId();
-		Map<String, Aggregate> aggregations = responseBody.aggregations();
-		Map<String, List<Suggestion<EntityAsMap>>> suggest = responseBody.suggest();
+        HitsMetadata<EntityAsMap> hitsMetadata = responseBody.hits();
+        String scrollId = responseBody.scrollId();
+        Map<String, Aggregate> aggregations = responseBody.aggregations();
+        Map<String, List<Suggestion<EntityAsMap>>> suggest = responseBody.suggest();
 
-		return from(hitsMetadata, scrollId, aggregations, suggest, entityCreator, jsonpMapper);
-	}
+        return from(hitsMetadata, scrollId, aggregations, suggest, entityCreator, jsonpMapper);
+    }
 
-	/**
-	 * creates a {@link SearchDocumentResponseBuilder} from {@link SearchHits} with the given scrollId aggregations and
-	 * suggestES
-	 *
-	 * @param <T> entity type
-	 * @param hitsMetadata the {@link SearchHits} to process
-	 * @param scrollId scrollId
-	 * @param aggregations aggregations
-	 * @param suggestES the suggestion response from Elasticsearch
-	 * @param entityCreator function to create an entity from a {@link SearchDocument}, needed in mapping the suggest data
-	 * @param jsonpMapper to map JsonData objects
-	 * @return the {@link SearchDocumentResponse}
-	 */
-	public static <T> SearchDocumentResponse from(HitsMetadata<?> hitsMetadata, @Nullable String scrollId,
-			Map<String, Aggregate> aggregations, Map<String, List<Suggestion<EntityAsMap>>> suggestES,
-			SearchDocumentResponse.EntityCreator<T> entityCreator, JsonpMapper jsonpMapper) {
+    /**
+     * creates a {@link SearchDocumentResponseBuilder} from {@link SearchHits} with the given scrollId aggregations and
+     * suggestES
+     *
+     * @param <T>           entity type
+     * @param hitsMetadata  the {@link SearchHits} to process
+     * @param scrollId      scrollId
+     * @param aggregations  aggregations
+     * @param suggestES     the suggestion response from Elasticsearch
+     * @param entityCreator function to create an entity from a {@link SearchDocument}, needed in mapping the suggest data
+     * @param jsonpMapper   to map JsonData objects
+     * @return the {@link SearchDocumentResponse}
+     */
+    public static <T> SearchDocumentResponse from(HitsMetadata<?> hitsMetadata, @Nullable String scrollId,
+                                                  Map<String, Aggregate> aggregations, Map<String, List<Suggestion<EntityAsMap>>> suggestES,
+                                                  SearchDocumentResponse.EntityCreator<T> entityCreator, JsonpMapper jsonpMapper) {
 
-		Assert.notNull(hitsMetadata, "hitsMetadata must not be null");
+        Assert.notNull(hitsMetadata, "hitsMetadata must not be null");
 
-		long totalHits;
-		String totalHitsRelation;
+        long totalHits;
+        String totalHitsRelation;
 
-		TotalHits responseTotalHits = hitsMetadata.total();
-		if (responseTotalHits != null) {
-			totalHits = responseTotalHits.value();
-			switch (responseTotalHits.relation().jsonValue()) {
-				case "eq":
-					totalHitsRelation = TotalHitsRelation.EQUAL_TO.name();
-					break;
-				case "gte":
-					totalHitsRelation = TotalHitsRelation.GREATER_THAN_OR_EQUAL_TO.name();
-					break;
-				default:
-					totalHitsRelation = TotalHitsRelation.OFF.name();
-			}
-		} else {
-			totalHits = hitsMetadata.hits().size();
-			totalHitsRelation = "OFF";
-		}
+        TotalHits responseTotalHits = hitsMetadata.total();
+        if (responseTotalHits != null) {
+            totalHits = responseTotalHits.value();
+            switch (responseTotalHits.relation().jsonValue()) {
+                case "eq":
+                    totalHitsRelation = TotalHitsRelation.EQUAL_TO.name();
+                    break;
+                case "gte":
+                    totalHitsRelation = TotalHitsRelation.GREATER_THAN_OR_EQUAL_TO.name();
+                    break;
+                default:
+                    totalHitsRelation = TotalHitsRelation.OFF.name();
+            }
+        } else {
+            totalHits = hitsMetadata.hits().size();
+            totalHitsRelation = "OFF";
+        }
 
-		float maxScore = hitsMetadata.maxScore() != null ? hitsMetadata.maxScore().floatValue() : Float.NaN;
+        float maxScore = hitsMetadata.maxScore() != null ? hitsMetadata.maxScore().floatValue() : Float.NaN;
 
-		List<SearchDocument> searchDocuments = new ArrayList<>();
-		for (Hit<?> hit : hitsMetadata.hits()) {
-			searchDocuments.add(DocumentAdapters.from(hit, jsonpMapper));
-		}
+        List<SearchDocument> searchDocuments = new ArrayList<>();
+        for (Hit<?> hit : hitsMetadata.hits()) {
+            searchDocuments.add(DocumentAdapters.from(hit, jsonpMapper));
+        }
 
-		ElasticsearchAggregations aggregationsContainer = aggregations != null ? new ElasticsearchAggregations(aggregations)
-				: null;
+        ElasticsearchAggregations aggregationsContainer = aggregations != null ? new ElasticsearchAggregations(aggregations)
+                : null;
 
-		// todo #2154
-		Suggest suggest = null;
+        // todo #2154
+        Suggest suggest = null;
 
-		return new SearchDocumentResponse(totalHits, totalHitsRelation, maxScore, scrollId, searchDocuments,
-				aggregationsContainer, suggest);
-	}
+        return new SearchDocumentResponse(totalHits, totalHitsRelation, maxScore, scrollId, searchDocuments,
+                aggregationsContainer, suggest);
+    }
 }

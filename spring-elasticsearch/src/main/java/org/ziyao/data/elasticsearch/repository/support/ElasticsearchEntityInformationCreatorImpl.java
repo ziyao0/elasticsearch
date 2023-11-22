@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.elasticsearch.repository.support;
 
-import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
-import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
+import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 
 /**
  * ElasticsearchEntityInformationCreatorImpl
@@ -31,26 +31,26 @@ import org.springframework.util.Assert;
  */
 public class ElasticsearchEntityInformationCreatorImpl implements ElasticsearchEntityInformationCreator {
 
-	private final MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext;
+    private final MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext;
 
-	public ElasticsearchEntityInformationCreatorImpl(
-			MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext) {
+    public ElasticsearchEntityInformationCreatorImpl(
+            MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext) {
 
-		Assert.notNull(mappingContext, "MappingContext must not be null!");
+        Assert.notNull(mappingContext, "MappingContext must not be null!");
 
-		this.mappingContext = mappingContext;
-	}
+        this.mappingContext = mappingContext;
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T, ID> ElasticsearchEntityInformation<T, ID> getEntityInformation(Class<T> domainClass) {
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T, ID> ElasticsearchEntityInformation<T, ID> getEntityInformation(Class<T> domainClass) {
 
-		ElasticsearchPersistentEntity<T> persistentEntity = (ElasticsearchPersistentEntity<T>) mappingContext
-				.getRequiredPersistentEntity(domainClass);
+        ElasticsearchPersistentEntity<T> persistentEntity = (ElasticsearchPersistentEntity<T>) mappingContext
+                .getRequiredPersistentEntity(domainClass);
 
-		Assert.notNull(persistentEntity, String.format("Unable to obtain mapping metadata for %s!", domainClass));
-		Assert.notNull(persistentEntity.getIdProperty(), String.format("No id property found for %s!", domainClass));
+        Assert.notNull(persistentEntity, String.format("Unable to obtain mapping metadata for %s!", domainClass));
+        Assert.notNull(persistentEntity.getIdProperty(), String.format("No id property found for %s!", domainClass));
 
-		return new MappingElasticsearchEntityInformation<>(persistentEntity);
-	}
+        return new MappingElasticsearchEntityInformation<>(persistentEntity);
+    }
 }

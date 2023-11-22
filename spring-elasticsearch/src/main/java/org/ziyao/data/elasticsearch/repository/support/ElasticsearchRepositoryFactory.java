@@ -15,28 +15,28 @@
  */
 package org.ziyao.data.elasticsearch.repository.support;
 
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
 import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
 import org.ziyao.data.elasticsearch.repository.query.ElasticsearchPartQuery;
 import org.ziyao.data.elasticsearch.repository.query.ElasticsearchQueryMethod;
 import org.ziyao.data.elasticsearch.repository.query.ElasticsearchStringQuery;
-import org.springframework.data.projection.ProjectionFactory;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
-import org.springframework.data.repository.core.NamedQueries;
-import org.springframework.data.repository.core.RepositoryInformation;
-import org.springframework.data.repository.core.RepositoryMetadata;
-import org.springframework.data.repository.core.support.RepositoryFactorySupport;
-import org.springframework.data.repository.query.QueryLookupStrategy;
-import org.springframework.data.repository.query.QueryLookupStrategy.Key;
-import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
-import org.springframework.data.repository.query.RepositoryQuery;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import org.ziyao.data.projection.ProjectionFactory;
+import org.ziyao.data.querydsl.QuerydslPredicateExecutor;
+import org.ziyao.data.repository.core.NamedQueries;
+import org.ziyao.data.repository.core.RepositoryInformation;
+import org.ziyao.data.repository.core.RepositoryMetadata;
+import org.ziyao.data.repository.core.support.RepositoryFactorySupport;
+import org.ziyao.data.repository.query.QueryLookupStrategy;
+import org.ziyao.data.repository.query.QueryLookupStrategy.Key;
+import org.ziyao.data.repository.query.QueryMethodEvaluationContextProvider;
+import org.ziyao.data.repository.query.RepositoryQuery;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import static org.springframework.data.querydsl.QuerydslUtils.QUERY_DSL_PRESENT;
+import static org.ziyao.data.querydsl.QuerydslUtils.QUERY_DSL_PRESENT;
 
 /**
  * Factory to create {@link ElasticsearchRepository}

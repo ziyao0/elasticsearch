@@ -15,29 +15,29 @@
  */
 package org.ziyao.data.elasticsearch.core.event;
 
-import org.ziyao.data.elasticsearch.core.document.Document;
-import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.mapping.callback.EntityCallback;
 import org.springframework.data.mapping.callback.EntityCallbacks;
+import org.ziyao.data.elasticsearch.core.document.Document;
+import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 
 /**
  * Callback being invoked after a domain object is materialized from a {@link Document} when reading results.
  *
  * @author Roman Puchkovskiy
- * @since 4.0
  * @see EntityCallbacks
+ * @since 4.0
  */
 @FunctionalInterface
 public interface AfterConvertCallback<T> extends EntityCallback<T> {
 
-	/**
-	 * Entity callback method invoked after a domain object is materialized from a {@link Document}. Can return either the
-	 * same or a modified instance of the domain object.
-	 *
-	 * @param entity the domain object (the result of the conversion).
-	 * @param document must not be {@literal null}.
-	 * @param indexCoordinates must not be {@literal null}.
-	 * @return the domain object that is the result of reading it from the {@link Document}.
-	 */
-	T onAfterConvert(T entity, Document document, IndexCoordinates indexCoordinates);
+    /**
+     * Entity callback method invoked after a domain object is materialized from a {@link Document}. Can return either the
+     * same or a modified instance of the domain object.
+     *
+     * @param entity           the domain object (the result of the conversion).
+     * @param document         must not be {@literal null}.
+     * @param indexCoordinates must not be {@literal null}.
+     * @return the domain object that is the result of reading it from the {@link Document}.
+     */
+    T onAfterConvert(T entity, Document document, IndexCoordinates indexCoordinates);
 }

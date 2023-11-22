@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
-import org.springframework.data.domain.Page;
+import org.ziyao.data.domain.Page;
 
 /**
  * Page definition for repositories that need to return a paged SearchHits.
@@ -24,5 +24,5 @@ import org.springframework.data.domain.Page;
  * @since 4.0
  */
 public interface SearchPage<T> extends Page<SearchHit<T>> {
-	SearchHits<T> getSearchHits();
+    SearchHits<T> getSearchHits();
 }

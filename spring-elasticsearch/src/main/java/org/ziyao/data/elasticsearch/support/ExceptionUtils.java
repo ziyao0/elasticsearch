@@ -22,27 +22,28 @@ import java.net.ConnectException;
  * @since 4.4
  */
 public final class ExceptionUtils {
-	private ExceptionUtils() {}
+    private ExceptionUtils() {
+    }
 
-	/**
-	 * checks if the given throwable is a {@link ConnectException} or has one in its cause chain
-	 *
-	 * @param throwable the throwable to check
-	 * @return true if throwable is caused by a {@link ConnectException}
-	 */
-	public static boolean isCausedByConnectionException(Throwable throwable) {
+    /**
+     * checks if the given throwable is a {@link ConnectException} or has one in its cause chain
+     *
+     * @param throwable the throwable to check
+     * @return true if throwable is caused by a {@link ConnectException}
+     */
+    public static boolean isCausedByConnectionException(Throwable throwable) {
 
-		Throwable t = throwable;
-		do {
+        Throwable t = throwable;
+        do {
 
-			if (t instanceof ConnectException) {
-				return true;
-			}
+            if (t instanceof ConnectException) {
+                return true;
+            }
 
-			t = t.getCause();
-		} while (t != null);
+            t = t.getCause();
+        } while (t != null);
 
-		return false;
-	}
+        return false;
+    }
 
 }

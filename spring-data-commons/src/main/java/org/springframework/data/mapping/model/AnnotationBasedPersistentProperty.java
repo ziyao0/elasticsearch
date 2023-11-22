@@ -17,17 +17,17 @@ package org.springframework.data.mapping.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.annotation.*;
-import org.springframework.data.annotation.Version;
-import org.springframework.data.annotation.AccessType.Type;
 import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.MappingException;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.util.ReflectionUtils;
-import org.springframework.data.util.*;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.annotation.*;
+import org.ziyao.data.annotation.Version;
+import org.ziyao.data.annotation.AccessType.Type;
+import org.ziyao.data.util.ReflectionUtils;
+import org.ziyao.data.util.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

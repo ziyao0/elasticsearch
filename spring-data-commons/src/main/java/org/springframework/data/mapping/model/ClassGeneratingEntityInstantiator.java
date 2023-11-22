@@ -24,11 +24,11 @@ import org.springframework.asm.Type;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.data.mapping.*;
-import org.springframework.data.support.NativeDetector;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+import org.ziyao.data.support.NativeDetector;
+import org.ziyao.data.util.TypeInformation;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

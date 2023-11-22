@@ -1,7 +1,7 @@
 package com.ziyao.springframework.boot.test.demo;
 
-import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
+import org.ziyao.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
  * @author ziyao zhang

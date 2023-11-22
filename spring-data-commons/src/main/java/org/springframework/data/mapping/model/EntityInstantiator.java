@@ -26,13 +26,13 @@ import org.springframework.data.mapping.PersistentProperty;
  */
 public interface EntityInstantiator {
 
-	/**
-	 * Creates a new instance of the given entity using the given source to pull data from.
-	 *
-	 * @param entity will not be {@literal null}.
-	 * @param provider will not be {@literal null}.
-	 * @return
-	 */
-	<T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
-			ParameterValueProvider<P> provider);
+    /**
+     * Creates a new instance of the given entity using the given source to pull data from.
+     *
+     * @param entity   will not be {@literal null}.
+     * @param provider will not be {@literal null}.
+     * @return
+     */
+    <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
+                                                                                                      ParameterValueProvider<P> provider);
 }

@@ -37,15 +37,15 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
         this.instantiators = instantiators;
     }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.model.PersistentPropertyAccessorFactory#getPropertyAccessor(org.ziyao.data.mapping.PersistentEntity, java.lang.Object)
-	 */
-	@Override
-	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
-		return new InstantiationAwarePropertyAccessor<>(bean, it -> delegate.getPropertyAccessor(entity, it),
-				instantiators);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.model.PersistentPropertyAccessorFactory#getPropertyAccessor(org.ziyao.data.mapping.PersistentEntity, java.lang.Object)
+     */
+    @Override
+    public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
+        return new InstantiationAwarePropertyAccessor<>(bean, it -> delegate.getPropertyAccessor(entity, it),
+                instantiators);
+    }
 
     /*
      * (non-Javadoc)

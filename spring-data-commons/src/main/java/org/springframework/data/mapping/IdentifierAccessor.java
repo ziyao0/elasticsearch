@@ -27,31 +27,31 @@ import org.springframework.lang.Nullable;
  */
 public interface IdentifierAccessor {
 
-	/**
-	 * Returns the value of the identifier.
-	 *
-	 * @return the identifier of the underlying instance.
-	 */
-	@Nullable
-	Object getIdentifier();
+    /**
+     * Returns the value of the identifier.
+     *
+     * @return the identifier of the underlying instance.
+     */
+    @Nullable
+    Object getIdentifier();
 
-	/**
-	 * Returns the identifier of the underlying instance. Implementations are strongly recommended to extends either
-	 * {@link TargetAwareIdentifierAccessor} or override this method to add more context to the exception being thrown in
-	 * case of the absence of an identifier.
-	 *
-	 * @return the identifier of the underlying instance
-	 * @throws IllegalStateException in case no identifier could be retrieved.
-	 * @since 2.0
-	 */
-	default Object getRequiredIdentifier() {
+    /**
+     * Returns the identifier of the underlying instance. Implementations are strongly recommended to extends either
+     * {@link TargetAwareIdentifierAccessor} or override this method to add more context to the exception being thrown in
+     * case of the absence of an identifier.
+     *
+     * @return the identifier of the underlying instance
+     * @throws IllegalStateException in case no identifier could be retrieved.
+     * @since 2.0
+     */
+    default Object getRequiredIdentifier() {
 
-		Object identifier = getIdentifier();
+        Object identifier = getIdentifier();
 
-		if (identifier != null) {
-			return identifier;
-		}
+        if (identifier != null) {
+            return identifier;
+        }
 
-		throw new IllegalStateException("Could not obtain identifier");
-	}
+        throw new IllegalStateException("Could not obtain identifier");
+    }
 }

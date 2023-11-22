@@ -24,43 +24,43 @@ import org.springframework.util.Assert;
  */
 public interface RoutingResolver {
 
-	/**
-	 * returns the routing when no entity is available.
-	 *
-	 * @return the routing value
-	 */
-	@Nullable
-	String getRouting();
+    /**
+     * returns the routing when no entity is available.
+     *
+     * @return the routing value
+     */
+    @Nullable
+    String getRouting();
 
-	/**
-	 * Returns the routing for a bean.
-	 *
-	 * @param bean the bean to get the routing for
-	 * @return the routing value
-	 */
-	@Nullable
-	<T> String getRouting(T bean);
+    /**
+     * Returns the routing for a bean.
+     *
+     * @param bean the bean to get the routing for
+     * @return the routing value
+     */
+    @Nullable
+    <T> String getRouting(T bean);
 
-	/**
-	 * Returns a {@link RoutingResolver that always retuns a fixed value}
-	 *
-	 * @param value the value to return
-	 * @return the fixed-value {@link RoutingResolver}
-	 */
-	static RoutingResolver just(String value) {
+    /**
+     * Returns a {@link RoutingResolver that always retuns a fixed value}
+     *
+     * @param value the value to return
+     * @return the fixed-value {@link RoutingResolver}
+     */
+    static RoutingResolver just(String value) {
 
-		Assert.notNull(value, "value must not be null");
+        Assert.notNull(value, "value must not be null");
 
-		return new RoutingResolver() {
-			@Override
-			public String getRouting() {
-				return value;
-			}
+        return new RoutingResolver() {
+            @Override
+            public String getRouting() {
+                return value;
+            }
 
-			@Override
-			public String getRouting(Object bean) {
-				return value;
-			}
-		};
-	}
+            @Override
+            public String getRouting(Object bean) {
+                return value;
+            }
+        };
+    }
 }

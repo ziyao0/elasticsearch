@@ -16,8 +16,8 @@
 package org.ziyao.data.elasticsearch.client.elc;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
-import org.ziyao.data.elasticsearch.core.AggregationsContainer;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.AggregationsContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,31 +31,31 @@ import java.util.Map;
  */
 public class ElasticsearchAggregations implements AggregationsContainer<List<ElasticsearchAggregation>> {
 
-	private final List<ElasticsearchAggregation> aggregations;
+    private final List<ElasticsearchAggregation> aggregations;
 
-	public ElasticsearchAggregations(List<ElasticsearchAggregation> aggregations) {
+    public ElasticsearchAggregations(List<ElasticsearchAggregation> aggregations) {
 
-		Assert.notNull(aggregations, "aggregations must not be null");
+        Assert.notNull(aggregations, "aggregations must not be null");
 
-		this.aggregations = aggregations;
-	}
+        this.aggregations = aggregations;
+    }
 
-	/**
-	 * convenience constructor taking a map as it is returned from the new Elasticsearch client.
-	 *
-	 * @param aggregationsMap aggregate map
-	 */
-	public ElasticsearchAggregations(Map<String, Aggregate> aggregationsMap) {
+    /**
+     * convenience constructor taking a map as it is returned from the new Elasticsearch client.
+     *
+     * @param aggregationsMap aggregate map
+     */
+    public ElasticsearchAggregations(Map<String, Aggregate> aggregationsMap) {
 
-		Assert.notNull(aggregationsMap, "aggregationsMap must not be null");
+        Assert.notNull(aggregationsMap, "aggregationsMap must not be null");
 
-		aggregations = new ArrayList<>(aggregationsMap.size());
-		aggregationsMap
-				.forEach((name, aggregate) -> aggregations.add(new ElasticsearchAggregation(new Aggregation(name, aggregate))));
-	}
+        aggregations = new ArrayList<>(aggregationsMap.size());
+        aggregationsMap
+                .forEach((name, aggregate) -> aggregations.add(new ElasticsearchAggregation(new Aggregation(name, aggregate))));
+    }
 
-	@Override
-	public List<ElasticsearchAggregation> aggregations() {
-		return aggregations;
-	}
+    @Override
+    public List<ElasticsearchAggregation> aggregations() {
+        return aggregations;
+    }
 }

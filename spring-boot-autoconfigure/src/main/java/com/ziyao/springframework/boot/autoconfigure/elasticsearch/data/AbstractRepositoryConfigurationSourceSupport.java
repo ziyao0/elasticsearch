@@ -13,11 +13,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.StandardAnnotationMetadata;
-import org.springframework.data.repository.config.AnnotationRepositoryConfigurationSource;
-import org.springframework.data.repository.config.BootstrapMode;
-import org.springframework.data.repository.config.RepositoryConfigurationDelegate;
-import org.springframework.data.repository.config.RepositoryConfigurationExtension;
-import org.springframework.data.util.Streamable;
+import org.ziyao.data.repository.config.AnnotationRepositoryConfigurationSource;
+import org.ziyao.data.repository.config.BootstrapMode;
+import org.ziyao.data.repository.config.RepositoryConfigurationDelegate;
+import org.ziyao.data.repository.config.RepositoryConfigurationExtension;
+import org.ziyao.data.util.Streamable;
 
 import java.lang.annotation.Annotation;
 

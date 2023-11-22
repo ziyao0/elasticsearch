@@ -38,66 +38,66 @@ import java.util.ArrayList;
  */
 public class RestClientFactoryBean implements FactoryBean<RestHighLevelClient>, InitializingBean, DisposableBean {
 
-	private static final Log LOGGER = LogFactory.getLog(RestClientFactoryBean.class);
+    private static final Log LOGGER = LogFactory.getLog(RestClientFactoryBean.class);
 
-	private @Nullable RestHighLevelClient client;
-	private String hosts = "http://localhost:9200";
-	static final String COMMA = ",";
+    private @Nullable RestHighLevelClient client;
+    private String hosts = "http://localhost:9200";
+    static final String COMMA = ",";
 
-	@Override
-	public void destroy() {
-		try {
-			LOGGER.info("Closing elasticSearch  client");
-			if (client != null) {
-				client.close();
-			}
-		} catch (final Exception e) {
-			LOGGER.error("Error closing ElasticSearch client: ", e);
-		}
-	}
+    @Override
+    public void destroy() {
+        try {
+            LOGGER.info("Closing elasticSearch  client");
+            if (client != null) {
+                client.close();
+            }
+        } catch (final Exception e) {
+            LOGGER.error("Error closing ElasticSearch client: ", e);
+        }
+    }
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		buildClient();
-	}
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        buildClient();
+    }
 
-	@Override
-	public RestHighLevelClient getObject() {
+    @Override
+    public RestHighLevelClient getObject() {
 
-		if (client == null) {
-			throw new FactoryBeanNotInitializedException();
-		}
+        if (client == null) {
+            throw new FactoryBeanNotInitializedException();
+        }
 
-		return client;
-	}
+        return client;
+    }
 
-	@Override
-	public Class<?> getObjectType() {
-		return RestHighLevelClient.class;
-	}
+    @Override
+    public Class<?> getObjectType() {
+        return RestHighLevelClient.class;
+    }
 
-	@Override
-	public boolean isSingleton() {
-		return false;
-	}
+    @Override
+    public boolean isSingleton() {
+        return false;
+    }
 
-	protected void buildClient() throws Exception {
+    protected void buildClient() throws Exception {
 
-		Assert.hasText(hosts, "[Assertion Failed] At least one host must be set.");
+        Assert.hasText(hosts, "[Assertion Failed] At least one host must be set.");
 
-		ArrayList<HttpHost> httpHosts = new ArrayList<>();
-		for (String host : hosts.split(COMMA)) {
-			URL hostUrl = new URL(host);
-			httpHosts.add(new HttpHost(hostUrl.getHost(), hostUrl.getPort(), hostUrl.getProtocol()));
-		}
-		client = new RestHighLevelClient(RestClient.builder(httpHosts.toArray(new HttpHost[httpHosts.size()])));
-	}
+        ArrayList<HttpHost> httpHosts = new ArrayList<>();
+        for (String host : hosts.split(COMMA)) {
+            URL hostUrl = new URL(host);
+            httpHosts.add(new HttpHost(hostUrl.getHost(), hostUrl.getPort(), hostUrl.getProtocol()));
+        }
+        client = new RestHighLevelClient(RestClient.builder(httpHosts.toArray(new HttpHost[httpHosts.size()])));
+    }
 
-	public void setHosts(String hosts) {
-		this.hosts = hosts;
-	}
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
 
-	public String getHosts() {
-		return this.hosts;
-	}
+    public String getHosts() {
+        return this.hosts;
+    }
 }

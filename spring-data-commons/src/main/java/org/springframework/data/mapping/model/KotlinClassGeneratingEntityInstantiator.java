@@ -19,9 +19,9 @@ import kotlin.reflect.KFunction;
 import kotlin.reflect.KParameter;
 import kotlin.reflect.jvm.ReflectJvmMapping;
 import org.springframework.data.mapping.*;
-import org.springframework.data.util.KotlinReflectionUtils;
-import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.util.KotlinReflectionUtils;
+import org.ziyao.data.util.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;

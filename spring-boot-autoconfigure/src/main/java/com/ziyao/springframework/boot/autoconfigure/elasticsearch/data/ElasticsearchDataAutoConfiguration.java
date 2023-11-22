@@ -12,10 +12,10 @@ import org.ziyao.data.elasticsearch.core.ElasticsearchRestTemplate;
  * @since 2023/4/23
  */
 @Configuration
-@ConditionalOnClass({ ElasticsearchRestTemplate.class })
-@Import({ ElasticsearchDataConfiguration.BaseConfiguration.class,
+@ConditionalOnClass({ElasticsearchRestTemplate.class})
+@Import({ElasticsearchDataConfiguration.BaseConfiguration.class,
         ElasticsearchDataConfiguration.RestClientConfiguration.class})
-@AutoConfigureAfter({ ElasticsearchRestClientAutoConfiguration.class })
+@AutoConfigureAfter({ElasticsearchRestClientAutoConfiguration.class})
 public class ElasticsearchDataAutoConfiguration {
 
 }

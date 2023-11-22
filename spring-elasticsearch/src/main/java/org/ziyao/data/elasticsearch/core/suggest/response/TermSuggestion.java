@@ -22,35 +22,35 @@ import java.util.List;
  */
 public class TermSuggestion extends Suggest.Suggestion<TermSuggestion.Entry> {
 
-	private final SortBy sort;
+    private final SortBy sort;
 
-	public TermSuggestion(String name, int size, List<Entry> entries, SortBy sort) {
-		super(name, size, entries);
-		this.sort = sort;
-	}
+    public TermSuggestion(String name, int size, List<Entry> entries, SortBy sort) {
+        super(name, size, entries);
+        this.sort = sort;
+    }
 
-	public SortBy getSort() {
-		return sort;
-	}
+    public SortBy getSort() {
+        return sort;
+    }
 
-	public static class Entry extends Suggest.Suggestion.Entry<Entry.Option> {
+    public static class Entry extends Suggest.Suggestion.Entry<Entry.Option> {
 
-		public Entry(String text, int offset, int length, List<Option> options) {
-			super(text, offset, length, options);
-		}
+        public Entry(String text, int offset, int length, List<Option> options) {
+            super(text, offset, length, options);
+        }
 
-		public static class Option extends Suggest.Suggestion.Entry.Option {
+        public static class Option extends Suggest.Suggestion.Entry.Option {
 
-			private final int freq;
+            private final int freq;
 
-			public Option(String text, String highlighted, float score, Boolean collateMatch, int freq) {
-				super(text, highlighted, score, collateMatch);
-				this.freq = freq;
-			}
+            public Option(String text, String highlighted, float score, Boolean collateMatch, int freq) {
+                super(text, highlighted, score, collateMatch);
+                this.freq = freq;
+            }
 
-			public int getFreq() {
-				return freq;
-			}
-		}
-	}
+            public int getFreq() {
+                return freq;
+            }
+        }
+    }
 }

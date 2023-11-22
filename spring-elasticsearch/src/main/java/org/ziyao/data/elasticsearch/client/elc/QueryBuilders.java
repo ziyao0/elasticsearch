@@ -19,9 +19,9 @@ import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.LatLonGeoLocation;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.util.ObjectBuilder;
-import org.ziyao.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.geo.GeoPoint;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -36,127 +36,129 @@ import java.util.function.Function;
  */
 public final class QueryBuilders {
 
-	private QueryBuilders() {}
+    private QueryBuilders() {
+    }
 
-	public static IdsQuery idsQuery(List<String> ids) {
+    public static IdsQuery idsQuery(List<String> ids) {
 
-		Assert.notNull(ids, "ids must not be null");
+        Assert.notNull(ids, "ids must not be null");
 
-		return IdsQuery.of(i -> i.values(ids));
-	}
+        return IdsQuery.of(i -> i.values(ids));
+    }
 
-	public static Query idsQueryAsQuery(List<String> ids) {
+    public static Query idsQueryAsQuery(List<String> ids) {
 
-		Assert.notNull(ids, "ids must not be null");
+        Assert.notNull(ids, "ids must not be null");
 
-		Function<Query.Builder, ObjectBuilder<Query>> builder = b -> b.ids(idsQuery(ids));
+        Function<Query.Builder, ObjectBuilder<Query>> builder = b -> b.ids(idsQuery(ids));
 
-		return builder.apply(new Query.Builder()).build();
-	}
-	public static MatchQuery matchQuery(String fieldName, String query, @Nullable Operator operator,
-			@Nullable Float boost) {
+        return builder.apply(new Query.Builder()).build();
+    }
 
-		Assert.notNull(fieldName, "fieldName must not be null");
-		Assert.notNull(query, "query must not be null");
+    public static MatchQuery matchQuery(String fieldName, String query, @Nullable Operator operator,
+                                        @Nullable Float boost) {
 
-		return MatchQuery.of(mb -> mb.field(fieldName).query(FieldValue.of(query)).operator(operator).boost(boost));
-	}
+        Assert.notNull(fieldName, "fieldName must not be null");
+        Assert.notNull(query, "query must not be null");
 
-	public static Query matchQueryAsQuery(String fieldName, String query, @Nullable Operator operator,
-			@Nullable Float boost) {
+        return MatchQuery.of(mb -> mb.field(fieldName).query(FieldValue.of(query)).operator(operator).boost(boost));
+    }
 
-		Function<Query.Builder, ObjectBuilder<Query>> builder = b -> b.match(matchQuery(fieldName, query, operator, boost));
+    public static Query matchQueryAsQuery(String fieldName, String query, @Nullable Operator operator,
+                                          @Nullable Float boost) {
 
-		return builder.apply(new Query.Builder()).build();
-	}
+        Function<Query.Builder, ObjectBuilder<Query>> builder = b -> b.match(matchQuery(fieldName, query, operator, boost));
 
-	public static MatchAllQuery matchAllQuery() {
+        return builder.apply(new Query.Builder()).build();
+    }
 
-		return MatchAllQuery.of(b -> b);
-	}
+    public static MatchAllQuery matchAllQuery() {
 
-	public static Query matchAllQueryAsQuery() {
+        return MatchAllQuery.of(b -> b);
+    }
 
-		Function<Query.Builder, ObjectBuilder<Query>> builder = b -> b.matchAll(matchAllQuery());
+    public static Query matchAllQueryAsQuery() {
 
-		return builder.apply(new Query.Builder()).build();
-	}
+        Function<Query.Builder, ObjectBuilder<Query>> builder = b -> b.matchAll(matchAllQuery());
 
-	public static QueryStringQuery queryStringQuery(String fieldName, String query, @Nullable Float boost) {
-		return queryStringQuery(fieldName, query, null, null, boost);
-	}
+        return builder.apply(new Query.Builder()).build();
+    }
 
-	public static QueryStringQuery queryStringQuery(String fieldName, String query, Operator defaultOperator,
-			@Nullable Float boost) {
-		return queryStringQuery(fieldName, query, null, defaultOperator, boost);
-	}
+    public static QueryStringQuery queryStringQuery(String fieldName, String query, @Nullable Float boost) {
+        return queryStringQuery(fieldName, query, null, null, boost);
+    }
 
-	public static QueryStringQuery queryStringQuery(String fieldName, String query, @Nullable Boolean analyzeWildcard,
-			@Nullable Float boost) {
-		return queryStringQuery(fieldName, query, analyzeWildcard, null, boost);
-	}
+    public static QueryStringQuery queryStringQuery(String fieldName, String query, Operator defaultOperator,
+                                                    @Nullable Float boost) {
+        return queryStringQuery(fieldName, query, null, defaultOperator, boost);
+    }
 
-	public static QueryStringQuery queryStringQuery(String fieldName, String query, @Nullable Boolean analyzeWildcard,
-			@Nullable Operator defaultOperator, @Nullable Float boost) {
+    public static QueryStringQuery queryStringQuery(String fieldName, String query, @Nullable Boolean analyzeWildcard,
+                                                    @Nullable Float boost) {
+        return queryStringQuery(fieldName, query, analyzeWildcard, null, boost);
+    }
 
-		Assert.notNull(fieldName, "fieldName must not be null");
-		Assert.notNull(query, "query must not be null");
+    public static QueryStringQuery queryStringQuery(String fieldName, String query, @Nullable Boolean analyzeWildcard,
+                                                    @Nullable Operator defaultOperator, @Nullable Float boost) {
 
-		return QueryStringQuery.of(qs -> qs.fields(fieldName).query(query).analyzeWildcard(analyzeWildcard)
-				.defaultOperator(defaultOperator).boost(boost));
-	}
+        Assert.notNull(fieldName, "fieldName must not be null");
+        Assert.notNull(query, "query must not be null");
 
-	public static TermQuery termQuery(String fieldName, String value) {
+        return QueryStringQuery.of(qs -> qs.fields(fieldName).query(query).analyzeWildcard(analyzeWildcard)
+                .defaultOperator(defaultOperator).boost(boost));
+    }
 
-		Assert.notNull(fieldName, "fieldName must not be null");
-		Assert.notNull(value, "value must not be null");
+    public static TermQuery termQuery(String fieldName, String value) {
 
-		return TermQuery.of(t -> t.field(fieldName).value(FieldValue.of(value)));
-	}
+        Assert.notNull(fieldName, "fieldName must not be null");
+        Assert.notNull(value, "value must not be null");
 
-	public static Query termQueryAsQuery(String fieldName, String value) {
+        return TermQuery.of(t -> t.field(fieldName).value(FieldValue.of(value)));
+    }
 
-		Function<Query.Builder, ObjectBuilder<Query>> builder = q -> q.term(termQuery(fieldName, value));
-		return builder.apply(new Query.Builder()).build();
-	}
+    public static Query termQueryAsQuery(String fieldName, String value) {
 
-	public static WildcardQuery wildcardQuery(String field, String value) {
+        Function<Query.Builder, ObjectBuilder<Query>> builder = q -> q.term(termQuery(fieldName, value));
+        return builder.apply(new Query.Builder()).build();
+    }
 
-		Assert.notNull(field, "field must not be null");
-		Assert.notNull(value, "value must not be null");
+    public static WildcardQuery wildcardQuery(String field, String value) {
 
-		return WildcardQuery.of(w -> w.field(field).wildcard(value));
-	}
+        Assert.notNull(field, "field must not be null");
+        Assert.notNull(value, "value must not be null");
 
-	public static Query wildcardQueryAsQuery(String field, String value) {
-		Function<Query.Builder, ObjectBuilder<Query>> builder = q -> q.wildcard(wildcardQuery(field, value));
-		return builder.apply(new Query.Builder()).build();
-	}
+        return WildcardQuery.of(w -> w.field(field).wildcard(value));
+    }
 
-	public static Query wrapperQueryAsQuery(String query) {
+    public static Query wildcardQueryAsQuery(String field, String value) {
+        Function<Query.Builder, ObjectBuilder<Query>> builder = q -> q.wildcard(wildcardQuery(field, value));
+        return builder.apply(new Query.Builder()).build();
+    }
 
-		Function<Query.Builder, ObjectBuilder<Query>> builder = q -> q.wrapper(wrapperQuery(query));
+    public static Query wrapperQueryAsQuery(String query) {
 
-		return builder.apply(new Query.Builder()).build();
-	}
+        Function<Query.Builder, ObjectBuilder<Query>> builder = q -> q.wrapper(wrapperQuery(query));
 
-	public static WrapperQuery wrapperQuery(String query) {
+        return builder.apply(new Query.Builder()).build();
+    }
 
-		Assert.notNull(query, "query must not be null");
+    public static WrapperQuery wrapperQuery(String query) {
 
-		String encodedValue = Base64.getEncoder().encodeToString(query.getBytes(StandardCharsets.UTF_8));
+        Assert.notNull(query, "query must not be null");
 
-		return WrapperQuery.of(wq -> wq.query(encodedValue));
-	}
+        String encodedValue = Base64.getEncoder().encodeToString(query.getBytes(StandardCharsets.UTF_8));
 
-	public static LatLonGeoLocation latLon(GeoPoint geoPoint) {
+        return WrapperQuery.of(wq -> wq.query(encodedValue));
+    }
 
-		Assert.notNull(geoPoint, "geoPoint must not be null");
+    public static LatLonGeoLocation latLon(GeoPoint geoPoint) {
 
-		return latLon(geoPoint.getLat(), geoPoint.getLon());
-	}
+        Assert.notNull(geoPoint, "geoPoint must not be null");
 
-	public static LatLonGeoLocation latLon(double lat, double lon) {
-		return LatLonGeoLocation.of(_0 -> _0.lat(lat).lon(lon));
-	}
+        return latLon(geoPoint.getLat(), geoPoint.getLon());
+    }
+
+    public static LatLonGeoLocation latLon(double lat, double lon) {
+        return LatLonGeoLocation.of(_0 -> _0.lat(lat).lon(lon));
+    }
 }

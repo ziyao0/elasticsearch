@@ -20,8 +20,8 @@ import org.springframework.data.mapping.model.FieldNamingStrategy;
 import org.springframework.data.mapping.model.Property;
 import org.springframework.data.mapping.model.PropertyNameFieldNamingStrategy;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.util.TypeInformation;
 
 /**
  * SimpleElasticsearchMappingContext
@@ -65,11 +65,11 @@ public class SimpleElasticsearchMappingContext
         return !ElasticsearchSimpleTypes.HOLDER.isSimpleType(type.getType());
     }
 
-	@Override
-	protected <T> SimpleElasticsearchPersistentEntity<?> createPersistentEntity(TypeInformation<T> typeInformation) {
-		return new SimpleElasticsearchPersistentEntity<>(typeInformation,
-				new SimpleElasticsearchPersistentEntity.ContextConfiguration(fieldNamingStrategy, writeTypeHints));
-	}
+    @Override
+    protected <T> SimpleElasticsearchPersistentEntity<?> createPersistentEntity(TypeInformation<T> typeInformation) {
+        return new SimpleElasticsearchPersistentEntity<>(typeInformation,
+                new SimpleElasticsearchPersistentEntity.ContextConfiguration(fieldNamingStrategy, writeTypeHints));
+    }
 
     @Override
     protected ElasticsearchPersistentProperty createPersistentProperty(Property property,

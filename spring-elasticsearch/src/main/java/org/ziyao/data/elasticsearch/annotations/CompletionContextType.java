@@ -7,6 +7,6 @@ package org.ziyao.data.elasticsearch.annotations;
  */
 public enum CompletionContextType {
 
-	CATEGORY, GEO
+    CATEGORY, GEO
 
 }

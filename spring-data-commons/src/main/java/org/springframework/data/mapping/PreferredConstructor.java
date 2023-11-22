@@ -15,10 +15,10 @@
  */
 package org.springframework.data.mapping;
 
-import org.springframework.data.annotation.MergedAnnotations;
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
+import org.ziyao.data.annotation.MergedAnnotations;
+import org.ziyao.data.annotation.PersistenceConstructor;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
@@ -37,83 +37,83 @@ import java.util.List;
  */
 public final class PreferredConstructor<T, P extends PersistentProperty<P>> extends InstanceCreatorMetadataSupport<T, P> {
 
-	private final List<Parameter<Object, P>> parameters;
+    private final List<Parameter<Object, P>> parameters;
 
-	/**
-	 * Creates a new {@link PreferredConstructor} from the given {@link Constructor} and {@link Parameter}s.
-	 *
-	 * @param constructor must not be {@literal null}.
-	 * @param parameters must not be {@literal null}.
-	 */
-	@SafeVarargs
-	public PreferredConstructor(Constructor<T> constructor, Parameter<Object, P>... parameters) {
+    /**
+     * Creates a new {@link PreferredConstructor} from the given {@link Constructor} and {@link Parameter}s.
+     *
+     * @param constructor must not be {@literal null}.
+     * @param parameters  must not be {@literal null}.
+     */
+    @SafeVarargs
+    public PreferredConstructor(Constructor<T> constructor, Parameter<Object, P>... parameters) {
 
-		super(constructor, parameters);
+        super(constructor, parameters);
 
-		ReflectionUtils.makeAccessible(constructor);
-		this.parameters = Arrays.asList(parameters);
-	}
+        ReflectionUtils.makeAccessible(constructor);
+        this.parameters = Arrays.asList(parameters);
+    }
 
-	/**
-	 * Returns the underlying {@link Constructor}.
-	 *
-	 * @return
-	 */
-	public Constructor<T> getConstructor() {
-		return (Constructor<T>) getExecutable();
-	}
+    /**
+     * Returns the underlying {@link Constructor}.
+     *
+     * @return
+     */
+    public Constructor<T> getConstructor() {
+        return (Constructor<T>) getExecutable();
+    }
 
 
-	/**
-	 * Returns whether the constructor does not have any arguments.
-	 *
-	 * @see #hasParameters()
-	 * @return
-	 */
-	public boolean isNoArgConstructor() {
-		return !hasParameters();
-	}
+    /**
+     * Returns whether the constructor does not have any arguments.
+     *
+     * @return
+     * @see #hasParameters()
+     */
+    public boolean isNoArgConstructor() {
+        return !hasParameters();
+    }
 
-	/**
-	 * Returns whether the constructor was explicitly selected (by {@link PersistenceConstructor}).
-	 *
-	 * @return
-	 */
-	public boolean isExplicitlyAnnotated() {
-		return MergedAnnotations.from(getExecutable()).isPresent(PersistenceConstructor.class);
-	}
+    /**
+     * Returns whether the constructor was explicitly selected (by {@link PersistenceConstructor}).
+     *
+     * @return
+     */
+    public boolean isExplicitlyAnnotated() {
+        return MergedAnnotations.from(getExecutable()).isPresent(PersistenceConstructor.class);
+    }
 
-	/**
-	 * @param property
-	 * @return
-	 * @deprecated since 3.0, use {@link #isCreatorParameter(PersistentProperty)} instead.
-	 */
-	@Deprecated
-	public boolean isConstructorParameter(PersistentProperty<?> property) {
-		return isCreatorParameter(property);
-	}
+    /**
+     * @param property
+     * @return
+     * @deprecated since 3.0, use {@link #isCreatorParameter(PersistentProperty)} instead.
+     */
+    @Deprecated
+    public boolean isConstructorParameter(PersistentProperty<?> property) {
+        return isCreatorParameter(property);
+    }
 
-	@Override
-	public boolean isParentParameter(Parameter<?, P> parameter) {
-		return isEnclosingClassParameter(parameter);
-	}
+    @Override
+    public boolean isParentParameter(Parameter<?, P> parameter) {
+        return isEnclosingClassParameter(parameter);
+    }
 
-	/**
-	 * Returns whether the given {@link Parameter} is one referring to an enclosing class. That is in case the class this
-	 * {@link PreferredConstructor} belongs to is a member class actually. If that's the case the compiler creates a first
-	 * constructor argument of the enclosing class type.
-	 *
-	 * @param parameter must not be {@literal null}.
-	 * @return {@literal true} if the {@link PersistentProperty} maps to the enclosing class.
-	 */
-	public boolean isEnclosingClassParameter(Parameter<?, P> parameter) {
+    /**
+     * Returns whether the given {@link Parameter} is one referring to an enclosing class. That is in case the class this
+     * {@link PreferredConstructor} belongs to is a member class actually. If that's the case the compiler creates a first
+     * constructor argument of the enclosing class type.
+     *
+     * @param parameter must not be {@literal null}.
+     * @return {@literal true} if the {@link PersistentProperty} maps to the enclosing class.
+     */
+    public boolean isEnclosingClassParameter(Parameter<?, P> parameter) {
 
-		Assert.notNull(parameter, "Parameter must not be null");
+        Assert.notNull(parameter, "Parameter must not be null");
 
-		if (parameters.isEmpty() || !parameter.isEnclosingClassParameter()) {
-			return false;
-		}
+        if (parameters.isEmpty() || !parameter.isEnclosingClassParameter()) {
+            return false;
+        }
 
-		return parameters.get(0).equals(parameter);
-	}
+        return parameters.get(0).equals(parameter);
+    }
 }

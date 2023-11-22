@@ -38,101 +38,101 @@ import java.util.function.BiFunction;
  */
 class DefaultEntityCallbacks implements EntityCallbacks {
 
-	private final Map<Class<?>, Method> callbackMethodCache = new ConcurrentReferenceHashMap<>(64);
-	private final SimpleEntityCallbackInvoker callbackInvoker = new SimpleEntityCallbackInvoker();
-	private final EntityCallbackDiscoverer callbackDiscoverer;
+    private final Map<Class<?>, Method> callbackMethodCache = new ConcurrentReferenceHashMap<>(64);
+    private final SimpleEntityCallbackInvoker callbackInvoker = new SimpleEntityCallbackInvoker();
+    private final EntityCallbackDiscoverer callbackDiscoverer;
 
-	/**
-	 * Create new instance of {@link DefaultEntityCallbacks}.
-	 */
-	DefaultEntityCallbacks() {
-		this.callbackDiscoverer = new EntityCallbackDiscoverer();
-	}
+    /**
+     * Create new instance of {@link DefaultEntityCallbacks}.
+     */
+    DefaultEntityCallbacks() {
+        this.callbackDiscoverer = new EntityCallbackDiscoverer();
+    }
 
-	/**
-	 * Create new instance of {@link DefaultEntityCallbacks} discovering {@link EntityCallback entity callbacks} within
-	 * the given {@link BeanFactory}.
-	 *
-	 * @param beanFactory must not be {@literal null}.
-	 */
-	DefaultEntityCallbacks(BeanFactory beanFactory) {
-		this.callbackDiscoverer = new EntityCallbackDiscoverer(beanFactory);
-	}
+    /**
+     * Create new instance of {@link DefaultEntityCallbacks} discovering {@link EntityCallback entity callbacks} within
+     * the given {@link BeanFactory}.
+     *
+     * @param beanFactory must not be {@literal null}.
+     */
+    DefaultEntityCallbacks(BeanFactory beanFactory) {
+        this.callbackDiscoverer = new EntityCallbackDiscoverer(beanFactory);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.callback.EntityCallbacks#callback(java.lang.Class, java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public <T> T callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.callback.EntityCallbacks#callback(java.lang.Class, java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public <T> T callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
 
-		Assert.notNull(entity, "Entity must not be null");
+        Assert.notNull(entity, "Entity must not be null");
 
-		Class<T> entityType = (Class<T>) (entity != null ? ClassUtils.getUserClass(entity.getClass())
-				: callbackDiscoverer.resolveDeclaredEntityType(callbackType).getRawClass());
+        Class<T> entityType = (Class<T>) (entity != null ? ClassUtils.getUserClass(entity.getClass())
+                : callbackDiscoverer.resolveDeclaredEntityType(callbackType).getRawClass());
 
-		Method callbackMethod = callbackMethodCache.computeIfAbsent(callbackType, it -> {
+        Method callbackMethod = callbackMethodCache.computeIfAbsent(callbackType, it -> {
 
-			Method method = EntityCallbackDiscoverer.lookupCallbackMethod(it, entityType, args);
-			ReflectionUtils.makeAccessible(method);
-			return method;
-		});
+            Method method = EntityCallbackDiscoverer.lookupCallbackMethod(it, entityType, args);
+            ReflectionUtils.makeAccessible(method);
+            return method;
+        });
 
-		T value = entity;
+        T value = entity;
 
-		for (EntityCallback<T> callback : callbackDiscoverer.getEntityCallbacks(entityType,
-				ResolvableType.forClass(callbackType))) {
+        for (EntityCallback<T> callback : callbackDiscoverer.getEntityCallbacks(entityType,
+                ResolvableType.forClass(callbackType))) {
 
-			BiFunction<EntityCallback<T>, T, Object> callbackFunction = EntityCallbackDiscoverer
-					.computeCallbackInvokerFunction(callback, callbackMethod, args);
-			value = callbackInvoker.invokeCallback(callback, value, callbackFunction);
-		}
+            BiFunction<EntityCallback<T>, T, Object> callbackFunction = EntityCallbackDiscoverer
+                    .computeCallbackInvokerFunction(callback, callbackMethod, args);
+            value = callbackInvoker.invokeCallback(callback, value, callbackFunction);
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.callback.EntityCallbacks#addEntityCallback(org.ziyao.data.mapping.callback.EntityCallback)
-	 */
-	@Override
-	public void addEntityCallback(EntityCallback<?> callback) {
-		this.callbackDiscoverer.addEntityCallback(callback);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.callback.EntityCallbacks#addEntityCallback(org.ziyao.data.mapping.callback.EntityCallback)
+     */
+    @Override
+    public void addEntityCallback(EntityCallback<?> callback) {
+        this.callbackDiscoverer.addEntityCallback(callback);
+    }
 
-	class SimpleEntityCallbackInvoker implements EntityCallbackInvoker {
+    class SimpleEntityCallbackInvoker implements EntityCallbackInvoker {
 
-		@Override
-		public <T> T invokeCallback(EntityCallback<T> callback, T entity,
-				BiFunction<EntityCallback<T>, T, Object> callbackInvokerFunction) {
+        @Override
+        public <T> T invokeCallback(EntityCallback<T> callback, T entity,
+                                    BiFunction<EntityCallback<T>, T, Object> callbackInvokerFunction) {
 
-			try {
+            try {
 
-				Object value = callbackInvokerFunction.apply(callback, entity);
+                Object value = callbackInvokerFunction.apply(callback, entity);
 
-				if (value != null) {
-					return (T) value;
-				}
+                if (value != null) {
+                    return (T) value;
+                }
 
-				throw new IllegalArgumentException(
-						String.format("Callback invocation on %s returned null value for %s", callback.getClass(), entity));
+                throw new IllegalArgumentException(
+                        String.format("Callback invocation on %s returned null value for %s", callback.getClass(), entity));
 
-			} catch (IllegalArgumentException | ClassCastException ex) {
+            } catch (IllegalArgumentException | ClassCastException ex) {
 
-				String msg = ex.getMessage();
-				if (msg == null || EntityCallbackInvoker.matchesClassCastMessage(msg, entity.getClass())) {
+                String msg = ex.getMessage();
+                if (msg == null || EntityCallbackInvoker.matchesClassCastMessage(msg, entity.getClass())) {
 
-					// Possibly a lambda-defined listener which we could not resolve the generic event type for
-					// -> let's suppress the exception and just log a debug message.
-					Log logger = LogFactory.getLog(getClass());
-					if (logger.isDebugEnabled()) {
-						logger.debug("Non-matching callback type for entity callback: " + callback, ex);
-					}
-					return entity;
-				} else {
-					throw ex;
-				}
-			}
-		}
-	}
+                    // Possibly a lambda-defined listener which we could not resolve the generic event type for
+                    // -> let's suppress the exception and just log a debug message.
+                    Log logger = LogFactory.getLog(getClass());
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Non-matching callback type for entity callback: " + callback, ex);
+                    }
+                    return entity;
+                } else {
+                    throw ex;
+                }
+            }
+        }
+    }
 }

@@ -23,42 +23,42 @@ import java.util.function.BiFunction;
  */
 interface EntityCallbackInvoker {
 
-	/**
-	 * Invoke the actual {@link EntityCallback} for the given entity via the {@link BiFunction invoker function}.
-	 *
-	 * @param callback must not be {@literal null}.
-	 * @param entity must not be {@literal null}
-	 * @param callbackInvokerFunction must not be {@literal null}.
-	 * @param <T>
-	 * @return never {@literal null}.
-	 */
-	<T> Object invokeCallback(EntityCallback<T> callback, T entity,
-			BiFunction<EntityCallback<T>, T, Object> callbackInvokerFunction);
+    /**
+     * Invoke the actual {@link EntityCallback} for the given entity via the {@link BiFunction invoker function}.
+     *
+     * @param callback                must not be {@literal null}.
+     * @param entity                  must not be {@literal null}
+     * @param callbackInvokerFunction must not be {@literal null}.
+     * @param <T>
+     * @return never {@literal null}.
+     */
+    <T> Object invokeCallback(EntityCallback<T> callback, T entity,
+                              BiFunction<EntityCallback<T>, T, Object> callbackInvokerFunction);
 
-	static boolean matchesClassCastMessage(String exceptionMessage, Class<?> eventClass) {
+    static boolean matchesClassCastMessage(String exceptionMessage, Class<?> eventClass) {
 
-		// On Java 8, the message starts with the class name: "java.lang.String cannot be cast..."
-		if (exceptionMessage.startsWith(eventClass.getName())) {
-			return true;
-		}
+        // On Java 8, the message starts with the class name: "java.lang.String cannot be cast..."
+        if (exceptionMessage.startsWith(eventClass.getName())) {
+            return true;
+        }
 
-		// On Java 11, the message starts with "class ..." a.k.a. Class.toString()
-		if (exceptionMessage.startsWith(eventClass.toString())) {
-			return true;
-		}
+        // On Java 11, the message starts with "class ..." a.k.a. Class.toString()
+        if (exceptionMessage.startsWith(eventClass.toString())) {
+            return true;
+        }
 
-		// On Java 9, the message used to contain the module name: "java.base/java.lang.String cannot be cast..."
-		int moduleSeparatorIndex = exceptionMessage.indexOf('/');
-		if (moduleSeparatorIndex != -1 && exceptionMessage.startsWith(eventClass.getName(), moduleSeparatorIndex + 1)) {
-			return true;
-		}
+        // On Java 9, the message used to contain the module name: "java.base/java.lang.String cannot be cast..."
+        int moduleSeparatorIndex = exceptionMessage.indexOf('/');
+        if (moduleSeparatorIndex != -1 && exceptionMessage.startsWith(eventClass.getName(), moduleSeparatorIndex + 1)) {
+            return true;
+        }
 
-		// On Java 18, the message is "IllegalArgumentException: argument type mismatch"
-		if (exceptionMessage.equals("argument type mismatch")) {
-			return true;
-		}
+        // On Java 18, the message is "IllegalArgumentException: argument type mismatch"
+        if (exceptionMessage.equals("argument type mismatch")) {
+            return true;
+        }
 
-		// Assuming an unrelated class cast failure...
-		return false;
-	}
+        // Assuming an unrelated class cast failure...
+        return false;
+    }
 }

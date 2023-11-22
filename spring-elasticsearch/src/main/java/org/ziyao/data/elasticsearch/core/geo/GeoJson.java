@@ -28,38 +28,38 @@ import org.ziyao.data.elasticsearch.core.document.Document;
  */
 public interface GeoJson<T extends Iterable<?>> {
 
-	/**
-	 * String value representing the type of the {@link GeoJson} object.
-	 *
-	 * @return will never be {@literal null}.
-	 * @see <a href=
-	 *      "https://geojson.org/geojson-spec.html#geojson-objects">https://geojson.org/geojson-spec.html#geojson-objects</a>
-	 */
-	String getType();
+    /**
+     * String value representing the type of the {@link GeoJson} object.
+     *
+     * @return will never be {@literal null}.
+     * @see <a href=
+     * "https://geojson.org/geojson-spec.html#geojson-objects">https://geojson.org/geojson-spec.html#geojson-objects</a>
+     */
+    String getType();
 
-	/**
-	 * The value of the coordinates member is always an {@link Iterable}. The structure for the elements within is
-	 * determined by {@link #getType()} of geometry.
-	 *
-	 * @return will never be {@literal null}.
-	 * @see <a href=
-	 *      "https://geojson.org/geojson-spec.html#geometry-objects">https://geojson.org/geojson-spec.html#geometry-objects</a>
-	 */
-	T getCoordinates();
+    /**
+     * The value of the coordinates member is always an {@link Iterable}. The structure for the elements within is
+     * determined by {@link #getType()} of geometry.
+     *
+     * @return will never be {@literal null}.
+     * @see <a href=
+     * "https://geojson.org/geojson-spec.html#geometry-objects">https://geojson.org/geojson-spec.html#geometry-objects</a>
+     */
+    T getCoordinates();
 
-	/**
-	 * @param json the JSON string to parse
-	 * @return the parsed {@link GeoJson} object
-	 * @throws ConversionException on parse erros
-	 */
-	static GeoJson<?> of(String json) {
-		return GeoConverters.MapToGeoJsonConverter.INSTANCE.convert(Document.parse(json));
-	}
+    /**
+     * @param json the JSON string to parse
+     * @return the parsed {@link GeoJson} object
+     * @throws ConversionException on parse erros
+     */
+    static GeoJson<?> of(String json) {
+        return GeoConverters.MapToGeoJsonConverter.INSTANCE.convert(Document.parse(json));
+    }
 
-	/**
-	 * @return a JSON representation of this object
-	 */
-	default String toJson() {
-		return Document.from(GeoConverters.GeoJsonToMapConverter.INSTANCE.convert(this)).toJson();
-	}
+    /**
+     * @return a JSON representation of this object
+     */
+    default String toJson() {
+        return Document.from(GeoConverters.GeoJsonToMapConverter.INSTANCE.convert(this)).toJson();
+    }
 }

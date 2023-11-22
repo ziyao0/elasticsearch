@@ -22,7 +22,7 @@ import org.springframework.data.mapping.model.CamelCaseSplittingFieldNamingStrat
  * @since 4.3
  */
 public class KebabCaseFieldNamingStrategy extends CamelCaseSplittingFieldNamingStrategy {
-	public KebabCaseFieldNamingStrategy() {
-		super("-");
-	}
+    public KebabCaseFieldNamingStrategy() {
+        super("-");
+    }
 }

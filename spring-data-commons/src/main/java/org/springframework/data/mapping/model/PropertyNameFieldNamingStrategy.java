@@ -20,18 +20,18 @@ import org.springframework.data.mapping.PersistentProperty;
 /**
  * {@link FieldNamingStrategy} simply using the {@link PersistentProperty}'s name.
  *
- * @since 1.9
  * @author Oliver Gierke
+ * @since 1.9
  */
 public enum PropertyNameFieldNamingStrategy implements FieldNamingStrategy {
 
-	INSTANCE;
+    INSTANCE;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.model.FieldNamingStrategy#getFieldName(org.ziyao.data.mapping.PersistentProperty)
-	 */
-	public String getFieldName(PersistentProperty<?> property) {
-		return property.getName();
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.model.FieldNamingStrategy#getFieldName(org.ziyao.data.mapping.PersistentProperty)
+     */
+    public String getFieldName(PersistentProperty<?> property) {
+        return property.getName();
+    }
 }

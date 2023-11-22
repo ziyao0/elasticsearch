@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.elasticsearch.core.convert;
 
-import org.ziyao.data.elasticsearch.core.mapping.PropertyValueConverter;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.mapping.PropertyValueConverter;
 
 /**
  * @author Sascha Woo
@@ -25,16 +25,16 @@ import org.springframework.util.Assert;
  */
 public abstract class AbstractPropertyValueConverter implements PropertyValueConverter {
 
-	private final PersistentProperty<?> property;
+    private final PersistentProperty<?> property;
 
-	public AbstractPropertyValueConverter(PersistentProperty<?> property) {
+    public AbstractPropertyValueConverter(PersistentProperty<?> property) {
 
-		Assert.notNull(property, "property must not be null.");
-		this.property = property;
-	}
+        Assert.notNull(property, "property must not be null.");
+        this.property = property;
+    }
 
-	protected PersistentProperty<?> getProperty() {
-		return property;
-	}
+    protected PersistentProperty<?> getProperty() {
+        return property;
+    }
 
 }

@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.index;
 
-import org.ziyao.data.elasticsearch.core.document.Document;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.core.document.Document;
 
 import java.util.Map;
 
@@ -26,99 +26,109 @@ import java.util.Map;
  * @author Peter-Josef Meisch
  */
 public class TemplateData {
-	@Nullable private final String[] indexPatterns;
-	@Nullable Settings settings;
-	@Nullable
+    @Nullable
+    private final String[] indexPatterns;
+    @Nullable
+    Settings settings;
+    @Nullable
     Document mapping;
-	@Nullable private final Map<String, AliasData> aliases;
-	int order;
-	@Nullable Integer version;
+    @Nullable
+    private final Map<String, AliasData> aliases;
+    int order;
+    @Nullable
+    Integer version;
 
-	private TemplateData(@Nullable String[] indexPatterns, @Nullable Settings settings, @Nullable Document mapping,
+    private TemplateData(@Nullable String[] indexPatterns, @Nullable Settings settings, @Nullable Document mapping,
                          @Nullable Map<String, AliasData> aliases, int order, @Nullable Integer version) {
-		this.indexPatterns = indexPatterns;
-		this.settings = settings;
-		this.mapping = mapping;
-		this.order = order;
-		this.version = version;
-		this.aliases = aliases;
-	}
+        this.indexPatterns = indexPatterns;
+        this.settings = settings;
+        this.mapping = mapping;
+        this.order = order;
+        this.version = version;
+        this.aliases = aliases;
+    }
 
-	public static TemplateDataBuilder builder() {
-		return new TemplateDataBuilder();
-	}
+    public static TemplateDataBuilder builder() {
+        return new TemplateDataBuilder();
+    }
 
-	@Nullable
-	public String[] getIndexPatterns() {
-		return indexPatterns;
-	}
+    @Nullable
+    public String[] getIndexPatterns() {
+        return indexPatterns;
+    }
 
-	@Nullable
-	public Settings getSettings() {
-		return settings;
-	}
+    @Nullable
+    public Settings getSettings() {
+        return settings;
+    }
 
-	@Nullable
-	public Document getMapping() {
-		return mapping;
-	}
+    @Nullable
+    public Document getMapping() {
+        return mapping;
+    }
 
-	@Nullable
-	public Map<String, AliasData> getAliases() {
-		return aliases;
-	}
+    @Nullable
+    public Map<String, AliasData> getAliases() {
+        return aliases;
+    }
 
-	public int getOrder() {
-		return order;
-	}
+    public int getOrder() {
+        return order;
+    }
 
-	@Nullable
-	public Integer getVersion() {
-		return version;
-	}
+    @Nullable
+    public Integer getVersion() {
+        return version;
+    }
 
-	public static final class TemplateDataBuilder {
-		@Nullable Settings settings;
-		@Nullable Document mapping;
-		int order;
-		@Nullable Integer version;
-		@Nullable private String[] indexPatterns;
-		@Nullable private Map<String, AliasData> aliases;
+    public static final class TemplateDataBuilder {
+        @Nullable
+        Settings settings;
+        @Nullable
+        Document mapping;
+        int order;
+        @Nullable
+        Integer version;
+        @Nullable
+        private String[] indexPatterns;
+        @Nullable
+        private Map<String, AliasData> aliases;
 
-		private TemplateDataBuilder() {}
+        private TemplateDataBuilder() {
+        }
 
-		public TemplateDataBuilder withIndexPatterns(String[] indexPatterns) {
-			this.indexPatterns = indexPatterns;
-			return this;
-		}
+        public TemplateDataBuilder withIndexPatterns(String[] indexPatterns) {
+            this.indexPatterns = indexPatterns;
+            return this;
+        }
 
-		public TemplateDataBuilder withSettings(Map<String, Object> settings) {
-			this.settings = new Settings(settings);
-			return this;
-		}
+        public TemplateDataBuilder withSettings(Map<String, Object> settings) {
+            this.settings = new Settings(settings);
+            return this;
+        }
 
-		public TemplateDataBuilder withMapping(Document mapping) {
-			this.mapping = mapping;
-			return this;
-		}
+        public TemplateDataBuilder withMapping(Document mapping) {
+            this.mapping = mapping;
+            return this;
+        }
 
-		public TemplateDataBuilder withOrder(int order) {
-			this.order = order;
-			return this;
-		}
+        public TemplateDataBuilder withOrder(int order) {
+            this.order = order;
+            return this;
+        }
 
-		public TemplateDataBuilder withVersion(Integer version) {
-			this.version = version;
-			return this;
-		}
+        public TemplateDataBuilder withVersion(Integer version) {
+            this.version = version;
+            return this;
+        }
 
-		public TemplateDataBuilder withAliases(Map<String, AliasData> aliases) {
-			this.aliases = aliases;
-			return this;
-		}
+        public TemplateDataBuilder withAliases(Map<String, AliasData> aliases) {
+            this.aliases = aliases;
+            return this;
+        }
 
-		public TemplateData build() {
-			return new TemplateData(indexPatterns, settings, mapping, aliases, order, version);
-		}
-	}
+        public TemplateData build() {
+            return new TemplateData(indexPatterns, settings, mapping, aliases, order, version);
+        }
+    }
 }

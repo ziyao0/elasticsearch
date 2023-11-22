@@ -29,17 +29,17 @@ import org.ziyao.data.elasticsearch.core.ResponseConverter;
  */
 class DefaultClusterOperations implements ClusterOperations {
 
-	private final ElasticsearchRestTemplate template;
+    private final ElasticsearchRestTemplate template;
 
-	DefaultClusterOperations(ElasticsearchRestTemplate template) {
-		this.template = template;
-	}
+    DefaultClusterOperations(ElasticsearchRestTemplate template) {
+        this.template = template;
+    }
 
-	@Override
-	public ClusterHealth health() {
+    @Override
+    public ClusterHealth health() {
 
-		ClusterHealthResponse clusterHealthResponse = template
-				.execute(client -> client.cluster().health(new ClusterHealthRequest(), RequestOptions.DEFAULT));
-		return ResponseConverter.clusterHealth(clusterHealthResponse);
-	}
+        ClusterHealthResponse clusterHealthResponse = template
+                .execute(client -> client.cluster().health(new ClusterHealthRequest(), RequestOptions.DEFAULT));
+        return ResponseConverter.clusterHealth(clusterHealthResponse);
+    }
 }

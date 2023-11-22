@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.geo;
 
-import org.springframework.data.geo.Point;
 import org.springframework.util.Assert;
+import org.ziyao.data.geo.Point;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,78 +27,78 @@ import java.util.stream.Collectors;
 /**
  * {@link GeoJsonMultiLineString} is defined as list of {@link GeoJsonLineString}s. <br/>
  * Copied from Spring Data Mongodb
- * 
+ *
  * @author Christoph Strobl
  * @author Peter-Josef Meisch
- * @since 4.1
  * @see <a href=
- *      "https://geojson.org/geojson-spec.html#multilinestring">https://geojson.org/geojson-spec.html#multilinestring</a>
+ * "https://geojson.org/geojson-spec.html#multilinestring">https://geojson.org/geojson-spec.html#multilinestring</a>
+ * @since 4.1
  */
 public class GeoJsonMultiLineString implements GeoJson<Iterable<GeoJsonLineString>> {
 
-	public static final String TYPE = "MultiLineString";
+    public static final String TYPE = "MultiLineString";
 
-	private final List<GeoJsonLineString> coordinates = new ArrayList<>();
+    private final List<GeoJsonLineString> coordinates = new ArrayList<>();
 
-	private GeoJsonMultiLineString(List<GeoJsonLineString> lines) {
-		this.coordinates.addAll(lines);
-	}
+    private GeoJsonMultiLineString(List<GeoJsonLineString> lines) {
+        this.coordinates.addAll(lines);
+    }
 
-	/**
-	 * Creates new {@link GeoJsonMultiLineString} for the given {@link GeoJsonLineString}s.
-	 *
-	 * @param lines must not be {@literal null}.
-	 */
-	public static GeoJsonMultiLineString of(List<GeoJsonLineString> lines) {
+    /**
+     * Creates new {@link GeoJsonMultiLineString} for the given {@link GeoJsonLineString}s.
+     *
+     * @param lines must not be {@literal null}.
+     */
+    public static GeoJsonMultiLineString of(List<GeoJsonLineString> lines) {
 
-		Assert.notNull(lines, "Lines for MultiLineString must not be null!");
+        Assert.notNull(lines, "Lines for MultiLineString must not be null!");
 
-		return new GeoJsonMultiLineString(lines);
-	}
+        return new GeoJsonMultiLineString(lines);
+    }
 
-	/**
-	 * Creates new {@link GeoJsonMultiLineString} for the given {@link Point}s.
-	 *
-	 * @param lines must not be {@literal null}.
-	 */
-	public static GeoJsonMultiLineString of(List<Point>... lines) {
+    /**
+     * Creates new {@link GeoJsonMultiLineString} for the given {@link Point}s.
+     *
+     * @param lines must not be {@literal null}.
+     */
+    public static GeoJsonMultiLineString of(List<Point>... lines) {
 
-		Assert.notEmpty(lines, "Points for MultiLineString must not be null!");
-		List<GeoJsonLineString> geoJsonLineStrings = Arrays.stream(lines).map(GeoJsonLineString::of)
-				.collect(Collectors.toList());
+        Assert.notEmpty(lines, "Points for MultiLineString must not be null!");
+        List<GeoJsonLineString> geoJsonLineStrings = Arrays.stream(lines).map(GeoJsonLineString::of)
+                .collect(Collectors.toList());
 
-		return new GeoJsonMultiLineString(geoJsonLineStrings);
-	}
+        return new GeoJsonMultiLineString(geoJsonLineStrings);
+    }
 
-	@Override
-	public String getType() {
-		return TYPE;
-	}
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 
-	@Override
-	public List<GeoJsonLineString> getCoordinates() {
-		return Collections.unmodifiableList(this.coordinates);
-	}
+    @Override
+    public List<GeoJsonLineString> getCoordinates() {
+        return Collections.unmodifiableList(this.coordinates);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		GeoJsonMultiLineString that = (GeoJsonMultiLineString) o;
+        GeoJsonMultiLineString that = (GeoJsonMultiLineString) o;
 
-		return coordinates.equals(that.coordinates);
-	}
+        return coordinates.equals(that.coordinates);
+    }
 
-	@Override
-	public int hashCode() {
-		return coordinates.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return coordinates.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJsonMultiLineString{" + "coordinates=" + coordinates + '}';
-	}
+    @Override
+    public String toString() {
+        return "GeoJsonMultiLineString{" + "coordinates=" + coordinates + '}';
+    }
 }

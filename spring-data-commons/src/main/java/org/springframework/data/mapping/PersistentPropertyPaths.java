@@ -15,7 +15,7 @@
  */
 package org.springframework.data.mapping;
 
-import org.springframework.data.util.Streamable;
+import org.ziyao.data.util.Streamable;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -24,42 +24,42 @@ import java.util.function.Predicate;
  * A wrapper for a collection of {@link PersistentPropertyPath}s.
  *
  * @author Oliver Gierke
- * @since 2.1
  * @soundtrack Stuart McCallum - North Star (City)
+ * @since 2.1
  */
 public interface PersistentPropertyPaths<T, P extends PersistentProperty<P>>
-		extends Streamable<PersistentPropertyPath<P>> {
+        extends Streamable<PersistentPropertyPath<P>> {
 
-	/**
-	 * Returns the first {@link PersistentPropertyPath}.
-	 *
-	 * @return
-	 */
-	Optional<PersistentPropertyPath<P>> getFirst();
+    /**
+     * Returns the first {@link PersistentPropertyPath}.
+     *
+     * @return
+     */
+    Optional<PersistentPropertyPath<P>> getFirst();
 
-	/**
-	 * Returns whether the given path is contained in the current {@link PersistentPropertyPaths}.
-	 *
-	 * @param path must not be {@literal null}.
-	 * @return
-	 */
-	boolean contains(String path);
+    /**
+     * Returns whether the given path is contained in the current {@link PersistentPropertyPaths}.
+     *
+     * @param path must not be {@literal null}.
+     * @return
+     */
+    boolean contains(String path);
 
-	/**
-	 * Returns whether the given {@link PropertyPath} is contained in the current {@link PersistentPropertyPaths}.
-	 *
-	 * @param path must not be {@literal null}.
-	 * @return
-	 */
-	boolean contains(PropertyPath path);
+    /**
+     * Returns whether the given {@link PropertyPath} is contained in the current {@link PersistentPropertyPaths}.
+     *
+     * @param path must not be {@literal null}.
+     * @return
+     */
+    boolean contains(PropertyPath path);
 
-	/**
-	 * Drops {@link PersistentPropertyPath}s that contain a path segment matching the given predicate.
-	 *
-	 * @param predicate must not be {@literal null}.
-	 * @return a {@link PersistentPropertyPaths} instance with all {@link PersistentPropertyPath} instances removed that
-	 *         contain path segments matching the given predicate.
-	 * @since 2.1.4 / 2.2.2
-	 */
-	PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate);
+    /**
+     * Drops {@link PersistentPropertyPath}s that contain a path segment matching the given predicate.
+     *
+     * @param predicate must not be {@literal null}.
+     * @return a {@link PersistentPropertyPaths} instance with all {@link PersistentPropertyPath} instances removed that
+     * contain path segments matching the given predicate.
+     * @since 2.1.4 / 2.2.2
+     */
+    PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate);
 }

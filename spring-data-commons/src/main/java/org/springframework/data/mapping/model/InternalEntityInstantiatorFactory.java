@@ -26,15 +26,15 @@ package org.springframework.data.mapping.model;
 @Deprecated
 public class InternalEntityInstantiatorFactory {
 
-	public static EntityInstantiator getClassGeneratingEntityInstantiator() {
-		return new ClassGeneratingEntityInstantiator();
-	}
+    public static EntityInstantiator getClassGeneratingEntityInstantiator() {
+        return new ClassGeneratingEntityInstantiator();
+    }
 
-	public static EntityInstantiator getKotlinClassGeneratingEntityInstantiator() {
-		return new KotlinClassGeneratingEntityInstantiator();
-	}
+    public static EntityInstantiator getKotlinClassGeneratingEntityInstantiator() {
+        return new KotlinClassGeneratingEntityInstantiator();
+    }
 
-	public static EntityInstantiator getReflectionEntityInstantiator() {
-		return ReflectionEntityInstantiator.INSTANCE;
-	}
+    public static EntityInstantiator getReflectionEntityInstantiator() {
+        return ReflectionEntityInstantiator.INSTANCE;
+    }
 }

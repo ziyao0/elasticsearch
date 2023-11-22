@@ -18,12 +18,11 @@ package org.ziyao.data.elasticsearch.client.elc;
 import co.elastic.clients.elasticsearch._types.*;
 import co.elastic.clients.elasticsearch._types.mapping.FieldType;
 import co.elastic.clients.elasticsearch.core.search.*;
+import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.annotations.Document;
 import org.ziyao.data.elasticsearch.core.RefreshPolicy;
 import org.ziyao.data.elasticsearch.core.query.*;
-import org.ziyao.data.elasticsearch.core.query.*;
 import org.ziyao.data.elasticsearch.core.reindex.ReindexRequest;
-import org.springframework.lang.Nullable;
 
 import java.time.Duration;
 
@@ -35,363 +34,363 @@ import java.time.Duration;
  */
 final class TypeUtils {
 
-	@Nullable
-	static BoundaryScanner boundaryScanner(@Nullable String value) {
+    @Nullable
+    static BoundaryScanner boundaryScanner(@Nullable String value) {
 
-		if (value != null) {
-			switch (value.toLowerCase()) {
-				case "chars":
-					return BoundaryScanner.Chars;
-				case "sentence":
-					return BoundaryScanner.Sentence;
-				case "word":
-					return BoundaryScanner.Word;
-				default:
-					return null;
-			}
-		}
-		return null;
-	}
+        if (value != null) {
+            switch (value.toLowerCase()) {
+                case "chars":
+                    return BoundaryScanner.Chars;
+                case "sentence":
+                    return BoundaryScanner.Sentence;
+                case "word":
+                    return BoundaryScanner.Word;
+                default:
+                    return null;
+            }
+        }
+        return null;
+    }
 
-	static Conflicts conflicts(ReindexRequest.Conflicts conflicts) {
-		switch (conflicts) {
-			case ABORT:
-				return Conflicts.Abort;
-			case PROCEED:
-				return Conflicts.Proceed;
-		}
+    static Conflicts conflicts(ReindexRequest.Conflicts conflicts) {
+        switch (conflicts) {
+            case ABORT:
+                return Conflicts.Abort;
+            case PROCEED:
+                return Conflicts.Proceed;
+        }
 
-		throw new IllegalArgumentException("Cannot map conflicts value " + conflicts.name());
-	}
+        throw new IllegalArgumentException("Cannot map conflicts value " + conflicts.name());
+    }
 
-	@Nullable
-	static DistanceUnit distanceUnit(String unit) {
+    @Nullable
+    static DistanceUnit distanceUnit(String unit) {
 
-		switch (unit.toLowerCase()) {
-			case "in":
-			case "inch":
-				return DistanceUnit.Inches;
-			case "yd":
-			case "yards":
-				return DistanceUnit.Yards;
-			case "ft":
-			case "feet":
-				return DistanceUnit.Feet;
-			case "km":
-			case "kilometers":
-				return DistanceUnit.Kilometers;
-			case "nm":
-			case "nmi":
-				return DistanceUnit.NauticMiles;
-			case "mm":
-			case "millimeters":
-				return DistanceUnit.Millimeters;
-			case "cm":
-			case "centimeters":
-				return DistanceUnit.Centimeters;
-			case "mi":
-			case "miles":
-				return DistanceUnit.Miles;
-			case "m":
-			case "meters":
-				return DistanceUnit.Meters;
-		}
-		return null;
-	}
+        switch (unit.toLowerCase()) {
+            case "in":
+            case "inch":
+                return DistanceUnit.Inches;
+            case "yd":
+            case "yards":
+                return DistanceUnit.Yards;
+            case "ft":
+            case "feet":
+                return DistanceUnit.Feet;
+            case "km":
+            case "kilometers":
+                return DistanceUnit.Kilometers;
+            case "nm":
+            case "nmi":
+                return DistanceUnit.NauticMiles;
+            case "mm":
+            case "millimeters":
+                return DistanceUnit.Millimeters;
+            case "cm":
+            case "centimeters":
+                return DistanceUnit.Centimeters;
+            case "mi":
+            case "miles":
+                return DistanceUnit.Miles;
+            case "m":
+            case "meters":
+                return DistanceUnit.Meters;
+        }
+        return null;
+    }
 
-	@Nullable
-	static FieldType fieldType(String type) {
+    @Nullable
+    static FieldType fieldType(String type) {
 
-		for (FieldType fieldType : FieldType.values()) {
+        for (FieldType fieldType : FieldType.values()) {
 
-			if (fieldType.jsonValue().equals(type)) {
-				return fieldType;
-			}
-		}
-		return null;
-	}
+            if (fieldType.jsonValue().equals(type)) {
+                return fieldType;
+            }
+        }
+        return null;
+    }
 
-	@Nullable
-	static String toString(@Nullable FieldValue fieldValue) {
+    @Nullable
+    static String toString(@Nullable FieldValue fieldValue) {
 
-		if (fieldValue == null) {
-			return null;
-		}
+        if (fieldValue == null) {
+            return null;
+        }
 
-		switch (fieldValue._kind()) {
-			case Double:
-				return String.valueOf(fieldValue.doubleValue());
-			case Long:
-				return String.valueOf(fieldValue.longValue());
-			case Boolean:
-				return String.valueOf(fieldValue.booleanValue());
-			case String:
-				return fieldValue.stringValue();
-			case Null:
-				return null;
-			case Any:
-				return fieldValue.anyValue().toString();
-			default:
-				throw new IllegalStateException("Unexpected value: " + fieldValue._kind());
-		}
-	}
+        switch (fieldValue._kind()) {
+            case Double:
+                return String.valueOf(fieldValue.doubleValue());
+            case Long:
+                return String.valueOf(fieldValue.longValue());
+            case Boolean:
+                return String.valueOf(fieldValue.booleanValue());
+            case String:
+                return fieldValue.stringValue();
+            case Null:
+                return null;
+            case Any:
+                return fieldValue.anyValue().toString();
+            default:
+                throw new IllegalStateException("Unexpected value: " + fieldValue._kind());
+        }
+    }
 
-	@Nullable
-	static GeoDistanceType geoDistanceType(GeoDistanceOrder.DistanceType distanceType) {
+    @Nullable
+    static GeoDistanceType geoDistanceType(GeoDistanceOrder.DistanceType distanceType) {
 
-		switch (distanceType) {
-			case arc:
-				return GeoDistanceType.Arc;
-			case plane:
-				return GeoDistanceType.Plane;
-		}
+        switch (distanceType) {
+            case arc:
+                return GeoDistanceType.Arc;
+            case plane:
+                return GeoDistanceType.Plane;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static HighlighterFragmenter highlighterFragmenter(@Nullable String value) {
+    @Nullable
+    static HighlighterFragmenter highlighterFragmenter(@Nullable String value) {
 
-		if (value != null) {
-			switch (value.toLowerCase()) {
-				case "simple":
-					return HighlighterFragmenter.Simple;
-				case "span":
-					return HighlighterFragmenter.Span;
-				default:
-					return null;
-			}
-		}
+        if (value != null) {
+            switch (value.toLowerCase()) {
+                case "simple":
+                    return HighlighterFragmenter.Simple;
+                case "span":
+                    return HighlighterFragmenter.Span;
+                default:
+                    return null;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static HighlighterOrder highlighterOrder(@Nullable String value) {
+    @Nullable
+    static HighlighterOrder highlighterOrder(@Nullable String value) {
 
-		if (value != null) {
-			if ("score".equals(value.toLowerCase())) {
-				return HighlighterOrder.Score;
-			}
-		}
+        if (value != null) {
+            if ("score".equals(value.toLowerCase())) {
+                return HighlighterOrder.Score;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static HighlighterType highlighterType(@Nullable String value) {
+    @Nullable
+    static HighlighterType highlighterType(@Nullable String value) {
 
-		if (value != null) {
-			switch (value.toLowerCase()) {
-				case "unified":
-					return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.Unified));
-				case "plain":
-					return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.Plain));
-				case "fvh":
-					return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.FastVector));
-				default:
-					return null;
-			}
-		}
+        if (value != null) {
+            switch (value.toLowerCase()) {
+                case "unified":
+                    return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.Unified));
+                case "plain":
+                    return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.Plain));
+                case "fvh":
+                    return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.FastVector));
+                default:
+                    return null;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static HighlighterEncoder highlighterEncoder(@Nullable String value) {
+    @Nullable
+    static HighlighterEncoder highlighterEncoder(@Nullable String value) {
 
-		if (value != null) {
-			switch (value.toLowerCase()) {
-				case "default":
-					return HighlighterEncoder.Default;
-				case "html":
-					return HighlighterEncoder.Html;
-				default:
-					return null;
-			}
-		}
+        if (value != null) {
+            switch (value.toLowerCase()) {
+                case "default":
+                    return HighlighterEncoder.Default;
+                case "html":
+                    return HighlighterEncoder.Html;
+                default:
+                    return null;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static HighlighterTagsSchema highlighterTagsSchema(@Nullable String value) {
+    @Nullable
+    static HighlighterTagsSchema highlighterTagsSchema(@Nullable String value) {
 
-		if (value != null) {
-			if ("styled".equals(value.toLowerCase())) {
-				return HighlighterTagsSchema.Styled;
-			}
-		}
+        if (value != null) {
+            if ("styled".equals(value.toLowerCase())) {
+                return HighlighterTagsSchema.Styled;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static OpType opType(@Nullable IndexQuery.OpType opType) {
+    @Nullable
+    static OpType opType(@Nullable IndexQuery.OpType opType) {
 
-		if (opType != null) {
-			switch (opType) {
-				case INDEX:
-					return OpType.Index;
-				case CREATE:
-					return OpType.Create;
-			}
-		}
-		return null;
-	}
+        if (opType != null) {
+            switch (opType) {
+                case INDEX:
+                    return OpType.Index;
+                case CREATE:
+                    return OpType.Create;
+            }
+        }
+        return null;
+    }
 
-	static Refresh refresh(@Nullable RefreshPolicy refreshPolicy) {
+    static Refresh refresh(@Nullable RefreshPolicy refreshPolicy) {
 
-		if (refreshPolicy == null) {
-			return Refresh.False;
-		}
+        if (refreshPolicy == null) {
+            return Refresh.False;
+        }
 
-		switch (refreshPolicy) {
-			case IMMEDIATE:
-				return Refresh.True;
-			case WAIT_UNTIL:
-				return Refresh.WaitFor;
-			case NONE:
-			default:
-				return Refresh.False;
-		}
-	}
+        switch (refreshPolicy) {
+            case IMMEDIATE:
+                return Refresh.True;
+            case WAIT_UNTIL:
+                return Refresh.WaitFor;
+            case NONE:
+            default:
+                return Refresh.False;
+        }
+    }
 
-	@Nullable
-	static UpdateResponse.Result result(@Nullable Result result) {
+    @Nullable
+    static UpdateResponse.Result result(@Nullable Result result) {
 
-		if (result == null) {
-			return null;
-		}
+        if (result == null) {
+            return null;
+        }
 
-		switch (result) {
-			case Created:
-				return UpdateResponse.Result.CREATED;
-			case Updated:
-				return UpdateResponse.Result.UPDATED;
-			case Deleted:
-				return UpdateResponse.Result.DELETED;
-			case NotFound:
-				return UpdateResponse.Result.NOT_FOUND;
-			case NoOp:
-				return UpdateResponse.Result.NOOP;
-		}
+        switch (result) {
+            case Created:
+                return UpdateResponse.Result.CREATED;
+            case Updated:
+                return UpdateResponse.Result.UPDATED;
+            case Deleted:
+                return UpdateResponse.Result.DELETED;
+            case NotFound:
+                return UpdateResponse.Result.NOT_FOUND;
+            case NoOp:
+                return UpdateResponse.Result.NOOP;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static ScoreMode scoreMode(@Nullable RescorerQuery.ScoreMode scoreMode) {
+    @Nullable
+    static ScoreMode scoreMode(@Nullable RescorerQuery.ScoreMode scoreMode) {
 
-		if (scoreMode == null) {
-			return null;
-		}
+        if (scoreMode == null) {
+            return null;
+        }
 
-		switch (scoreMode) {
-			case Default:
-				return null;
-			case Avg:
-				return ScoreMode.Avg;
-			case Max:
-				return ScoreMode.Max;
-			case Min:
-				return ScoreMode.Min;
-			case Total:
-				return ScoreMode.Total;
-			case Multiply:
-				return ScoreMode.Multiply;
-		}
+        switch (scoreMode) {
+            case Default:
+                return null;
+            case Avg:
+                return ScoreMode.Avg;
+            case Max:
+                return ScoreMode.Max;
+            case Min:
+                return ScoreMode.Min;
+            case Total:
+                return ScoreMode.Total;
+            case Multiply:
+                return ScoreMode.Multiply;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static SearchType searchType(@Nullable Query.SearchType searchType) {
+    @Nullable
+    static SearchType searchType(@Nullable Query.SearchType searchType) {
 
-		if (searchType == null) {
-			return null;
-		}
+        if (searchType == null) {
+            return null;
+        }
 
-		switch (searchType) {
-			case QUERY_THEN_FETCH:
-				return SearchType.QueryThenFetch;
-			case DFS_QUERY_THEN_FETCH:
-				return SearchType.DfsQueryThenFetch;
-		}
+        switch (searchType) {
+            case QUERY_THEN_FETCH:
+                return SearchType.QueryThenFetch;
+            case DFS_QUERY_THEN_FETCH:
+                return SearchType.DfsQueryThenFetch;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static SortMode sortMode(Order.Mode mode) {
+    @Nullable
+    static SortMode sortMode(Order.Mode mode) {
 
-		switch (mode) {
-			case min:
-				return SortMode.Min;
-			case max:
-				return SortMode.Max;
-			case median:
-				return SortMode.Median;
-			case avg:
-				return SortMode.Avg;
-		}
+        switch (mode) {
+            case min:
+                return SortMode.Min;
+            case max:
+                return SortMode.Max;
+            case median:
+                return SortMode.Median;
+            case avg:
+                return SortMode.Avg;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	static Time time(@Nullable Duration duration) {
+    @Nullable
+    static Time time(@Nullable Duration duration) {
 
-		if (duration == null) {
-			return null;
-		}
+        if (duration == null) {
+            return null;
+        }
 
-		return Time.of(t -> t.time(duration.toMillis() + "ms"));
-	}
+        return Time.of(t -> t.time(duration.toMillis() + "ms"));
+    }
 
-	@Nullable
-	static String timeStringMs(@Nullable Duration duration) {
+    @Nullable
+    static String timeStringMs(@Nullable Duration duration) {
 
-		if (duration == null) {
-			return null;
-		}
+        if (duration == null) {
+            return null;
+        }
 
-		return duration.toMillis() + "ms";
-	}
+        return duration.toMillis() + "ms";
+    }
 
-	@Nullable
-	static VersionType versionType(
-			@Nullable Document.VersionType versionType) {
+    @Nullable
+    static VersionType versionType(
+            @Nullable Document.VersionType versionType) {
 
-		if (versionType != null) {
-			switch (versionType) {
-				case INTERNAL:
-					return VersionType.Internal;
-				case EXTERNAL:
-					return VersionType.External;
-				case EXTERNAL_GTE:
-					return VersionType.ExternalGte;
-				case FORCE:
-					return VersionType.Force;
-			}
-		}
+        if (versionType != null) {
+            switch (versionType) {
+                case INTERNAL:
+                    return VersionType.Internal;
+                case EXTERNAL:
+                    return VersionType.External;
+                case EXTERNAL_GTE:
+                    return VersionType.ExternalGte;
+                case FORCE:
+                    return VersionType.Force;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	static Integer waitForActiveShardsCount(@Nullable String value) {
-		// values taken from the RHLC implementation
-		if (value == null) {
-			return -2;
-		} else if ("all".equals(value.toUpperCase())) {
-			return -1;
-		} else {
-			try {
-				return Integer.parseInt(value);
-			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Illegale value for waitForActiveShards" + value);
-			}
-		}
-	}
+    static Integer waitForActiveShardsCount(@Nullable String value) {
+        // values taken from the RHLC implementation
+        if (value == null) {
+            return -2;
+        } else if ("all".equals(value.toUpperCase())) {
+            return -1;
+        } else {
+            try {
+                return Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Illegale value for waitForActiveShards" + value);
+            }
+        }
+    }
 
 }

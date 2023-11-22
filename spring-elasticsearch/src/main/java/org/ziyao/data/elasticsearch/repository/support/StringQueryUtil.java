@@ -16,8 +16,8 @@
 package org.ziyao.data.elasticsearch.repository.support;
 
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.repository.query.ParameterAccessor;
 import org.springframework.util.NumberUtils;
+import org.ziyao.data.repository.query.ParameterAccessor;
 
 import java.util.Collection;
 import java.util.regex.Matcher;
@@ -30,72 +30,72 @@ import java.util.stream.Collectors;
  */
 final public class StringQueryUtil {
 
-	private static final Pattern PARAMETER_PLACEHOLDER = Pattern.compile("\\?(\\d+)");
+    private static final Pattern PARAMETER_PLACEHOLDER = Pattern.compile("\\?(\\d+)");
 
-	private final ConversionService conversionService;
+    private final ConversionService conversionService;
 
-	public StringQueryUtil(ConversionService conversionService) {
-		this.conversionService = conversionService;
-	}
+    public StringQueryUtil(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
 
-	public String replacePlaceholders(String input, ParameterAccessor accessor) {
+    public String replacePlaceholders(String input, ParameterAccessor accessor) {
 
-		Matcher matcher = PARAMETER_PLACEHOLDER.matcher(input);
-		String result = input;
-		while (matcher.find()) {
+        Matcher matcher = PARAMETER_PLACEHOLDER.matcher(input);
+        String result = input;
+        while (matcher.find()) {
 
-			String placeholder = Pattern.quote(matcher.group()) + "(?!\\d+)";
-			int index = NumberUtils.parseNumber(matcher.group(1), Integer.class);
-			String replacement = Matcher.quoteReplacement(getParameterWithIndex(accessor, index));
-			result = result.replaceAll(placeholder, replacement);
-			// need to escape backslashes that are not escapes for quotes so that they are sent as double-backslashes
-			// to Elasticsearch
-			result = result.replaceAll("\\\\([^\"'])", "\\\\\\\\$1");
-		}
-		return result;
-	}
+            String placeholder = Pattern.quote(matcher.group()) + "(?!\\d+)";
+            int index = NumberUtils.parseNumber(matcher.group(1), Integer.class);
+            String replacement = Matcher.quoteReplacement(getParameterWithIndex(accessor, index));
+            result = result.replaceAll(placeholder, replacement);
+            // need to escape backslashes that are not escapes for quotes so that they are sent as double-backslashes
+            // to Elasticsearch
+            result = result.replaceAll("\\\\([^\"'])", "\\\\\\\\$1");
+        }
+        return result;
+    }
 
-	private String getParameterWithIndex(ParameterAccessor accessor, int index) {
+    private String getParameterWithIndex(ParameterAccessor accessor, int index) {
 
-		Object parameter = accessor.getBindableValue(index);
-		String parameterValue = "null";
+        Object parameter = accessor.getBindableValue(index);
+        String parameterValue = "null";
 
-		if (parameter != null) {
-			parameterValue = convert(parameter);
-		}
+        if (parameter != null) {
+            parameterValue = convert(parameter);
+        }
 
-		return parameterValue;
+        return parameterValue;
 
-	}
+    }
 
-	private String convert(Object parameter) {
-		if (Collection.class.isAssignableFrom(parameter.getClass())) {
-			Collection<?> collectionParam = (Collection<?>) parameter;
-			StringBuilder sb = new StringBuilder("[");
-			sb.append(collectionParam.stream().map(o -> {
-				if (o instanceof String) {
-					return "\"" + convert(o) + "\"";
-				} else {
-					return convert(o);
-				}
-			}).collect(Collectors.joining(",")));
-			sb.append("]");
-			return sb.toString();
-		} else {
-			String parameterValue = "null";
-			if (conversionService.canConvert(parameter.getClass(), String.class)) {
-				String converted = conversionService.convert(parameter, String.class);
+    private String convert(Object parameter) {
+        if (Collection.class.isAssignableFrom(parameter.getClass())) {
+            Collection<?> collectionParam = (Collection<?>) parameter;
+            StringBuilder sb = new StringBuilder("[");
+            sb.append(collectionParam.stream().map(o -> {
+                if (o instanceof String) {
+                    return "\"" + convert(o) + "\"";
+                } else {
+                    return convert(o);
+                }
+            }).collect(Collectors.joining(",")));
+            sb.append("]");
+            return sb.toString();
+        } else {
+            String parameterValue = "null";
+            if (conversionService.canConvert(parameter.getClass(), String.class)) {
+                String converted = conversionService.convert(parameter, String.class);
 
-				if (converted != null) {
-					parameterValue = converted;
-				}
-			} else {
-				parameterValue = parameter.toString();
-			}
+                if (converted != null) {
+                    parameterValue = converted;
+                }
+            } else {
+                parameterValue = parameter.toString();
+            }
 
-			parameterValue = parameterValue.replaceAll("\"", Matcher.quoteReplacement("\\\""));
-			return parameterValue;
-		}
-	}
+            parameterValue = parameterValue.replaceAll("\"", Matcher.quoteReplacement("\\\""));
+            return parameterValue;
+        }
+    }
 
 }

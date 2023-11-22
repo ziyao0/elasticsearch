@@ -21,11 +21,11 @@ import co.elastic.clients.transport.rest_client.RestClientOptions;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.client.ClientConfiguration;
 import org.ziyao.data.elasticsearch.config.ElasticsearchConfigurationSupport;
 import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
-import org.springframework.util.Assert;
 
 /**
  * Base class for a @{@link org.springframework.context.annotation.Configuration} class to set up the Elasticsearch
@@ -36,62 +36,62 @@ import org.springframework.util.Assert;
  */
 public abstract class ElasticsearchConfiguration extends ElasticsearchConfigurationSupport {
 
-	/**
-	 * Must be implemented by deriving classes to provide the {@link ClientConfiguration}.
-	 *
-	 * @return configuration, must not be {@literal null}
-	 */
-	@Bean
-	public abstract ClientConfiguration clientConfiguration();
+    /**
+     * Must be implemented by deriving classes to provide the {@link ClientConfiguration}.
+     *
+     * @return configuration, must not be {@literal null}
+     */
+    @Bean
+    public abstract ClientConfiguration clientConfiguration();
 
-	/**
-	 * Provides the underlying low level RestClient.
-	 *
-	 * @param clientConfiguration configuration for the client, must not be {@literal null}
-	 * @return RestClient
-	 */
-	@Bean
-	public RestClient restClient(ClientConfiguration clientConfiguration) {
+    /**
+     * Provides the underlying low level RestClient.
+     *
+     * @param clientConfiguration configuration for the client, must not be {@literal null}
+     * @return RestClient
+     */
+    @Bean
+    public RestClient restClient(ClientConfiguration clientConfiguration) {
 
-		Assert.notNull(clientConfiguration, "clientConfiguration must not be null");
+        Assert.notNull(clientConfiguration, "clientConfiguration must not be null");
 
-		return ElasticsearchClients.getRestClient(clientConfiguration);
-	}
+        return ElasticsearchClients.getRestClient(clientConfiguration);
+    }
 
-	/**
-	 * Provides the {@link ElasticsearchClient} to be used.
-	 *
-	 * @param restClient the low level RestClient to use
-	 * @return ElasticsearchClient instance
-	 */
-	@Bean
-	public ElasticsearchClient elasticsearchClient(RestClient restClient) {
+    /**
+     * Provides the {@link ElasticsearchClient} to be used.
+     *
+     * @param restClient the low level RestClient to use
+     * @return ElasticsearchClient instance
+     */
+    @Bean
+    public ElasticsearchClient elasticsearchClient(RestClient restClient) {
 
-		Assert.notNull(restClient, "restClient must not be null");
+        Assert.notNull(restClient, "restClient must not be null");
 
-		return ElasticsearchClients.createImperative(restClient, transportOptions());
-	}
+        return ElasticsearchClients.createImperative(restClient, transportOptions());
+    }
 
-	/**
-	 * Creates a {@link ElasticsearchOperations} implementation using an
-	 * {@link ElasticsearchClient}.
-	 *
-	 * @return never {@literal null}.
-	 */
-	@Bean(name = { "elasticsearchOperations", "elasticsearchTemplate" })
-	public ElasticsearchOperations elasticsearchOperations(ElasticsearchConverter elasticsearchConverter,
-			ElasticsearchClient elasticsearchClient) {
+    /**
+     * Creates a {@link ElasticsearchOperations} implementation using an
+     * {@link ElasticsearchClient}.
+     *
+     * @return never {@literal null}.
+     */
+    @Bean(name = {"elasticsearchOperations", "elasticsearchTemplate"})
+    public ElasticsearchOperations elasticsearchOperations(ElasticsearchConverter elasticsearchConverter,
+                                                           ElasticsearchClient elasticsearchClient) {
 
-		ElasticsearchTemplate template = new ElasticsearchTemplate(elasticsearchClient, elasticsearchConverter);
-		template.setRefreshPolicy(refreshPolicy());
+        ElasticsearchTemplate template = new ElasticsearchTemplate(elasticsearchClient, elasticsearchConverter);
+        template.setRefreshPolicy(refreshPolicy());
 
-		return template;
-	}
+        return template;
+    }
 
-	/**
-	 * @return the options that should be added to every request. Must not be {@literal null}
-	 */
-	public TransportOptions transportOptions() {
-		return new RestClientOptions(RequestOptions.DEFAULT);
-	}
+    /**
+     * @return the options that should be added to every request. Must not be {@literal null}
+     */
+    public TransportOptions transportOptions() {
+        return new RestClientOptions(RequestOptions.DEFAULT);
+    }
 }

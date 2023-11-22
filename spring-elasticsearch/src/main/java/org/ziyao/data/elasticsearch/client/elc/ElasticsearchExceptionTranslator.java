@@ -24,9 +24,9 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
+import org.springframework.http.HttpStatus;
 import org.ziyao.data.elasticsearch.NoSuchIndexException;
 import org.ziyao.data.elasticsearch.UncategorizedElasticsearchException;
-import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -42,86 +42,86 @@ import java.util.regex.Pattern;
  */
 public class ElasticsearchExceptionTranslator implements PersistenceExceptionTranslator {
 
-	private final JsonpMapper jsonpMapper;
+    private final JsonpMapper jsonpMapper;
 
-	public ElasticsearchExceptionTranslator(JsonpMapper jsonpMapper) {
-		this.jsonpMapper = jsonpMapper;
-	}
+    public ElasticsearchExceptionTranslator(JsonpMapper jsonpMapper) {
+        this.jsonpMapper = jsonpMapper;
+    }
 
-	/**
-	 * translates an Exception if possible. Exceptions that are no {@link RuntimeException}s are wrapped in a
-	 * RuntimeException
-	 *
-	 * @param throwable the Exception to map
-	 * @return the potentially translated RuntimeException.
-	 */
-	public RuntimeException translateException(Throwable throwable) {
+    /**
+     * translates an Exception if possible. Exceptions that are no {@link RuntimeException}s are wrapped in a
+     * RuntimeException
+     *
+     * @param throwable the Exception to map
+     * @return the potentially translated RuntimeException.
+     */
+    public RuntimeException translateException(Throwable throwable) {
 
-		RuntimeException runtimeException = throwable instanceof RuntimeException ? (RuntimeException) throwable
-				: new RuntimeException(throwable.getMessage(), throwable);
-		RuntimeException potentiallyTranslatedException = translateExceptionIfPossible(runtimeException);
+        RuntimeException runtimeException = throwable instanceof RuntimeException ? (RuntimeException) throwable
+                : new RuntimeException(throwable.getMessage(), throwable);
+        RuntimeException potentiallyTranslatedException = translateExceptionIfPossible(runtimeException);
 
-		return potentiallyTranslatedException != null ? potentiallyTranslatedException : runtimeException;
-	}
+        return potentiallyTranslatedException != null ? potentiallyTranslatedException : runtimeException;
+    }
 
-	@Override
-	public DataAccessException translateExceptionIfPossible(RuntimeException ex) {
+    @Override
+    public DataAccessException translateExceptionIfPossible(RuntimeException ex) {
 
-		if (isSeqNoConflict(ex)) {
-			return new OptimisticLockingFailureException("Cannot index a document due to seq_no+primary_term conflict", ex);
-		}
+        if (isSeqNoConflict(ex)) {
+            return new OptimisticLockingFailureException("Cannot index a document due to seq_no+primary_term conflict", ex);
+        }
 
-		if (ex instanceof ElasticsearchException) {
-			ElasticsearchException elasticsearchException = (ElasticsearchException) ex;
+        if (ex instanceof ElasticsearchException) {
+            ElasticsearchException elasticsearchException = (ElasticsearchException) ex;
 
-			ErrorResponse response = elasticsearchException.response();
+            ErrorResponse response = elasticsearchException.response();
 
-			if (response.status() == HttpStatus.NOT_FOUND.value()
-					&& "index_not_found_exception".equals(response.error().type())) {
+            if (response.status() == HttpStatus.NOT_FOUND.value()
+                    && "index_not_found_exception".equals(response.error().type())) {
 
-				Pattern pattern = Pattern.compile(".*no such index \\[(.*)\\]");
-				String index = "";
-				Matcher matcher = pattern.matcher(response.error().reason());
-				if (matcher.matches()) {
-					index = matcher.group(1);
-				}
-				return new NoSuchIndexException(index);
-			}
-			String body = JsonUtils.toJson(response, jsonpMapper);
+                Pattern pattern = Pattern.compile(".*no such index \\[(.*)\\]");
+                String index = "";
+                Matcher matcher = pattern.matcher(response.error().reason());
+                if (matcher.matches()) {
+                    index = matcher.group(1);
+                }
+                return new NoSuchIndexException(index);
+            }
+            String body = JsonUtils.toJson(response, jsonpMapper);
 
-			if (response.error().type().contains("validation_exception")) {
-				return new DataIntegrityViolationException(response.error().reason());
-			}
+            if (response.error().type().contains("validation_exception")) {
+                return new DataIntegrityViolationException(response.error().reason());
+            }
 
-			return new UncategorizedElasticsearchException(ex.getMessage(), response.status(), body, ex);
-		}
+            return new UncategorizedElasticsearchException(ex.getMessage(), response.status(), body, ex);
+        }
 
-		Throwable cause = ex.getCause();
-		if (cause instanceof IOException) {
-			return new DataAccessResourceFailureException(ex.getMessage(), ex);
-		}
+        Throwable cause = ex.getCause();
+        if (cause instanceof IOException) {
+            return new DataAccessResourceFailureException(ex.getMessage(), ex);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	private boolean isSeqNoConflict(Throwable exception) {
-		Integer status = null;
-		String message = null;
+    private boolean isSeqNoConflict(Throwable exception) {
+        Integer status = null;
+        String message = null;
 
 
-		if (exception instanceof ResponseException) {
-			ResponseException responseException = (ResponseException) exception;
-			status = responseException.getResponse().getStatusLine().getStatusCode();
-			message = responseException.getMessage();
-		} else if (exception.getCause() != null) {
-			return isSeqNoConflict(exception.getCause());
-		}
+        if (exception instanceof ResponseException) {
+            ResponseException responseException = (ResponseException) exception;
+            status = responseException.getResponse().getStatusLine().getStatusCode();
+            message = responseException.getMessage();
+        } else if (exception.getCause() != null) {
+            return isSeqNoConflict(exception.getCause());
+        }
 
-		if (status != null && message != null) {
-			return status == 409 && message.contains("type\":\"version_conflict_engine_exception")
-					&& message.contains("version conflict, required seqNo");
-		}
+        if (status != null && message != null) {
+            return status == 409 && message.contains("type\":\"version_conflict_engine_exception")
+                    && message.contains("version conflict, required seqNo");
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

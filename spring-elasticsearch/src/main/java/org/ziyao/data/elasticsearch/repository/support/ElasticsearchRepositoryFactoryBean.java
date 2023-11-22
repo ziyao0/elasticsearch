@@ -15,12 +15,12 @@
  */
 package org.ziyao.data.elasticsearch.repository.support;
 
-import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport;
-import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
+import org.ziyao.data.repository.Repository;
+import org.ziyao.data.repository.core.support.RepositoryFactoryBeanSupport;
+import org.ziyao.data.repository.core.support.RepositoryFactorySupport;
 
 import java.io.Serializable;
 
@@ -34,47 +34,48 @@ import java.io.Serializable;
  * @author Peter-Josef Meisch
  */
 public class ElasticsearchRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable>
-		extends RepositoryFactoryBeanSupport<T, S, ID> {
+        extends RepositoryFactoryBeanSupport<T, S, ID> {
 
-	@Nullable private ElasticsearchOperations operations;
+    @Nullable
+    private ElasticsearchOperations operations;
 
-	/**
-	 * Creates a new {@link ElasticsearchRepositoryFactoryBean} for the given repository interface.
-	 *
-	 * @param repositoryInterface must not be {@literal null}.
-	 */
-	public ElasticsearchRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
-		super(repositoryInterface);
-	}
+    /**
+     * Creates a new {@link ElasticsearchRepositoryFactoryBean} for the given repository interface.
+     *
+     * @param repositoryInterface must not be {@literal null}.
+     */
+    public ElasticsearchRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
+        super(repositoryInterface);
+    }
 
-	/**
-	 * Configures the {@link ElasticsearchOperations} to be used to create Elasticsearch repositories.
-	 *
-	 * @param operations the operations to set
-	 */
-	public void setElasticsearchOperations(ElasticsearchOperations operations) {
+    /**
+     * Configures the {@link ElasticsearchOperations} to be used to create Elasticsearch repositories.
+     *
+     * @param operations the operations to set
+     */
+    public void setElasticsearchOperations(ElasticsearchOperations operations) {
 
-		Assert.notNull(operations, "ElasticsearchOperations must not be null!");
+        Assert.notNull(operations, "ElasticsearchOperations must not be null!");
 
-		setMappingContext(operations.getElasticsearchConverter().getMappingContext());
-		this.operations = operations;
-	}
+        setMappingContext(operations.getElasticsearchConverter().getMappingContext());
+        this.operations = operations;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.core.support.RepositoryFactoryBeanSupport#afterPropertiesSet()
-	 */
-	@Override
-	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
-		Assert.notNull(operations, "ElasticsearchOperations must be configured!");
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.core.support.RepositoryFactoryBeanSupport#afterPropertiesSet()
+     */
+    @Override
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
+        Assert.notNull(operations, "ElasticsearchOperations must be configured!");
+    }
 
-	@Override
-	protected RepositoryFactorySupport createRepositoryFactory() {
+    @Override
+    protected RepositoryFactorySupport createRepositoryFactory() {
 
-		Assert.notNull(operations, "operations are not initialized");
+        Assert.notNull(operations, "operations are not initialized");
 
-		return new ElasticsearchRepositoryFactory(operations);
-	}
+        return new ElasticsearchRepositoryFactory(operations);
+    }
 }

@@ -28,25 +28,25 @@ import java.lang.reflect.Method;
  */
 public final class FactoryMethod<T, P extends PersistentProperty<P>> extends InstanceCreatorMetadataSupport<T, P> {
 
-	/**
-	 * Creates a new {@link FactoryMethod} from the given {@link Constructor} and {@link Parameter}s.
-	 *
-	 * @param factoryMethod must not be {@literal null}.
-	 * @param parameters must not be {@literal null}.
-	 */
-	@SafeVarargs
-	public FactoryMethod(Method factoryMethod, Parameter<Object, P>... parameters) {
+    /**
+     * Creates a new {@link FactoryMethod} from the given {@link Constructor} and {@link Parameter}s.
+     *
+     * @param factoryMethod must not be {@literal null}.
+     * @param parameters    must not be {@literal null}.
+     */
+    @SafeVarargs
+    public FactoryMethod(Method factoryMethod, Parameter<Object, P>... parameters) {
 
-		super(factoryMethod, parameters);
-		ReflectionUtils.makeAccessible(factoryMethod);
-	}
+        super(factoryMethod, parameters);
+        ReflectionUtils.makeAccessible(factoryMethod);
+    }
 
-	/**
-	 * Returns the underlying {@link Constructor}.
-	 *
-	 * @return
-	 */
-	public Method getFactoryMethod() {
-		return (Method) getExecutable();
-	}
+    /**
+     * Returns the underlying {@link Constructor}.
+     *
+     * @return
+     */
+    public Method getFactoryMethod() {
+        return (Method) getExecutable();
+    }
 }

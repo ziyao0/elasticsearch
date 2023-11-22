@@ -28,73 +28,75 @@ import java.util.Objects;
  * @author Peter-Josef Meisch
  */
 public class Explanation {
-	@Nullable private final Boolean match;
-	private final Double value;
-	@Nullable private final String description;
-	private final List<Explanation> details;
+    @Nullable
+    private final Boolean match;
+    private final Double value;
+    @Nullable
+    private final String description;
+    private final List<Explanation> details;
 
-	public Explanation(@Nullable Boolean match, Double value, @Nullable String description, List<Explanation> details) {
+    public Explanation(@Nullable Boolean match, Double value, @Nullable String description, List<Explanation> details) {
 
-		Assert.notNull(value, "value must not be null");
-		Assert.notNull(details, "details must not be null");
+        Assert.notNull(value, "value must not be null");
+        Assert.notNull(details, "details must not be null");
 
-		this.match = match;
-		this.value = value;
-		this.description = description;
-		this.details = details;
-	}
+        this.match = match;
+        this.value = value;
+        this.description = description;
+        this.details = details;
+    }
 
-	public boolean isMatch() {
-		return match != null && match;
-	}
+    public boolean isMatch() {
+        return match != null && match;
+    }
 
-	public Double getValue() {
-		return value;
-	}
+    public Double getValue() {
+        return value;
+    }
 
-	@Nullable
-	public String getDescription() {
-		return description;
-	}
+    @Nullable
+    public String getDescription() {
+        return description;
+    }
 
-	public List<Explanation> getDetails() {
-		return details;
-	}
+    public List<Explanation> getDetails() {
+        return details;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		Explanation that = (Explanation) o;
+        Explanation that = (Explanation) o;
 
-		if (match != that.match)
-			return false;
-		if (!value.equals(that.value))
-			return false;
-		if (!Objects.equals(description, that.description))
-			return false;
-		return details.equals(that.details);
-	}
+        if (match != that.match)
+            return false;
+        if (!value.equals(that.value))
+            return false;
+        if (!Objects.equals(description, that.description))
+            return false;
+        return details.equals(that.details);
+    }
 
-	@Override
-	public int hashCode() {
-		int result = (match ? 1 : 0);
-		result = 31 * result + value.hashCode();
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		result = 31 * result + details.hashCode();
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = (match ? 1 : 0);
+        result = 31 * result + value.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + details.hashCode();
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "Explanation{" + //
-				"match=" + match + //
-				", value=" + value + //
-				", description='" + description + '\'' + //
-				", details=" + details + //
-				'}'; //
-	}
+    @Override
+    public String toString() {
+        return "Explanation{" + //
+                "match=" + match + //
+                ", value=" + value + //
+                ", description='" + description + '\'' + //
+                ", details=" + details + //
+                '}'; //
+    }
 }

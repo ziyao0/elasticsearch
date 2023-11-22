@@ -20,5 +20,5 @@ package org.ziyao.data.elasticsearch.core.suggest.response;
  * @since 4.3
  */
 public enum SortBy {
-	SCORE, FREQUENCY
+    SCORE, FREQUENCY
 }

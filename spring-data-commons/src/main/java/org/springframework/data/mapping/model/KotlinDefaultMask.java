@@ -32,72 +32,72 @@ import java.util.function.Predicate;
  */
 public class KotlinDefaultMask {
 
-	private final int[] defaulting;
+    private final int[] defaulting;
 
-	private KotlinDefaultMask(int[] defaulting) {
-		this.defaulting = defaulting;
-	}
+    private KotlinDefaultMask(int[] defaulting) {
+        this.defaulting = defaulting;
+    }
 
-	/**
-	 * Callback method to notify {@link IntConsumer} for each defaulting mask.
-	 *
-	 * @param maskCallback must not be {@literal null}.
-	 */
-	public void forEach(IntConsumer maskCallback) {
+    /**
+     * Callback method to notify {@link IntConsumer} for each defaulting mask.
+     *
+     * @param maskCallback must not be {@literal null}.
+     */
+    public void forEach(IntConsumer maskCallback) {
 
-		for (int i : defaulting) {
-			maskCallback.accept(i);
-		}
-	}
+        for (int i : defaulting) {
+            maskCallback.accept(i);
+        }
+    }
 
-	/**
-	 * Return the number of defaulting masks required to represent the number of {@code arguments}.
-	 *
-	 * @param arguments number of method arguments.
-	 * @return the number of defaulting masks required.
-	 */
-	public static int getMaskCount(int arguments) {
-		return ((arguments - 1) / Integer.SIZE) + 1;
-	}
+    /**
+     * Return the number of defaulting masks required to represent the number of {@code arguments}.
+     *
+     * @param arguments number of method arguments.
+     * @return the number of defaulting masks required.
+     */
+    public static int getMaskCount(int arguments) {
+        return ((arguments - 1) / Integer.SIZE) + 1;
+    }
 
-	/**
-	 * Creates defaulting mask(s) used to invoke Kotlin {@literal default} methods that conditionally apply parameter
-	 * values.
-	 *
-	 * @param function the {@link KFunction} that should be invoked.
-	 * @param isPresent {@link Predicate} for the presence/absence of parameters.
-	 * @return {@link KotlinDefaultMask}.
-	 */
-	public static KotlinDefaultMask from(KFunction<?> function, Predicate<KParameter> isPresent) {
+    /**
+     * Creates defaulting mask(s) used to invoke Kotlin {@literal default} methods that conditionally apply parameter
+     * values.
+     *
+     * @param function  the {@link KFunction} that should be invoked.
+     * @param isPresent {@link Predicate} for the presence/absence of parameters.
+     * @return {@link KotlinDefaultMask}.
+     */
+    public static KotlinDefaultMask from(KFunction<?> function, Predicate<KParameter> isPresent) {
 
-		List<Integer> masks = new ArrayList<>();
-		int index = 0;
-		int mask = 0;
+        List<Integer> masks = new ArrayList<>();
+        int index = 0;
+        int mask = 0;
 
-		List<KParameter> parameters = function.getParameters();
+        List<KParameter> parameters = function.getParameters();
 
-		for (KParameter parameter : parameters) {
+        for (KParameter parameter : parameters) {
 
-			if (index != 0 && index % Integer.SIZE == 0) {
-				masks.add(mask);
-				mask = 0;
-			}
+            if (index != 0 && index % Integer.SIZE == 0) {
+                masks.add(mask);
+                mask = 0;
+            }
 
-			if (parameter.isOptional() && !isPresent.test(parameter)) {
-				mask = mask | (1 << (index % Integer.SIZE));
-			}
+            if (parameter.isOptional() && !isPresent.test(parameter)) {
+                mask = mask | (1 << (index % Integer.SIZE));
+            }
 
-			if (parameter.getKind() == Kind.VALUE) {
-				index++;
-			}
-		}
+            if (parameter.getKind() == Kind.VALUE) {
+                index++;
+            }
+        }
 
-		masks.add(mask);
+        masks.add(mask);
 
-		return new KotlinDefaultMask(masks.stream().mapToInt(i -> i).toArray());
-	}
+        return new KotlinDefaultMask(masks.stream().mapToInt(i -> i).toArray());
+    }
 
-	public int[] getDefaulting() {
-		return this.defaulting;
-	}
+    public int[] getDefaulting() {
+        return this.defaulting;
+    }
 }

@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.ziyao.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.core.query.highlight.Highlight;
 
 /**
  * Combines a {@link Highlight} definition with the type of the entity where it's present on a method.
@@ -27,23 +27,24 @@ import org.springframework.util.Assert;
  */
 public class HighlightQuery {
 
-	private final Highlight highlight;
-	@Nullable private final Class<?> type;
+    private final Highlight highlight;
+    @Nullable
+    private final Class<?> type;
 
-	public HighlightQuery(Highlight highlight, @Nullable Class<?> type) {
+    public HighlightQuery(Highlight highlight, @Nullable Class<?> type) {
 
-		Assert.notNull(highlight, "highlight must not be null");
+        Assert.notNull(highlight, "highlight must not be null");
 
-		this.highlight = highlight;
-		this.type = type;
-	}
+        this.highlight = highlight;
+        this.type = type;
+    }
 
-	public Highlight getHighlight() {
-		return highlight;
-	}
+    public Highlight getHighlight() {
+        return highlight;
+    }
 
-	@Nullable
-	public Class<?> getType() {
-		return type;
-	}
+    @Nullable
+    public Class<?> getType() {
+        return type;
+    }
 }

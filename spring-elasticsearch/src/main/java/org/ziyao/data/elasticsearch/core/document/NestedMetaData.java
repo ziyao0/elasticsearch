@@ -24,30 +24,31 @@ import org.springframework.lang.Nullable;
  */
 public class NestedMetaData {
 
-	private final String field;
-	private final int offset;
-	@Nullable private final NestedMetaData child;
+    private final String field;
+    private final int offset;
+    @Nullable
+    private final NestedMetaData child;
 
-	public static NestedMetaData of(String field, int offset, @Nullable NestedMetaData nested) {
-		return new NestedMetaData(field, offset, nested);
-	}
+    public static NestedMetaData of(String field, int offset, @Nullable NestedMetaData nested) {
+        return new NestedMetaData(field, offset, nested);
+    }
 
-	private NestedMetaData(String field, int offset, @Nullable NestedMetaData child) {
-		this.field = field;
-		this.offset = offset;
-		this.child = child;
-	}
+    private NestedMetaData(String field, int offset, @Nullable NestedMetaData child) {
+        this.field = field;
+        this.offset = offset;
+        this.child = child;
+    }
 
-	public String getField() {
-		return field;
-	}
+    public String getField() {
+        return field;
+    }
 
-	public int getOffset() {
-		return offset;
-	}
+    public int getOffset() {
+        return offset;
+    }
 
-	@Nullable
-	public NestedMetaData getChild() {
-		return child;
-	}
+    @Nullable
+    public NestedMetaData getChild() {
+        return child;
+    }
 }

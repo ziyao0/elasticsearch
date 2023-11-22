@@ -31,55 +31,55 @@ import java.util.List;
  */
 public class GeoJsonMultiPolygon implements GeoJson<Iterable<GeoJsonPolygon>> {
 
-	public static final String TYPE = "MultiPolygon";
+    public static final String TYPE = "MultiPolygon";
 
-	private List<GeoJsonPolygon> coordinates = new ArrayList<GeoJsonPolygon>();
+    private List<GeoJsonPolygon> coordinates = new ArrayList<GeoJsonPolygon>();
 
-	private GeoJsonMultiPolygon(List<GeoJsonPolygon> polygons) {
-		this.coordinates.addAll(polygons);
-	}
+    private GeoJsonMultiPolygon(List<GeoJsonPolygon> polygons) {
+        this.coordinates.addAll(polygons);
+    }
 
-	/**
-	 * Creates a new {@link GeoJsonMultiPolygon} for the given {@link GeoJsonPolygon}s.
-	 *
-	 * @param polygons must not be {@literal null}.
-	 */
-	public static GeoJsonMultiPolygon of(List<GeoJsonPolygon> polygons) {
+    /**
+     * Creates a new {@link GeoJsonMultiPolygon} for the given {@link GeoJsonPolygon}s.
+     *
+     * @param polygons must not be {@literal null}.
+     */
+    public static GeoJsonMultiPolygon of(List<GeoJsonPolygon> polygons) {
 
-		Assert.notNull(polygons, "Polygons for MultiPolygon must not be null!");
+        Assert.notNull(polygons, "Polygons for MultiPolygon must not be null!");
 
-		return new GeoJsonMultiPolygon(polygons);
-	}
+        return new GeoJsonMultiPolygon(polygons);
+    }
 
-	@Override
-	public String getType() {
-		return TYPE;
-	}
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 
-	@Override
-	public List<GeoJsonPolygon> getCoordinates() {
-		return Collections.unmodifiableList(this.coordinates);
-	}
+    @Override
+    public List<GeoJsonPolygon> getCoordinates() {
+        return Collections.unmodifiableList(this.coordinates);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		GeoJsonMultiPolygon that = (GeoJsonMultiPolygon) o;
+        GeoJsonMultiPolygon that = (GeoJsonMultiPolygon) o;
 
-		return coordinates.equals(that.coordinates);
-	}
+        return coordinates.equals(that.coordinates);
+    }
 
-	@Override
-	public int hashCode() {
-		return coordinates.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return coordinates.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJsonMultiPolygon{" + "coordinates=" + coordinates + '}';
-	}
+    @Override
+    public String toString() {
+        return "GeoJsonMultiPolygon{" + "coordinates=" + coordinates + '}';
+    }
 }

@@ -22,13 +22,13 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.data.auditing.config.IsNewAwareAuditingHandlerBeanDefinitionParser;
-import org.ziyao.data.elasticsearch.core.event.AuditingEntityCallback;
-import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
+import org.ziyao.data.auditing.config.IsNewAwareAuditingHandlerBeanDefinitionParser;
+import org.ziyao.data.elasticsearch.core.event.AuditingEntityCallback;
+import org.ziyao.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
 
-import static org.springframework.data.config.ParsingUtils.getObjectFactoryBeanDefinition;
+import static org.ziyao.data.config.ParsingUtils.getObjectFactoryBeanDefinition;
 
 /**
  * {@link BeanDefinitionParser} to register a {@link AuditingEntityCallback} to transparently set auditing information

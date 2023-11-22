@@ -23,22 +23,22 @@ import org.springframework.dao.NonTransientDataAccessResourceException;
  */
 public class NoSuchIndexException extends NonTransientDataAccessResourceException {
 
-	private final String index;
+    private final String index;
 
-	/**
-	 * @since 4.4
-	 */
-	public NoSuchIndexException(String index) {
-		super(String.format("Index %s not found.", index));
-		this.index = index;
-	}
+    /**
+     * @since 4.4
+     */
+    public NoSuchIndexException(String index) {
+        super(String.format("Index %s not found.", index));
+        this.index = index;
+    }
 
-	public NoSuchIndexException(String index, Throwable cause) {
-		super(String.format("Index %s not found.", index), cause);
-		this.index = index;
-	}
+    public NoSuchIndexException(String index, Throwable cause) {
+        super(String.format("Index %s not found.", index), cause);
+        this.index = index;
+    }
 
-	public String getIndex() {
-		return index;
-	}
+    public String getIndex() {
+        return index;
+    }
 }

@@ -15,8 +15,6 @@
  */
 package org.springframework.data.mapping;
 
-import org.springframework.data.mapping.AccessOptions.GetOptions;
-import org.springframework.data.mapping.AccessOptions.SetOptions;
 import org.springframework.lang.Nullable;
 
 /**
@@ -24,55 +22,55 @@ import org.springframework.lang.Nullable;
  * {@link PersistentPropertyPath}s.
  *
  * @author Oliver Drotbohm
- * @since 2.3
  * @soundtrack Sophia Wahnschaffe - Leuchten (Live Session) https://www.youtube.com/watch?v=izZxWiPto5Q
+ * @since 2.3
  */
 public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAccessor<T> {
 
-	/**
-	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
-	 * bean is returned.
-	 *
-	 * @param path must not be {@literal null}.
-	 * @return
-	 */
-	@Nullable
-	@SuppressWarnings("deprecation")
-	default Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path) {
-		return PersistentPropertyAccessor.super.getProperty(path);
-	}
+    /**
+     * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
+     * bean is returned.
+     *
+     * @param path must not be {@literal null}.
+     * @return
+     */
+    @Nullable
+    @SuppressWarnings("deprecation")
+    default Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path) {
+        return PersistentPropertyAccessor.super.getProperty(path);
+    }
 
-	/**
-	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
-	 * bean is returned. On each path segment value lookup, the resulting value is post-processed by handlers registered
-	 * on the given {@link TraversalContext} context. This can be used to unwrap container types that are encountered
-	 * during the traversal.
-	 *
-	 * @param path must not be {@literal null}.
-	 * @param context must not be {@literal null}.
-	 * @return
-	 */
-	@Nullable
-	Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, GetOptions context);
+    /**
+     * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
+     * bean is returned. On each path segment value lookup, the resulting value is post-processed by handlers registered
+     * on the given {@link TraversalContext} context. This can be used to unwrap container types that are encountered
+     * during the traversal.
+     *
+     * @param path    must not be {@literal null}.
+     * @param context must not be {@literal null}.
+     * @return
+     */
+    @Nullable
+    Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, AccessOptions.GetOptions context);
 
-	/**
-	 * Sets the given value for the {@link PersistentProperty} pointed to by the given {@link PersistentPropertyPath}. The
-	 * lookup of intermediate values must not yield {@literal null}.
-	 *
-	 * @param path must not be {@literal null} or empty.
-	 * @param value can be {@literal null}.
-	 * @see AccessOptions#defaultSetOptions()
-	 */
-	void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value);
+    /**
+     * Sets the given value for the {@link PersistentProperty} pointed to by the given {@link PersistentPropertyPath}. The
+     * lookup of intermediate values must not yield {@literal null}.
+     *
+     * @param path  must not be {@literal null} or empty.
+     * @param value can be {@literal null}.
+     * @see AccessOptions#defaultSetOptions()
+     */
+    void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value);
 
-	/**
-	 * Sets the given value for the {@link PersistentProperty} pointed to by the given {@link PersistentPropertyPath}
-	 * considering the given {@link AccessOptions}.
-	 *
-	 * @param path must not be {@literal null}.
-	 * @param value must not be {@literal null}.
-	 * @param options must not be {@literal null}.
-	 */
-	void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value,
-			SetOptions options);
+    /**
+     * Sets the given value for the {@link PersistentProperty} pointed to by the given {@link PersistentPropertyPath}
+     * considering the given {@link AccessOptions}.
+     *
+     * @param path    must not be {@literal null}.
+     * @param value   must not be {@literal null}.
+     * @param options must not be {@literal null}.
+     */
+    void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value,
+                     AccessOptions.SetOptions options);
 }

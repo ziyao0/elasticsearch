@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.elasticsearch.core.document;
 
+import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.core.AggregationsContainer;
 import org.ziyao.data.elasticsearch.core.suggest.response.Suggest;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -31,64 +31,68 @@ import java.util.function.Function;
  */
 public class SearchDocumentResponse {
 
-	private final long totalHits;
-	private final String totalHitsRelation;
-	private final float maxScore;
-	@Nullable private final String scrollId;
-	private final List<SearchDocument> searchDocuments;
-	@Nullable private final AggregationsContainer<?> aggregations;
-	@Nullable private final Suggest suggest;
+    private final long totalHits;
+    private final String totalHitsRelation;
+    private final float maxScore;
+    @Nullable
+    private final String scrollId;
+    private final List<SearchDocument> searchDocuments;
+    @Nullable
+    private final AggregationsContainer<?> aggregations;
+    @Nullable
+    private final Suggest suggest;
 
-	public SearchDocumentResponse(long totalHits, String totalHitsRelation, float maxScore, @Nullable String scrollId,
+    public SearchDocumentResponse(long totalHits, String totalHitsRelation, float maxScore, @Nullable String scrollId,
                                   List<SearchDocument> searchDocuments, @Nullable AggregationsContainer<?> aggregationsContainer,
                                   @Nullable Suggest suggest) {
-		this.totalHits = totalHits;
-		this.totalHitsRelation = totalHitsRelation;
-		this.maxScore = maxScore;
-		this.scrollId = scrollId;
-		this.searchDocuments = searchDocuments;
-		this.aggregations = aggregationsContainer;
-		this.suggest = suggest;
-	}
+        this.totalHits = totalHits;
+        this.totalHitsRelation = totalHitsRelation;
+        this.maxScore = maxScore;
+        this.scrollId = scrollId;
+        this.searchDocuments = searchDocuments;
+        this.aggregations = aggregationsContainer;
+        this.suggest = suggest;
+    }
 
-	public long getTotalHits() {
-		return totalHits;
-	}
+    public long getTotalHits() {
+        return totalHits;
+    }
 
-	public String getTotalHitsRelation() {
-		return totalHitsRelation;
-	}
+    public String getTotalHitsRelation() {
+        return totalHitsRelation;
+    }
 
-	public float getMaxScore() {
-		return maxScore;
-	}
+    public float getMaxScore() {
+        return maxScore;
+    }
 
-	@Nullable
-	public String getScrollId() {
-		return scrollId;
-	}
+    @Nullable
+    public String getScrollId() {
+        return scrollId;
+    }
 
-	public List<SearchDocument> getSearchDocuments() {
-		return searchDocuments;
-	}
+    public List<SearchDocument> getSearchDocuments() {
+        return searchDocuments;
+    }
 
-	@Nullable
-	public AggregationsContainer<?> getAggregations() {
-		return aggregations;
-	}
+    @Nullable
+    public AggregationsContainer<?> getAggregations() {
+        return aggregations;
+    }
 
-	@Nullable
-	public Suggest getSuggest() {
-		return suggest;
-	}
+    @Nullable
+    public Suggest getSuggest() {
+        return suggest;
+    }
 
-	/**
-	 * A function to convert a {@link SearchDocument} async into an entity. Asynchronous so that it can be used from the
-	 * imperative and the reactive code.
-	 *
-	 * @param <T> the entity type
-	 */
-	@FunctionalInterface
-	public interface EntityCreator<T> extends Function<SearchDocument, CompletableFuture<T>> {}
+    /**
+     * A function to convert a {@link SearchDocument} async into an entity. Asynchronous so that it can be used from the
+     * imperative and the reactive code.
+     *
+     * @param <T> the entity type
+     */
+    @FunctionalInterface
+    public interface EntityCreator<T> extends Function<SearchDocument, CompletableFuture<T>> {
+    }
 
 }

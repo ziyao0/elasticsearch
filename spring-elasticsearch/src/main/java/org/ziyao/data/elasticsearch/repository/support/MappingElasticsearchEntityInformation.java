@@ -19,8 +19,8 @@ import org.ziyao.data.elasticsearch.annotations.Document;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.repository.core.support.AbstractEntityInformation;
-import org.springframework.data.repository.core.support.PersistentEntityInformation;
+import org.ziyao.data.repository.core.support.AbstractEntityInformation;
+import org.ziyao.data.repository.core.support.PersistentEntityInformation;
 
 /**
  * Elasticsearch specific implementation of
@@ -39,40 +39,40 @@ import org.springframework.data.repository.core.support.PersistentEntityInformat
  * @author Peter-Josef Meisch
  */
 public class MappingElasticsearchEntityInformation<T, ID> extends PersistentEntityInformation<T, ID>
-		implements ElasticsearchEntityInformation<T, ID> {
+        implements ElasticsearchEntityInformation<T, ID> {
 
-	private final ElasticsearchPersistentEntity<T> persistentEntity;
+    private final ElasticsearchPersistentEntity<T> persistentEntity;
 
-	public MappingElasticsearchEntityInformation(ElasticsearchPersistentEntity<T> persistentEntity) {
-		super(persistentEntity);
-		this.persistentEntity = persistentEntity;
-	}
+    public MappingElasticsearchEntityInformation(ElasticsearchPersistentEntity<T> persistentEntity) {
+        super(persistentEntity);
+        this.persistentEntity = persistentEntity;
+    }
 
-	@Override
-	public String getIdAttribute() {
-		return persistentEntity.getRequiredIdProperty().getFieldName();
-	}
+    @Override
+    public String getIdAttribute() {
+        return persistentEntity.getRequiredIdProperty().getFieldName();
+    }
 
-	@Override
-	public IndexCoordinates getIndexCoordinates() {
-		return persistentEntity.getIndexCoordinates();
-	}
+    @Override
+    public IndexCoordinates getIndexCoordinates() {
+        return persistentEntity.getIndexCoordinates();
+    }
 
-	@Override
-	public Long getVersion(T entity) {
+    @Override
+    public Long getVersion(T entity) {
 
-		ElasticsearchPersistentProperty versionProperty = persistentEntity.getVersionProperty();
-		try {
-			return versionProperty != null ? (Long) persistentEntity.getPropertyAccessor(entity).getProperty(versionProperty)
-					: null;
-		} catch (Exception e) {
-			throw new IllegalStateException("failed to load version field", e);
-		}
-	}
+        ElasticsearchPersistentProperty versionProperty = persistentEntity.getVersionProperty();
+        try {
+            return versionProperty != null ? (Long) persistentEntity.getPropertyAccessor(entity).getProperty(versionProperty)
+                    : null;
+        } catch (Exception e) {
+            throw new IllegalStateException("failed to load version field", e);
+        }
+    }
 
-	@Override
-	public Document.VersionType getVersionType() {
-		return persistentEntity.getVersionType();
-	}
+    @Override
+    public Document.VersionType getVersionType() {
+        return persistentEntity.getVersionType();
+    }
 
 }

@@ -31,46 +31,48 @@ import java.util.Map;
  */
 public class Completion {
 
-	private String[] input;
-	@Nullable private Map<String, List<String>> contexts;
-	@Nullable private Integer weight;
+    private String[] input;
+    @Nullable
+    private Map<String, List<String>> contexts;
+    @Nullable
+    private Integer weight;
 
-	public Completion() {
-		this.input = new String[0];
-	}
+    public Completion() {
+        this.input = new String[0];
+    }
 
-	public Completion(String[] input) {
-		this.input = input;
-	}
+    public Completion(String[] input) {
+        this.input = input;
+    }
 
-	public Completion(List<String> input) {
-		this.input = input.toArray(new String[0]);
-	}
+    public Completion(List<String> input) {
+        this.input = input.toArray(new String[0]);
+    }
 
-	public String[] getInput() {
-		return input;
-	}
+    public String[] getInput() {
+        return input;
+    }
 
-	public void setInput(String[] input) {
-		this.input = input;
-	}
+    public void setInput(String[] input) {
+        this.input = input;
+    }
 
-	@Nullable
-	public Integer getWeight() {
-		return weight;
-	}
+    @Nullable
+    public Integer getWeight() {
+        return weight;
+    }
 
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
 
-	@Nullable
-	public Map<String, List<String>> getContexts() {
-		return contexts;
-	}
+    @Nullable
+    public Map<String, List<String>> getContexts() {
+        return contexts;
+    }
 
-	public void setContexts(Map<String, List<String>> contexts) {
-		this.contexts = contexts;
-	}
+    public void setContexts(Map<String, List<String>> contexts) {
+        this.contexts = contexts;
+    }
 
 }

@@ -25,11 +25,11 @@ import java.lang.annotation.*;
  * @author Peter-Josef Meisch
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Documented
 @Query(count = true)
 public @interface CountQuery {
 
-	@AliasFor(annotation = Query.class)
-	String value() default "";
+    @AliasFor(annotation = Query.class)
+    String value() default "";
 }

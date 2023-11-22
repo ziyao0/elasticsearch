@@ -21,18 +21,18 @@ import org.springframework.lang.Nullable;
  * This interface is used to expose the current {@code scrollId} from the underlying scroll context.
  * <p>
  * Internal use only.
- * 
+ *
+ * @param <T>
  * @author Sascha Woo
  * @author Peter-Josef Meisch
- * @param <T>
  * @since 4.0
  */
 public interface SearchScrollHits<T> extends SearchHits<T> {
 
-	/**
-	 * @return the scroll id
-	 */
-	@Nullable
-	String getScrollId();
+    /**
+     * @return the scroll id
+     */
+    @Nullable
+    String getScrollId();
 
 }

@@ -15,11 +15,11 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
+import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.core.ActiveShardCount;
 import org.ziyao.data.elasticsearch.core.DocumentOperations;
 import org.ziyao.data.elasticsearch.core.RefreshPolicy;
 import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.lang.Nullable;
 
 import java.time.Duration;
 import java.util.List;
@@ -39,106 +39,107 @@ import java.util.List;
  */
 public class BulkOptions {
 
-	private static final BulkOptions defaultOptions = builder().build();
+    private static final BulkOptions defaultOptions = builder().build();
 
-	private final @Nullable Duration timeout;
-	private final @Nullable RefreshPolicy refreshPolicy;
-	private final @Nullable ActiveShardCount waitForActiveShards;
-	private final @Nullable String pipeline;
-	private final @Nullable String routingId;
+    private final @Nullable Duration timeout;
+    private final @Nullable RefreshPolicy refreshPolicy;
+    private final @Nullable ActiveShardCount waitForActiveShards;
+    private final @Nullable String pipeline;
+    private final @Nullable String routingId;
 
-	private BulkOptions(@Nullable Duration timeout, @Nullable RefreshPolicy refreshPolicy,
-			@Nullable ActiveShardCount waitForActiveShards, @Nullable String pipeline, @Nullable String routingId) {
-		this.timeout = timeout;
-		this.refreshPolicy = refreshPolicy;
-		this.waitForActiveShards = waitForActiveShards;
-		this.pipeline = pipeline;
-		this.routingId = routingId;
-	}
+    private BulkOptions(@Nullable Duration timeout, @Nullable RefreshPolicy refreshPolicy,
+                        @Nullable ActiveShardCount waitForActiveShards, @Nullable String pipeline, @Nullable String routingId) {
+        this.timeout = timeout;
+        this.refreshPolicy = refreshPolicy;
+        this.waitForActiveShards = waitForActiveShards;
+        this.pipeline = pipeline;
+        this.routingId = routingId;
+    }
 
-	@Nullable
-	public Duration getTimeout() {
-		return timeout;
-	}
+    @Nullable
+    public Duration getTimeout() {
+        return timeout;
+    }
 
-	@Nullable
-	public RefreshPolicy getRefreshPolicy() {
-		return refreshPolicy;
-	}
+    @Nullable
+    public RefreshPolicy getRefreshPolicy() {
+        return refreshPolicy;
+    }
 
-	@Nullable
-	public ActiveShardCount getWaitForActiveShards() {
-		return waitForActiveShards;
-	}
+    @Nullable
+    public ActiveShardCount getWaitForActiveShards() {
+        return waitForActiveShards;
+    }
 
-	@Nullable
-	public String getPipeline() {
-		return pipeline;
-	}
+    @Nullable
+    public String getPipeline() {
+        return pipeline;
+    }
 
-	@Nullable
-	public String getRoutingId() {
-		return routingId;
-	}
+    @Nullable
+    public String getRoutingId() {
+        return routingId;
+    }
 
-	/**
-	 * Create a new {@link BulkOptionsBuilder} to build {@link BulkOptions}.
-	 *
-	 * @return a new {@link BulkOptionsBuilder} to build {@link BulkOptions}.
-	 */
-	public static BulkOptionsBuilder builder() {
-		return new BulkOptionsBuilder();
-	}
+    /**
+     * Create a new {@link BulkOptionsBuilder} to build {@link BulkOptions}.
+     *
+     * @return a new {@link BulkOptionsBuilder} to build {@link BulkOptions}.
+     */
+    public static BulkOptionsBuilder builder() {
+        return new BulkOptionsBuilder();
+    }
 
-	/**
-	 * Return default {@link BulkOptions}.
-	 *
-	 * @return default {@link BulkOptions}.
-	 */
-	public static BulkOptions defaultOptions() {
-		return defaultOptions;
-	}
+    /**
+     * Return default {@link BulkOptions}.
+     *
+     * @return default {@link BulkOptions}.
+     */
+    public static BulkOptions defaultOptions() {
+        return defaultOptions;
+    }
 
-	/**
-	 * Builder for {@link BulkOptions}.
-	 */
-	public static class BulkOptionsBuilder {
+    /**
+     * Builder for {@link BulkOptions}.
+     */
+    public static class BulkOptionsBuilder {
 
-		private @Nullable Duration timeout;
-		private @Nullable RefreshPolicy refreshPolicy;
-		private @Nullable ActiveShardCount waitForActiveShards;
-		private @Nullable String pipeline;
-		private @Nullable String routingId;
+        private @Nullable Duration timeout;
+        private @Nullable RefreshPolicy refreshPolicy;
+        private @Nullable ActiveShardCount waitForActiveShards;
+        private @Nullable String pipeline;
+        private @Nullable String routingId;
 
-		private BulkOptionsBuilder() {}
+        private BulkOptionsBuilder() {
+        }
 
-		public BulkOptionsBuilder withTimeout(Duration timeout) {
-			this.timeout = timeout;
-			return this;
-		}
+        public BulkOptionsBuilder withTimeout(Duration timeout) {
+            this.timeout = timeout;
+            return this;
+        }
 
-		public BulkOptionsBuilder withRefreshPolicy(RefreshPolicy refreshPolicy) {
-			this.refreshPolicy = refreshPolicy;
-			return this;
-		}
+        public BulkOptionsBuilder withRefreshPolicy(RefreshPolicy refreshPolicy) {
+            this.refreshPolicy = refreshPolicy;
+            return this;
+        }
 
-		public BulkOptionsBuilder withWaitForActiveShards(ActiveShardCount waitForActiveShards) {
-			this.waitForActiveShards = waitForActiveShards;
-			return this;
-		}
+        public BulkOptionsBuilder withWaitForActiveShards(ActiveShardCount waitForActiveShards) {
+            this.waitForActiveShards = waitForActiveShards;
+            return this;
+        }
 
-		public BulkOptionsBuilder withPipeline(String pipeline) {
-			this.pipeline = pipeline;
-			return this;
-		}
+        public BulkOptionsBuilder withPipeline(String pipeline) {
+            this.pipeline = pipeline;
+            return this;
+        }
 
-		public BulkOptionsBuilder withRoutingId(String routingId) {
-			this.routingId = routingId;
-			return this;
-		}
+        public BulkOptionsBuilder withRoutingId(String routingId) {
+            this.routingId = routingId;
+            return this;
+        }
 
-		public BulkOptions build() {
-			return new BulkOptions(timeout, refreshPolicy, waitForActiveShards, pipeline, routingId);
-		}
-	}
+        public BulkOptions build() {
+            return new BulkOptions(timeout, refreshPolicy, waitForActiveShards, pipeline, routingId);
+        }
+    }
 }

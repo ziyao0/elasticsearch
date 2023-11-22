@@ -20,45 +20,45 @@ package org.ziyao.data.elasticsearch.core.query.highlight;
  * @since 4.3
  */
 public class HighlightFieldParameters extends HighlightCommonParameters {
-	private final int fragmentOffset;
-	private final String[] matchedFields;
+    private final int fragmentOffset;
+    private final String[] matchedFields;
 
-	private HighlightFieldParameters(HighlightFieldParametersBuilder builder) {
-		super(builder);
-		fragmentOffset = builder.fragmentOffset;
-		matchedFields = builder.matchedFields;
-	}
+    private HighlightFieldParameters(HighlightFieldParametersBuilder builder) {
+        super(builder);
+        fragmentOffset = builder.fragmentOffset;
+        matchedFields = builder.matchedFields;
+    }
 
-	public int getFragmentOffset() {
-		return fragmentOffset;
-	}
+    public int getFragmentOffset() {
+        return fragmentOffset;
+    }
 
-	public String[] getMatchedFields() {
-		return matchedFields;
-	}
+    public String[] getMatchedFields() {
+        return matchedFields;
+    }
 
-	public static HighlightFieldParametersBuilder builder() {
-		return new HighlightFieldParametersBuilder();
-	}
+    public static HighlightFieldParametersBuilder builder() {
+        return new HighlightFieldParametersBuilder();
+    }
 
-	public static final class HighlightFieldParametersBuilder
-			extends HighlightCommonParametersBuilder<HighlightFieldParametersBuilder> {
-		private int fragmentOffset = -1;
-		private String[] matchedFields = new String[0];
+    public static final class HighlightFieldParametersBuilder
+            extends HighlightCommonParametersBuilder<HighlightFieldParametersBuilder> {
+        private int fragmentOffset = -1;
+        private String[] matchedFields = new String[0];
 
-		public HighlightFieldParametersBuilder withFragmentOffset(int fragmentOffset) {
-			this.fragmentOffset = fragmentOffset;
-			return this;
-		}
+        public HighlightFieldParametersBuilder withFragmentOffset(int fragmentOffset) {
+            this.fragmentOffset = fragmentOffset;
+            return this;
+        }
 
-		public HighlightFieldParametersBuilder withMatchedFields(String[] matchedFields) {
-			this.matchedFields = matchedFields;
-			return this;
-		}
+        public HighlightFieldParametersBuilder withMatchedFields(String[] matchedFields) {
+            this.matchedFields = matchedFields;
+            return this;
+        }
 
-		@Override
-		public HighlightFieldParameters build() {
-			return new HighlightFieldParameters(this);
-		}
-	}
+        @Override
+        public HighlightFieldParameters build() {
+            return new HighlightFieldParameters(this);
+        }
+    }
 }

@@ -25,25 +25,25 @@ import org.springframework.dao.DataAccessException;
  */
 public class RestStatusException extends DataAccessException {
 
-	// we do not use a dedicated status class from Elasticsearch, OpenSearch, Spring web or webflux here
-	private final int status;
+    // we do not use a dedicated status class from Elasticsearch, OpenSearch, Spring web or webflux here
+    private final int status;
 
-	public RestStatusException(int status, String msg) {
-		super(msg);
-		this.status = status;
-	}
+    public RestStatusException(int status, String msg) {
+        super(msg);
+        this.status = status;
+    }
 
-	public RestStatusException(int status, String msg, Throwable cause) {
-		super(msg, cause);
-		this.status = status;
-	}
+    public RestStatusException(int status, String msg, Throwable cause) {
+        super(msg, cause);
+        this.status = status;
+    }
 
-	public int getStatus() {
-		return status;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	@Override
-	public String toString() {
-		return "RestStatusException{" + "status=" + status + "} " + super.toString();
-	}
+    @Override
+    public String toString() {
+        return "RestStatusException{" + "status=" + status + "} " + super.toString();
+    }
 }

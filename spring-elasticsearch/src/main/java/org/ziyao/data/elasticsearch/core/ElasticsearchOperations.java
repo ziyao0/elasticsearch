@@ -15,11 +15,11 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
+import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.core.cluster.ClusterOperations;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.ziyao.data.elasticsearch.core.routing.RoutingResolver;
-import org.springframework.lang.Nullable;
 
 import java.util.Objects;
 
@@ -38,66 +38,68 @@ import java.util.Objects;
  */
 public interface ElasticsearchOperations extends DocumentOperations, SearchOperations {
 
-	/**
-	 * get an {@link IndexOperations} that is bound to the given class
-	 *
-	 * @return IndexOperations
-	 */
-	IndexOperations indexOps(Class<?> clazz);
+    /**
+     * get an {@link IndexOperations} that is bound to the given class
+     *
+     * @return IndexOperations
+     */
+    IndexOperations indexOps(Class<?> clazz);
 
-	/**
-	 * get an {@link IndexOperations} that is bound to the given index
-	 *
-	 * @return IndexOperations
-	 */
-	IndexOperations indexOps(IndexCoordinates index);
+    /**
+     * get an {@link IndexOperations} that is bound to the given index
+     *
+     * @return IndexOperations
+     */
+    IndexOperations indexOps(IndexCoordinates index);
 
-	/**
-	 * return a {@link ClusterOperations} instance that uses the same client communication setup as this
-	 * ElasticsearchOperations instance.
-	 *
-	 * @return ClusterOperations implementation
-	 * @since 4.2
-	 */
-	ClusterOperations cluster();
+    /**
+     * return a {@link ClusterOperations} instance that uses the same client communication setup as this
+     * ElasticsearchOperations instance.
+     *
+     * @return ClusterOperations implementation
+     * @since 4.2
+     */
+    ClusterOperations cluster();
 
-	ElasticsearchConverter getElasticsearchConverter();
+    ElasticsearchConverter getElasticsearchConverter();
 
-	IndexCoordinates getIndexCoordinatesFor(Class<?> clazz);
+    IndexCoordinates getIndexCoordinatesFor(Class<?> clazz);
 
-	/**
-	 * gets the routing for an entity which might be defined by a join-type relation
-	 *
-	 * @param entity the entity
-	 * @return the routing, may be null if not set.
-	 * @since 4.1
-	 */
-	@Nullable
-	String getEntityRouting(Object entity);
+    /**
+     * gets the routing for an entity which might be defined by a join-type relation
+     *
+     * @param entity the entity
+     * @return the routing, may be null if not set.
+     * @since 4.1
+     */
+    @Nullable
+    String getEntityRouting(Object entity);
 
-	// region helper
-	/**
-	 * gets the String representation for an id.
-	 *
-	 * @param id
-	 * @return
-	 * @since 4.0
-	 */
-	@Nullable
-	default String stringIdRepresentation(@Nullable Object id) {
-		return Objects.toString(id, null);
-	}
-	// endregion
+    // region helper
 
-	// region routing
-	/**
-	 * Returns a copy of this instance with the same configuration, but that uses a different {@link RoutingResolver} to
-	 * obtain routing information.
-	 *
-	 * @param routingResolver the {@link RoutingResolver} value, must not be {@literal null}.
-	 * @return DocumentOperations instance
-	 * @since 4.2
-	 */
-	ElasticsearchOperations withRouting(RoutingResolver routingResolver);
-	// endregion
+    /**
+     * gets the String representation for an id.
+     *
+     * @param id
+     * @return
+     * @since 4.0
+     */
+    @Nullable
+    default String stringIdRepresentation(@Nullable Object id) {
+        return Objects.toString(id, null);
+    }
+    // endregion
+
+    // region routing
+
+    /**
+     * Returns a copy of this instance with the same configuration, but that uses a different {@link RoutingResolver} to
+     * obtain routing information.
+     *
+     * @param routingResolver the {@link RoutingResolver} value, must not be {@literal null}.
+     * @return DocumentOperations instance
+     * @since 4.2
+     */
+    ElasticsearchOperations withRouting(RoutingResolver routingResolver);
+    // endregion
 }

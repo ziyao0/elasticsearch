@@ -22,22 +22,23 @@ package org.ziyao.data.elasticsearch.client;
  * @since 4.4
  */
 public class UnsupportedBackendOperation extends RuntimeException {
-	public UnsupportedBackendOperation() {}
+    public UnsupportedBackendOperation() {
+    }
 
-	public UnsupportedBackendOperation(String message) {
-		super(message);
-	}
+    public UnsupportedBackendOperation(String message) {
+        super(message);
+    }
 
-	public UnsupportedBackendOperation(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public UnsupportedBackendOperation(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public UnsupportedBackendOperation(Throwable cause) {
-		super(cause);
-	}
+    public UnsupportedBackendOperation(Throwable cause) {
+        super(cause);
+    }
 
-	public UnsupportedBackendOperation(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
+    public UnsupportedBackendOperation(String message, Throwable cause, boolean enableSuppression,
+                                       boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

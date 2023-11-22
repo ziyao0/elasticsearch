@@ -16,9 +16,9 @@
 package org.ziyao.data.elasticsearch.repository.query;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.repository.query.Parameter;
-import org.springframework.data.repository.query.Parameters;
+import org.ziyao.data.geo.Distance;
+import org.ziyao.data.repository.query.Parameter;
+import org.ziyao.data.repository.query.Parameters;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -30,39 +30,39 @@ import java.util.List;
  */
 public class ElasticsearchParameters extends Parameters<ElasticsearchParameters, ElasticsearchParameters.ElasticsearchParameter> {
 
-	public ElasticsearchParameters(Method method) {
-		super(method);
-	}
+    public ElasticsearchParameters(Method method) {
+        super(method);
+    }
 
-	private ElasticsearchParameters(List<ElasticsearchParameter> parameters) {
-		super(parameters);
-	}
+    private ElasticsearchParameters(List<ElasticsearchParameter> parameters) {
+        super(parameters);
+    }
 
-	@Override
-	protected ElasticsearchParameter createParameter(MethodParameter parameter) {
-		return new ElasticsearchParameter(parameter);
-	}
+    @Override
+    protected ElasticsearchParameter createParameter(MethodParameter parameter) {
+        return new ElasticsearchParameter(parameter);
+    }
 
-	@Override
-	protected ElasticsearchParameters createFrom(List<ElasticsearchParameter> parameters) {
-		return new ElasticsearchParameters(parameters);
-	}
+    @Override
+    protected ElasticsearchParameters createFrom(List<ElasticsearchParameter> parameters) {
+        return new ElasticsearchParameters(parameters);
+    }
 
-	/**
-	 * Custom {@link Parameter} implementation adding parameters of type {@link Distance} to the special ones.
-	 *
-	 * @author Christoph Strobl
-	 */
-	class ElasticsearchParameter extends Parameter {
+    /**
+     * Custom {@link Parameter} implementation adding parameters of type {@link Distance} to the special ones.
+     *
+     * @author Christoph Strobl
+     */
+    class ElasticsearchParameter extends Parameter {
 
-		/**
-		 * Creates a new {@link ElasticsearchParameter}.
-		 *
-		 * @param parameter must not be {@literal null}.
-		 */
-		ElasticsearchParameter(MethodParameter parameter) {
-			super(parameter);
-		}
+        /**
+         * Creates a new {@link ElasticsearchParameter}.
+         *
+         * @param parameter must not be {@literal null}.
+         */
+        ElasticsearchParameter(MethodParameter parameter) {
+            super(parameter);
+        }
 
-	}
+    }
 }

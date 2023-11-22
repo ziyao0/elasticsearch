@@ -29,40 +29,40 @@ import java.util.List;
  */
 public class TemporalRangePropertyValueConverter extends AbstractRangePropertyValueConverter<TemporalAccessor> {
 
-	private static final Log LOGGER = LogFactory.getLog(TemporalRangePropertyValueConverter.class);
+    private static final Log LOGGER = LogFactory.getLog(TemporalRangePropertyValueConverter.class);
 
-	private final List<ElasticsearchDateConverter> dateConverters;
+    private final List<ElasticsearchDateConverter> dateConverters;
 
-	public TemporalRangePropertyValueConverter(PersistentProperty<?> property,
-			List<ElasticsearchDateConverter> dateConverters) {
+    public TemporalRangePropertyValueConverter(PersistentProperty<?> property,
+                                               List<ElasticsearchDateConverter> dateConverters) {
 
-		super(property);
+        super(property);
 
-		Assert.notEmpty(dateConverters, "dateConverters must not be empty.");
-		this.dateConverters = dateConverters;
-	}
+        Assert.notEmpty(dateConverters, "dateConverters must not be empty.");
+        this.dateConverters = dateConverters;
+    }
 
-	@Override
-	protected String format(TemporalAccessor temporal) {
-		return dateConverters.get(0).format(temporal);
-	}
+    @Override
+    protected String format(TemporalAccessor temporal) {
+        return dateConverters.get(0).format(temporal);
+    }
 
-	@Override
-	protected TemporalAccessor parse(String value) {
+    @Override
+    protected TemporalAccessor parse(String value) {
 
-		Class<?> type = getGenericType();
-		for (ElasticsearchDateConverter converters : dateConverters) {
-			try {
-				return converters.parse(value, (Class<? extends TemporalAccessor>) type);
-			} catch (Exception e) {
-				if (LOGGER.isTraceEnabled()) {
-					LOGGER.trace(e.getMessage(), e);
-				}
-			}
-		}
+        Class<?> type = getGenericType();
+        for (ElasticsearchDateConverter converters : dateConverters) {
+            try {
+                return converters.parse(value, (Class<? extends TemporalAccessor>) type);
+            } catch (Exception e) {
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(e.getMessage(), e);
+                }
+            }
+        }
 
-		throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", value,
-				type.getTypeName(), getProperty().getName()));
-	}
+        throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", value,
+                type.getTypeName(), getProperty().getName()));
+    }
 
 }

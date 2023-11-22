@@ -28,52 +28,52 @@ import java.util.List;
  */
 public class TemporalPropertyValueConverter extends AbstractPropertyValueConverter {
 
-	private static final Log LOGGER = LogFactory.getLog(TemporalPropertyValueConverter.class);
+    private static final Log LOGGER = LogFactory.getLog(TemporalPropertyValueConverter.class);
 
-	private final List<ElasticsearchDateConverter> dateConverters;
+    private final List<ElasticsearchDateConverter> dateConverters;
 
-	public TemporalPropertyValueConverter(PersistentProperty<?> property,
-			List<ElasticsearchDateConverter> dateConverters) {
+    public TemporalPropertyValueConverter(PersistentProperty<?> property,
+                                          List<ElasticsearchDateConverter> dateConverters) {
 
-		super(property);
-		this.dateConverters = dateConverters;
-	}
+        super(property);
+        this.dateConverters = dateConverters;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Object read(Object value) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public Object read(Object value) {
 
-		String s = value.toString();
-		Class<?> actualType = getProperty().getActualType();
+        String s = value.toString();
+        Class<?> actualType = getProperty().getActualType();
 
-		for (ElasticsearchDateConverter dateConverter : dateConverters) {
-			try {
-				return dateConverter.parse(s, (Class<? extends TemporalAccessor>) actualType);
-			} catch (Exception e) {
+        for (ElasticsearchDateConverter dateConverter : dateConverters) {
+            try {
+                return dateConverter.parse(s, (Class<? extends TemporalAccessor>) actualType);
+            } catch (Exception e) {
 
-				if (LOGGER.isTraceEnabled()) {
-					LOGGER.trace(e.getMessage(), e);
-				}
-			}
-		}
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(e.getMessage(), e);
+                }
+            }
+        }
 
-		throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", s,
-				getProperty().getActualType().getTypeName(), getProperty().getName()));
-	}
+        throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", s,
+                getProperty().getActualType().getTypeName(), getProperty().getName()));
+    }
 
-	@Override
-	public Object write(Object value) {
+    @Override
+    public Object write(Object value) {
 
-		if (!TemporalAccessor.class.isAssignableFrom(value.getClass())) {
-			return value.toString();
-		}
+        if (!TemporalAccessor.class.isAssignableFrom(value.getClass())) {
+            return value.toString();
+        }
 
-		try {
-			return dateConverters.get(0).format((TemporalAccessor) value);
-		} catch (Exception e) {
-			throw new ConversionException(
-					String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
-		}
-	}
+        try {
+            return dateConverters.get(0).format((TemporalAccessor) value);
+        } catch (Exception e) {
+            throw new ConversionException(
+                    String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
+        }
+    }
 
 }

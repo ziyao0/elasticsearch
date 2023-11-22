@@ -30,51 +30,51 @@ import java.util.Arrays;
  */
 public class IndexCoordinates {
 
-	public static final String TYPE = "_doc";
+    public static final String TYPE = "_doc";
 
-	private final String[] indexNames;
+    private final String[] indexNames;
 
-	public static IndexCoordinates of(String... indexNames) {
-		Assert.notNull(indexNames, "indexNames must not be null");
-		return new IndexCoordinates(indexNames);
-	}
+    public static IndexCoordinates of(String... indexNames) {
+        Assert.notNull(indexNames, "indexNames must not be null");
+        return new IndexCoordinates(indexNames);
+    }
 
-	private IndexCoordinates(String[] indexNames) {
-		Assert.notEmpty(indexNames, "indexNames may not be null or empty");
-		this.indexNames = indexNames;
-	}
+    private IndexCoordinates(String[] indexNames) {
+        Assert.notEmpty(indexNames, "indexNames may not be null or empty");
+        this.indexNames = indexNames;
+    }
 
-	public String getIndexName() {
-		return indexNames[0];
-	}
+    public String getIndexName() {
+        return indexNames[0];
+    }
 
-	public String[] getIndexNames() {
-		return Arrays.copyOf(indexNames, indexNames.length);
-	}
+    public String[] getIndexNames() {
+        return Arrays.copyOf(indexNames, indexNames.length);
+    }
 
-	/**
-	 * @since 4.2
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		IndexCoordinates that = (IndexCoordinates) o;
-		return Arrays.equals(indexNames, that.indexNames);
-	}
+    /**
+     * @since 4.2
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        IndexCoordinates that = (IndexCoordinates) o;
+        return Arrays.equals(indexNames, that.indexNames);
+    }
 
-	/**
-	 * @since 4.2
-	 */
-	@Override
-	public int hashCode() {
-		return Arrays.hashCode(indexNames);
-	}
+    /**
+     * @since 4.2
+     */
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(indexNames);
+    }
 
-	@Override
-	public String toString() {
-		return "IndexCoordinates{" + "indexNames=" + Arrays.toString(indexNames) + '}';
-	}
+    @Override
+    public String toString() {
+        return "IndexCoordinates{" + "indexNames=" + Arrays.toString(indexNames) + '}';
+    }
 }

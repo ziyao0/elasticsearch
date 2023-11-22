@@ -26,7 +26,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface Highlight {
 
-	HighlightParameters parameters() default @HighlightParameters;
+    HighlightParameters parameters() default @HighlightParameters;
 
-	HighlightField[] fields();
+    HighlightField[] fields();
 }

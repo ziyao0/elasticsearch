@@ -18,11 +18,11 @@ package org.springframework.data.mapping.context;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.mapping.PersistentPropertyPath;
-import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.util.TypeInformation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,248 +38,248 @@ import java.util.stream.Collectors;
  */
 class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements PersistentPropertyPath<P> {
 
-	private static final Converter<PersistentProperty<?>, String> DEFAULT_CONVERTER = (source) -> source.getName();
-	private static final String DEFAULT_DELIMITER = ".";
+    private static final Converter<PersistentProperty<?>, String> DEFAULT_CONVERTER = (source) -> source.getName();
+    private static final String DEFAULT_DELIMITER = ".";
 
-	private final List<P> properties;
+    private final List<P> properties;
 
-	/**
-	 * Creates a new {@link DefaultPersistentPropertyPath} for the given {@link PersistentProperty}s.
-	 *
-	 * @param properties must not be {@literal null}.
-	 */
-	public DefaultPersistentPropertyPath(List<P> properties) {
+    /**
+     * Creates a new {@link DefaultPersistentPropertyPath} for the given {@link PersistentProperty}s.
+     *
+     * @param properties must not be {@literal null}.
+     */
+    public DefaultPersistentPropertyPath(List<P> properties) {
 
-		Assert.notNull(properties, "Properties must not be null");
+        Assert.notNull(properties, "Properties must not be null");
 
-		this.properties = properties;
-	}
+        this.properties = properties;
+    }
 
-	/**
-	 * Creates an empty {@link DefaultPersistentPropertyPath}.
-	 *
-	 * @return
-	 */
-	public static <T extends PersistentProperty<T>> DefaultPersistentPropertyPath<T> empty() {
-		return new DefaultPersistentPropertyPath<T>(Collections.emptyList());
-	}
+    /**
+     * Creates an empty {@link DefaultPersistentPropertyPath}.
+     *
+     * @return
+     */
+    public static <T extends PersistentProperty<T>> DefaultPersistentPropertyPath<T> empty() {
+        return new DefaultPersistentPropertyPath<T>(Collections.emptyList());
+    }
 
-	/**
-	 * Appends the given {@link PersistentProperty} to the current {@link PersistentPropertyPath}.
-	 *
-	 * @param property must not be {@literal null}.
-	 * @return a new {@link DefaultPersistentPropertyPath} with the given property appended to the current one.
-	 * @throws IllegalArgumentException in case the property is not a property of the type of the current leaf property.
-	 */
-	public DefaultPersistentPropertyPath<P> append(P property) {
+    /**
+     * Appends the given {@link PersistentProperty} to the current {@link PersistentPropertyPath}.
+     *
+     * @param property must not be {@literal null}.
+     * @return a new {@link DefaultPersistentPropertyPath} with the given property appended to the current one.
+     * @throws IllegalArgumentException in case the property is not a property of the type of the current leaf property.
+     */
+    public DefaultPersistentPropertyPath<P> append(P property) {
 
-		Assert.notNull(property, "Property must not be null");
+        Assert.notNull(property, "Property must not be null");
 
-		if (isEmpty()) {
-			return new DefaultPersistentPropertyPath<>(Collections.singletonList(property));
-		}
+        if (isEmpty()) {
+            return new DefaultPersistentPropertyPath<>(Collections.singletonList(property));
+        }
 
-		@SuppressWarnings("null")
-		Class<?> leafPropertyType = getLeafProperty().getActualType();
+        @SuppressWarnings("null")
+        Class<?> leafPropertyType = getLeafProperty().getActualType();
 
-		Assert.isTrue(property.getOwner().getType().equals(leafPropertyType),
-				() -> String.format("Cannot append property %s to type %s", property.getName(), leafPropertyType.getName()));
+        Assert.isTrue(property.getOwner().getType().equals(leafPropertyType),
+                () -> String.format("Cannot append property %s to type %s", property.getName(), leafPropertyType.getName()));
 
-		List<P> properties = new ArrayList<>(this.properties);
-		properties.add(property);
+        List<P> properties = new ArrayList<>(this.properties);
+        properties.add(property);
 
-		return new DefaultPersistentPropertyPath<>(properties);
-	}
+        return new DefaultPersistentPropertyPath<>(properties);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toDotPath()
-	 */
-	@Nullable
-	public String toDotPath() {
-		return toPath(DEFAULT_DELIMITER, DEFAULT_CONVERTER);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toDotPath()
+     */
+    @Nullable
+    public String toDotPath() {
+        return toPath(DEFAULT_DELIMITER, DEFAULT_CONVERTER);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toDotPath(org.springframework.core.convert.converter.Converter)
-	 */
-	@Nullable
-	public String toDotPath(Converter<? super P, String> converter) {
-		return toPath(DEFAULT_DELIMITER, converter);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toDotPath(org.springframework.core.convert.converter.Converter)
+     */
+    @Nullable
+    public String toDotPath(Converter<? super P, String> converter) {
+        return toPath(DEFAULT_DELIMITER, converter);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toPath(java.lang.String)
-	 */
-	@Nullable
-	public String toPath(String delimiter) {
-		return toPath(delimiter, DEFAULT_CONVERTER);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toPath(java.lang.String)
+     */
+    @Nullable
+    public String toPath(String delimiter) {
+        return toPath(delimiter, DEFAULT_CONVERTER);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toPath(java.lang.String, org.springframework.core.convert.converter.Converter)
-	 */
-	@Nullable
-	public String toPath(String delimiter, Converter<? super P, String> converter) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#toPath(java.lang.String, org.springframework.core.convert.converter.Converter)
+     */
+    @Nullable
+    public String toPath(String delimiter, Converter<? super P, String> converter) {
 
-		Assert.hasText(delimiter, "Delimiter must not be null or empty");
-		Assert.notNull(converter, "Converter must not be null");
+        Assert.hasText(delimiter, "Delimiter must not be null or empty");
+        Assert.notNull(converter, "Converter must not be null");
 
-		String result = properties.stream() //
-				.map(converter::convert) //
-				.filter(StringUtils::hasText) //
-				.collect(Collectors.joining(delimiter));
+        String result = properties.stream() //
+                .map(converter::convert) //
+                .filter(StringUtils::hasText) //
+                .collect(Collectors.joining(delimiter));
 
-		return result.isEmpty() ? null : result;
-	}
+        return result.isEmpty() ? null : result;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getLeafProperty()
-	 */
-	@Nullable
-	public P getLeafProperty() {
-		return properties.isEmpty() ? null : properties.get(properties.size() - 1);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getLeafProperty()
+     */
+    @Nullable
+    public P getLeafProperty() {
+        return properties.isEmpty() ? null : properties.get(properties.size() - 1);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getBaseProperty()
-	 */
-	@Nullable
-	public P getBaseProperty() {
-		return properties.isEmpty() ? null : properties.get(0);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getBaseProperty()
+     */
+    @Nullable
+    public P getBaseProperty() {
+        return properties.isEmpty() ? null : properties.get(0);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#isBasePathOf(org.ziyao.data.mapping.context.PersistentPropertyPath)
-	 */
-	public boolean isBasePathOf(PersistentPropertyPath<P> path) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#isBasePathOf(org.ziyao.data.mapping.context.PersistentPropertyPath)
+     */
+    public boolean isBasePathOf(PersistentPropertyPath<P> path) {
 
-		Assert.notNull(path, "PersistentPropertyPath must not be null");
+        Assert.notNull(path, "PersistentPropertyPath must not be null");
 
-		Iterator<P> iterator = path.iterator();
+        Iterator<P> iterator = path.iterator();
 
-		for (P property : this) {
+        for (P property : this) {
 
-			if (!iterator.hasNext()) {
-				return false;
-			}
+            if (!iterator.hasNext()) {
+                return false;
+            }
 
-			P reference = iterator.next();
+            P reference = iterator.next();
 
-			if (!property.equals(reference)) {
-				return false;
-			}
-		}
+            if (!property.equals(reference)) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getExtensionForBaseOf(org.ziyao.data.mapping.context.PersistentPropertyPath)
-	 */
-	public PersistentPropertyPath<P> getExtensionForBaseOf(PersistentPropertyPath<P> base) {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getExtensionForBaseOf(org.ziyao.data.mapping.context.PersistentPropertyPath)
+     */
+    public PersistentPropertyPath<P> getExtensionForBaseOf(PersistentPropertyPath<P> base) {
 
-		if (!base.isBasePathOf(this)) {
-			return this;
-		}
+        if (!base.isBasePathOf(this)) {
+            return this;
+        }
 
-		List<P> result = new ArrayList<>();
-		Iterator<P> iterator = iterator();
+        List<P> result = new ArrayList<>();
+        Iterator<P> iterator = iterator();
 
-		for (int i = 0; i < base.getLength(); i++) {
-			iterator.next();
-		}
+        for (int i = 0; i < base.getLength(); i++) {
+            iterator.next();
+        }
 
-		while (iterator.hasNext()) {
-			result.add(iterator.next());
-		}
+        while (iterator.hasNext()) {
+            result.add(iterator.next());
+        }
 
-		return new DefaultPersistentPropertyPath<>(result);
-	}
+        return new DefaultPersistentPropertyPath<>(result);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getParentPath()
-	 */
-	public PersistentPropertyPath<P> getParentPath() {
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getParentPath()
+     */
+    public PersistentPropertyPath<P> getParentPath() {
 
-		int size = properties.size();
+        int size = properties.size();
 
-		return size == 0 ? this : new DefaultPersistentPropertyPath<>(properties.subList(0, size - 1));
-	}
+        return size == 0 ? this : new DefaultPersistentPropertyPath<>(properties.subList(0, size - 1));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getLength()
-	 */
-	public int getLength() {
-		return properties.size();
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.mapping.context.PersistentPropertyPath#getLength()
+     */
+    public int getLength() {
+        return properties.size();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
-	public Iterator<P> iterator() {
-		return properties.iterator();
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Iterable#iterator()
+     */
+    public Iterator<P> iterator() {
+        return properties.iterator();
+    }
 
-	/**
-	 * Returns whether the current path contains a property of the given type.
-	 *
-	 * @param type can be {@literal null}.
-	 * @return
-	 */
-	public boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
+    /**
+     * Returns whether the current path contains a property of the given type.
+     *
+     * @param type can be {@literal null}.
+     * @return
+     */
+    public boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
 
-		return type == null //
-				? false //
-				: properties.stream() //
-						.anyMatch(property -> type.equals(property.getTypeInformation().getActualType()));
-	}
+        return type == null //
+                ? false //
+                : properties.stream() //
+                .anyMatch(property -> type.equals(property.getTypeInformation().getActualType()));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object o) {
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
 
-		if (this == o) {
-			return true;
-		}
+        if (this == o) {
+            return true;
+        }
 
-		if (!(o instanceof DefaultPersistentPropertyPath)) {
-			return false;
-		}
+        if (!(o instanceof DefaultPersistentPropertyPath)) {
+            return false;
+        }
 
-		DefaultPersistentPropertyPath<?> that = (DefaultPersistentPropertyPath<?>) o;
-		return ObjectUtils.nullSafeEquals(properties, that.properties);
-	}
+        DefaultPersistentPropertyPath<?> that = (DefaultPersistentPropertyPath<?>) o;
+        return ObjectUtils.nullSafeEquals(properties, that.properties);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(properties);
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return ObjectUtils.nullSafeHashCode(properties);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	@Nullable
-	public String toString() {
-		return toDotPath();
-	}
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    @Nullable
+    public String toString() {
+        return toDotPath();
+    }
 }

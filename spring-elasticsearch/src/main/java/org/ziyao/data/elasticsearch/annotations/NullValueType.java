@@ -20,5 +20,5 @@ package org.ziyao.data.elasticsearch.annotations;
  * @since 4.1
  */
 public enum NullValueType {
-	String, Integer, Long, Double
+    String, Integer, Long, Double
 }

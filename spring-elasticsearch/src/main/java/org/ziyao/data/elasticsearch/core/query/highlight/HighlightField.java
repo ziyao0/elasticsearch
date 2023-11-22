@@ -15,68 +15,68 @@
  */
 package org.ziyao.data.elasticsearch.core.query.highlight;
 
-import org.ziyao.data.elasticsearch.annotations.HighlightParameters;
 import org.springframework.util.Assert;
+import org.ziyao.data.elasticsearch.annotations.HighlightParameters;
 
 /**
  * @author Peter-Josef Meisch
  * @since 4.3
  */
 public class HighlightField {
-	private final String name;
-	private final HighlightFieldParameters parameters;
+    private final String name;
+    private final HighlightFieldParameters parameters;
 
-	/**
-	 * @since 4.4
-	 */
-	public HighlightField(String name) {
+    /**
+     * @since 4.4
+     */
+    public HighlightField(String name) {
 
-		Assert.notNull(name, "name must not be null");
+        Assert.notNull(name, "name must not be null");
 
-		this.name = name;
-		this.parameters = HighlightFieldParameters.builder().build();
-	}
+        this.name = name;
+        this.parameters = HighlightFieldParameters.builder().build();
+    }
 
-	public HighlightField(String name, HighlightFieldParameters parameters) {
+    public HighlightField(String name, HighlightFieldParameters parameters) {
 
-		Assert.notNull(name, "name must not be null");
-		Assert.notNull(parameters, "parameters must not be null");
+        Assert.notNull(name, "name must not be null");
+        Assert.notNull(parameters, "parameters must not be null");
 
-		this.name = name;
-		this.parameters = parameters;
-	}
+        this.name = name;
+        this.parameters = parameters;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public HighlightFieldParameters getParameters() {
-		return parameters;
-	}
+    public HighlightFieldParameters getParameters() {
+        return parameters;
+    }
 
-	public static HighlightField of(org.ziyao.data.elasticsearch.annotations.HighlightField field) {
+    public static HighlightField of(org.ziyao.data.elasticsearch.annotations.HighlightField field) {
 
-		HighlightParameters parameters = field.parameters();
-		HighlightFieldParameters highlightParameters = HighlightFieldParameters.builder() //
-				.withBoundaryChars(parameters.boundaryChars()) //
-				.withBoundaryMaxScan(parameters.boundaryMaxScan()) //
-				.withBoundaryScanner(parameters.boundaryScanner()) //
-				.withBoundaryScannerLocale(parameters.boundaryScannerLocale()) //
-				.withForceSource(parameters.forceSource()) //
-				.withFragmenter(parameters.fragmenter()) //
-				.withFragmentOffset(parameters.fragmentOffset()) //
-				.withFragmentSize(parameters.fragmentSize()) //
-				.withMatchedFields(parameters.matchedFields()) //
-				.withNoMatchSize(parameters.noMatchSize()) //
-				.withNumberOfFragments(parameters.numberOfFragments()) //
-				.withOrder(parameters.order()) //
-				.withPhraseLimit(parameters.phraseLimit()) //
-				.withPreTags(parameters.preTags()) //
-				.withPostTags(parameters.postTags()) //
-				.withRequireFieldMatch(parameters.requireFieldMatch()) //
-				.withType(parameters.type()) //
-				.build();
+        HighlightParameters parameters = field.parameters();
+        HighlightFieldParameters highlightParameters = HighlightFieldParameters.builder() //
+                .withBoundaryChars(parameters.boundaryChars()) //
+                .withBoundaryMaxScan(parameters.boundaryMaxScan()) //
+                .withBoundaryScanner(parameters.boundaryScanner()) //
+                .withBoundaryScannerLocale(parameters.boundaryScannerLocale()) //
+                .withForceSource(parameters.forceSource()) //
+                .withFragmenter(parameters.fragmenter()) //
+                .withFragmentOffset(parameters.fragmentOffset()) //
+                .withFragmentSize(parameters.fragmentSize()) //
+                .withMatchedFields(parameters.matchedFields()) //
+                .withNoMatchSize(parameters.noMatchSize()) //
+                .withNumberOfFragments(parameters.numberOfFragments()) //
+                .withOrder(parameters.order()) //
+                .withPhraseLimit(parameters.phraseLimit()) //
+                .withPreTags(parameters.preTags()) //
+                .withPostTags(parameters.postTags()) //
+                .withRequireFieldMatch(parameters.requireFieldMatch()) //
+                .withType(parameters.type()) //
+                .build();
 
-		return new HighlightField(field.name(), highlightParameters);
-	}
+        return new HighlightField(field.name(), highlightParameters);
+    }
 }

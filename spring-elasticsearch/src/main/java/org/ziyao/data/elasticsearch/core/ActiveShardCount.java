@@ -21,21 +21,21 @@ package org.ziyao.data.elasticsearch.core;
  * @author Peter-Josef Meisch
  */
 public class ActiveShardCount {
-	private static final int ACTIVE_SHARD_COUNT_DEFAULT = -2;
-	private static final int ALL_ACTIVE_SHARDS = -1;
+    private static final int ACTIVE_SHARD_COUNT_DEFAULT = -2;
+    private static final int ALL_ACTIVE_SHARDS = -1;
 
-	public static final ActiveShardCount DEFAULT = new ActiveShardCount(ACTIVE_SHARD_COUNT_DEFAULT);
-	public static final ActiveShardCount ALL = new ActiveShardCount(ALL_ACTIVE_SHARDS);
-	public static final ActiveShardCount NONE = new ActiveShardCount(0);
-	public static final ActiveShardCount ONE = new ActiveShardCount(1);
+    public static final ActiveShardCount DEFAULT = new ActiveShardCount(ACTIVE_SHARD_COUNT_DEFAULT);
+    public static final ActiveShardCount ALL = new ActiveShardCount(ALL_ACTIVE_SHARDS);
+    public static final ActiveShardCount NONE = new ActiveShardCount(0);
+    public static final ActiveShardCount ONE = new ActiveShardCount(1);
 
-	private final int value;
+    private final int value;
 
-	public ActiveShardCount(int value) {
-		this.value = value;
-	}
+    public ActiveShardCount(int value) {
+        this.value = value;
+    }
 
-	public int getValue() {
-		return value;
-	}
+    public int getValue() {
+        return value;
+    }
 }

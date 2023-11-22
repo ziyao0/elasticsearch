@@ -31,33 +31,33 @@ import java.util.List;
  */
 public class AliasActions {
 
-	private final List<AliasAction> actions = new ArrayList<>();
+    private final List<AliasAction> actions = new ArrayList<>();
 
-	/**
-	 * Creates an {@link AliasActions} object with the passed in action elements.
-	 *
-	 * @param actions {@link AliasAction} elements
-	 */
-	public AliasActions(@Nullable AliasAction... actions) {
-		add(actions);
-	}
+    /**
+     * Creates an {@link AliasActions} object with the passed in action elements.
+     *
+     * @param actions {@link AliasAction} elements
+     */
+    public AliasActions(@Nullable AliasAction... actions) {
+        add(actions);
+    }
 
-	public List<AliasAction> getActions() {
-		return Collections.unmodifiableList(actions);
-	}
+    public List<AliasAction> getActions() {
+        return Collections.unmodifiableList(actions);
+    }
 
-	/**
-	 * Adds {@link AliasAction} elements to this {@link AliasActions}
-	 *
-	 * @param actions elements to add
-	 * @return this object
-	 */
-	public AliasActions add(@Nullable AliasAction... actions) {
+    /**
+     * Adds {@link AliasAction} elements to this {@link AliasActions}
+     *
+     * @param actions elements to add
+     * @return this object
+     */
+    public AliasActions add(@Nullable AliasAction... actions) {
 
-		if (actions != null) {
-			this.actions.addAll(Arrays.asList(actions));
-		}
+        if (actions != null) {
+            this.actions.addAll(Arrays.asList(actions));
+        }
 
-		return this;
-	}
+        return this;
+    }
 }

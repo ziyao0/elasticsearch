@@ -16,8 +16,8 @@
 package org.ziyao.data.elasticsearch.config;
 
 import org.elasticsearch.action.support.IndicesOptions;
-import org.ziyao.data.elasticsearch.core.RefreshPolicy;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.elasticsearch.core.RefreshPolicy;
 
 /**
  * @author Christoph Strobl

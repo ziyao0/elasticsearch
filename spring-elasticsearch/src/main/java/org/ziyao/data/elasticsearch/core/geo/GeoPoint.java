@@ -16,7 +16,7 @@
 package org.ziyao.data.elasticsearch.core.geo;
 
 import org.ziyao.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.geo.Point;
+import org.ziyao.data.geo.Point;
 
 import java.util.Objects;
 
@@ -29,57 +29,57 @@ import java.util.Objects;
  */
 public class GeoPoint {
 
-	private double lat;
-	private double lon;
+    private double lat;
+    private double lon;
 
-	private GeoPoint() {
-		// required by mapper to instantiate object
-	}
+    private GeoPoint() {
+        // required by mapper to instantiate object
+    }
 
-	public GeoPoint(double latitude, double longitude) {
-		this.lat = latitude;
-		this.lon = longitude;
-	}
+    public GeoPoint(double latitude, double longitude) {
+        this.lat = latitude;
+        this.lon = longitude;
+    }
 
-	public double getLat() {
-		return lat;
-	}
+    public double getLat() {
+        return lat;
+    }
 
-	public double getLon() {
-		return lon;
-	}
+    public double getLon() {
+        return lon;
+    }
 
-	/**
-	 * build a GeoPoint from a {@link Point}
-	 *
-	 * @param point {@link Point}
-	 * @return a {@link GeoPoint}
-	 */
-	public static GeoPoint fromPoint(Point point) {
-		return new GeoPoint(point.getY(), point.getX());
-	}
+    /**
+     * build a GeoPoint from a {@link Point}
+     *
+     * @param point {@link Point}
+     * @return a {@link GeoPoint}
+     */
+    public static GeoPoint fromPoint(Point point) {
+        return new GeoPoint(point.getY(), point.getX());
+    }
 
-	public static Point toPoint(GeoPoint point) {
-		return new Point(point.getLon(), point.getLat());
-	}
+    public static Point toPoint(GeoPoint point) {
+        return new Point(point.getLon(), point.getLat());
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		GeoPoint geoPoint = (GeoPoint) o;
-		return Double.compare(geoPoint.lat, lat) == 0 && Double.compare(geoPoint.lon, lon) == 0;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        GeoPoint geoPoint = (GeoPoint) o;
+        return Double.compare(geoPoint.lat, lat) == 0 && Double.compare(geoPoint.lon, lon) == 0;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(lat, lon);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(lat, lon);
+    }
 
-	@Override
-	public String toString() {
-		return "GeoPoint{" + "lat=" + lat + ", lon=" + lon + '}';
-	}
+    @Override
+    public String toString() {
+        return "GeoPoint{" + "lat=" + lat + ", lon=" + lon + '}';
+    }
 }

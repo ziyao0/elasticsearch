@@ -46,182 +46,193 @@ import java.util.List;
  */
 public class NativeSearchQuery extends BaseQuery {
 
-	@Nullable private final QueryBuilder query;
-	@Nullable private QueryBuilder filter;
-	@Nullable private List<SortBuilder<?>> sorts;
-	private final List<ScriptField> scriptFields = new ArrayList<>();
-	@Nullable private CollapseBuilder collapseBuilder;
-	@Nullable private List<AbstractAggregationBuilder<?>> aggregations;
-	@Nullable private List<PipelineAggregationBuilder> pipelineAggregations;
-	@Nullable private HighlightBuilder highlightBuilder;
-	@Nullable private HighlightBuilder.Field[] highlightFields;
-	@Nullable private SearchTemplateRequestBuilder searchTemplate;
-	@Nullable private SuggestBuilder suggestBuilder;
-	@Nullable private List<SearchExtBuilder> searchExtBuilders;
+    @Nullable
+    private final QueryBuilder query;
+    @Nullable
+    private QueryBuilder filter;
+    @Nullable
+    private List<SortBuilder<?>> sorts;
+    private final List<ScriptField> scriptFields = new ArrayList<>();
+    @Nullable
+    private CollapseBuilder collapseBuilder;
+    @Nullable
+    private List<AbstractAggregationBuilder<?>> aggregations;
+    @Nullable
+    private List<PipelineAggregationBuilder> pipelineAggregations;
+    @Nullable
+    private HighlightBuilder highlightBuilder;
+    @Nullable
+    private HighlightBuilder.Field[] highlightFields;
+    @Nullable
+    private SearchTemplateRequestBuilder searchTemplate;
+    @Nullable
+    private SuggestBuilder suggestBuilder;
+    @Nullable
+    private List<SearchExtBuilder> searchExtBuilders;
 
-	public NativeSearchQuery(@Nullable QueryBuilder query) {
-		this.query = query;
-	}
+    public NativeSearchQuery(@Nullable QueryBuilder query) {
+        this.query = query;
+    }
 
-	public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter) {
+    public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter) {
 
-		this.query = query;
-		this.filter = filter;
-	}
+        this.query = query;
+        this.filter = filter;
+    }
 
-	public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter,
-			@Nullable List<SortBuilder<?>> sorts) {
+    public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter,
+                             @Nullable List<SortBuilder<?>> sorts) {
 
-		this.query = query;
-		this.filter = filter;
-		this.sorts = sorts;
-	}
+        this.query = query;
+        this.filter = filter;
+        this.sorts = sorts;
+    }
 
-	public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter,
-			@Nullable List<SortBuilder<?>> sorts, @Nullable HighlightBuilder.Field[] highlightFields) {
+    public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter,
+                             @Nullable List<SortBuilder<?>> sorts, @Nullable HighlightBuilder.Field[] highlightFields) {
 
-		this.query = query;
-		this.filter = filter;
-		this.sorts = sorts;
-		this.highlightFields = highlightFields;
-	}
+        this.query = query;
+        this.filter = filter;
+        this.sorts = sorts;
+        this.highlightFields = highlightFields;
+    }
 
-	public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter,
-			@Nullable List<SortBuilder<?>> sorts, @Nullable HighlightBuilder highlightBuilder,
-			@Nullable HighlightBuilder.Field[] highlightFields) {
+    public NativeSearchQuery(@Nullable QueryBuilder query, @Nullable QueryBuilder filter,
+                             @Nullable List<SortBuilder<?>> sorts, @Nullable HighlightBuilder highlightBuilder,
+                             @Nullable HighlightBuilder.Field[] highlightFields) {
 
-		this.query = query;
-		this.filter = filter;
-		this.sorts = sorts;
-		this.highlightBuilder = highlightBuilder;
-		this.highlightFields = highlightFields;
-	}
+        this.query = query;
+        this.filter = filter;
+        this.sorts = sorts;
+        this.highlightBuilder = highlightBuilder;
+        this.highlightFields = highlightFields;
+    }
 
-	public NativeSearchQuery(NativeSearchQueryBuilder builder, @Nullable QueryBuilder query,
+    public NativeSearchQuery(NativeSearchQueryBuilder builder, @Nullable QueryBuilder query,
                              @Nullable QueryBuilder filter, @Nullable List<SortBuilder<?>> sorts, @Nullable HighlightBuilder highlightBuilder,
                              @Nullable HighlightBuilder.Field[] highlightFields) {
-		super(builder);
-		this.query = query;
-		this.filter = filter;
-		this.sorts = sorts;
-		this.highlightBuilder = highlightBuilder;
-		this.highlightFields = highlightFields;
-	}
+        super(builder);
+        this.query = query;
+        this.filter = filter;
+        this.sorts = sorts;
+        this.highlightBuilder = highlightBuilder;
+        this.highlightFields = highlightFields;
+    }
 
-	@Nullable
-	public QueryBuilder getQuery() {
-		return query;
-	}
+    @Nullable
+    public QueryBuilder getQuery() {
+        return query;
+    }
 
-	@Nullable
-	public QueryBuilder getFilter() {
-		return filter;
-	}
+    @Nullable
+    public QueryBuilder getFilter() {
+        return filter;
+    }
 
-	@Nullable
-	public List<SortBuilder<?>> getElasticsearchSorts() {
-		return sorts;
-	}
+    @Nullable
+    public List<SortBuilder<?>> getElasticsearchSorts() {
+        return sorts;
+    }
 
-	@Nullable
-	public HighlightBuilder getHighlightBuilder() {
-		return highlightBuilder;
-	}
+    @Nullable
+    public HighlightBuilder getHighlightBuilder() {
+        return highlightBuilder;
+    }
 
-	@Nullable
-	public HighlightBuilder.Field[] getHighlightFields() {
-		return highlightFields;
-	}
+    @Nullable
+    public HighlightBuilder.Field[] getHighlightFields() {
+        return highlightFields;
+    }
 
-	public List<ScriptField> getScriptFields() {
-		return scriptFields;
-	}
+    public List<ScriptField> getScriptFields() {
+        return scriptFields;
+    }
 
-	public void setScriptFields(List<ScriptField> scriptFields) {
-		this.scriptFields.addAll(scriptFields);
-	}
+    public void setScriptFields(List<ScriptField> scriptFields) {
+        this.scriptFields.addAll(scriptFields);
+    }
 
-	public void addScriptField(ScriptField... scriptField) {
-		scriptFields.addAll(Arrays.asList(scriptField));
-	}
+    public void addScriptField(ScriptField... scriptField) {
+        scriptFields.addAll(Arrays.asList(scriptField));
+    }
 
-	@Nullable
-	public CollapseBuilder getCollapseBuilder() {
-		return collapseBuilder;
-	}
+    @Nullable
+    public CollapseBuilder getCollapseBuilder() {
+        return collapseBuilder;
+    }
 
-	public void setCollapseBuilder(CollapseBuilder collapseBuilder) {
-		this.collapseBuilder = collapseBuilder;
-	}
+    public void setCollapseBuilder(CollapseBuilder collapseBuilder) {
+        this.collapseBuilder = collapseBuilder;
+    }
 
-	@Nullable
-	public List<AbstractAggregationBuilder<?>> getAggregations() {
-		return aggregations;
-	}
+    @Nullable
+    public List<AbstractAggregationBuilder<?>> getAggregations() {
+        return aggregations;
+    }
 
-	@Nullable
-	public List<PipelineAggregationBuilder> getPipelineAggregations() {
-		return pipelineAggregations;
-	}
+    @Nullable
+    public List<PipelineAggregationBuilder> getPipelineAggregations() {
+        return pipelineAggregations;
+    }
 
-	public void addAggregation(AbstractAggregationBuilder<?> aggregationBuilder) {
+    public void addAggregation(AbstractAggregationBuilder<?> aggregationBuilder) {
 
-		if (aggregations == null) {
-			aggregations = new ArrayList<>();
-		}
+        if (aggregations == null) {
+            aggregations = new ArrayList<>();
+        }
 
-		aggregations.add(aggregationBuilder);
-	}
+        aggregations.add(aggregationBuilder);
+    }
 
-	public void setAggregations(List<AbstractAggregationBuilder<?>> aggregations) {
-		this.aggregations = aggregations;
-	}
+    public void setAggregations(List<AbstractAggregationBuilder<?>> aggregations) {
+        this.aggregations = aggregations;
+    }
 
-	public void setPipelineAggregations(List<PipelineAggregationBuilder> pipelineAggregationBuilders) {
-		this.pipelineAggregations = pipelineAggregationBuilders;
-	}
+    public void setPipelineAggregations(List<PipelineAggregationBuilder> pipelineAggregationBuilders) {
+        this.pipelineAggregations = pipelineAggregationBuilders;
+    }
 
-	public void setIndicesBoost(List<IndexBoost> indicesBoost) {
-		this.indicesBoost = indicesBoost;
-	}
+    public void setIndicesBoost(List<IndexBoost> indicesBoost) {
+        this.indicesBoost = indicesBoost;
+    }
 
-	@Nullable
-	public SearchTemplateRequestBuilder getSearchTemplate() {
-		return searchTemplate;
-	}
+    @Nullable
+    public SearchTemplateRequestBuilder getSearchTemplate() {
+        return searchTemplate;
+    }
 
-	public void setSearchTemplate(@Nullable SearchTemplateRequestBuilder searchTemplate) {
-		this.searchTemplate = searchTemplate;
-	}
+    public void setSearchTemplate(@Nullable SearchTemplateRequestBuilder searchTemplate) {
+        this.searchTemplate = searchTemplate;
+    }
 
-	/**
-	 * @since 4.3
-	 */
-	public void setSuggestBuilder(SuggestBuilder suggestBuilder) {
-		this.suggestBuilder = suggestBuilder;
-	}
+    /**
+     * @since 4.3
+     */
+    public void setSuggestBuilder(SuggestBuilder suggestBuilder) {
+        this.suggestBuilder = suggestBuilder;
+    }
 
-	/**
-	 * @since 4.3
-	 */
-	@Nullable
-	public SuggestBuilder getSuggestBuilder() {
-		return suggestBuilder;
-	}
+    /**
+     * @since 4.3
+     */
+    @Nullable
+    public SuggestBuilder getSuggestBuilder() {
+        return suggestBuilder;
+    }
 
-	public void setSearchExtBuilders(List<SearchExtBuilder> searchExtBuilders) {
-		this.searchExtBuilders = searchExtBuilders;
-	}
+    public void setSearchExtBuilders(List<SearchExtBuilder> searchExtBuilders) {
+        this.searchExtBuilders = searchExtBuilders;
+    }
 
-	public void addSearchExtBuilder(SearchExtBuilder searchExtBuilder) {
-		if (searchExtBuilders == null) {
-			searchExtBuilders = new ArrayList<>();
-		}
-		searchExtBuilders.add(searchExtBuilder);
-	}
+    public void addSearchExtBuilder(SearchExtBuilder searchExtBuilder) {
+        if (searchExtBuilders == null) {
+            searchExtBuilders = new ArrayList<>();
+        }
+        searchExtBuilders.add(searchExtBuilder);
+    }
 
-	@Nullable
-	public List<SearchExtBuilder> getSearchExtBuilders() {
-		return searchExtBuilders;
-	}
+    @Nullable
+    public List<SearchExtBuilder> getSearchExtBuilders() {
+        return searchExtBuilders;
+    }
 }

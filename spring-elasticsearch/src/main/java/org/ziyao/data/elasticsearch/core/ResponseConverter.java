@@ -30,6 +30,8 @@ import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.compress.CompressedXContent;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.ScrollableHitSource;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.cluster.ClusterHealth;
 import org.ziyao.data.elasticsearch.core.document.Document;
 import org.ziyao.data.elasticsearch.core.index.AliasData;
@@ -37,8 +39,6 @@ import org.ziyao.data.elasticsearch.core.index.Settings;
 import org.ziyao.data.elasticsearch.core.index.TemplateData;
 import org.ziyao.data.elasticsearch.core.query.ByQueryResponse;
 import org.ziyao.data.elasticsearch.core.reindex.ReindexResponse;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,379 +52,383 @@ import java.util.stream.Collectors;
  * @since 4.2
  */
 public class ResponseConverter {
-	private ResponseConverter() {}
+    private ResponseConverter() {
+    }
 
-	// region alias
+    // region alias
 
-	public static Map<String, Set<AliasData>> aliasDatas(Map<String, Set<AliasMetadata>> aliasesMetadatas) {
-		Map<String, Set<AliasData>> converted = new LinkedHashMap<>();
-		aliasesMetadatas.forEach((index, aliasMetaDataSet) -> {
-			Set<AliasData> aliasDataSet = new LinkedHashSet<>();
-			aliasMetaDataSet.forEach(aliasMetaData -> aliasDataSet.add(toAliasData(aliasMetaData)));
-			converted.put(index, aliasDataSet);
-		});
-		return converted;
-	}
+    public static Map<String, Set<AliasData>> aliasDatas(Map<String, Set<AliasMetadata>> aliasesMetadatas) {
+        Map<String, Set<AliasData>> converted = new LinkedHashMap<>();
+        aliasesMetadatas.forEach((index, aliasMetaDataSet) -> {
+            Set<AliasData> aliasDataSet = new LinkedHashSet<>();
+            aliasMetaDataSet.forEach(aliasMetaData -> aliasDataSet.add(toAliasData(aliasMetaData)));
+            converted.put(index, aliasDataSet);
+        });
+        return converted;
+    }
 
-	public static AliasData toAliasData(AliasMetadata aliasMetaData) {
-		Document filter = null;
-		CompressedXContent aliasMetaDataFilter = aliasMetaData.getFilter();
+    public static AliasData toAliasData(AliasMetadata aliasMetaData) {
+        Document filter = null;
+        CompressedXContent aliasMetaDataFilter = aliasMetaData.getFilter();
 
-		if (aliasMetaDataFilter != null) {
-			filter = Document.parse(aliasMetaDataFilter.string());
-		}
-		return AliasData.of(aliasMetaData.alias(), filter, aliasMetaData.indexRouting(), aliasMetaData.getSearchRouting(),
-				aliasMetaData.writeIndex(), aliasMetaData.isHidden());
-	}
-	// endregion
+        if (aliasMetaDataFilter != null) {
+            filter = Document.parse(aliasMetaDataFilter.string());
+        }
+        return AliasData.of(aliasMetaData.alias(), filter, aliasMetaData.indexRouting(), aliasMetaData.getSearchRouting(),
+                aliasMetaData.writeIndex(), aliasMetaData.isHidden());
+    }
+    // endregion
 
-	// region index informations
-	/**
-	 * get the index informations from a {@link GetIndexResponse}
-	 *
-	 * @param getIndexResponse the index response, must not be {@literal null}
-	 * @return list of {@link IndexInformation}s for the different indices
-	 */
-	public static List<IndexInformation> getIndexInformations(GetIndexResponse getIndexResponse) {
+    // region index informations
 
-		Assert.notNull(getIndexResponse, "getIndexResponse must not be null");
+    /**
+     * get the index informations from a {@link GetIndexResponse}
+     *
+     * @param getIndexResponse the index response, must not be {@literal null}
+     * @return list of {@link IndexInformation}s for the different indices
+     */
+    public static List<IndexInformation> getIndexInformations(GetIndexResponse getIndexResponse) {
 
-		List<IndexInformation> indexInformationList = new ArrayList<>();
+        Assert.notNull(getIndexResponse, "getIndexResponse must not be null");
 
-		for (String indexName : getIndexResponse.getIndices()) {
-			Settings settings = settingsFromGetIndexResponse(getIndexResponse, indexName);
-			Document mappings = mappingsFromGetIndexResponse(getIndexResponse, indexName);
-			List<AliasData> aliases = aliasDataFromIndexResponse(getIndexResponse, indexName);
+        List<IndexInformation> indexInformationList = new ArrayList<>();
 
-			indexInformationList.add(IndexInformation.of(indexName, settings, mappings, aliases));
-		}
+        for (String indexName : getIndexResponse.getIndices()) {
+            Settings settings = settingsFromGetIndexResponse(getIndexResponse, indexName);
+            Document mappings = mappingsFromGetIndexResponse(getIndexResponse, indexName);
+            List<AliasData> aliases = aliasDataFromIndexResponse(getIndexResponse, indexName);
 
-		return indexInformationList;
-	}
+            indexInformationList.add(IndexInformation.of(indexName, settings, mappings, aliases));
+        }
 
-	/**
-	 * extract the index settings information from a given index
-	 *
-	 * @param getIndexResponse the elastic GetIndexResponse
-	 * @param indexName the index name
-	 * @return a document that represents {@link Settings}
-	 */
-	private static Settings settingsFromGetIndexResponse(GetIndexResponse getIndexResponse, String indexName) {
-		Settings settings = new Settings();
+        return indexInformationList;
+    }
 
-		org.elasticsearch.common.settings.Settings indexSettings = getIndexResponse.getSettings().get(indexName);
+    /**
+     * extract the index settings information from a given index
+     *
+     * @param getIndexResponse the elastic GetIndexResponse
+     * @param indexName        the index name
+     * @return a document that represents {@link Settings}
+     */
+    private static Settings settingsFromGetIndexResponse(GetIndexResponse getIndexResponse, String indexName) {
+        Settings settings = new Settings();
 
-		if (!indexSettings.isEmpty()) {
-			for (String key : indexSettings.keySet()) {
-				settings.put(key, indexSettings.get(key));
-			}
-		}
+        org.elasticsearch.common.settings.Settings indexSettings = getIndexResponse.getSettings().get(indexName);
 
-		return settings;
-	}
+        if (!indexSettings.isEmpty()) {
+            for (String key : indexSettings.keySet()) {
+                settings.put(key, indexSettings.get(key));
+            }
+        }
 
-	/**
-	 * extract the mappings information from a given index
-	 *
-	 * @param getIndexResponse the elastic GetIndexResponse
-	 * @param indexName the index name
-	 * @return a document that represents {@link MappingMetadata}
-	 */
-	private static Document mappingsFromGetIndexResponse(GetIndexResponse getIndexResponse, String indexName) {
-		Document document = Document.create();
+        return settings;
+    }
 
-		if (getIndexResponse.getMappings().containsKey(indexName)) {
-			MappingMetadata mappings = getIndexResponse.getMappings().get(indexName);
-			document = Document.from(mappings.getSourceAsMap());
-		}
+    /**
+     * extract the mappings information from a given index
+     *
+     * @param getIndexResponse the elastic GetIndexResponse
+     * @param indexName        the index name
+     * @return a document that represents {@link MappingMetadata}
+     */
+    private static Document mappingsFromGetIndexResponse(GetIndexResponse getIndexResponse, String indexName) {
+        Document document = Document.create();
 
-		return document;
-	}
+        if (getIndexResponse.getMappings().containsKey(indexName)) {
+            MappingMetadata mappings = getIndexResponse.getMappings().get(indexName);
+            document = Document.from(mappings.getSourceAsMap());
+        }
 
-	private static List<AliasData> aliasDataFromIndexResponse(GetIndexResponse getIndexResponse, String indexName) {
-		List<AliasData> aliases = Collections.emptyList();
+        return document;
+    }
 
-		if (getIndexResponse.getAliases().get(indexName) != null) {
-			aliases = getIndexResponse.getAliases().get(indexName).stream().map(ResponseConverter::toAliasData)
-					.collect(Collectors.toList());
-		}
-		return aliases;
-	}
+    private static List<AliasData> aliasDataFromIndexResponse(GetIndexResponse getIndexResponse, String indexName) {
+        List<AliasData> aliases = Collections.emptyList();
 
-	/**
-	 * get the index informations from a {@link org.elasticsearch.action.admin.indices.get.GetIndexResponse} (transport
-	 * client)
-	 *
-	 * @param getIndexResponse the index response, must not be {@literal null}
-	 * @return list of {@link IndexInformation}s for the different indices
-	 */
-	public static List<IndexInformation> getIndexInformations(
-			org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse) {
-		List<IndexInformation> indexInformationList = new ArrayList<>();
+        if (getIndexResponse.getAliases().get(indexName) != null) {
+            aliases = getIndexResponse.getAliases().get(indexName).stream().map(ResponseConverter::toAliasData)
+                    .collect(Collectors.toList());
+        }
+        return aliases;
+    }
 
-		for (String indexName : getIndexResponse.getIndices()) {
-			Settings settings = settingsFromGetIndexResponse(getIndexResponse, indexName);
-			Document mappings = mappingsFromGetIndexResponse(getIndexResponse, indexName);
-			List<AliasData> aliases = aliasDataFromIndexResponse(getIndexResponse, indexName);
+    /**
+     * get the index informations from a {@link org.elasticsearch.action.admin.indices.get.GetIndexResponse} (transport
+     * client)
+     *
+     * @param getIndexResponse the index response, must not be {@literal null}
+     * @return list of {@link IndexInformation}s for the different indices
+     */
+    public static List<IndexInformation> getIndexInformations(
+            org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse) {
+        List<IndexInformation> indexInformationList = new ArrayList<>();
 
-			indexInformationList.add(IndexInformation.of(indexName, settings, mappings, aliases));
-		}
+        for (String indexName : getIndexResponse.getIndices()) {
+            Settings settings = settingsFromGetIndexResponse(getIndexResponse, indexName);
+            Document mappings = mappingsFromGetIndexResponse(getIndexResponse, indexName);
+            List<AliasData> aliases = aliasDataFromIndexResponse(getIndexResponse, indexName);
 
-		return indexInformationList;
-	}
+            indexInformationList.add(IndexInformation.of(indexName, settings, mappings, aliases));
+        }
 
-	private static Settings settingsFromGetIndexResponse(
-			org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse, String indexName) {
+        return indexInformationList;
+    }
 
-		Settings settings = new Settings();
+    private static Settings settingsFromGetIndexResponse(
+            org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse, String indexName) {
 
-		if (getIndexResponse.getSettings().containsKey(indexName)) {
-			org.elasticsearch.common.settings.Settings indexSettings = getIndexResponse.getSettings().get(indexName);
+        Settings settings = new Settings();
 
-			for (String key : indexSettings.keySet()) {
-				settings.put(key, indexSettings.get(key));
-			}
-		}
+        if (getIndexResponse.getSettings().containsKey(indexName)) {
+            org.elasticsearch.common.settings.Settings indexSettings = getIndexResponse.getSettings().get(indexName);
 
-		return settings;
-	}
+            for (String key : indexSettings.keySet()) {
+                settings.put(key, indexSettings.get(key));
+            }
+        }
 
-	private static Document mappingsFromGetIndexResponse(
-			org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse, String indexName) {
-		Document document = Document.create();
+        return settings;
+    }
 
-		boolean responseHasMappings = getIndexResponse.getMappings().containsKey(indexName)
-				&& (getIndexResponse.getMappings().get(indexName).get("_doc") != null);
+    private static Document mappingsFromGetIndexResponse(
+            org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse, String indexName) {
+        Document document = Document.create();
 
-		if (responseHasMappings) {
-			MappingMetadata mappings = getIndexResponse.getMappings().get(indexName).get("_doc");
-			document = Document.from(mappings.getSourceAsMap());
-		}
+        boolean responseHasMappings = getIndexResponse.getMappings().containsKey(indexName)
+                && (getIndexResponse.getMappings().get(indexName).get("_doc") != null);
 
-		return document;
-	}
+        if (responseHasMappings) {
+            MappingMetadata mappings = getIndexResponse.getMappings().get(indexName).get("_doc");
+            document = Document.from(mappings.getSourceAsMap());
+        }
 
-	private static List<AliasData> aliasDataFromIndexResponse(
-			org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse, String indexName) {
-		List<AliasData> aliases = Collections.emptyList();
+        return document;
+    }
 
-		if (getIndexResponse.getAliases().get(indexName) != null) {
-			aliases = getIndexResponse.getAliases().get(indexName).stream().map(ResponseConverter::toAliasData)
-					.collect(Collectors.toList());
-		}
-		return aliases;
-	}
+    private static List<AliasData> aliasDataFromIndexResponse(
+            org.elasticsearch.action.admin.indices.get.GetIndexResponse getIndexResponse, String indexName) {
+        List<AliasData> aliases = Collections.emptyList();
 
-	// endregion
+        if (getIndexResponse.getAliases().get(indexName) != null) {
+            aliases = getIndexResponse.getAliases().get(indexName).stream().map(ResponseConverter::toAliasData)
+                    .collect(Collectors.toList());
+        }
+        return aliases;
+    }
 
-	// region templates
-	@Nullable
-	public static TemplateData getTemplateData(GetIndexTemplatesResponse getIndexTemplatesResponse, String templateName) {
-		for (IndexTemplateMetadata indexTemplateMetadata : getIndexTemplatesResponse.getIndexTemplates()) {
+    // endregion
 
-			if (indexTemplateMetadata.name().equals(templateName)) {
+    // region templates
+    @Nullable
+    public static TemplateData getTemplateData(GetIndexTemplatesResponse getIndexTemplatesResponse, String templateName) {
+        for (IndexTemplateMetadata indexTemplateMetadata : getIndexTemplatesResponse.getIndexTemplates()) {
 
-				Settings settings = new Settings();
-				org.elasticsearch.common.settings.Settings templateSettings = indexTemplateMetadata.settings();
-				templateSettings.keySet().forEach(key -> settings.put(key, templateSettings.get(key)));
+            if (indexTemplateMetadata.name().equals(templateName)) {
 
-				Map<String, AliasData> aliases = new LinkedHashMap<>();
+                Settings settings = new Settings();
+                org.elasticsearch.common.settings.Settings templateSettings = indexTemplateMetadata.settings();
+                templateSettings.keySet().forEach(key -> settings.put(key, templateSettings.get(key)));
 
-				ImmutableOpenMap<String, AliasMetadata> aliasesResponse = indexTemplateMetadata.aliases();
-				Iterator<String> keysIt = aliasesResponse.keysIt();
-				while (keysIt.hasNext()) {
-					String key = keysIt.next();
-					aliases.put(key, ResponseConverter.toAliasData(aliasesResponse.get(key)));
-				}
+                Map<String, AliasData> aliases = new LinkedHashMap<>();
 
-				return TemplateData.builder().withIndexPatterns(indexTemplateMetadata.patterns().toArray(new String[0])) //
-						.withSettings(settings) //
-						.withMapping(Document.from(indexTemplateMetadata.mappings().getSourceAsMap())) //
-						.withAliases(aliases) //
-						.withOrder(indexTemplateMetadata.order()) //
-						.withVersion(indexTemplateMetadata.version()).build();
-			}
-		}
-		return null;
-	}
-	// endregion
+                ImmutableOpenMap<String, AliasMetadata> aliasesResponse = indexTemplateMetadata.aliases();
+                Iterator<String> keysIt = aliasesResponse.keysIt();
+                while (keysIt.hasNext()) {
+                    String key = keysIt.next();
+                    aliases.put(key, ResponseConverter.toAliasData(aliasesResponse.get(key)));
+                }
 
-	// region settings
-	/**
-	 * extract the index settings information for a given index
-	 *
-	 * @param response the Elasticsearch response
-	 * @param indexName the index name
-	 * @return settings
-	 */
-	public static Settings fromSettingsResponse(GetSettingsResponse response, String indexName) {
+                return TemplateData.builder().withIndexPatterns(indexTemplateMetadata.patterns().toArray(new String[0])) //
+                        .withSettings(settings) //
+                        .withMapping(Document.from(indexTemplateMetadata.mappings().getSourceAsMap())) //
+                        .withAliases(aliases) //
+                        .withOrder(indexTemplateMetadata.order()) //
+                        .withVersion(indexTemplateMetadata.version()).build();
+            }
+        }
+        return null;
+    }
+    // endregion
 
-		Settings settings = new Settings();
+    // region settings
 
-		if (!response.getIndexToDefaultSettings().isEmpty()) {
-			org.elasticsearch.common.settings.Settings defaultSettings = response.getIndexToDefaultSettings().get(indexName);
-			for (String key : defaultSettings.keySet()) {
-				settings.put(key, defaultSettings.get(key));
-			}
-		}
+    /**
+     * extract the index settings information for a given index
+     *
+     * @param response  the Elasticsearch response
+     * @param indexName the index name
+     * @return settings
+     */
+    public static Settings fromSettingsResponse(GetSettingsResponse response, String indexName) {
 
-		if (!response.getIndexToSettings().isEmpty()) {
-			org.elasticsearch.common.settings.Settings customSettings = response.getIndexToSettings().get(indexName);
-			for (String key : customSettings.keySet()) {
-				settings.put(key, customSettings.get(key));
-			}
-		}
+        Settings settings = new Settings();
 
-		return settings;
-	}
-	// endregion
+        if (!response.getIndexToDefaultSettings().isEmpty()) {
+            org.elasticsearch.common.settings.Settings defaultSettings = response.getIndexToDefaultSettings().get(indexName);
+            for (String key : defaultSettings.keySet()) {
+                settings.put(key, defaultSettings.get(key));
+            }
+        }
 
-	// region multiget
+        if (!response.getIndexToSettings().isEmpty()) {
+            org.elasticsearch.common.settings.Settings customSettings = response.getIndexToSettings().get(indexName);
+            for (String key : customSettings.keySet()) {
+                settings.put(key, customSettings.get(key));
+            }
+        }
 
-	@Nullable
-	public static MultiGetItem.Failure getFailure(MultiGetItemResponse itemResponse) {
+        return settings;
+    }
+    // endregion
 
-		MultiGetResponse.Failure responseFailure = itemResponse.getFailure();
-		return responseFailure != null ? MultiGetItem.Failure.of(responseFailure.getIndex(), responseFailure.getType(),
-				responseFailure.getId(), responseFailure.getFailure(), null) : null;
-	}
-	// endregion
+    // region multiget
 
-	// region cluster operations
-	public static ClusterHealth clusterHealth(ClusterHealthResponse clusterHealthResponse) {
-		return ClusterHealth.builder() //
-				.withActivePrimaryShards(clusterHealthResponse.getActivePrimaryShards()) //
-				.withActiveShards(clusterHealthResponse.getActiveShards()) //
-				.withActiveShardsPercent(clusterHealthResponse.getActiveShardsPercent()) //
-				.withClusterName(clusterHealthResponse.getClusterName()) //
-				.withDelayedUnassignedShards(clusterHealthResponse.getDelayedUnassignedShards()) //
-				.withInitializingShards(clusterHealthResponse.getInitializingShards()) //
-				.withNumberOfDataNodes(clusterHealthResponse.getNumberOfDataNodes()) //
-				.withNumberOfInFlightFetch(clusterHealthResponse.getNumberOfInFlightFetch()) //
-				.withNumberOfNodes(clusterHealthResponse.getNumberOfNodes()) //
-				.withNumberOfPendingTasks(clusterHealthResponse.getNumberOfPendingTasks()) //
-				.withRelocatingShards(clusterHealthResponse.getRelocatingShards()) //
-				.withStatus(clusterHealthResponse.getStatus().toString()) //
-				.withTaskMaxWaitingTimeMillis(clusterHealthResponse.getTaskMaxWaitingTime().millis()) //
-				.withTimedOut(clusterHealthResponse.isTimedOut()) //
-				.withUnassignedShards(clusterHealthResponse.getUnassignedShards()) //
-				.build(); //
+    @Nullable
+    public static MultiGetItem.Failure getFailure(MultiGetItemResponse itemResponse) {
 
-	}
-	// endregion
+        MultiGetResponse.Failure responseFailure = itemResponse.getFailure();
+        return responseFailure != null ? MultiGetItem.Failure.of(responseFailure.getIndex(), responseFailure.getType(),
+                responseFailure.getId(), responseFailure.getFailure(), null) : null;
+    }
+    // endregion
 
-	// region byQueryResponse
-	public static ByQueryResponse byQueryResponseOf(BulkByScrollResponse bulkByScrollResponse) {
-		final List<ByQueryResponse.Failure> failures = bulkByScrollResponse.getBulkFailures() //
-				.stream() //
-				.map(ResponseConverter::byQueryResponseFailureOf) //
-				.collect(Collectors.toList()); //
+    // region cluster operations
+    public static ClusterHealth clusterHealth(ClusterHealthResponse clusterHealthResponse) {
+        return ClusterHealth.builder() //
+                .withActivePrimaryShards(clusterHealthResponse.getActivePrimaryShards()) //
+                .withActiveShards(clusterHealthResponse.getActiveShards()) //
+                .withActiveShardsPercent(clusterHealthResponse.getActiveShardsPercent()) //
+                .withClusterName(clusterHealthResponse.getClusterName()) //
+                .withDelayedUnassignedShards(clusterHealthResponse.getDelayedUnassignedShards()) //
+                .withInitializingShards(clusterHealthResponse.getInitializingShards()) //
+                .withNumberOfDataNodes(clusterHealthResponse.getNumberOfDataNodes()) //
+                .withNumberOfInFlightFetch(clusterHealthResponse.getNumberOfInFlightFetch()) //
+                .withNumberOfNodes(clusterHealthResponse.getNumberOfNodes()) //
+                .withNumberOfPendingTasks(clusterHealthResponse.getNumberOfPendingTasks()) //
+                .withRelocatingShards(clusterHealthResponse.getRelocatingShards()) //
+                .withStatus(clusterHealthResponse.getStatus().toString()) //
+                .withTaskMaxWaitingTimeMillis(clusterHealthResponse.getTaskMaxWaitingTime().millis()) //
+                .withTimedOut(clusterHealthResponse.isTimedOut()) //
+                .withUnassignedShards(clusterHealthResponse.getUnassignedShards()) //
+                .build(); //
 
-		final List<ByQueryResponse.SearchFailure> searchFailures = bulkByScrollResponse.getSearchFailures() //
-				.stream() //
-				.map(ResponseConverter::byQueryResponseSearchFailureOf) //
-				.collect(Collectors.toList());//
+    }
+    // endregion
 
-		return ByQueryResponse.builder() //
-				.withTook(bulkByScrollResponse.getTook().getMillis()) //
-				.withTimedOut(bulkByScrollResponse.isTimedOut()) //
-				.withTotal(bulkByScrollResponse.getTotal()) //
-				.withUpdated(bulkByScrollResponse.getUpdated()) //
-				.withDeleted(bulkByScrollResponse.getDeleted()) //
-				.withBatches(bulkByScrollResponse.getBatches()) //
-				.withVersionConflicts(bulkByScrollResponse.getVersionConflicts()) //
-				.withNoops(bulkByScrollResponse.getNoops()) //
-				.withBulkRetries(bulkByScrollResponse.getBulkRetries()) //
-				.withSearchRetries(bulkByScrollResponse.getSearchRetries()) //
-				.withReasonCancelled(bulkByScrollResponse.getReasonCancelled()) //
-				.withFailures(failures) //
-				.withSearchFailure(searchFailures) //
-				.build(); //
-	}
+    // region byQueryResponse
+    public static ByQueryResponse byQueryResponseOf(BulkByScrollResponse bulkByScrollResponse) {
+        final List<ByQueryResponse.Failure> failures = bulkByScrollResponse.getBulkFailures() //
+                .stream() //
+                .map(ResponseConverter::byQueryResponseFailureOf) //
+                .collect(Collectors.toList()); //
 
-	/**
-	 * Create a new {@link ByQueryResponse.Failure} from {@link BulkItemResponse.Failure}
-	 *
-	 * @param failure {@link BulkItemResponse.Failure} to translate
-	 * @return a new {@link ByQueryResponse.Failure}
-	 */
-	public static ByQueryResponse.Failure byQueryResponseFailureOf(BulkItemResponse.Failure failure) {
-		return ByQueryResponse.Failure.builder() //
-				.withIndex(failure.getIndex()) //
-				.withType(failure.getType()) //
-				.withId(failure.getId()) //
-				.withStatus(failure.getStatus().getStatus()) //
-				.withAborted(failure.isAborted()) //
-				.withCause(failure.getCause()) //
-				.withSeqNo(failure.getSeqNo()) //
-				.withTerm(failure.getTerm()) //
-				.build(); //
-	}
+        final List<ByQueryResponse.SearchFailure> searchFailures = bulkByScrollResponse.getSearchFailures() //
+                .stream() //
+                .map(ResponseConverter::byQueryResponseSearchFailureOf) //
+                .collect(Collectors.toList());//
 
-	/**
-	 * Create a new {@link ByQueryResponse.SearchFailure} from {@link ScrollableHitSource.SearchFailure}
-	 *
-	 * @param searchFailure {@link ScrollableHitSource.SearchFailure} to translate
-	 * @return a new {@link ByQueryResponse.SearchFailure}
-	 */
-	public static ByQueryResponse.SearchFailure byQueryResponseSearchFailureOf(
-			ScrollableHitSource.SearchFailure searchFailure) {
-		return ByQueryResponse.SearchFailure.builder() //
-				.withReason(searchFailure.getReason()) //
-				.withIndex(searchFailure.getIndex()) //
-				.withNodeId(searchFailure.getNodeId()) //
-				.withShardId(searchFailure.getShardId()) //
-				.withStatus(searchFailure.getStatus().getStatus()) //
-				.build(); //
-	}
+        return ByQueryResponse.builder() //
+                .withTook(bulkByScrollResponse.getTook().getMillis()) //
+                .withTimedOut(bulkByScrollResponse.isTimedOut()) //
+                .withTotal(bulkByScrollResponse.getTotal()) //
+                .withUpdated(bulkByScrollResponse.getUpdated()) //
+                .withDeleted(bulkByScrollResponse.getDeleted()) //
+                .withBatches(bulkByScrollResponse.getBatches()) //
+                .withVersionConflicts(bulkByScrollResponse.getVersionConflicts()) //
+                .withNoops(bulkByScrollResponse.getNoops()) //
+                .withBulkRetries(bulkByScrollResponse.getBulkRetries()) //
+                .withSearchRetries(bulkByScrollResponse.getSearchRetries()) //
+                .withReasonCancelled(bulkByScrollResponse.getReasonCancelled()) //
+                .withFailures(failures) //
+                .withSearchFailure(searchFailures) //
+                .build(); //
+    }
 
-	// endregion
+    /**
+     * Create a new {@link ByQueryResponse.Failure} from {@link BulkItemResponse.Failure}
+     *
+     * @param failure {@link BulkItemResponse.Failure} to translate
+     * @return a new {@link ByQueryResponse.Failure}
+     */
+    public static ByQueryResponse.Failure byQueryResponseFailureOf(BulkItemResponse.Failure failure) {
+        return ByQueryResponse.Failure.builder() //
+                .withIndex(failure.getIndex()) //
+                .withType(failure.getType()) //
+                .withId(failure.getId()) //
+                .withStatus(failure.getStatus().getStatus()) //
+                .withAborted(failure.isAborted()) //
+                .withCause(failure.getCause()) //
+                .withSeqNo(failure.getSeqNo()) //
+                .withTerm(failure.getTerm()) //
+                .build(); //
+    }
 
-	// region reindex
-	/**
-	 * @since 4.4
-	 */
-	public static ReindexResponse reindexResponseOf(BulkByScrollResponse bulkByScrollResponse) {
-		final List<ReindexResponse.Failure> failures = bulkByScrollResponse.getBulkFailures() //
-				.stream() //
-				.map(ResponseConverter::reindexResponseFailureOf) //
-				.collect(Collectors.toList()); //
+    /**
+     * Create a new {@link ByQueryResponse.SearchFailure} from {@link ScrollableHitSource.SearchFailure}
+     *
+     * @param searchFailure {@link ScrollableHitSource.SearchFailure} to translate
+     * @return a new {@link ByQueryResponse.SearchFailure}
+     */
+    public static ByQueryResponse.SearchFailure byQueryResponseSearchFailureOf(
+            ScrollableHitSource.SearchFailure searchFailure) {
+        return ByQueryResponse.SearchFailure.builder() //
+                .withReason(searchFailure.getReason()) //
+                .withIndex(searchFailure.getIndex()) //
+                .withNodeId(searchFailure.getNodeId()) //
+                .withShardId(searchFailure.getShardId()) //
+                .withStatus(searchFailure.getStatus().getStatus()) //
+                .build(); //
+    }
 
-		return ReindexResponse.builder() //
-				.withTook(bulkByScrollResponse.getTook().getMillis()) //
-				.withTimedOut(bulkByScrollResponse.isTimedOut()) //
-				.withTotal(bulkByScrollResponse.getTotal()) //
-				.withCreated(bulkByScrollResponse.getCreated()) //
-				.withUpdated(bulkByScrollResponse.getUpdated()) //
-				.withDeleted(bulkByScrollResponse.getDeleted()) //
-				.withBatches(bulkByScrollResponse.getBatches()) //
-				.withVersionConflicts(bulkByScrollResponse.getVersionConflicts()) //
-				.withNoops(bulkByScrollResponse.getNoops()) //
-				.withBulkRetries(bulkByScrollResponse.getBulkRetries()) //
-				.withSearchRetries(bulkByScrollResponse.getSearchRetries()) //
-				.withThrottledMillis(bulkByScrollResponse.getStatus().getThrottled().getMillis()) //
-				.withRequestsPerSecond(bulkByScrollResponse.getStatus().getRequestsPerSecond()) //
-				.withThrottledUntilMillis(bulkByScrollResponse.getStatus().getThrottledUntil().getMillis()) //
-				.withFailures(failures) //
-				.build(); //
+    // endregion
 
-	}
+    // region reindex
 
-	/**
-	 * @since 4.4
-	 */
-	public static ReindexResponse.Failure reindexResponseFailureOf(BulkItemResponse.Failure failure) {
-		return ReindexResponse.Failure.builder() //
-				.withIndex(failure.getIndex()) //
-				.withType(failure.getType()) //
-				.withId(failure.getId()) //
-				.withStatus(failure.getStatus().getStatus()) //
-				.withAborted(failure.isAborted()) //
-				.withCause(failure.getCause()) //
-				.withSeqNo(failure.getSeqNo()) //
-				.withTerm(failure.getTerm()) //
-				.build(); //
-	}
+    /**
+     * @since 4.4
+     */
+    public static ReindexResponse reindexResponseOf(BulkByScrollResponse bulkByScrollResponse) {
+        final List<ReindexResponse.Failure> failures = bulkByScrollResponse.getBulkFailures() //
+                .stream() //
+                .map(ResponseConverter::reindexResponseFailureOf) //
+                .collect(Collectors.toList()); //
 
-	// endregion
+        return ReindexResponse.builder() //
+                .withTook(bulkByScrollResponse.getTook().getMillis()) //
+                .withTimedOut(bulkByScrollResponse.isTimedOut()) //
+                .withTotal(bulkByScrollResponse.getTotal()) //
+                .withCreated(bulkByScrollResponse.getCreated()) //
+                .withUpdated(bulkByScrollResponse.getUpdated()) //
+                .withDeleted(bulkByScrollResponse.getDeleted()) //
+                .withBatches(bulkByScrollResponse.getBatches()) //
+                .withVersionConflicts(bulkByScrollResponse.getVersionConflicts()) //
+                .withNoops(bulkByScrollResponse.getNoops()) //
+                .withBulkRetries(bulkByScrollResponse.getBulkRetries()) //
+                .withSearchRetries(bulkByScrollResponse.getSearchRetries()) //
+                .withThrottledMillis(bulkByScrollResponse.getStatus().getThrottled().getMillis()) //
+                .withRequestsPerSecond(bulkByScrollResponse.getStatus().getRequestsPerSecond()) //
+                .withThrottledUntilMillis(bulkByScrollResponse.getStatus().getThrottledUntil().getMillis()) //
+                .withFailures(failures) //
+                .build(); //
+
+    }
+
+    /**
+     * @since 4.4
+     */
+    public static ReindexResponse.Failure reindexResponseFailureOf(BulkItemResponse.Failure failure) {
+        return ReindexResponse.Failure.builder() //
+                .withIndex(failure.getIndex()) //
+                .withType(failure.getType()) //
+                .withId(failure.getId()) //
+                .withStatus(failure.getStatus().getStatus()) //
+                .withAborted(failure.isAborted()) //
+                .withCause(failure.getCause()) //
+                .withSeqNo(failure.getSeqNo()) //
+                .withTerm(failure.getTerm()) //
+                .build(); //
+    }
+
+    // endregion
 }

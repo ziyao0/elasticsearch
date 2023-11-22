@@ -15,16 +15,16 @@
  */
 package org.ziyao.data.elasticsearch.core.convert;
 
-import org.springframework.data.convert.EntityConverter;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.ziyao.data.convert.EntityConverter;
 import org.ziyao.data.elasticsearch.core.document.Document;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.ziyao.data.elasticsearch.core.mapping.PropertyValueConverter;
 import org.ziyao.data.elasticsearch.core.query.Query;
-import org.springframework.data.projection.ProjectionFactory;
-import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import org.ziyao.data.projection.ProjectionFactory;
+import org.ziyao.data.projection.SpelAwareProxyProjectionFactory;
 
 /**
  * @author Rizwan Idrees
@@ -35,71 +35,73 @@ import org.springframework.util.Assert;
  * @author Roman Puchkovskiy
  */
 public interface ElasticsearchConverter
-		extends EntityConverter<ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty, Object, Document> {
+        extends EntityConverter<ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty, Object, Document> {
 
-	/**
-	 * Get the configured {@link ProjectionFactory}. <br />
-	 * <strong>NOTE</strong> Should be overwritten in implementation to make use of the type cache.
-	 *
-	 * @since 3.2
-	 */
-	default ProjectionFactory getProjectionFactory() {
-		return new SpelAwareProxyProjectionFactory();
-	}
+    /**
+     * Get the configured {@link ProjectionFactory}. <br />
+     * <strong>NOTE</strong> Should be overwritten in implementation to make use of the type cache.
+     *
+     * @since 3.2
+     */
+    default ProjectionFactory getProjectionFactory() {
+        return new SpelAwareProxyProjectionFactory();
+    }
 
-	// region write
-	/**
-	 * Convert a given {@literal idValue} to its {@link String} representation taking potentially registered
-	 * {@link org.springframework.core.convert.converter.Converter Converters} into account.
-	 *
-	 * @param idValue must not be {@literal null}.
-	 * @return never {@literal null}.
-	 * @since 3.2
-	 */
-	default String convertId(Object idValue) {
+    // region write
 
-		Assert.notNull(idValue, "idValue must not be null!");
+    /**
+     * Convert a given {@literal idValue} to its {@link String} representation taking potentially registered
+     * {@link org.springframework.core.convert.converter.Converter Converters} into account.
+     *
+     * @param idValue must not be {@literal null}.
+     * @return never {@literal null}.
+     * @since 3.2
+     */
+    default String convertId(Object idValue) {
 
-		if (!getConversionService().canConvert(idValue.getClass(), String.class)) {
-			return idValue.toString();
-		}
+        Assert.notNull(idValue, "idValue must not be null!");
 
-		String converted = getConversionService().convert(idValue, String.class);
+        if (!getConversionService().canConvert(idValue.getClass(), String.class)) {
+            return idValue.toString();
+        }
 
-		if (converted == null) {
-			return idValue.toString();
-		}
+        String converted = getConversionService().convert(idValue, String.class);
 
-		return converted;
-	}
+        if (converted == null) {
+            return idValue.toString();
+        }
 
-	/**
-	 * Map an object to a {@link Document}.
-	 *
-	 * @param source the object to map
-	 * @return will not be {@literal null}.
-	 */
-	default Document mapObject(@Nullable Object source) {
+        return converted;
+    }
 
-		Document target = Document.create();
+    /**
+     * Map an object to a {@link Document}.
+     *
+     * @param source the object to map
+     * @return will not be {@literal null}.
+     */
+    default Document mapObject(@Nullable Object source) {
 
-		if (source != null) {
-			write(source, target);
-		}
-		return target;
-	}
-	// endregion
+        Document target = Document.create();
 
-	// region query
-	/**
-	 * Updates a {@link Query} by renaming the property names in the query to the correct mapped field names and the
-	 * values to the converted values if the {@link ElasticsearchPersistentProperty} for a property has a
-	 * {@link PropertyValueConverter}. If domainClass is null it's a noop.
-	 *
-	 * @param query the query that is internally updated, must not be {@literal null}
-	 * @param domainClass the class of the object that is searched with the query
-	 */
-	void updateQuery(Query query, @Nullable Class<?> domainClass);
+        if (source != null) {
+            write(source, target);
+        }
+        return target;
+    }
+    // endregion
 
-	// endregion
+    // region query
+
+    /**
+     * Updates a {@link Query} by renaming the property names in the query to the correct mapped field names and the
+     * values to the converted values if the {@link ElasticsearchPersistentProperty} for a property has a
+     * {@link PropertyValueConverter}. If domainClass is null it's a noop.
+     *
+     * @param query       the query that is internally updated, must not be {@literal null}
+     * @param domainClass the class of the object that is searched with the query
+     */
+    void updateQuery(Query query, @Nullable Class<?> domainClass);
+
+    // endregion
 }

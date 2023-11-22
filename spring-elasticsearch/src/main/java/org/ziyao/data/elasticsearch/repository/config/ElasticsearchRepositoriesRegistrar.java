@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.repository.config;
 
-import org.springframework.data.repository.config.RepositoryBeanDefinitionRegistrarSupport;
-import org.springframework.data.repository.config.RepositoryConfigurationExtension;
+import org.ziyao.data.repository.config.RepositoryBeanDefinitionRegistrarSupport;
+import org.ziyao.data.repository.config.RepositoryConfigurationExtension;
 
 import java.lang.annotation.Annotation;
 
@@ -29,21 +29,21 @@ import java.lang.annotation.Annotation;
  */
 class ElasticsearchRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSupport {
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryBeanDefinitionRegistrarSupport#getAnnotation()
-	 */
-	@Override
-	protected Class<? extends Annotation> getAnnotation() {
-		return EnableElasticsearchRepositories.class;
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryBeanDefinitionRegistrarSupport#getAnnotation()
+     */
+    @Override
+    protected Class<? extends Annotation> getAnnotation() {
+        return EnableElasticsearchRepositories.class;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ziyao.data.repository.config.RepositoryBeanDefinitionRegistrarSupport#getExtension()
-	 */
-	@Override
-	protected RepositoryConfigurationExtension getExtension() {
-		return new ElasticsearchRepositoryConfigExtension();
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.ziyao.data.repository.config.RepositoryBeanDefinitionRegistrarSupport#getExtension()
+     */
+    @Override
+    protected RepositoryConfigurationExtension getExtension() {
+        return new ElasticsearchRepositoryConfigExtension();
+    }
 }

@@ -26,12 +26,12 @@ import org.springframework.lang.Nullable;
  */
 public interface PropertyValueProvider<P extends PersistentProperty<P>> {
 
-	/**
-	 * Returns a value for the given {@link PersistentProperty}.
-	 *
-	 * @param property will never be {@literal null}.
-	 * @return
-	 */
-	@Nullable
-	<T> T getPropertyValue(P property);
+    /**
+     * Returns a value for the given {@link PersistentProperty}.
+     *
+     * @param property will never be {@literal null}.
+     * @return
+     */
+    @Nullable
+    <T> T getPropertyValue(P property);
 }

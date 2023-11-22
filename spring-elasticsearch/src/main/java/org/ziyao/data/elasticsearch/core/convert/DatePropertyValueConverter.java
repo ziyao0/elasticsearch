@@ -28,48 +28,48 @@ import java.util.List;
  */
 public class DatePropertyValueConverter extends AbstractPropertyValueConverter {
 
-	private static final Log LOGGER = LogFactory.getLog(DatePropertyValueConverter.class);
+    private static final Log LOGGER = LogFactory.getLog(DatePropertyValueConverter.class);
 
-	private final List<ElasticsearchDateConverter> dateConverters;
+    private final List<ElasticsearchDateConverter> dateConverters;
 
-	public DatePropertyValueConverter(PersistentProperty<?> property, List<ElasticsearchDateConverter> dateConverters) {
+    public DatePropertyValueConverter(PersistentProperty<?> property, List<ElasticsearchDateConverter> dateConverters) {
 
-		super(property);
-		this.dateConverters = dateConverters;
-	}
+        super(property);
+        this.dateConverters = dateConverters;
+    }
 
-	@Override
-	public Object read(Object value) {
+    @Override
+    public Object read(Object value) {
 
-		String s = value.toString();
+        String s = value.toString();
 
-		for (ElasticsearchDateConverter dateConverter : dateConverters) {
-			try {
-				return dateConverter.parse(s);
-			} catch (Exception e) {
-				if (LOGGER.isTraceEnabled()) {
-					LOGGER.trace(e.getMessage(), e);
-				}
-			}
-		}
+        for (ElasticsearchDateConverter dateConverter : dateConverters) {
+            try {
+                return dateConverter.parse(s);
+            } catch (Exception e) {
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace(e.getMessage(), e);
+                }
+            }
+        }
 
-		throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", s,
-				getProperty().getActualType().getTypeName(), getProperty().getName()));
-	}
+        throw new ConversionException(String.format("Unable to convert value '%s' to %s for property '%s'", s,
+                getProperty().getActualType().getTypeName(), getProperty().getName()));
+    }
 
-	@Override
-	public Object write(Object value) {
+    @Override
+    public Object write(Object value) {
 
-		if (!Date.class.isAssignableFrom(value.getClass())) {
-			return value.toString();
-		}
+        if (!Date.class.isAssignableFrom(value.getClass())) {
+            return value.toString();
+        }
 
-		try {
-			return dateConverters.get(0).format((Date) value);
-		} catch (Exception e) {
-			throw new ConversionException(
-					String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
-		}
-	}
+        try {
+            return dateConverters.get(0).format((Date) value);
+        } catch (Exception e) {
+            throw new ConversionException(
+                    String.format("Unable to convert value '%s' of property '%s'", value, getProperty().getName()), e);
+        }
+    }
 
 }

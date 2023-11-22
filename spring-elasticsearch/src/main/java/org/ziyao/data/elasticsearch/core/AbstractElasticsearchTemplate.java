@@ -18,7 +18,13 @@ package org.ziyao.data.elasticsearch.core;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.data.convert.EntityReader;
+import org.springframework.data.mapping.PersistentPropertyAccessor;
+import org.springframework.data.mapping.callback.EntityCallbacks;
+import org.springframework.data.mapping.context.MappingContext;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.ziyao.data.convert.EntityReader;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.document.Document;
@@ -35,13 +41,7 @@ import org.ziyao.data.elasticsearch.core.query.*;
 import org.ziyao.data.elasticsearch.core.routing.DefaultRoutingResolver;
 import org.ziyao.data.elasticsearch.core.routing.RoutingResolver;
 import org.ziyao.data.elasticsearch.support.VersionInfo;
-import org.springframework.data.mapping.PersistentPropertyAccessor;
-import org.springframework.data.mapping.callback.EntityCallbacks;
-import org.springframework.data.mapping.context.MappingContext;
-import org.springframework.data.util.Streamable;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import org.ziyao.data.util.Streamable;
 
 import java.time.Duration;
 import java.util.*;
@@ -540,7 +540,7 @@ public abstract class AbstractElasticsearchTemplate implements ElasticsearchOper
     private <T> IndexQuery getIndexQuery(T entity) {
 
 //        String id = getEntityId(entity);
-String id = null;
+        String id = null;
         if (id != null) {
             id = elasticsearchConverter.convertId(id);
         }

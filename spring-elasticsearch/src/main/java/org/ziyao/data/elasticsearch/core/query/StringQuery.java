@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.query;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.ziyao.data.domain.Pageable;
+import org.ziyao.data.domain.Sort;
 
 /**
  * StringQuery
@@ -27,39 +27,39 @@ import org.springframework.data.domain.Sort;
  */
 public class StringQuery extends BaseQuery {
 
-	private final String source;
+    private final String source;
 
-	public StringQuery(String source) {
-		this.source = source;
-	}
+    public StringQuery(String source) {
+        this.source = source;
+    }
 
-	public StringQuery(String source, Pageable pageable) {
-		this.source = source;
-		this.pageable = pageable;
-	}
+    public StringQuery(String source, Pageable pageable) {
+        this.source = source;
+        this.pageable = pageable;
+    }
 
-	public StringQuery(String source, Pageable pageable, Sort sort) {
-		this.pageable = pageable;
-		this.sort = sort;
-		this.source = source;
-	}
+    public StringQuery(String source, Pageable pageable, Sort sort) {
+        this.pageable = pageable;
+        this.sort = sort;
+        this.source = source;
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	public StringQuery(StringQueryBuilder builder) {
-		super(builder);
-		this.source = builder.getSource();
-	}
+    /**
+     * @since 4.4
+     */
+    public StringQuery(StringQueryBuilder builder) {
+        super(builder);
+        this.source = builder.getSource();
+    }
 
-	/**
-	 * @since 4.4
-	 */
-	public static StringQueryBuilder builder(String source) {
-		return new StringQueryBuilder(source);
-	}
+    /**
+     * @since 4.4
+     */
+    public static StringQueryBuilder builder(String source) {
+        return new StringQueryBuilder(source);
+    }
 
-	public String getSource() {
-		return source;
-	}
+    public String getSource() {
+        return source;
+    }
 }
