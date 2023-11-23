@@ -9,6 +9,9 @@
 !**/src/test/**/build/
 
 ### maven
+HELP.md
+**/target/
+!.mvn/wrapper/maven-wrapper.jar
 
 ### IntelliJ IDEA ###
 .idea
