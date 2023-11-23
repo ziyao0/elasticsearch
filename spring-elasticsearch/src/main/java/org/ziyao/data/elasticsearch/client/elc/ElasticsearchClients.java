@@ -198,11 +198,11 @@ public final class ElasticsearchClients {
                 .collect(Collectors.toList());
     }
 
-    private static org.apache.http.Header[] toHeaderArray(HttpHeaders headers) {
+    private static Header[] toHeaderArray(HttpHeaders headers) {
         return headers.entrySet().stream() //
                 .flatMap(entry -> entry.getValue().stream() //
                         .map(value -> new BasicHeader(entry.getKey(), value))) //
-                .toArray(org.apache.http.Header[]::new);
+                .toArray(Header[]::new);
     }
 
     /**

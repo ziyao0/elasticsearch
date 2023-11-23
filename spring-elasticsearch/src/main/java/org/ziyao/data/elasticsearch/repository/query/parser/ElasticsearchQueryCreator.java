@@ -16,8 +16,8 @@
 package org.ziyao.data.elasticsearch.repository.query.parser;
 
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.data.mapping.PersistentPropertyPath;
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.PersistentPropertyPath;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.domain.Sort;
 import org.ziyao.data.elasticsearch.core.geo.GeoBox;

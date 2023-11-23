@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.annotations;
 
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 
 /**
  * Defines if type hints should be written. Used by {@link Document} annotation.

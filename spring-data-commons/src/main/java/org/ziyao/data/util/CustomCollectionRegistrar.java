@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.util;
 
-import org.springframework.core.convert.converter.ConverterRegistry;
+import org.ziyao.data.convert.converter.ConverterRegistry;
 
 import java.util.Collection;
 import java.util.Collections;

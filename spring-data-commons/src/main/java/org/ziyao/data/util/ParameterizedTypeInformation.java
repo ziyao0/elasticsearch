@@ -127,7 +127,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
         List<TypeInformation<?>> myParameters = getTypeArguments();
         List<TypeInformation<?>> typeParameters = otherTypeInformation == null //
-                ? java.util.Collections.emptyList() //
+                ? Collections.emptyList() //
                 : otherTypeInformation.getTypeArguments();
 
         if (myParameters.size() != typeParameters.size()) {

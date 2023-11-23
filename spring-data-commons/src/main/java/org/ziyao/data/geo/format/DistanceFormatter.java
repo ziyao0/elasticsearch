@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.geo.format;
 
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.format.Formatter;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.format.Formatter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 import org.ziyao.data.geo.Distance;
@@ -59,7 +59,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+     * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
      */
     @Nullable
     @Override
@@ -69,7 +69,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.format.Printer#print(java.lang.Object, java.util.Locale)
+     * @see org.ziyao.data.format.Printer#print(java.lang.Object, java.util.Locale)
      */
     @Override
     public String print(Distance distance, Locale locale) {
@@ -78,7 +78,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.format.Parser#parse(java.lang.String, java.util.Locale)
+     * @see org.ziyao.data.format.Parser#parse(java.lang.String, java.util.Locale)
      */
     @Override
     public Distance parse(String text, Locale locale) throws ParseException {

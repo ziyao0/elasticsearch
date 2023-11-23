@@ -17,14 +17,15 @@ package org.ziyao.data.repository.support;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.converter.ConditionalGenericConverter;
-import org.springframework.core.convert.converter.ConverterRegistry;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import org.ziyao.data.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
+import org.ziyao.data.convert.converter.ConditionalGenericConverter;
+import org.ziyao.data.convert.converter.ConverterRegistry;
+import org.ziyao.data.convert.converter.GenericConverter;
 import org.ziyao.data.repository.CrudRepository;
 import org.ziyao.data.repository.core.EntityInformation;
 import org.ziyao.data.repository.core.RepositoryInformation;
@@ -35,7 +36,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * {@link org.springframework.core.convert.converter.Converter} to convert arbitrary input into domain classes managed
+ * {@link org.ziyao.data.convert.converter.Converter} to convert arbitrary input into domain classes managed
  * by Spring Data {@link CrudRepository}s. The implementation uses a {@link ConversionService} in turn to convert the
  * source type into the domain class' id type which is then converted into a domain class object by using a
  * {@link CrudRepository}.
@@ -68,17 +69,17 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+     * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
      */
     @NonNull
     @Override
-    public Set<ConvertiblePair> getConvertibleTypes() {
-        return Collections.singleton(new ConvertiblePair(Object.class, Object.class));
+    public Set<GenericConverter.ConvertiblePair> getConvertibleTypes() {
+        return Collections.singleton(new GenericConverter.ConvertiblePair(Object.class, Object.class));
     }
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+     * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
      */
     @Nullable
     @Override
@@ -88,7 +89,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+     * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
      */
     @Override
     public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -147,7 +148,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+         * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
          */
         @NonNull
         @Override
@@ -157,7 +158,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Nullable
         @Override
@@ -183,7 +184,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Override
         public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -230,7 +231,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+         * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
          */
         @NonNull
         @Override
@@ -240,7 +241,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Nullable
         @Override
@@ -263,7 +264,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Override
         public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {

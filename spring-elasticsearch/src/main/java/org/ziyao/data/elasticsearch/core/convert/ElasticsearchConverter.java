@@ -51,7 +51,7 @@ public interface ElasticsearchConverter
 
     /**
      * Convert a given {@literal idValue} to its {@link String} representation taking potentially registered
-     * {@link org.springframework.core.convert.converter.Converter Converters} into account.
+     * {@link org.ziyao.data.convert.converter.Converter Converters} into account.
      *
      * @param idValue must not be {@literal null}.
      * @return never {@literal null}.

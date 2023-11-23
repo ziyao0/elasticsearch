@@ -18,7 +18,7 @@ package org.ziyao.data.projection;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.CollectionFactory;
-import org.springframework.core.convert.ConversionService;
+import org.ziyao.data.convert.ConversionService;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;

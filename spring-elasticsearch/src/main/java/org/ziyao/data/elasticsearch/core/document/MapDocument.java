@@ -17,7 +17,7 @@ package org.ziyao.data.elasticsearch.core.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.data.mapping.MappingException;
+import org.ziyao.data.mapping.MappingException;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.support.DefaultStringObjectMap;
 

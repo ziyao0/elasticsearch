@@ -218,7 +218,7 @@ public class ElasticsearchTemplate extends AbstractElasticsearchTemplate {
 
         Assert.notNull(reindexRequest, "reindexRequest must not be null");
 
-        co.elastic.clients.elasticsearch.core.ReindexRequest reindexRequestES = requestConverter.reindex(reindexRequest,
+        ReindexRequest reindexRequestES = requestConverter.reindex(reindexRequest,
                 true);
         ReindexResponse reindexResponse = execute(
                 client -> client.reindex(reindexRequestES));
@@ -228,7 +228,7 @@ public class ElasticsearchTemplate extends AbstractElasticsearchTemplate {
     @Override
     public String submitReindex(org.ziyao.data.elasticsearch.core.reindex.ReindexRequest reindexRequest) {
 
-        co.elastic.clients.elasticsearch.core.ReindexRequest reindexRequestES = requestConverter.reindex(reindexRequest,
+        ReindexRequest reindexRequestES = requestConverter.reindex(reindexRequest,
                 false);
         ReindexResponse reindexResponse = execute(
                 client -> client.reindex(reindexRequestES));

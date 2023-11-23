@@ -36,7 +36,7 @@ class DefaultApplicationStartup implements ApplicationStartup {
             return null;
         }
 
-        public StartupStep.Tags getTags() {
+        public Tags getTags() {
             return this.TAGS;
         }
 
@@ -51,7 +51,7 @@ class DefaultApplicationStartup implements ApplicationStartup {
         public void end() {
         }
 
-        static class DefaultTags implements StartupStep.Tags {
+        static class DefaultTags implements Tags {
             DefaultTags() {
             }
 

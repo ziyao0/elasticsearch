@@ -15,10 +15,11 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.mapping.*;
-import org.springframework.data.mapping.context.MappingContext;
-import org.springframework.data.mapping.model.ParameterValueProvider;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.mapping.*;
+import org.springframework.data.mapping.PersistentProperty;
+import org.ziyao.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.model.ParameterValueProvider;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -58,7 +59,7 @@ public class DtoInstantiatingConverter implements Converter<Object, Object> {
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+     * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
      */
     @NonNull
     @Override

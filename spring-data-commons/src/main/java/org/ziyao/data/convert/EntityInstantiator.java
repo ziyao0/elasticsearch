@@ -15,14 +15,14 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 
 /**
  * SPI to abstract strategies to create instances for {@link PersistentEntity}s.
  *
  * @author Oliver Gierke
- * @since 2.3, use {@link org.springframework.data.mapping.model.EntityInstantiator} instead.
+ * @since 2.3, use {@link org.ziyao.data.mapping.model.EntityInstantiator} instead.
  */
 @Deprecated
-public interface EntityInstantiator extends org.springframework.data.mapping.model.EntityInstantiator {
+public interface EntityInstantiator extends org.ziyao.data.mapping.model.EntityInstantiator {
 }

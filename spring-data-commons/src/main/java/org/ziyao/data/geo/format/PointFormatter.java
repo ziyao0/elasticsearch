@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.geo.format;
 
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.converter.GenericConverter.ConvertiblePair;
-import org.springframework.format.Formatter;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.convert.converter.GenericConverter.ConvertiblePair;
+import org.ziyao.data.format.Formatter;
 import org.springframework.lang.NonNull;
 import org.ziyao.data.geo.Point;
 
@@ -39,7 +39,7 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+     * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
      */
     @NonNull
     @Override
@@ -65,7 +65,7 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.format.Printer#print(java.lang.Object, java.util.Locale)
+     * @see org.ziyao.data.format.Printer#print(java.lang.Object, java.util.Locale)
      */
     @Override
     public String print(Point point, Locale locale) {
@@ -74,7 +74,7 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 
     /*
      * (non-Javadoc)
-     * @see org.springframework.format.Parser#parse(java.lang.String, java.util.Locale)
+     * @see org.ziyao.data.format.Parser#parse(java.lang.String, java.util.Locale)
      */
     @Override
     public Point parse(String text, Locale locale) throws ParseException {

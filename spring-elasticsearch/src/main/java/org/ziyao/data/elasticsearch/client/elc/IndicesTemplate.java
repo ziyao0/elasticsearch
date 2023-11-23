@@ -21,8 +21,6 @@ import co.elastic.clients.elasticsearch.indices.GetTemplateRequest;
 import co.elastic.clients.elasticsearch.indices.PutTemplateRequest;
 import co.elastic.clients.elasticsearch.indices.*;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -53,7 +51,6 @@ import static org.springframework.util.StringUtils.hasText;
  */
 public class IndicesTemplate extends ChildTemplate<ElasticsearchIndicesClient> implements IndexOperations {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IndicesTemplate.class);
 
     protected final ElasticsearchConverter elasticsearchConverter;
     @Nullable

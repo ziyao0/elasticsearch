@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.core.convert.converter.GenericConverter;
-import org.springframework.core.convert.converter.GenericConverter.ConvertiblePair;
+import org.ziyao.data.convert.converter.GenericConverter;
+import org.ziyao.data.convert.converter.GenericConverter.ConvertiblePair;
 import org.springframework.util.Assert;
 
 import java.util.Optional;

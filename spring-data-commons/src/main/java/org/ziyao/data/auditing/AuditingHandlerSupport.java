@@ -17,7 +17,7 @@ package org.ziyao.data.auditing;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.data.mapping.context.PersistentEntities;
+import org.ziyao.data.mapping.context.PersistentEntities;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.domain.Auditable;

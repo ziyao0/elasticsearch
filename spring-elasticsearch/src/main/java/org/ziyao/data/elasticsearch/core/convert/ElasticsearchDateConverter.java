@@ -186,32 +186,32 @@ final public class ElasticsearchDateConverter {
             if (type == java.time.chrono.ThaiBuddhistDate.class) {
                 return (T) java.time.chrono.ThaiBuddhistDate.from(temporal);
             }
-            if (type == java.time.LocalTime.class) {
-                return (T) java.time.LocalTime.from(temporal);
+            if (type == LocalTime.class) {
+                return (T) LocalTime.from(temporal);
             }
             if (type == ZoneOffset.class) {
                 return (T) ZoneOffset.from(temporal);
             }
-            if (type == java.time.OffsetTime.class) {
-                return (T) java.time.OffsetTime.from(temporal);
+            if (type == OffsetTime.class) {
+                return (T) OffsetTime.from(temporal);
             }
             if (type == java.time.chrono.ChronoLocalDate.class) {
                 return (T) java.time.chrono.ChronoLocalDate.from(temporal);
             }
-            if (type == java.time.Month.class) {
-                return (T) java.time.Month.from(temporal);
+            if (type == Month.class) {
+                return (T) Month.from(temporal);
             }
             if (type == java.time.chrono.ChronoLocalDateTime.class) {
                 return (T) java.time.chrono.ChronoLocalDateTime.from(temporal);
             }
-            if (type == java.time.MonthDay.class) {
-                return (T) java.time.MonthDay.from(temporal);
+            if (type == MonthDay.class) {
+                return (T) MonthDay.from(temporal);
             }
             if (type == Instant.class) {
                 return (T) Instant.from(temporal);
             }
-            if (type == java.time.OffsetDateTime.class) {
-                return (T) java.time.OffsetDateTime.from(temporal);
+            if (type == OffsetDateTime.class) {
+                return (T) OffsetDateTime.from(temporal);
             }
             if (type == java.time.chrono.ChronoZonedDateTime.class) {
                 return (T) java.time.chrono.ChronoZonedDateTime.from(temporal);
@@ -219,17 +219,17 @@ final public class ElasticsearchDateConverter {
             if (type == java.time.chrono.MinguoDate.class) {
                 return (T) java.time.chrono.MinguoDate.from(temporal);
             }
-            if (type == java.time.Year.class) {
-                return (T) java.time.Year.from(temporal);
+            if (type == Year.class) {
+                return (T) Year.from(temporal);
             }
-            if (type == java.time.DayOfWeek.class) {
-                return (T) java.time.DayOfWeek.from(temporal);
+            if (type == DayOfWeek.class) {
+                return (T) DayOfWeek.from(temporal);
             }
-            if (type == java.time.LocalDate.class) {
-                return (T) java.time.LocalDate.from(temporal);
+            if (type == LocalDate.class) {
+                return (T) LocalDate.from(temporal);
             }
-            if (type == java.time.YearMonth.class) {
-                return (T) java.time.YearMonth.from(temporal);
+            if (type == YearMonth.class) {
+                return (T) YearMonth.from(temporal);
             }
 
             // for implementations not covered until here use reflection to check for the existence of a static

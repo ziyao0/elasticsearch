@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.core.convert.converter.Converter;
+import org.ziyao.data.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
 import org.threeten.bp.*;
@@ -95,7 +95,7 @@ public abstract class ThreeTenBackPortConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @NonNull
         @Override

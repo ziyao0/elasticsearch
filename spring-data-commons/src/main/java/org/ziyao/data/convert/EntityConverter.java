@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.core.convert.ConversionService;
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.convert.ConversionService;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 
 /**
  * Combined {@link EntityReader} and {@link EntityWriter} and add the ability to access a {@link MappingContext} and

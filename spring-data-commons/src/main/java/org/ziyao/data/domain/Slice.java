@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.domain;
 
-import org.springframework.core.convert.converter.Converter;
+import org.ziyao.data.convert.converter.Converter;
 import org.ziyao.data.util.Streamable;
 
 import java.util.List;

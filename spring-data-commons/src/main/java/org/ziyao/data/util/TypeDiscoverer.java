@@ -447,7 +447,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
      * @see org.ziyao.data.util.TypeInformation#getTypeParameters()
      */
     public List<TypeInformation<?>> getTypeArguments() {
-        return java.util.Collections.emptyList();
+        return Collections.emptyList();
     }
 
     /* (non-Javadoc)

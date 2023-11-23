@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.projection;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.PropertyPath;
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.PropertyPath;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.util.ClassTypeInformation;

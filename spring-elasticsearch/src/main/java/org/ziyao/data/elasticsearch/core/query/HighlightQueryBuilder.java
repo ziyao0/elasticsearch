@@ -17,7 +17,7 @@ package org.ziyao.data.elasticsearch.core.query;
 
 import org.elasticsearch.search.fetch.subphase.highlight.AbstractHighlighterBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;

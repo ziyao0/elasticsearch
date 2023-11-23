@@ -16,7 +16,7 @@
 package org.ziyao.data.elasticsearch.config;
 
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.data.mapping.context.PersistentEntities;
+import org.ziyao.data.mapping.context.PersistentEntities;
 import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 
 /**

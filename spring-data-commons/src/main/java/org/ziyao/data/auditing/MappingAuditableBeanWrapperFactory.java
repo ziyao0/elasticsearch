@@ -15,10 +15,11 @@
  */
 package org.ziyao.data.auditing;
 
-import org.springframework.core.convert.ConversionService;
-import org.springframework.data.mapping.*;
-import org.springframework.data.mapping.context.MappingContext;
-import org.springframework.data.mapping.context.PersistentEntities;
+import org.ziyao.data.convert.ConversionService;
+import org.ziyao.data.mapping.*;
+import org.springframework.data.mapping.PersistentProperty;
+import org.ziyao.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.PersistentEntities;
 import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.ziyao.data.annotation.CreatedBy;

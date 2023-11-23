@@ -58,7 +58,7 @@ public abstract class OrderUtils {
 
     @Nullable
     private static Integer findOrder(MergedAnnotations annotations) {
-        MergedAnnotation<org.springframework.core.annotation.Order> orderAnnotation = annotations.get(Order.class);
+        MergedAnnotation<Order> orderAnnotation = annotations.get(Order.class);
         if (orderAnnotation.isPresent()) {
             return orderAnnotation.getInt("value");
         } else {

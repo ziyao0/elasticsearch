@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.crossstore;
 
-import org.springframework.core.convert.ConversionService;
+import org.ziyao.data.convert.ConversionService;
 import org.springframework.lang.Nullable;
 
 import java.util.Map;

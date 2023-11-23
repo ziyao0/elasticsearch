@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.UncategorizedElasticsearchException;

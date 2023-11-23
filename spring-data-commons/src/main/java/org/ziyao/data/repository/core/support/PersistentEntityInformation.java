@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.repository.core.support;
 
-import org.springframework.data.mapping.IdentifierAccessor;
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.IdentifierAccessor;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.repository.core.EntityInformation;

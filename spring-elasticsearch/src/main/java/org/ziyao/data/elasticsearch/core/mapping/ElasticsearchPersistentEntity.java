@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.elasticsearch.core.mapping;
 
-import org.springframework.data.mapping.PersistentEntity;
-import org.springframework.data.mapping.model.FieldNamingStrategy;
+import org.ziyao.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.model.FieldNamingStrategy;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.elasticsearch.annotations.Document;
 import org.ziyao.data.elasticsearch.annotations.Dynamic;

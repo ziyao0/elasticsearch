@@ -34,10 +34,10 @@ import org.eclipse.collections.api.map.MutableMap;
 import org.eclipse.collections.api.set.ImmutableSet;
 import org.eclipse.collections.api.set.MutableSet;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.converter.ConditionalConverter;
-import org.springframework.core.convert.converter.ConditionalGenericConverter;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.converter.ConverterRegistry;
+import org.ziyao.data.convert.converter.ConditionalConverter;
+import org.ziyao.data.convert.converter.ConditionalGenericConverter;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.convert.converter.ConverterRegistry;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -331,7 +331,7 @@ public class CustomCollections {
 
         /*
          * (non-Javadoc)
-         * @see org.ziyao.data.util.CustomCollectionRegistrar#registerConvertersIn(org.springframework.core.convert.converter.ConverterRegistry)
+         * @see org.ziyao.data.util.CustomCollectionRegistrar#registerConvertersIn(org.ziyao.data.convert.converter.ConverterRegistry)
          */
         @Override
         public void registerConvertersIn(ConverterRegistry registry) {
@@ -348,7 +348,7 @@ public class CustomCollections {
         @SuppressWarnings("null")
         public Function<Object, Object> toJavaNativeCollection() {
 
-            return source -> source instanceof io.vavr.collection.Traversable
+            return source -> source instanceof Traversable
                     ? VavrToJavaCollectionConverter.INSTANCE.convert(source, TypeDescriptor.forObject(source), OBJECT_DESCRIPTOR)
                     : source;
         }
@@ -361,7 +361,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+             * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
              */
             @NonNull
             @Override
@@ -374,7 +374,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+             * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
              */
             @Override
             public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -385,7 +385,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+             * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
              */
             @Nullable
             @Override
@@ -395,8 +395,8 @@ public class CustomCollections {
                     return null;
                 }
 
-                if (source instanceof io.vavr.collection.Seq) {
-                    return ((io.vavr.collection.Seq<?>) source).asJava();
+                if (source instanceof Seq) {
+                    return ((Seq<?>) source).asJava();
                 }
 
                 if (source instanceof io.vavr.collection.Map) {
@@ -420,15 +420,15 @@ public class CustomCollections {
             static {
 
                 Set<ConvertiblePair> pairs = new HashSet<>();
-                pairs.add(new ConvertiblePair(Collection.class, io.vavr.collection.Traversable.class));
-                pairs.add(new ConvertiblePair(Map.class, io.vavr.collection.Traversable.class));
+                pairs.add(new ConvertiblePair(Collection.class, Traversable.class));
+                pairs.add(new ConvertiblePair(Map.class, Traversable.class));
 
                 CONVERTIBLE_PAIRS = Collections.unmodifiableSet(pairs);
             }
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+             * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
              */
             @NonNull
             @Override
@@ -438,7 +438,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+             * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
              */
             @Override
             public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -459,7 +459,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+             * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
              */
             @Nullable
             @Override
@@ -467,7 +467,7 @@ public class CustomCollections {
 
                 Class<?> targetType = targetDescriptor.getType();
 
-                if (io.vavr.collection.Seq.class.isAssignableFrom(targetType)) {
+                if (Seq.class.isAssignableFrom(targetType)) {
                     return io.vavr.collection.List.ofAll((Iterable<?>) source);
                 }
 
@@ -553,7 +553,7 @@ public class CustomCollections {
 
         /*
          * (non-Javadoc)
-         * @see org.ziyao.data.util.CustomCollectionRegistrar#registerConvertersIn(org.springframework.core.convert.converter.ConverterRegistry)
+         * @see org.ziyao.data.util.CustomCollectionRegistrar#registerConvertersIn(org.ziyao.data.convert.converter.ConverterRegistry)
          */
         @Override
         public void registerConvertersIn(ConverterRegistry registry) {
@@ -570,7 +570,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+             * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
              */
             @Override
             public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -581,7 +581,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+             * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
              */
             @Nullable
             @Override
@@ -635,7 +635,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+             * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
              */
             @NonNull
             @Override
@@ -645,7 +645,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+             * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
              */
             @Override
             public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -667,7 +667,7 @@ public class CustomCollections {
 
             /*
              * (non-Javadoc)
-             * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+             * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
              */
             @Nullable
             @Override

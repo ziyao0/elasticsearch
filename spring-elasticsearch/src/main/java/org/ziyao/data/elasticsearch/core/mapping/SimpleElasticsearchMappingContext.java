@@ -15,11 +15,11 @@
  */
 package org.ziyao.data.elasticsearch.core.mapping;
 
-import org.springframework.data.mapping.context.AbstractMappingContext;
-import org.springframework.data.mapping.model.FieldNamingStrategy;
-import org.springframework.data.mapping.model.Property;
-import org.springframework.data.mapping.model.PropertyNameFieldNamingStrategy;
-import org.springframework.data.mapping.model.SimpleTypeHolder;
+import org.ziyao.data.mapping.context.AbstractMappingContext;
+import org.ziyao.data.mapping.model.FieldNamingStrategy;
+import org.ziyao.data.mapping.model.Property;
+import org.ziyao.data.mapping.model.PropertyNameFieldNamingStrategy;
+import org.ziyao.data.mapping.model.SimpleTypeHolder;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.util.TypeInformation;
 

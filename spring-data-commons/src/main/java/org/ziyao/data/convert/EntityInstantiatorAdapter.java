@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.model.ParameterValueProvider;
+import org.ziyao.data.mapping.model.ParameterValueProvider;
 
 /**
  * Adapter to bridge calls from the new APIs back to the legacy ones.
@@ -26,9 +26,9 @@ import org.springframework.data.mapping.model.ParameterValueProvider;
  */
 class EntityInstantiatorAdapter implements EntityInstantiator {
 
-    private final org.springframework.data.mapping.model.EntityInstantiator delegate;
+    private final org.ziyao.data.mapping.model.EntityInstantiator delegate;
 
-    EntityInstantiatorAdapter(org.springframework.data.mapping.model.EntityInstantiator delegate) {
+    EntityInstantiatorAdapter(org.ziyao.data.mapping.model.EntityInstantiator delegate) {
         this.delegate = delegate;
     }
 

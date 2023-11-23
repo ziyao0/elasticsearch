@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 /**
  * {@link PropertyValueConversions} provides access to {@link PropertyValueConverter converters} that may only be
  * applied to a specific {@link PersistentProperty property}. Other than
- * {@link org.springframework.core.convert.converter.Converter converters} registered in {@link CustomConversions},
+ * {@link org.ziyao.data.convert.converter.Converter converters} registered in {@link CustomConversions},
  * the {@link PersistentProperty property} based variants accept and allow returning {@literal null} values
  * and provide access to a store-specific {@link ValueConversionContext conversion context}.
  *

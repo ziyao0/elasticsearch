@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.core.convert;
 
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.convert.TypeMapper;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;

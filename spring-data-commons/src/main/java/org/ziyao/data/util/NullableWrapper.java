@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.util;
 
-import org.springframework.core.convert.converter.Converter;
+import org.ziyao.data.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 
 /**

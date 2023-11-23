@@ -16,7 +16,7 @@
 package org.ziyao.data.convert;
 
 import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.data.mapping.Alias;
+import org.ziyao.data.mapping.Alias;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.ziyao.data.util.ClassTypeInformation;

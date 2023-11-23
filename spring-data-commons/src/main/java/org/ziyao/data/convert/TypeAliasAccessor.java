@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.Alias;
+import org.ziyao.data.mapping.Alias;
 
 /**
  * Interface to abstract implementations of how to access a type alias from a given source or sink.

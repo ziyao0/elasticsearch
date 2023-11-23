@@ -16,7 +16,7 @@
 package org.ziyao.data.querydsl.binding;
 
 import com.querydsl.core.types.Path;
-import org.springframework.data.mapping.PropertyPath;
+import org.ziyao.data.mapping.PropertyPath;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.querydsl.EntityPathResolver;
 

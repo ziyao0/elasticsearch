@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.projection;
 
-import org.springframework.data.mapping.PropertyPath;
+import org.ziyao.data.mapping.PropertyPath;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.util.ClassTypeInformation;
 import org.ziyao.data.util.Streamable;

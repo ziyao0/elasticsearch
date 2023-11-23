@@ -22,7 +22,7 @@ public abstract class TypeFilterUtils {
 
     /**
      * Create {@linkplain TypeFilter type filters} from the supplied
-     * {@link org.springframework.core.annotation.AnnotationAttributes}, such as those sourced from
+     * {@link AnnotationAttributes}, such as those sourced from
      * {@link ComponentScan#includeFilters()} or {@link ComponentScan#excludeFilters()}.
      * <p>Each {@link TypeFilter} will be instantiated using an appropriate
      * constructor, with {@code BeanClassLoaderAware}, {@code BeanFactoryAware},

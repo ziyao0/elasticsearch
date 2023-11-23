@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.repository.support;
 
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;

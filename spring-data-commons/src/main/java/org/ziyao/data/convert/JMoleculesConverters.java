@@ -15,19 +15,12 @@
  */
 package org.ziyao.data.convert;
 
-import org.jmolecules.spring.AssociationToPrimitivesConverter;
-import org.jmolecules.spring.IdentifierToPrimitivesConverter;
-import org.jmolecules.spring.PrimitivesToAssociationConverter;
-import org.jmolecules.spring.PrimitivesToIdentifierConverter;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Registers jMolecules converter implementations with {@link CustomConversions} if the former is on the classpath.
@@ -53,16 +46,16 @@ public class JMoleculesConverters {
         }
 
         List<Object> converters = new ArrayList<>();
-
-        Supplier<ConversionService> conversionService = () -> DefaultConversionService.getSharedInstance();
-
-        IdentifierToPrimitivesConverter toPrimitives = new IdentifierToPrimitivesConverter(conversionService);
-        PrimitivesToIdentifierConverter toIdentifier = new PrimitivesToIdentifierConverter(conversionService);
-
-        converters.add(toPrimitives);
-        converters.add(toIdentifier);
-        converters.add(new AssociationToPrimitivesConverter<>(toPrimitives));
-        converters.add(new PrimitivesToAssociationConverter<>(toIdentifier));
+// TODO: 2023/11/23 类型转换 
+//        Supplier<ConversionService> conversionService = () -> DefaultConversionService.getSharedInstance();
+//
+//        IdentifierToPrimitivesConverter toPrimitives = new IdentifierToPrimitivesConverter(conversionService);
+//        PrimitivesToIdentifierConverter toIdentifier = new PrimitivesToIdentifierConverter(conversionService);
+//
+//        converters.add(toPrimitives);
+//        converters.add(toIdentifier);
+//        converters.add(new AssociationToPrimitivesConverter<>(toPrimitives));
+//        converters.add(new PrimitivesToAssociationConverter<>(toIdentifier));
 
         return converters;
     }

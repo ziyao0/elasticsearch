@@ -293,12 +293,12 @@ class RequestConverter {
         return builder.build();
     }
 
-    public co.elastic.clients.elasticsearch.indices.PutTemplateRequest indicesPutTemplateRequest(
+    public PutTemplateRequest indicesPutTemplateRequest(
             org.ziyao.data.elasticsearch.core.index.PutTemplateRequest putTemplateRequest) {
 
         Assert.notNull(putTemplateRequest, "putTemplateRequest must not be null");
 
-        co.elastic.clients.elasticsearch.indices.PutTemplateRequest.Builder builder = new co.elastic.clients.elasticsearch.indices.PutTemplateRequest.Builder();
+        PutTemplateRequest.Builder builder = new PutTemplateRequest.Builder();
 
         builder.name(putTemplateRequest.getName()).indexPatterns(Arrays.asList(putTemplateRequest.getIndexPatterns()))
                 .order(putTemplateRequest.getOrder());
@@ -585,7 +585,7 @@ class RequestConverter {
     }
 
     @Nullable
-    private co.elastic.clients.elasticsearch._types.Script getScript(@Nullable ScriptData scriptData) {
+    private Script getScript(@Nullable ScriptData scriptData) {
 
         if (scriptData == null) {
             return null;
@@ -598,7 +598,7 @@ class RequestConverter {
                 params.put(key, JsonData.of(value, jsonpMapper));
             });
         }
-        return co.elastic.clients.elasticsearch._types.Script.of(sb -> {
+        return Script.of(sb -> {
             if (scriptData.getType() == ScriptType.INLINE) {
                 sb.inline(is -> is //
                         .lang(scriptData.getLanguage()) //
@@ -709,12 +709,12 @@ class RequestConverter {
                 .docs(multiGetOperations));
     }
 
-    public co.elastic.clients.elasticsearch.core.ReindexRequest reindex(org.ziyao.data.elasticsearch.core.reindex.ReindexRequest reindexRequest,
+    public ReindexRequest reindex(org.ziyao.data.elasticsearch.core.reindex.ReindexRequest reindexRequest,
                                                                         boolean waitForCompletion) {
 
         Assert.notNull(reindexRequest, "reindexRequest must not be null");
 
-        co.elastic.clients.elasticsearch.core.ReindexRequest.Builder builder = new co.elastic.clients.elasticsearch.core.ReindexRequest.Builder();
+        ReindexRequest.Builder builder = new ReindexRequest.Builder();
         builder //
                 .source(s -> {
                     org.ziyao.data.elasticsearch.core.reindex.ReindexRequest.Source source = reindexRequest.getSource();

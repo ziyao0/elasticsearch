@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.auditing.config;
 
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.w3c.dom.Element;
 import org.ziyao.data.auditing.IsNewAwareAuditingHandler;
 

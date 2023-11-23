@@ -15,13 +15,13 @@
  */
 package org.ziyao.data.repository.util;
 
-import org.springframework.core.convert.ConversionService;
+import org.ziyao.data.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.converter.ConditionalGenericConverter;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.converter.GenericConverter;
-import org.springframework.core.convert.support.ConfigurableConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
+import org.ziyao.data.convert.converter.ConditionalGenericConverter;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.convert.converter.GenericConverter;
+import org.ziyao.data.convert.support.ConfigurableConversionService;
+import org.ziyao.data.convert.support.DefaultConversionService;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -317,20 +317,20 @@ public abstract class QueryExecutionConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+         * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
          */
         @NonNull
         @Override
         public Set<ConvertiblePair> getConvertibleTypes() {
 
             return Streamable.of(wrapperTypes)//
-                    .map(it -> new ConvertiblePair(org.ziyao.data.util.NullableWrapper.class, it))//
+                    .map(it -> new ConvertiblePair(NullableWrapper.class, it))//
                     .stream().collect(StreamUtils.toUnmodifiableSet());
         }
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Nullable
         @Override
@@ -340,7 +340,7 @@ public abstract class QueryExecutionConverters {
                 return null;
             }
 
-            org.ziyao.data.util.NullableWrapper wrapper = (NullableWrapper) source;
+            NullableWrapper wrapper = (NullableWrapper) source;
             Object value = wrapper.getValue();
 
             // TODO: Add Recursive conversion once we move to Spring 4
@@ -420,7 +420,7 @@ public abstract class QueryExecutionConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+         * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
          */
         @NonNull
         @Override
@@ -430,7 +430,7 @@ public abstract class QueryExecutionConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.ConditionalConverter#matches(org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Override
         public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -454,7 +454,7 @@ public abstract class QueryExecutionConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @SuppressWarnings("unchecked")
         @Nullable

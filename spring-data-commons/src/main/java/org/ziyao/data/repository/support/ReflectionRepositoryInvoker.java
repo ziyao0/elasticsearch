@@ -16,11 +16,11 @@
 package org.ziyao.data.repository.support;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.core.convert.ConversionException;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.*;
+import org.ziyao.data.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
+import org.ziyao.data.convert.support.ConversionException;
 import org.ziyao.data.domain.Pageable;
 import org.ziyao.data.domain.Sort;
 import org.ziyao.data.repository.core.CrudMethods;

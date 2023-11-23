@@ -17,9 +17,9 @@ package org.ziyao.data.repository.core.support;
 
 import org.springframework.core.CollectionFactory;
 import org.springframework.core.MethodParameter;
-import org.springframework.core.convert.ConversionService;
+import org.ziyao.data.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.support.GenericConversionService;
+import org.ziyao.data.convert.support.GenericConversionService;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.repository.util.QueryExecutionConverters;
 import org.ziyao.data.util.NullableWrapper;

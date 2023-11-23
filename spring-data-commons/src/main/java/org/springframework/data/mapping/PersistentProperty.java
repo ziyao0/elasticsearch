@@ -19,6 +19,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.annotation.AnnotatedElementUtils;
 import org.ziyao.data.annotation.AnnotationUtils;
+import org.ziyao.data.mapping.Association;
+import org.ziyao.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentPropertyAccessor;
 import org.ziyao.data.util.TypeInformation;
 
 import java.lang.annotation.Annotation;
@@ -36,7 +39,7 @@ import java.util.Map;
  * @author Christoph Strobl
  * @author Johannes Englmeier
  */
-public interface PersistentProperty<P extends PersistentProperty<P>> {
+public interface  PersistentProperty<P extends PersistentProperty<P>> {
 
     /**
      * Returns the {@link PersistentEntity} owning the current {@link PersistentProperty}.

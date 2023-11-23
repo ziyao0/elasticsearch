@@ -27,8 +27,8 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.core.convert.support.GenericConversionService;
+import org.ziyao.data.convert.support.DefaultConversionService;
+import org.ziyao.data.convert.support.GenericConversionService;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.interceptor.TransactionalProxy;
 import org.springframework.util.Assert;
@@ -64,7 +64,7 @@ import java.util.stream.Collectors;
 /**
  * Factory bean to create instances of a given repository interface. Creates a proxy implementing the configured
  * repository interface and apply an advice handing the control to the {@code QueryExecutorMethodInterceptor}. Query
- * detection strategy can be configured by setting {@link QueryLookupStrategy.Key}.
+ * detection strategy can be configured by setting {@link Key}.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -87,7 +87,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
     private final List<RepositoryProxyPostProcessor> postProcessors;
 
     private Optional<Class<?>> repositoryBaseClass;
-    private @Nullable QueryLookupStrategy.Key queryLookupStrategyKey;
+    private @Nullable Key queryLookupStrategyKey;
     private List<QueryCreationListener<?>> queryPostProcessors;
     private List<RepositoryMethodInvocationListener> methodInvocationListeners;
     private NamedQueries namedQueries;

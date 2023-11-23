@@ -69,7 +69,7 @@ public class SliceImpl<T> extends Chunk<T> {
 
     /*
      * (non-Javadoc)
-     * @see org.ziyao.data.domain.Slice#transform(org.springframework.core.convert.converter.Converter)
+     * @see org.ziyao.data.domain.Slice#transform(org.ziyao.data.convert.converter.Converter)
      */
     @Override
     public <U> Slice<U> map(Function<? super T, ? extends U> converter) {

@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.repository.core.support;
 
-import org.springframework.data.mapping.PersistentEntity;
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.ziyao.data.repository.core.EntityInformation;
 import org.ziyao.data.repository.core.RepositoryInformation;
 import org.ziyao.data.repository.query.QueryMethod;

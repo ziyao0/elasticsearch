@@ -28,7 +28,7 @@ abstract class PropertyDescriptorUtils {
      * @param beanClass the target class to introspect
      * @return a collection of property descriptors
      * @throws IntrospectionException from introspecting the given bean class
-     * @see java.beans.Introspector#getBeanInfo(Class)
+     * @see Introspector#getBeanInfo(Class)
      * @since 5.3.24
      */
     public static Collection<? extends PropertyDescriptor> determineBasicProperties(Class<?> beanClass)
@@ -205,7 +205,7 @@ abstract class PropertyDescriptorUtils {
      * they are equivalent, i.e. their read method, write method, property type,
      * property editor and flags are equivalent.
      *
-     * @see java.beans.PropertyDescriptor#equals(Object)
+     * @see PropertyDescriptor#equals(Object)
      */
     public static boolean equals(PropertyDescriptor pd, PropertyDescriptor otherPd) {
         return (ObjectUtils.nullSafeEquals(pd.getReadMethod(), otherPd.getReadMethod()) &&

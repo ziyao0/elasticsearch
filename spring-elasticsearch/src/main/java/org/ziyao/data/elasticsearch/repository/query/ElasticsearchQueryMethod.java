@@ -16,7 +16,7 @@
 package org.ziyao.data.elasticsearch.repository.query;
 
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;

@@ -15,11 +15,11 @@
  */
 package org.ziyao.data.elasticsearch.core;
 
-import org.springframework.core.convert.ConversionService;
-import org.springframework.data.mapping.IdentifierAccessor;
-import org.springframework.data.mapping.PersistentPropertyAccessor;
-import org.springframework.data.mapping.context.MappingContext;
-import org.springframework.data.mapping.model.ConvertingPropertyAccessor;
+import org.ziyao.data.convert.ConversionService;
+import org.ziyao.data.mapping.IdentifierAccessor;
+import org.ziyao.data.mapping.PersistentPropertyAccessor;
+import org.ziyao.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.model.ConvertingPropertyAccessor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.join.JoinField;

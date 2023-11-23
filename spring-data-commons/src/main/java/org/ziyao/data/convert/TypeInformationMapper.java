@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.Alias;
+import org.ziyao.data.mapping.Alias;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.util.TypeInformation;
 

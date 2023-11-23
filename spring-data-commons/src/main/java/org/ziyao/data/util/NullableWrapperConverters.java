@@ -17,9 +17,9 @@ package org.ziyao.data.util;
 
 import com.google.common.base.Optional;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.converter.ConverterRegistry;
-import org.springframework.core.convert.converter.GenericConverter;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.convert.converter.ConverterRegistry;
+import org.ziyao.data.convert.converter.GenericConverter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -244,7 +244,7 @@ public abstract class NullableWrapperConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+         * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
          */
         @Override
         public Set<ConvertiblePair> getConvertibleTypes() {
@@ -256,7 +256,7 @@ public abstract class NullableWrapperConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Nullable
         @Override
@@ -401,7 +401,7 @@ public abstract class NullableWrapperConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @Nullable
         @Override
@@ -421,7 +421,7 @@ public abstract class NullableWrapperConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @Nullable
         @Override
@@ -456,7 +456,7 @@ public abstract class NullableWrapperConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @Nullable
         @Override
@@ -477,7 +477,7 @@ public abstract class NullableWrapperConverters {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @Nullable
         @Override

@@ -16,8 +16,8 @@
 package org.ziyao.data.repository.support;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.core.convert.ConversionException;
 import org.springframework.util.Assert;
+import org.ziyao.data.convert.support.ConversionException;
 
 /**
  * Exception to represent a failed attempt to convert a source value into a query method parameter.

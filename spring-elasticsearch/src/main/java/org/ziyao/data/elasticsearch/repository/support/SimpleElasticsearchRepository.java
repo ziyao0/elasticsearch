@@ -16,8 +16,6 @@
 package org.ziyao.data.elasticsearch.repository.support;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -54,7 +52,6 @@ import java.util.stream.Collectors;
  */
 public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleElasticsearchRepository.class);
 
     protected ElasticsearchOperations operations;
     protected IndexOperations indexOperations;
@@ -369,6 +366,18 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
         return doSearch(query);
     }
 
+    @Override
+    public long count(Query query) {
+        Assert.notNull(query, "查询条件不能为空");
+        return operations.count(query, entityClass);
+    }
+
+    @Override
+    public List<SearchHits<T>> multiSearch(List<? extends Query> queries) {
+        Assert.notNull(queries, "查询条件不能为空");
+        return operations.multiSearch(queries, entityClass);
+    }
+
     /**
      * 查询核心方法
      */
@@ -396,7 +405,7 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
                     criteria.or(condition);
                     break;
                 default:
-                    LOGGER.error("未知的操作类型:{}", operator.jsonValue());
+                    throw new IllegalStateException("未知的操作类型:" + operator.jsonValue());
             }
         });
         return criteria;

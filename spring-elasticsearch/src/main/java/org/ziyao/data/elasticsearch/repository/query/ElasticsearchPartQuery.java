@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.repository.query;
 
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
 import org.ziyao.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.ziyao.data.elasticsearch.core.query.BaseQuery;

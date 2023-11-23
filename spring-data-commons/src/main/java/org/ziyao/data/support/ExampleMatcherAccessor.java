@@ -41,9 +41,9 @@ public class ExampleMatcherAccessor {
     /**
      * Returns the {@link PropertySpecifier}s of the underlying {@link ExampleMatcher}.
      *
-     * @return unmodifiable {@link Collection} of {@link ExampleMatcher.PropertySpecifier}s.
+     * @return unmodifiable {@link Collection} of {@link PropertySpecifier}s.
      */
-    public Collection<ExampleMatcher.PropertySpecifier> getPropertySpecifiers() {
+    public Collection<PropertySpecifier> getPropertySpecifiers() {
         return matcher.getPropertySpecifiers().getSpecifiers();
     }
 
@@ -51,43 +51,43 @@ public class ExampleMatcherAccessor {
      * Returns whether the underlying {@link ExampleMatcher} contains a {@link PropertySpecifier} for the given path.
      *
      * @param path the dot-path identifying a property.
-     * @return {@literal true} in case {@link ExampleMatcher.PropertySpecifier} defined for given path.
+     * @return {@literal true} in case {@link PropertySpecifier} defined for given path.
      */
     public boolean hasPropertySpecifier(String path) {
         return matcher.getPropertySpecifiers().hasSpecifierForPath(path);
     }
 
     /**
-     * Get the {@link ExampleMatcher.PropertySpecifier} for given path. <br />
+     * Get the {@link PropertySpecifier} for given path. <br />
      * Please check if {@link #hasPropertySpecifier(String)} to avoid running into {@literal null} values.
      *
      * @param path Dot-Path to property.
-     * @return {@literal null} when no {@link ExampleMatcher.PropertySpecifier} defined for path.
+     * @return {@literal null} when no {@link PropertySpecifier} defined for path.
      */
-    public ExampleMatcher.PropertySpecifier getPropertySpecifier(String path) {
+    public PropertySpecifier getPropertySpecifier(String path) {
         return matcher.getPropertySpecifiers().getForPath(path);
     }
 
     /**
-     * @return true if at least one {@link ExampleMatcher.PropertySpecifier} defined.
+     * @return true if at least one {@link PropertySpecifier} defined.
      */
     public boolean hasPropertySpecifiers() {
         return matcher.getPropertySpecifiers().hasValues();
     }
 
     /**
-     * Get the {@link ExampleMatcher.StringMatcher} for a given path or return the default one if none defined.
+     * Get the {@link StringMatcher} for a given path or return the default one if none defined.
      *
      * @param path
      * @return never {@literal null}.
      */
-    public ExampleMatcher.StringMatcher getStringMatcherForPath(String path) {
+    public StringMatcher getStringMatcherForPath(String path) {
 
         if (!hasPropertySpecifier(path)) {
             return matcher.getDefaultStringMatcher();
         }
 
-        ExampleMatcher.PropertySpecifier specifier = getPropertySpecifier(path);
+        PropertySpecifier specifier = getPropertySpecifier(path);
         StringMatcher stringMatcher = specifier.getStringMatcher();
 
         return stringMatcher != null ? stringMatcher : matcher.getDefaultStringMatcher();
@@ -103,11 +103,11 @@ public class ExampleMatcherAccessor {
     }
 
     /**
-     * Get defined {@link ExampleMatcher.StringMatcher}.
+     * Get defined {@link StringMatcher}.
      *
      * @return never {@literal null}.
      */
-    public ExampleMatcher.StringMatcher getDefaultStringMatcher() {
+    public StringMatcher getDefaultStringMatcher() {
         return matcher.getDefaultStringMatcher();
     }
 
@@ -138,7 +138,7 @@ public class ExampleMatcherAccessor {
             return matcher.isIgnoreCaseEnabled();
         }
 
-        ExampleMatcher.PropertySpecifier specifier = getPropertySpecifier(path);
+        PropertySpecifier specifier = getPropertySpecifier(path);
         Boolean ignoreCase = specifier.getIgnoreCase();
 
         return ignoreCase != null ? ignoreCase : matcher.isIgnoreCaseEnabled();

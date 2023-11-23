@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.core.convert;
 
-import org.springframework.core.convert.converter.Converter;
+import org.ziyao.data.convert.converter.Converter;
 import org.springframework.util.NumberUtils;
 import org.ziyao.data.convert.CustomConversions;
 import org.ziyao.data.convert.ReadingConverter;

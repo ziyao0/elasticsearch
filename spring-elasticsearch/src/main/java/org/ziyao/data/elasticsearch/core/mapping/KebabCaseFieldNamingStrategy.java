@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.core.mapping;
 
-import org.springframework.data.mapping.model.CamelCaseSplittingFieldNamingStrategy;
+import org.ziyao.data.mapping.model.CamelCaseSplittingFieldNamingStrategy;
 
 /**
  * @author Peter-Josef Meisch

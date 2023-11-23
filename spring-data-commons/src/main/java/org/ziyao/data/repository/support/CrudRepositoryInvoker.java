@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.repository.support;
 
-import org.springframework.core.convert.ConversionService;
+import org.ziyao.data.convert.ConversionService;
 import org.ziyao.data.domain.Pageable;
 import org.ziyao.data.domain.Sort;
 import org.ziyao.data.repository.CrudRepository;

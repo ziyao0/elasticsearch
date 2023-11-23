@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
-import org.springframework.data.mapping.model.ParameterValueProvider;
+import org.ziyao.data.mapping.model.InternalEntityInstantiatorFactory;
+import org.ziyao.data.mapping.model.ParameterValueProvider;
 
 /**
  * Kotlin-specific extension to {@link ClassGeneratingEntityInstantiator} that adapts Kotlin constructors with
@@ -33,7 +33,7 @@ import org.springframework.data.mapping.model.ParameterValueProvider;
 @Deprecated
 public class KotlinClassGeneratingEntityInstantiator implements EntityInstantiator {
 
-    private final org.springframework.data.mapping.model.EntityInstantiator delegate = InternalEntityInstantiatorFactory
+    private final org.ziyao.data.mapping.model.EntityInstantiator delegate = InternalEntityInstantiatorFactory
             .getKotlinClassGeneratingEntityInstantiator();
 
     /*

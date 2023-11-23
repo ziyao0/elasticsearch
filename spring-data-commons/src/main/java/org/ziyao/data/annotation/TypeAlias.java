@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.annotation;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 
 import java.lang.annotation.*;
 

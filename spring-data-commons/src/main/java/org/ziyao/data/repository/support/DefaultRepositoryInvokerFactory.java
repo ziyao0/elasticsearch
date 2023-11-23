@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.repository.support;
 
-import org.springframework.core.convert.ConversionService;
-import org.springframework.format.support.DefaultFormattingConversionService;
+import org.ziyao.data.convert.ConversionService;
+import org.ziyao.data.format.support.DefaultFormattingConversionService;
 import org.springframework.util.Assert;
 import org.ziyao.data.repository.CrudRepository;
 import org.ziyao.data.repository.PagingAndSortingRepository;

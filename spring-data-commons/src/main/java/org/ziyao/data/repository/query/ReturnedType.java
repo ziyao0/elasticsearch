@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.repository.query;
 
-import org.springframework.data.mapping.Parameter;
-import org.springframework.data.mapping.PreferredConstructor;
-import org.springframework.data.mapping.model.PreferredConstructorDiscoverer;
+import org.ziyao.data.mapping.Parameter;
+import org.ziyao.data.mapping.PreferredConstructor;
+import org.ziyao.data.mapping.model.PreferredConstructorDiscoverer;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;

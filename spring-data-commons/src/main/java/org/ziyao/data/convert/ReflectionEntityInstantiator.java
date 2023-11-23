@@ -15,11 +15,11 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.PreferredConstructor;
-import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
-import org.springframework.data.mapping.model.ParameterValueProvider;
+import org.ziyao.data.mapping.PreferredConstructor;
+import org.ziyao.data.mapping.model.InternalEntityInstantiatorFactory;
+import org.ziyao.data.mapping.model.ParameterValueProvider;
 
 /**
  * {@link EntityInstantiator} that uses the {@link PersistentEntity}'s {@link PreferredConstructor} to instantiate an

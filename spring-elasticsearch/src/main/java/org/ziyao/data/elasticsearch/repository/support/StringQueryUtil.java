@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.repository.support;
 
-import org.springframework.core.convert.ConversionService;
+import org.ziyao.data.convert.ConversionService;
 import org.springframework.util.NumberUtils;
 import org.ziyao.data.repository.query.ParameterAccessor;
 

@@ -18,7 +18,7 @@ package org.ziyao.data.convert;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.springframework.core.convert.converter.Converter;
+import org.ziyao.data.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
 

@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.repository.query.parser;
 
-import org.springframework.data.mapping.PropertyPath;
+import org.ziyao.data.mapping.PropertyPath;
 import org.springframework.util.StringUtils;
 import org.ziyao.data.domain.Sort;
 

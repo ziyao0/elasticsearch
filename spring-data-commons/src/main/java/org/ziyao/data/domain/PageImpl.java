@@ -99,7 +99,7 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 
     /*
      * (non-Javadoc)
-     * @see org.ziyao.data.domain.Slice#transform(org.springframework.core.convert.converter.Converter)
+     * @see org.ziyao.data.domain.Slice#transform(org.ziyao.data.convert.converter.Converter)
      */
     @Override
     public <U> Page<U> map(Function<? super T, ? extends U> converter) {

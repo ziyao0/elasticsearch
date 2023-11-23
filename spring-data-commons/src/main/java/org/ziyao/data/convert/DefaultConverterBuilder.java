@@ -16,9 +16,9 @@
 package org.ziyao.data.convert;
 
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.converter.GenericConverter;
-import org.springframework.core.convert.converter.GenericConverter.ConvertiblePair;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.convert.converter.GenericConverter;
+import org.ziyao.data.convert.converter.GenericConverter.ConvertiblePair;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 import org.ziyao.data.util.Optionals;
@@ -140,7 +140,7 @@ class DefaultConverterBuilder<S, T>
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+         * @see org.ziyao.data.convert.converter.GenericConverter#convert(java.lang.Object, org.ziyao.data.convert.TypeDescriptor, org.ziyao.data.convert.TypeDescriptor)
          */
         @Nullable
         @Override
@@ -151,7 +151,7 @@ class DefaultConverterBuilder<S, T>
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
+         * @see org.ziyao.data.convert.converter.GenericConverter#getConvertibleTypes()
          */
 
         @Override

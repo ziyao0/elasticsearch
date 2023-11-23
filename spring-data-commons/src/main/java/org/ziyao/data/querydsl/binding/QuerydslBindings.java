@@ -16,8 +16,8 @@
 package org.ziyao.data.querydsl.binding;
 
 import com.querydsl.core.types.Path;
-import org.springframework.data.mapping.PropertyPath;
-import org.springframework.data.mapping.PropertyReferenceException;
+import org.ziyao.data.mapping.PropertyPath;
+import org.ziyao.data.mapping.PropertyReferenceException;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;

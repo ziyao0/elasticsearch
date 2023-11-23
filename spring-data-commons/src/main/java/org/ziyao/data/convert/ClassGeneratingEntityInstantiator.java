@@ -15,12 +15,12 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.PreferredConstructor;
-import org.springframework.data.mapping.model.EntityInstantiators;
-import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
-import org.springframework.data.mapping.model.ParameterValueProvider;
+import org.ziyao.data.mapping.PreferredConstructor;
+import org.ziyao.data.mapping.model.EntityInstantiators;
+import org.ziyao.data.mapping.model.InternalEntityInstantiatorFactory;
+import org.ziyao.data.mapping.model.ParameterValueProvider;
 
 /**
  * An {@link EntityInstantiator} that can generate byte code to speed-up dynamic object instantiation. Uses the
@@ -40,7 +40,7 @@ import org.springframework.data.mapping.model.ParameterValueProvider;
 @Deprecated
 public class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
-    private final org.springframework.data.mapping.model.EntityInstantiator delegate = InternalEntityInstantiatorFactory
+    private final org.ziyao.data.mapping.model.EntityInstantiator delegate = InternalEntityInstantiatorFactory
             .getClassGeneratingEntityInstantiator();
 
     /**

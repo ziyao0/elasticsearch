@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.core.convert.converter.Converter;
+import org.ziyao.data.convert.converter.Converter;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

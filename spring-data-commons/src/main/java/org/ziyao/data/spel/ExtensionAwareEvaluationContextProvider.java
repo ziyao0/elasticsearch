@@ -264,7 +264,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
         @Nullable
         @Override
         public MethodExecutor resolve(EvaluationContext context, @Nullable Object target, final String name,
-                                      List<TypeDescriptor> argumentTypes) {
+                                      List<org.springframework.core.convert.TypeDescriptor> argumentTypes) {
 
             if (target instanceof EvaluationContextExtensionAdapter) {
                 return getMethodExecutor((EvaluationContextExtensionAdapter) target, name, argumentTypes).orElse(null);

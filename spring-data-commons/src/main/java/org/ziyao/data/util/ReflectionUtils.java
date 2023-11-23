@@ -229,7 +229,7 @@ public final class ReflectionUtils {
      */
     public static Field findRequiredField(Class<?> type, String name) {
 
-        Field result = org.springframework.util.ReflectionUtils.findField(type, name);
+        Field result = org.ziyao.data.annotation.ReflectionUtils.findField(type, name);
 
         if (result == null) {
             throw new IllegalArgumentException(String.format("Unable to find field %s on %s", name, type));

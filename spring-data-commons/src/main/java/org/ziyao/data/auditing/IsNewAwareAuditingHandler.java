@@ -15,10 +15,10 @@
  */
 package org.ziyao.data.auditing;
 
-import org.springframework.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.context.MappingContext;
-import org.springframework.data.mapping.context.PersistentEntities;
+import org.ziyao.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.context.PersistentEntities;
 import org.springframework.util.Assert;
 import org.ziyao.data.support.IsNewStrategy;
 

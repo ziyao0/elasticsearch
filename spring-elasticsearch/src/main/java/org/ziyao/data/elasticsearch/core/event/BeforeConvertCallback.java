@@ -15,7 +15,7 @@
  */
 package org.ziyao.data.elasticsearch.core.event;
 
-import org.springframework.data.mapping.callback.EntityCallback;
+import org.ziyao.data.mapping.callback.EntityCallback;
 import org.ziyao.data.elasticsearch.core.mapping.IndexCoordinates;
 
 /**

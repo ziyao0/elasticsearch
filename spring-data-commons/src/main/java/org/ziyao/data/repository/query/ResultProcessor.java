@@ -16,9 +16,9 @@
 package org.ziyao.data.repository.query;
 
 import org.springframework.core.CollectionFactory;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.support.DefaultConversionService;
+import org.ziyao.data.convert.ConversionService;
+import org.ziyao.data.convert.converter.Converter;
+import org.ziyao.data.convert.support.DefaultConversionService;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.domain.Slice;
@@ -224,7 +224,7 @@ public class ResultProcessor {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @Nullable
         @Override
@@ -245,7 +245,7 @@ public class ResultProcessor {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @Override
         public Object convert(Object source) {
@@ -290,7 +290,7 @@ public class ResultProcessor {
 
         /*
          * (non-Javadoc)
-         * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+         * @see org.ziyao.data.convert.converter.Converter#convert(java.lang.Object)
          */
         @Nullable
         @Override

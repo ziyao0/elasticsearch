@@ -19,8 +19,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.data.mapping.PersistentEntity;
-import org.springframework.data.mapping.context.MappingContext;
+import org.ziyao.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.context.MappingContext;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.ziyao.data.repository.Repository;
@@ -30,7 +30,6 @@ import org.ziyao.data.repository.core.RepositoryInformation;
 import org.ziyao.data.repository.core.RepositoryMetadata;
 import org.ziyao.data.repository.core.support.RepositoryComposition.RepositoryFragments;
 import org.ziyao.data.repository.query.ExtensionAwareQueryMethodEvaluationContextProvider;
-import org.ziyao.data.repository.query.QueryLookupStrategy;
 import org.ziyao.data.repository.query.QueryLookupStrategy.Key;
 import org.ziyao.data.repository.query.QueryMethod;
 import org.ziyao.data.repository.query.QueryMethodEvaluationContextProvider;
@@ -96,7 +95,7 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
     }
 
     /**
-     * Set the {@link QueryLookupStrategy.Key} to be used.
+     * Set the {@link Key} to be used.
      *
      * @param queryLookupStrategyKey
      */

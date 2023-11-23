@@ -15,9 +15,9 @@
  */
 package org.ziyao.data.elasticsearch.core.mapping;
 
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.lang.Nullable;
+import org.ziyao.data.convert.converter.Converter;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.query.SeqNoPrimaryTerm;
 
@@ -113,7 +113,7 @@ public interface ElasticsearchPersistentProperty extends PersistentProperty<Elas
         }
     }
 
-    enum PropertyToFieldNameConverter implements Converter<ElasticsearchPersistentProperty, String> {
+    enum PropertyToFieldNameConverter implements org.ziyao.data.convert.converter.Converter<ElasticsearchPersistentProperty, String> {
 
         INSTANCE;
 

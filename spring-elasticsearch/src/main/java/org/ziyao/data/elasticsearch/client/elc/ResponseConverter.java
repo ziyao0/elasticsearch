@@ -27,8 +27,6 @@ import co.elastic.clients.elasticsearch.core.mget.MultiGetResponseItem;
 import co.elastic.clients.elasticsearch.indices.*;
 import co.elastic.clients.elasticsearch.indices.get_mapping.IndexMappingRecord;
 import co.elastic.clients.json.JsonpMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.ElasticsearchErrorCause;
@@ -56,7 +54,6 @@ import java.util.stream.Collectors;
  */
 class ResponseConverter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResponseConverter.class);
 
     private final JsonpMapper jsonpMapper;
 
@@ -136,7 +133,6 @@ class ResponseConverter {
         if (indexMappingRecord == null) {
 
             if (mappings.size() != 1) {
-                LOGGER.warn("no mapping returned for index {}", indexCoordinates.getIndexName());
                 return Document.create();
             }
             String index = mappings.keySet().iterator().next();

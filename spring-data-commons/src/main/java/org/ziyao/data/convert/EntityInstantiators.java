@@ -15,8 +15,8 @@
  */
 package org.ziyao.data.convert;
 
-import org.springframework.data.mapping.PersistentEntity;
-import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
+import org.ziyao.data.mapping.PersistentEntity;
+import org.ziyao.data.mapping.model.InternalEntityInstantiatorFactory;
 
 import java.util.Collections;
 import java.util.Map;
@@ -31,10 +31,10 @@ import java.util.stream.Collectors;
  * @author Thomas Darimont
  * @author Christoph Strobl
  * @author Mark Paluch
- * @deprecated since 2.3, use {@link org.springframework.data.mapping.model.EntityInstantiators} instead.
+ * @deprecated since 2.3, use {@link org.ziyao.data.mapping.model.EntityInstantiators} instead.
  */
 @Deprecated
-public class EntityInstantiators extends org.springframework.data.mapping.model.EntityInstantiators {
+public class EntityInstantiators extends org.ziyao.data.mapping.model.EntityInstantiators {
 
     /**
      * Creates a new {@link EntityInstantiators} using the default fallback instantiator and no custom ones.
@@ -83,7 +83,7 @@ public class EntityInstantiators extends org.springframework.data.mapping.model.
         return new EntityInstantiatorAdapter(super.getInstantiatorFor(entity));
     }
 
-    private static Map<Class<?>, org.springframework.data.mapping.model.EntityInstantiator> adaptFromLegacy(
+    private static Map<Class<?>, org.ziyao.data.mapping.model.EntityInstantiator> adaptFromLegacy(
             Map<Class<?>, EntityInstantiator> instantiators) {
 
         return instantiators == null //

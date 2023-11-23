@@ -19,10 +19,13 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import org.springframework.lang.Nullable;
 import org.ziyao.data.domain.Page;
 import org.ziyao.data.domain.Pageable;
+import org.ziyao.data.elasticsearch.core.SearchHits;
 import org.ziyao.data.elasticsearch.core.query.Criteria;
 import org.ziyao.data.elasticsearch.core.query.Query;
 import org.ziyao.data.repository.NoRepositoryBean;
 import org.ziyao.data.repository.PagingAndSortingRepository;
+
+import java.util.List;
 
 /**
  * @param <T>
@@ -87,4 +90,20 @@ public interface ElasticsearchRepository<T, ID> extends PagingAndSortingReposito
      * @return 返回搜到到的结果，分页展示
      */
     Page<T> search(Query query);
+
+    /**
+     * return number of elements found by given query
+     *
+     * @param query condition
+     * @return count
+     */
+    long count(Query query);
+
+    /**
+     * Execute the multi search query against elasticsearch and return result as {@link List} of {@link SearchHits}.
+     *
+     * @param queries condition
+     * @return list of SearchHits
+     */
+    List<SearchHits<T>> multiSearch(List<? extends Query> queries);
 }
