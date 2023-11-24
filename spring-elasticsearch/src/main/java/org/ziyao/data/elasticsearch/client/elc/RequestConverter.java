@@ -710,7 +710,7 @@ class RequestConverter {
     }
 
     public ReindexRequest reindex(org.ziyao.data.elasticsearch.core.reindex.ReindexRequest reindexRequest,
-                                                                        boolean waitForCompletion) {
+                                  boolean waitForCompletion) {
 
         Assert.notNull(reindexRequest, "reindexRequest must not be null");
 
@@ -796,7 +796,7 @@ class RequestConverter {
                 .maxDocs(reindexRequest.getMaxDocs()).waitForCompletion(waitForCompletion) //
                 .refresh(reindexRequest.getRefresh()) //
                 .requireAlias(reindexRequest.getRequireAlias()) //
-                .requestsPerSecond(reindexRequest.getRequestsPerSecond()) //
+                .requestsPerSecond(toFloat(reindexRequest.getRequestsPerSecond())) //
         ;
 
         if (reindexRequest.getSlices() != null) {
@@ -942,29 +942,25 @@ class RequestConverter {
                     .script(getScript(updateQuery.getScriptData())) //
                     .maxDocs(updateQuery.getMaxDocs() != null ? Long.valueOf(updateQuery.getMaxDocs()) : null) //
                     .pipeline(updateQuery.getPipeline()) //
-                    .requestsPerSecond(
-                            updateQuery.getRequestsPerSecond() != null ? updateQuery.getRequestsPerSecond().longValue() : null) //
-            ;
-
-            if (updateQuery.getSlices() != null) {
-                ub.slices(sb -> sb.value(updateQuery.getSlices() != null ? updateQuery.getSlices() : null));
-            }
+                    .requestsPerSecond(updateQuery.getRequestsPerSecond()) //
+                    .slices(slices(updateQuery.getSlices() != null ? Long.valueOf(updateQuery.getSlices()) : null));
 
             if (updateQuery.getAbortOnVersionConflict() != null) {
                 ub.conflicts(updateQuery.getAbortOnVersionConflict() ? Conflicts.Abort : Conflicts.Proceed);
             }
 
-            if (updateQuery.getBatchSize() != null) {
-                ub.size(Long.valueOf(updateQuery.getBatchSize()));
-            }
-
             if (updateQuery.getQuery() != null) {
                 Query queryQuery = updateQuery.getQuery();
+
+                if (updateQuery.getBatchSize() != null) {
+                    ((BaseQuery) queryQuery).setMaxResults(updateQuery.getBatchSize());
+                }
                 ub.query(getQuery(queryQuery, null));
 
                 // no indicesOptions available like in old client
 
-                ub.scroll(TypeUtils.time(queryQuery.getScrollTime()));
+                ub.scroll(time(queryQuery.getScrollTime()));
+
             }
 
             // no maxRetries available like in old client
@@ -1502,4 +1498,28 @@ class RequestConverter {
     }
 
     // endregion
+    @Nullable
+    static Time time(@Nullable Duration duration) {
+
+        if (duration == null) {
+            return null;
+        }
+
+        return Time.of(t -> t.time(duration.toMillis() + "ms"));
+    }
+
+    @Nullable
+    static Float toFloat(@Nullable Long value) {
+        return value != null ? Float.valueOf(value) : null;
+    }
+
+    @Nullable
+    static Slices slices(@Nullable Long count) {
+
+        if (count == null) {
+            return null;
+        }
+
+        return Slices.of(s -> s.value(Math.toIntExact(count)));
+    }
 }

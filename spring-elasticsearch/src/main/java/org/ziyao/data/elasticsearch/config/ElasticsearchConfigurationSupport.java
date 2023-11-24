@@ -43,7 +43,7 @@ import java.util.Set;
  * @author Peter-Josef Meisch
  * @since 3.2
  */
-@Configuration()
+@Configuration
 public class ElasticsearchConfigurationSupport {
 
     @Bean
@@ -144,7 +144,7 @@ public class ElasticsearchConfigurationSupport {
             if (beanClassName != null) {
                 try {
                     initialEntitySet.add(
-                            ClassUtils.forName(beanClassName, AbstractReactiveElasticsearchConfiguration.class.getClassLoader()));
+                            ClassUtils.forName(beanClassName, ElasticsearchConfigurationSupport.class.getClassLoader()));
                 } catch (ClassNotFoundException | LinkageError ignored) {
                 }
             }

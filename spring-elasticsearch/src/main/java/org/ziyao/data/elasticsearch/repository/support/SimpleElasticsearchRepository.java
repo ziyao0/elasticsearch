@@ -138,25 +138,15 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
 
         Assert.notNull(ids, "ids can't be null.");
 
-        List<T> result = new ArrayList<>();
-        Query idQuery = getIdQuery(ids);
-        if (StringUtils.isEmpty(idQuery.getIds())) {
-            return result;
+        List<String> stringIds = stringIdsRepresentation(ids);
+        Query query = getIdQuery(stringIds);
+        if (!stringIds.isEmpty()) {
+            query.setPageable(PageRequest.of(0, stringIds.size()));
         }
-
-        List<MultiGetItem<T>> multiGetItems = execute(
-                operations -> operations.multiGet(idQuery, entityClass, getIndexCoordinates()));
-
-        if (multiGetItems != null) {
-            multiGetItems.forEach(multiGetItem -> {
-
-                if (multiGetItem.hasItem()) {
-                    result.add(multiGetItem.getItem());
-                }
-            });
-        }
-
-        return result;
+        List<SearchHit<T>> searchHitList = execute(
+                operations -> operations.search(query, entityClass, getIndexCoordinates()).getSearchHits());
+        // noinspection ConstantConditions
+        return (List<T>) SearchHitSupport.unwrapSearchHits(searchHitList);
     }
 
     @Override
@@ -303,10 +293,8 @@ public class SimpleElasticsearchRepository<T, ID> implements ElasticsearchReposi
         return operations.getIndexCoordinatesFor(entityClass);
     }
 
-    private Query getIdQuery(Iterable<? extends ID> ids) {
-        List<String> stringIds = stringIdsRepresentation(ids);
-
-        return new NativeSearchQueryBuilder().withIds(stringIds).build();
+    private Query getIdQuery(List<String> stringIds) {
+        return operations.idsQuery(stringIds);
     }
     // endregion
 

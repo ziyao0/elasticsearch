@@ -193,19 +193,6 @@ class ClientConfigurationBuilder
 
         return this;
     }
-
-
-    @Override
-    public ClientConfiguration.TerminalClientConfigurationBuilder withHttpClientConfigurer(HttpClientConfigCallback httpClientConfigurer) {
-
-        Assert.notNull(httpClientConfigurer, "httpClientConfigurer must not be null");
-
-        this.httpClientConfigurer = httpClientConfigurer;
-        this.clientConfigurers
-                .add(RestClients.RestClientConfigurationCallback.from(httpClientConfigurer::customizeHttpClient));
-        return this;
-    }
-
     @Override
     public ClientConfiguration.TerminalClientConfigurationBuilder withClientConfigurer(
             ClientConfiguration.ClientConfigurationCallback<?> clientConfigurer) {

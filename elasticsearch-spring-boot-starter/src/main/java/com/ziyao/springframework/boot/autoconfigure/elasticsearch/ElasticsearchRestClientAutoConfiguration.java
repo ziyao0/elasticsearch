@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Import;
 @ConditionalOnClass(RestClientBuilder.class)
 @EnableConfigurationProperties({ElasticsearchProperties.class, ElasticsearchRestClientProperties.class})
 @Import({ElasticsearchRestClientConfigurations.RestClientBuilderConfiguration.class,
-        ElasticsearchRestClientConfigurations.RestHighLevelClientConfiguration.class,
-        ElasticsearchRestClientConfigurations.RestClientFromRestHighLevelClientConfiguration.class,
         ElasticsearchRestClientConfigurations.RestClientConfiguration.class})
 public class ElasticsearchRestClientAutoConfiguration {
 

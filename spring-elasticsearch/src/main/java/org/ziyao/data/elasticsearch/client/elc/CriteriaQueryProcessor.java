@@ -20,7 +20,6 @@ import co.elastic.clients.elasticsearch._types.query_dsl.ChildScoreMode;
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.json.JsonData;
-import org.apache.lucene.queryparser.flexible.standard.QueryParserUtil;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -182,7 +181,7 @@ class CriteriaQueryProcessor {
 
         Criteria.OperationKey key = entry.getKey();
         Object value = key.hasValue() ? entry.getValue() : null;
-        String searchText = value != null ? QueryParserUtil.escape(value.toString()) : "UNKNOWN_VALUE";
+        String searchText = value != null ? escape(value.toString()) : "UNKNOWN_VALUE";
 
         Query.Builder queryBuilder = new Query.Builder();
         switch (key) {
@@ -356,11 +355,26 @@ class CriteriaQueryProcessor {
                     sb.append(' ');
                 }
                 sb.append('"');
-                sb.append(QueryParserUtil.escape(item.toString()));
+                sb.append(escape(item.toString()));
                 sb.append('"');
             }
         }
 
+        return sb.toString();
+    }
+
+    public static String escape(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // These characters are part of the query syntax and must be escaped
+            if (c == '\\' || c == '+' || c == '-' || c == '!' || c == '(' || c == ')' || c == ':' || c == '^' || c == '['
+                    || c == ']' || c == '\"' || c == '{' || c == '}' || c == '~' || c == '*' || c == '?' || c == '|' || c == '&'
+                    || c == '/') {
+                sb.append('\\');
+            }
+            sb.append(c);
+        }
         return sb.toString();
     }
 }

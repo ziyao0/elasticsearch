@@ -19,7 +19,6 @@ import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.*;
 import co.elastic.clients.json.JsonpMapper;
-import org.elasticsearch.search.SearchHits;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.ziyao.data.elasticsearch.core.TotalHitsRelation;
@@ -62,11 +61,11 @@ class SearchDocumentResponseBuilder {
     }
 
     /**
-     * creates a {@link SearchDocumentResponseBuilder} from {@link SearchHits} with the given scrollId aggregations and
+     * creates a {@link SearchDocumentResponseBuilder} from {@link org.ziyao.data.elasticsearch.core.SearchHits} with the given scrollId aggregations and
      * suggestES
      *
      * @param <T>           entity type
-     * @param hitsMetadata  the {@link SearchHits} to process
+     * @param hitsMetadata  the {@link HitsMetadata} to process
      * @param scrollId      scrollId
      * @param aggregations  aggregations
      * @param suggestES     the suggestion response from Elasticsearch

@@ -183,11 +183,11 @@ final class TypeUtils {
         if (value != null) {
             switch (value.toLowerCase()) {
                 case "unified":
-                    return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.Unified));
+                    return HighlighterType.Unified;
                 case "plain":
-                    return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.Plain));
+                    return HighlighterType.Plain;
                 case "fvh":
-                    return HighlighterType.of(b -> b.builtin(BuiltinHighlighterType.FastVector));
+                    return HighlighterType.FastVector;
                 default:
                     return null;
             }

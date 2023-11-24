@@ -341,19 +341,6 @@ public interface ClientConfiguration {
          */
         TerminalClientConfigurationBuilder withProxy(String proxy);
 
-
-        /**
-         * Register a {HttpClientConfigCallback} to configure the non-reactive REST client.
-         *
-         * @param httpClientConfigurer configuration callback, must not be null.
-         * @return the {@link TerminalClientConfigurationBuilder}.
-         * @since 4.2
-         * @deprecated since 4.3, use {@link #withClientConfigurer(ClientConfigurationCallback)} with
-         * {@link RestClients.RestClientConfigurationCallback}
-         */
-        @Deprecated
-        TerminalClientConfigurationBuilder withHttpClientConfigurer(HttpClientConfigCallback httpClientConfigurer);
-
         /**
          * Register a {@link ClientConfigurationCallback} to configure the client.
          *

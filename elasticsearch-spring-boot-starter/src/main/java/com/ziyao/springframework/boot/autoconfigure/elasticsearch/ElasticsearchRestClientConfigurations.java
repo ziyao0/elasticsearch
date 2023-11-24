@@ -88,33 +88,9 @@ class ElasticsearchRestClientConfigurations {
 
     }
 
-    @SuppressWarnings("deprecation")
-    @Configuration
-    @ConditionalOnClass(org.elasticsearch.client.RestHighLevelClient.class)
-    @ConditionalOnMissingBean({org.elasticsearch.client.RestHighLevelClient.class, RestClient.class})
-    static class RestHighLevelClientConfiguration {
 
-        @Bean
-        org.elasticsearch.client.RestHighLevelClient elasticsearchRestHighLevelClient(
-                RestClientBuilder restClientBuilder) {
-            return new org.elasticsearch.client.RestHighLevelClient(restClientBuilder);
-        }
 
-    }
 
-    @SuppressWarnings("deprecation")
-    @Configuration
-    @ConditionalOnClass(org.elasticsearch.client.RestHighLevelClient.class)
-    @ConditionalOnSingleCandidate(org.elasticsearch.client.RestHighLevelClient.class)
-    @ConditionalOnMissingBean(RestClient.class)
-    static class RestClientFromRestHighLevelClientConfiguration {
-
-        @Bean
-        RestClient elasticsearchRestClient(org.elasticsearch.client.RestHighLevelClient restHighLevelClient) {
-            return restHighLevelClient.getLowLevelClient();
-        }
-
-    }
 
     @Configuration
     @ConditionalOnMissingClass("org.elasticsearch.client.RestHighLevelClient")

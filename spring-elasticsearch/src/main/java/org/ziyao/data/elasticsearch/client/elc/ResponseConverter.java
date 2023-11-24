@@ -79,7 +79,7 @@ class ResponseConverter {
                 .withNumberOfPendingTasks(healthResponse.numberOfPendingTasks()) //
                 .withRelocatingShards(healthResponse.relocatingShards()) //
                 .withStatus(healthResponse.status().toString()) //
-                .withTaskMaxWaitingTimeMillis(Long.parseLong(healthResponse.taskMaxWaitingInQueueMillis())) //
+                .withTaskMaxWaitingTimeMillis(healthResponse.taskMaxWaitingInQueueMillis()) //
                 .withTimedOut(healthResponse.timedOut()) //
                 .withUnassignedShards(healthResponse.unassignedShards()) //
                 .build(); //
@@ -254,7 +254,7 @@ class ResponseConverter {
 
         // noinspection ConstantConditions
         return ReindexResponse.builder() //
-                .withTook(timeToLong(reindexResponse.took())) //
+                .withTook(reindexResponse.took()) //
                 .withTimedOut(reindexResponse.timedOut()) //
                 .withTotal(reindexResponse.total()) //
                 .withCreated(reindexResponse.created()) //
@@ -265,9 +265,9 @@ class ResponseConverter {
                 .withNoops(reindexResponse.noops()) //
                 .withBulkRetries(reindexResponse.retries().bulk()) //
                 .withSearchRetries(reindexResponse.retries().search()) //
-                .withThrottledMillis(Long.parseLong(reindexResponse.throttledMillis())) //
+                .withThrottledMillis(reindexResponse.throttledMillis()) //
                 .withRequestsPerSecond(reindexResponse.requestsPerSecond()) //
-                .withThrottledUntilMillis(Long.parseLong(reindexResponse.throttledUntilMillis())).withFailures(failures) //
+                .withThrottledUntilMillis(reindexResponse.throttledUntilMillis()).withFailures(failures) //
                 .build();
     }
 
