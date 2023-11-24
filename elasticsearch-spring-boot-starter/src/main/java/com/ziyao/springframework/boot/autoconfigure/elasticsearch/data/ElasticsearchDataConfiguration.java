@@ -1,11 +1,16 @@
 package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.ziyao.data.elasticsearch.annotations.Document;
+import org.ziyao.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.ziyao.data.elasticsearch.core.ElasticsearchOperations;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.ziyao.data.elasticsearch.core.convert.ElasticsearchCustomConversions;
 import org.ziyao.data.elasticsearch.core.convert.MappingElasticsearchConverter;
@@ -48,4 +53,18 @@ abstract class ElasticsearchDataConfiguration {
         }
 
     }
+
+    @Configuration
+    @ConditionalOnClass(ElasticsearchClient.class)
+    static class JavaClientConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(value = ElasticsearchOperations.class, name = "elasticsearchTemplate")
+        @ConditionalOnBean(ElasticsearchClient.class)
+        ElasticsearchTemplate elasticsearchTemplate(ElasticsearchClient client, ElasticsearchConverter converter) {
+            return new ElasticsearchTemplate(client, converter);
+        }
+
+    }
+
 }

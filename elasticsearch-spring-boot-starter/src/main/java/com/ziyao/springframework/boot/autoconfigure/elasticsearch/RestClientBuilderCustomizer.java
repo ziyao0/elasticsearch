@@ -18,14 +18,12 @@ public interface RestClientBuilderCustomizer {
      * configuration properties namespace. For more targeted changes, see
      * {@link #customize(HttpAsyncClientBuilder)} and
      * {@link #customize(RequestConfig.Builder)}.
-     *
      * @param builder the builder to customize
      */
     void customize(RestClientBuilder builder);
 
     /**
      * Customize the {@link HttpAsyncClientBuilder}.
-     *
      * @param builder the builder
      * @since 2.3.0
      */
@@ -34,7 +32,6 @@ public interface RestClientBuilderCustomizer {
 
     /**
      * Customize the {@link RequestConfig.Builder}.
-     *
      * @param builder the builder
      * @since 2.3.0
      */

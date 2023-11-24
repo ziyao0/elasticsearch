@@ -7,13 +7,11 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +20,6 @@ import org.springframework.util.StringUtils;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
-import java.util.List;
 
 /**
  * @author ziyao
@@ -34,10 +31,10 @@ class ElasticsearchRestClientConfigurations {
     @ConditionalOnMissingBean(RestClientBuilder.class)
     static class RestClientBuilderConfiguration {
 
-        private final ConsolidatedProperties properties;
+        private final ElasticsearchProperties properties;
 
         RestClientBuilderConfiguration(ElasticsearchProperties properties) {
-            this.properties = new ConsolidatedProperties(properties);
+            this.properties = properties;
         }
 
         @Bean
@@ -59,7 +56,7 @@ class ElasticsearchRestClientConfigurations {
                 return requestConfigBuilder;
             });
             if (this.properties.getPathPrefix() != null) {
-                builder.setPathPrefix(this.properties.properties.getPathPrefix());
+                builder.setPathPrefix(this.properties.getPathPrefix());
             }
             builderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
             return builder;
@@ -88,12 +85,7 @@ class ElasticsearchRestClientConfigurations {
 
     }
 
-
-
-
-
     @Configuration
-    @ConditionalOnMissingClass("org.elasticsearch.client.RestHighLevelClient")
     @ConditionalOnMissingBean(RestClient.class)
     static class RestClientConfiguration {
 
@@ -109,9 +101,9 @@ class ElasticsearchRestClientConfigurations {
 
         private static final PropertyMapper map = PropertyMapper.get();
 
-        private final ConsolidatedProperties properties;
+        private final ElasticsearchProperties properties;
 
-        DefaultRestClientBuilderCustomizer(ConsolidatedProperties properties) {
+        DefaultRestClientBuilderCustomizer(ElasticsearchProperties properties) {
             this.properties = properties;
         }
 
@@ -122,6 +114,9 @@ class ElasticsearchRestClientConfigurations {
         @Override
         public void customize(HttpAsyncClientBuilder builder) {
             builder.setDefaultCredentialsProvider(new PropertiesCredentialsProvider(this.properties));
+            map.from(this.properties::isSocketKeepAlive)
+                    .to((keepAlive) -> builder
+                            .setDefaultIOReactorConfig(IOReactorConfig.custom().setSoKeepAlive(keepAlive).build()));
         }
 
         @Override
@@ -140,7 +135,7 @@ class ElasticsearchRestClientConfigurations {
 
     private static class PropertiesCredentialsProvider extends BasicCredentialsProvider {
 
-        PropertiesCredentialsProvider(ConsolidatedProperties properties) {
+        PropertiesCredentialsProvider(ElasticsearchProperties properties) {
             if (StringUtils.hasText(properties.getUsername())) {
                 Credentials credentials = new UsernamePasswordCredentials(properties.getUsername(),
                         properties.getPassword());
@@ -183,39 +178,5 @@ class ElasticsearchRestClientConfigurations {
 
     }
 
-    private static final class ConsolidatedProperties {
-
-        private final ElasticsearchProperties properties;
-
-
-        private ConsolidatedProperties(ElasticsearchProperties properties) {
-            this.properties = properties;
-        }
-
-        private List<String> getUris() {
-            return this.properties.getUris();
-        }
-
-        private String getUsername() {
-            return this.properties.getUsername();
-        }
-
-        private String getPassword() {
-            return this.properties.getPassword();
-        }
-
-        private Duration getConnectionTimeout() {
-            return this.properties.getConnectionTimeout();
-        }
-
-        private Duration getSocketTimeout() {
-            return this.properties.getSocketTimeout();
-        }
-
-        private String getPathPrefix() {
-            return this.properties.getPathPrefix();
-        }
-
-    }
-
 }
+
