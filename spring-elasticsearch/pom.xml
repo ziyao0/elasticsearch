@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.ziyao.elasticsearch</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <!-- Elasticsearch  RestHighLevelClient, will be removed probably in SDE 5 -->
         <dependency>

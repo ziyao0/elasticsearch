@@ -6,7 +6,7 @@
 
     <groupId>org.ziyao.elasticsearch</groupId>
     <artifactId>elasticsearch</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>spring-data-commons</module>
@@ -102,4 +102,15 @@
 <!--            </plugin>-->
         </plugins>
     </build>
+    <distributionManagement>
+        <repository>
+            <!--此名称要和settings.xml中设置的ID一致 -->
+            <id>test</id>
+            <url>http://mirrors.dlsc.com:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>test</id>
+            <url>http://mirrors.dlsc.com:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
