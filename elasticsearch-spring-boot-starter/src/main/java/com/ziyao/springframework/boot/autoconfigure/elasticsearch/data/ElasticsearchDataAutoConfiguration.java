@@ -1,5 +1,6 @@
 package com.ziyao.springframework.boot.autoconfigure.elasticsearch.data;
 
+import com.ziyao.springframework.boot.autoconfigure.elasticsearch.ElasticsearchClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;

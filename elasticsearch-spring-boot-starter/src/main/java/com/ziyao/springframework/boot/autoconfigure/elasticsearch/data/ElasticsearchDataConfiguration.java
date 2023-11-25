@@ -57,7 +57,6 @@ abstract class ElasticsearchDataConfiguration {
     @Configuration
     @ConditionalOnClass(ElasticsearchClient.class)
     static class JavaClientConfiguration {
-
         @Bean
         @ConditionalOnMissingBean(value = ElasticsearchOperations.class, name = "elasticsearchTemplate")
         @ConditionalOnBean(ElasticsearchClient.class)
