@@ -796,7 +796,7 @@ class RequestConverter {
                 .maxDocs(reindexRequest.getMaxDocs()).waitForCompletion(waitForCompletion) //
                 .refresh(reindexRequest.getRefresh()) //
                 .requireAlias(reindexRequest.getRequireAlias()) //
-                .requestsPerSecond(toFloat(reindexRequest.getRequestsPerSecond())) //
+                .requestsPerSecond(reindexRequest.getRequestsPerSecond()) //
         ;
 
         if (reindexRequest.getSlices() != null) {
@@ -942,25 +942,29 @@ class RequestConverter {
                     .script(getScript(updateQuery.getScriptData())) //
                     .maxDocs(updateQuery.getMaxDocs() != null ? Long.valueOf(updateQuery.getMaxDocs()) : null) //
                     .pipeline(updateQuery.getPipeline()) //
-                    .requestsPerSecond(updateQuery.getRequestsPerSecond()) //
-                    .slices(slices(updateQuery.getSlices() != null ? Long.valueOf(updateQuery.getSlices()) : null));
+                    .requestsPerSecond(
+                            updateQuery.getRequestsPerSecond() != null ? updateQuery.getRequestsPerSecond().longValue() : null) //
+            ;
+
+            if (updateQuery.getSlices() != null) {
+                ub.slices(sb -> sb.value(updateQuery.getSlices() != null ? updateQuery.getSlices() : null));
+            }
 
             if (updateQuery.getAbortOnVersionConflict() != null) {
                 ub.conflicts(updateQuery.getAbortOnVersionConflict() ? Conflicts.Abort : Conflicts.Proceed);
             }
 
+            if (updateQuery.getBatchSize() != null) {
+                ub.size(Long.valueOf(updateQuery.getBatchSize()));
+            }
+
             if (updateQuery.getQuery() != null) {
                 Query queryQuery = updateQuery.getQuery();
-
-                if (updateQuery.getBatchSize() != null) {
-                    ((BaseQuery) queryQuery).setMaxResults(updateQuery.getBatchSize());
-                }
                 ub.query(getQuery(queryQuery, null));
 
                 // no indicesOptions available like in old client
 
-                ub.scroll(time(queryQuery.getScrollTime()));
-
+                ub.scroll(TypeUtils.time(queryQuery.getScrollTime()));
             }
 
             // no maxRetries available like in old client
