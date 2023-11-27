@@ -9,7 +9,7 @@ import org.ziyao.data.elasticsearch.annotations.FieldType;
  * @author ziyao zhang
  * @since 2023/11/17
  */
-@Document(indexName = "audit_log_index")
+@Document(indexName = "audit_log_index",createIndex = false)
 public class AuditLog {
 
     @Id

@@ -30,32 +30,15 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.elasticsearch</groupId>
-                <artifactId>elasticsearch</artifactId>
-                <version>7.17.15</version>
-            </dependency>
-            <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-client</artifactId>
-                <version>7.17.15</version>
-            </dependency>
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>7.17.15</version>
+                <version>8.5.3</version>
             </dependency>
             <dependency>
                 <groupId>co.elastic.clients</groupId>
                 <artifactId>elasticsearch-java</artifactId>
-                <version>7.17.15</version>
+                <version>8.5.3</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>io.projectreactor</groupId>-->
-<!--                <artifactId>reactor-bom</artifactId>-->
-<!--                <version>${reactor}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
@@ -102,15 +85,4 @@
 <!--            </plugin>-->
         </plugins>
     </build>
-    <distributionManagement>
-        <repository>
-            <!--此名称要和settings.xml中设置的ID一致 -->
-            <id>test</id>
-            <url>http://mirrors.dlsc.com:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>test</id>
-            <url>http://mirrors.dlsc.com:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

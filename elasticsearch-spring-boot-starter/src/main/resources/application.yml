@@ -1,4 +1,7 @@
 spring:
   elasticsearch:
     uris:
-      - http://127.0.0.1:9200
+      - http://192.168.3.13:29200
+    connection-timeout: 3s
+    username: elastic
+    password: qazWSXEDC
