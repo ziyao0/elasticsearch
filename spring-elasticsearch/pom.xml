@@ -12,10 +12,6 @@
     <artifactId>spring-elasticsearch</artifactId>
 
     <properties>
-        <!-- version of the RestHighLevelClient	-->
-        <elasticsearch-rhlc>7.17.15</elasticsearch-rhlc>
-        <!-- version of the new ElasticsearchClient	-->
-        <elasticsearch-java>7.17.15</elasticsearch-java>
         <log4j>2.17.1</log4j>
         <cdi>1.0</cdi>
         <testcontainers>1.16.2</testcontainers>
@@ -47,7 +43,6 @@
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
-            <version>${elasticsearch-rhlc}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -60,7 +55,6 @@
         <dependency>
             <groupId>co.elastic.clients</groupId>
             <artifactId>elasticsearch-java</artifactId>
-            <version>${elasticsearch-java}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -71,7 +65,6 @@
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-client</artifactId> <!-- is Apache 2-->
-            <version>${elasticsearch-java}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
